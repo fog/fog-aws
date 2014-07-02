@@ -1,3 +1,6 @@
+# -*- encoding: utf-8 -*-
+require File.expand_path('../lib/fog/version', __FILE__)
+
 Gem::Specification.new do |s|
   s.specification_version = 2 if s.respond_to? :specification_version=
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -6,7 +9,7 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '1.22.1'
+  s.version           = Fog::VERSION
   s.date              = '2014-05-29'
   s.rubyforge_project = 'fog'
 
