@@ -32,7 +32,6 @@ Shindo.tests('AWS::IAM | group policy requests', ['aws']) do
     end
 
     tests("#delete_group_policy('fog_group_policy_tests', 'fog_policy')").formats(AWS::IAM::Formats::BASIC) do
-      pending if Fog.mocking?
       Fog::AWS[:iam].delete_group_policy('fog_group_policy_tests', 'fog_policy').body
     end
   end
