@@ -100,6 +100,8 @@ module Fog
           setup_credentials(options)
         end
 
+        attr_reader :region
+
         def reload
           @connection.reset
         end
