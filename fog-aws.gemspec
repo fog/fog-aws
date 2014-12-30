@@ -5,7 +5,7 @@ require 'fog/aws/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "fog-aws"
-  spec.version       = Fog::Aws::VERSION
+  spec.version       = Fog::AWS::VERSION
   spec.authors       = ["Josh Lane"]
   spec.email         = ["me@joshualane.com"]
   spec.summary       = %q{Module for the 'fog' gem to support Amazon Web Services.}
@@ -24,4 +24,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "fog-core"
   spec.add_dependency "fog-xml"
+  spec.add_dependency "fog-json"
+  spec.add_dependency "ipaddress"
 end
