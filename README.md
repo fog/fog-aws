@@ -1,6 +1,7 @@
 # Fog::Aws
 
-TODO: Write a gem description
+![Gem Version](https://badge.fury.io/rb/fog-aws.svg) [![Build Status](https://travis-ci.org/fog/fog-aws.svg?branch=master)](https://travis-ci.org/fog/fog-aws) [![Dependency Status](https://gemnasium.com/fog/fog-aws.svg)](https://gemnasium.com/fog/fog-aws) [![Coverage Status](https://img.shields.io/coveralls/fog/fog-aws.svg)](https://coveralls.io/r/fog/fog-aws?branch=master) [![Code Climate](https://codeclimate.com/github/fog/fog-aws.png)](https://codeclimate.com/github/fog/fog-aws)
+
 
 ## Installation
 
