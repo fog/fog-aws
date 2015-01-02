@@ -4,6 +4,5 @@ source 'https://rubygems.org'
 gemspec
 
 group :test do
-  gem 'shindo', '~> 0.3'
   gem 'pry-nav'
 end
