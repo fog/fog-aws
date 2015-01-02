@@ -4,6 +4,10 @@ sudo: false
 
 script: bundle exec rake test
 
+branches:
+  except:
+    - /\Av\d+\Z/
+
 matrix:
   fast_finish: true
   include:
