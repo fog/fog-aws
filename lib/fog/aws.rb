@@ -116,10 +116,6 @@ module Fog
         end
         @@connections[service]
       end
-
-      def services
-        Fog::AWS.services
-      end
     end
   end
 end
