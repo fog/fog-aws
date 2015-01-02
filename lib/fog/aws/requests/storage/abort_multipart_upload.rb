@@ -1,6 +1,6 @@
 module Fog
   module Storage
-    class Aws
+    class AWS
       class Real
         #
         # Abort a multipart upload
@@ -41,5 +41,5 @@ module Fog
         end
       end # Mock
     end # Storage
-  end # Aws
+  end # AWS
 end # Fog

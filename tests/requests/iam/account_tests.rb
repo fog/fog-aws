@@ -1,4 +1,4 @@
-Shindo.tests('Aws::IAM | account requests', ['aws']) do
+Shindo.tests('AWS::IAM | account requests', ['aws']) do
   tests('success') do
     @get_account_summary_format = {
       'Summary' => {

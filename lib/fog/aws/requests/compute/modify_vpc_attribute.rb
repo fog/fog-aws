@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -21,7 +21,7 @@ module Fog
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?
         #
-        # {Amazon API Reference}[http://docs.aws.amazon.com/AwsEC2/latest/APIReference/ApiReference-query-ModifyVpcAttribute.html]
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-ModifyVpcAttribute.html]
         def modify_vpc_attribute(vpc_id, options = {})
           request({
             'Action'             => 'ModifyVpcAttribute',

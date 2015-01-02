@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/detach_volume'
 
@@ -23,7 +23,7 @@ module Fog
         #     * 'status'<~String> - Status of volume
         #     * 'volumeId'<~String> - Reference to volume
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DetachVolume.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DetachVolume.html]
         def detach_volume(volume_id, options = {})
           request({
             'Action'    => 'DetachVolume',

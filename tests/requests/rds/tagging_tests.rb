@@ -1,4 +1,4 @@
-Shindo.tests('Aws::RDS | tagging requests', ['aws', 'rds']) do
+Shindo.tests('AWS::RDS | tagging requests', ['aws', 'rds']) do
   @rds = Fog::AWS[:rds]
   @db_instance_id = "fog-test-#{rand(65536).to_s(16)}"
   Formatador.display_line "Creating RDS instance #{@db_instance_id}"
@@ -15,7 +15,7 @@ Shindo.tests('Aws::RDS | tagging requests', ['aws', 'rds']) do
     two_tags    = {'key2' => 'value2', 'key3' => 'value3'}
 
     tests("#add_tags_to_resource with a single tag").
-    formats(Aws::RDS::Formats::BASIC) do
+    formats(AWS::RDS::Formats::BASIC) do
       result = @rds.add_tags_to_resource(@db_instance_id, single_tag).body
       returns(single_tag) do
         @rds.list_tags_for_resource(@db_instance_id).
@@ -25,7 +25,7 @@ Shindo.tests('Aws::RDS | tagging requests', ['aws', 'rds']) do
     end
 
     tests("#add_tags_to_resource with a multiple tags").
-    formats(Aws::RDS::Formats::BASIC) do
+    formats(AWS::RDS::Formats::BASIC) do
       result = @rds.add_tags_to_resource(@db_instance_id, two_tags).body
       returns(single_tag.merge(two_tags)) do
         @rds.list_tags_for_resource(@db_instance_id).
@@ -34,7 +34,7 @@ Shindo.tests('Aws::RDS | tagging requests', ['aws', 'rds']) do
       result
     end
 
-    tests("#remove_tags_from_resource").formats(Aws::RDS::Formats::BASIC) do
+    tests("#remove_tags_from_resource").formats(AWS::RDS::Formats::BASIC) do
       result = @rds.remove_tags_from_resource(
                 @db_instance_id, single_tag.keys).body
       returns(two_tags) do
@@ -45,7 +45,7 @@ Shindo.tests('Aws::RDS | tagging requests', ['aws', 'rds']) do
     end
 
     tests("#list_tags_for_resource").
-    formats(Aws::RDS::Formats::LIST_TAGS_FOR_RESOURCE) do
+    formats(AWS::RDS::Formats::LIST_TAGS_FOR_RESOURCE) do
       result = @rds.list_tags_for_resource(@db_instance_id).body
       returns(two_tags) do
         result['ListTagsForResourceResult']['TagList']

@@ -1,4 +1,4 @@
-Shindo.tests('Aws::AutoScaling | group', ['aws', 'auto_scaling_m']) do
+Shindo.tests('AWS::AutoScaling | group', ['aws', 'auto_scaling_m']) do
 
   params = {
     :id => uniq_id,

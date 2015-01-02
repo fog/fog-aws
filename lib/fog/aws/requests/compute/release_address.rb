@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -12,7 +12,7 @@ module Fog
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-ReleaseAddress.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-ReleaseAddress.html]
         #
         # non-VPC: requires public_ip only
         #     VPC: requires allocation_id only

@@ -77,7 +77,7 @@ module Fog
         #   * region<~String> - optional region to use. For instance, 'eu-west-1', 'us-east-1' and etc.
         #
         # ==== Returns
-        # * SQS object with connection to Aws.
+        # * SQS object with connection to AWS.
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
           @instrumentor           = options[:instrumentor]
@@ -122,7 +122,7 @@ module Fog
           parser      = params.delete(:parser)
           path        = params.delete(:path)
 
-          body, headers = Aws.signed_params_v4(
+          body, headers = AWS.signed_params_v4(
             params,
             { 'Content-Type' => 'application/x-www-form-urlencoded' },
             {

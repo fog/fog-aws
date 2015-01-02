@@ -11,7 +11,7 @@ module Fog
         # * message<~String> - Message to add to queue
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/AwsSimpleQueueService/latest/APIReference/Query_QuerySendMessage.html
+        # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QuerySendMessage.html
         #
 
         def send_message(queue_url, message)

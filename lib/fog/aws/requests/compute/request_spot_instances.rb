@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/spot_instance_requests'
 
@@ -55,7 +55,7 @@ module Fog
         #       * 'state'<~String> - spot instance request state
         #       * 'type'<~String> - spot instance request type
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-RequestSpotInstances.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-RequestSpotInstances.html]
         def request_spot_instances(image_id, instance_type, spot_price, options = {})
           if block_device_mapping = options.delete('LaunchSpecification.BlockDeviceMapping')
             block_device_mapping.each_with_index do |mapping, index|

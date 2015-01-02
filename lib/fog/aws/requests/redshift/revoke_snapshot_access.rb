@@ -11,7 +11,7 @@ module Fog
         #    The identifier of the snapshot that the account can no longer access.
         # * :snapshot_cluster_identifier - (String)
         # * :account_with_restore_access - required - (String)
-        #    The identifier of the Aws customer account that can no longer restore the specified snapshot.
+        #    The identifier of the AWS customer account that can no longer restore the specified snapshot.
         #
         # ==== See Also
         # http://docs.aws.amazon.com/redshift/latest/APIReference/API_RevokeSnapshotAccess.html

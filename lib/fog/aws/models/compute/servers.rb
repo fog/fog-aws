@@ -3,7 +3,7 @@ require 'fog/aws/models/compute/server'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Servers < Fog::Collection
         attribute :filters
 
@@ -11,13 +11,13 @@ module Fog
 
         # Creates a new server
         #
-        # Aws.servers.new
+        # AWS.servers.new
         #
         # ==== Returns
         #
         # Returns the details of the new server
         #
-        #>> Aws.servers.new
+        #>> AWS.servers.new
         #  <Fog::AWS::Compute::Server
         #    id=nil,
         #    ami_launch_index=nil,
@@ -75,7 +75,7 @@ module Fog
         #
         #    1.upto(n).map { create(new_attributes) }
         #
-        # See the Aws RunInstances API.
+        # See the AWS RunInstances API.
         def create_many(min_servers = 1, max_servers = nil, new_attributes = {})
           max_servers ||= min_servers
           template = new(new_attributes)
@@ -83,12 +83,12 @@ module Fog
         end
 
         # Bootstrap between m and n servers with the server options specified in
-        # new_attributes.  Equivalent to this loop, but happens in 1 Aws request
+        # new_attributes.  Equivalent to this loop, but happens in 1 AWS request
         # and the machines' spinup will happen in parallel:
         #
         #   1.upto(n).map { bootstrap(new_attributes) }
         #
-        # See the Aws RunInstances API.
+        # See the AWS RunInstances API.
         def bootstrap_many(min_servers = 1, max_servers = nil, new_attributes = {})
           template = service.servers.new(new_attributes)
           _setup_bootstrap(template)
@@ -110,11 +110,11 @@ module Fog
         # server_id is required to get the associated server information.
         #
         # You can run the following command to get the details:
-        # Aws.servers.get("i-5c973972")
+        # AWS.servers.get("i-5c973972")
         #
         # ==== Returns
         #
-        #>> Aws.servers.get("i-5c973972")
+        #>> AWS.servers.get("i-5c973972")
         #  <Fog::AWS::Compute::Server
         #    id="i-5c973972",
         #    ami_launch_index=0,
@@ -153,11 +153,11 @@ module Fog
           nil
         end
 
-        # From a template, create between m-n servers (see the Aws RunInstances API)
+        # From a template, create between m-n servers (see the AWS RunInstances API)
         def save_many(template, min_servers = 1, max_servers = nil)
           max_servers ||= min_servers
           data = service.run_instances(template.image_id, min_servers, max_servers, template.run_instance_options)
-          # For some reason, Aws sometimes returns empty results alongside the real ones.  Thus the select
+          # For some reason, AWS sometimes returns empty results alongside the real ones.  Thus the select
           data.body['instancesSet'].select { |instance_set| instance_set['instanceId'] }.map do |instance_set|
             server = template.dup
             server.merge_attributes(instance_set)

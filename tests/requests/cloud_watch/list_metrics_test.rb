@@ -1,4 +1,4 @@
-Shindo.tests('Aws::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
+Shindo.tests('AWS::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
 
   tests('success') do
     @metrics_list_format = {
@@ -55,7 +55,7 @@ Shindo.tests('Aws::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
 
     tests("#namespace_filtered_list_metrics").returns(true) do
       pending if Fog.mocking?
-      namespace = "Aws/EC2"
+      namespace = "AWS/EC2"
       Fog::AWS[:cloud_watch].list_metrics('Namespace' => namespace).body['ListMetricsResult']['Metrics'].all? do |metric|
         metric['Namespace'] == namespace
       end

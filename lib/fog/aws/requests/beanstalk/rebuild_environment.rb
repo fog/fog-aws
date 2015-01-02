@@ -4,7 +4,7 @@ module Fog
       class Real
         require 'fog/aws/parsers/beanstalk/empty'
 
-        # Deletes and recreates all of the Aws resources (for example: the Auto Scaling group, load balancer, etc.)
+        # Deletes and recreates all of the AWS resources (for example: the Auto Scaling group, load balancer, etc.)
         # for a specified environment and forces a restart.
         #
         # ==== Options

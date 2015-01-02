@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
         # Detaches an Internet gateway to a VPC, enabling connectivity between the Internet and the VPC
@@ -15,7 +15,7 @@ module Fog
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - Returns true if the request succeeds.
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DetachInternetGateway.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DetachInternetGateway.html]
         def detach_internet_gateway(internet_gateway_id, vpc_id)
           request(
             'Action'               => 'DetachInternetGateway',

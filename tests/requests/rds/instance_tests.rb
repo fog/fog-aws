@@ -1,4 +1,4 @@
-Shindo.tests('Aws::RDS | instance requests', ['aws', 'rds']) do
+Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
   # Disabled due to https://github.com/fog/fog/1546
   pending
 
@@ -14,7 +14,7 @@ Shindo.tests('Aws::RDS | instance requests', ['aws', 'rds']) do
 
   tests('success') do
 
-    tests("#create_db_instance").formats(Aws::RDS::Formats::CREATE_DB_INSTANCE) do
+    tests("#create_db_instance").formats(AWS::RDS::Formats::CREATE_DB_INSTANCE) do
       result = Fog::AWS[:rds].create_db_instance(@db_instance_id,
                                                  'AllocatedStorage' => 5,
                                                  'DBInstanceClass' => 'db.m1.small',
@@ -29,7 +29,7 @@ Shindo.tests('Aws::RDS | instance requests', ['aws', 'rds']) do
       result
     end
 
-    tests("#describe_db_instances").formats(Aws::RDS::Formats::DESCRIBE_DB_INSTANCES) do
+    tests("#describe_db_instances").formats(AWS::RDS::Formats::DESCRIBE_DB_INSTANCES) do
       Fog::AWS[:rds].describe_db_instances.body
     end
 
@@ -37,7 +37,7 @@ Shindo.tests('Aws::RDS | instance requests', ['aws', 'rds']) do
     server.wait_for { ready? }
 
     new_storage = 6
-    tests("#modify_db_instance with immediate apply").formats(Aws::RDS::Formats::MODIFY_DB_INSTANCE) do
+    tests("#modify_db_instance with immediate apply").formats(AWS::RDS::Formats::MODIFY_DB_INSTANCE) do
       body = Fog::AWS[:rds].modify_db_instance(@db_instance_id, true, 'AllocatedStorage' => new_storage).body
       tests 'pending storage' do
         instance = body['ModifyDBInstanceResult']['DBInstance']
@@ -54,7 +54,7 @@ Shindo.tests('Aws::RDS | instance requests', ['aws', 'rds']) do
     end
 
     tests("reboot db instance") do
-      tests("#reboot").formats(Aws::RDS::Formats::REBOOT_DB_INSTANCE) do
+      tests("#reboot").formats(AWS::RDS::Formats::REBOOT_DB_INSTANCE) do
         Fog::AWS[:rds].reboot_db_instance(@db_instance_id).body
       end
     end
@@ -62,19 +62,19 @@ Shindo.tests('Aws::RDS | instance requests', ['aws', 'rds']) do
     server.wait_for { state == 'rebooting' }
     server.wait_for { state == 'available' }
 
-    tests("#create_db_snapshot").formats(Aws::RDS::Formats::CREATE_DB_SNAPSHOT) do
+    tests("#create_db_snapshot").formats(AWS::RDS::Formats::CREATE_DB_SNAPSHOT) do
       body = Fog::AWS[:rds].create_db_snapshot(@db_instance_id, @db_snapshot_id).body
       returns('creating') { body['CreateDBSnapshotResult']['DBSnapshot']['Status'] }
       body
     end
 
-    tests("#describe_db_snapshots").formats(Aws::RDS::Formats::DESCRIBE_DB_SNAPSHOTS) do
+    tests("#describe_db_snapshots").formats(AWS::RDS::Formats::DESCRIBE_DB_SNAPSHOTS) do
       body = Fog::AWS[:rds].describe_db_snapshots.body
     end
 
     server.wait_for { state == 'available' }
 
-    tests("#create read replica").formats(Aws::RDS::Formats::CREATE_READ_REPLICA) do
+    tests("#create read replica").formats(AWS::RDS::Formats::CREATE_READ_REPLICA) do
       Fog::AWS[:rds].create_db_instance_read_replica(@db_replica_id, @db_instance_id).body
     end
 
@@ -90,11 +90,11 @@ Shindo.tests('Aws::RDS | instance requests', ['aws', 'rds']) do
       returns([@db_replica_id]) { server.read_replica_identifiers }
     end
 
-    tests("#promote read replica").formats(Aws::RDS::Formats::PROMOTE_READ_REPLICA) do
+    tests("#promote read replica").formats(AWS::RDS::Formats::PROMOTE_READ_REPLICA) do
       Fog::AWS[:rds].promote_read_replica(@db_replica_id).body
     end
 
-    tests("#delete_db_instance").formats(Aws::RDS::Formats::DELETE_DB_INSTANCE) do
+    tests("#delete_db_instance").formats(AWS::RDS::Formats::DELETE_DB_INSTANCE) do
       #server.wait_for { state == 'available' }
       Fog::AWS[:rds].delete_db_instance(@db_replica_id, nil, true)
       body = Fog::AWS[:rds].delete_db_instance(@db_instance_id, @db_final_snapshot_id).body
@@ -105,7 +105,7 @@ Shindo.tests('Aws::RDS | instance requests', ['aws', 'rds']) do
       body
     end
 
-    tests("#delete_db_snapshot").formats(Aws::RDS::Formats::DELETE_DB_SNAPSHOT) do
+    tests("#delete_db_snapshot").formats(AWS::RDS::Formats::DELETE_DB_SNAPSHOT) do
       Fog::AWS[:rds].snapshots.get(@db_snapshot_id).wait_for { ready? }
       Fog::AWS[:rds].delete_db_snapshot(@db_snapshot_id).body
     end

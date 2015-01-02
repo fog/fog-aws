@@ -9,7 +9,7 @@ Shindo.tests('Fog::Compute[:aws] | placement group requests', ['aws']) do
   }
 
   tests('success') do
-    tests("#create_placement_group('fog_placement_group', 'cluster')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#create_placement_group('fog_placement_group', 'cluster')").formats(AWS::Compute::Formats::BASIC) do
       pending if Fog.mocking?
       Fog::Compute[:aws].create_placement_group('fog_placement_group', 'cluster').body
     end
@@ -24,7 +24,7 @@ Shindo.tests('Fog::Compute[:aws] | placement group requests', ['aws']) do
       Fog::Compute[:aws].describe_placement_groups('group-name' => 'fog_security_group').body
     end
 
-    tests("#delete_placement_group('fog_placement_group')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_placement_group('fog_placement_group')").formats(AWS::Compute::Formats::BASIC) do
       pending if Fog.mocking?
       Fog::Compute[:aws].delete_placement_group('fog_placement_group').body
     end

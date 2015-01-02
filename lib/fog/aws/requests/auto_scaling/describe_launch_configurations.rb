@@ -72,7 +72,7 @@ module Fog
         #
         def describe_launch_configurations(options = {})
           if launch_configuration_names = options.delete('LaunchConfigurationNames')
-            options.merge!(Aws.indexed_param('LaunchConfigurationNames.member.%d', [*launch_configuration_names]))
+            options.merge!(AWS.indexed_param('LaunchConfigurationNames.member.%d', [*launch_configuration_names]))
           end
           request({
             'Action' => 'DescribeLaunchConfigurations',

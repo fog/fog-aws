@@ -7,7 +7,7 @@ module Fog
         # Create Elastic Load Balancer Policy
         #
         # ==== Parameters
-        # * lb_name<~String> - The name associated with the LoadBalancer for which the policy is being created. This name must be unique within the client Aws account.
+        # * lb_name<~String> - The name associated with the LoadBalancer for which the policy is being created. This name must be unique within the client AWS account.
         # * attributes<~Hash> - A list of attributes associated with the policy being created.
         #   * 'AttributeName'<~String> - The name of the attribute associated with the policy.
         #   * 'AttributeValue'<~String> - The value of the attribute associated with the policy.

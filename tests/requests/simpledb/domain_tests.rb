@@ -1,6 +1,6 @@
-Shindo.tests('Aws::SimpleDB | domain requests', ['aws']) do
+Shindo.tests('AWS::SimpleDB | domain requests', ['aws']) do
 
-  @domain_metadata_format = Aws::SimpleDB::Formats::BASIC.merge({
+  @domain_metadata_format = AWS::SimpleDB::Formats::BASIC.merge({
     'AttributeNameCount'        => Integer,
     'AttributeNamesSizeBytes'   => Integer,
     'AttributeValueCount'       => Integer,
@@ -14,7 +14,7 @@ Shindo.tests('Aws::SimpleDB | domain requests', ['aws']) do
 
   tests('success') do
 
-    tests("#create_domain(#{@domain_name})").formats(Aws::SimpleDB::Formats::BASIC) do
+    tests("#create_domain(#{@domain_name})").formats(AWS::SimpleDB::Formats::BASIC) do
       Fog::AWS[:simpledb].create_domain(@domain_name).body
     end
 
@@ -26,11 +26,11 @@ Shindo.tests('Aws::SimpleDB | domain requests', ['aws']) do
       Fog::AWS[:simpledb].domain_metadata(@domain_name).body
     end
 
-    tests("#list_domains").formats(Aws::SimpleDB::Formats::BASIC.merge('Domains' => [String])) do
+    tests("#list_domains").formats(AWS::SimpleDB::Formats::BASIC.merge('Domains' => [String])) do
       Fog::AWS[:simpledb].list_domains.body
     end
 
-    tests("#delete_domain(#{@domain_name})").formats(Aws::SimpleDB::Formats::BASIC) do
+    tests("#delete_domain(#{@domain_name})").formats(AWS::SimpleDB::Formats::BASIC) do
       Fog::AWS[:simpledb].delete_domain(@domain_name).body
     end
 

@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/register_image'
 
@@ -32,7 +32,7 @@ module Fog
 
         #
 
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-RegisterImage.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-RegisterImage.html]
 
         def register_image(name, description, location, block_devices=[], options={})
           common_options = {

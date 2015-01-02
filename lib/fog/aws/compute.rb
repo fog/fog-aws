@@ -2,7 +2,7 @@ require 'fog/aws/core'
 
 module Fog
   module Compute
-    class Aws < Fog::Service
+    class AWS < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
@@ -162,7 +162,7 @@ module Fog
           modify_image_attribute(*params)
         end
 
-        # http://docs.aws.amazon.com/AwsEC2/latest/UserGuide/ec2-supported-platforms.html
+        # http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html
         def supported_platforms
           describe_account_attributes.body["accountAttributeSet"].find{ |h| h["attributeName"] == "supported-platforms" }["values"]
         end

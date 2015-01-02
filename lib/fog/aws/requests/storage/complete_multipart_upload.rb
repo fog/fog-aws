@@ -1,6 +1,6 @@
 module Fog
   module Storage
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/storage/complete_multipart_upload'
 
@@ -69,5 +69,5 @@ module Fog
         end
       end # Mock
     end # Storage
-  end # Aws
+  end # AWS
 end # Fog

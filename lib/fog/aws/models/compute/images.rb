@@ -3,7 +3,7 @@ require 'fog/aws/models/compute/image'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Images < Fog::Collection
         attribute :filters
 
@@ -11,13 +11,13 @@ module Fog
 
         # Creates a new Amazon machine image
         #
-        # Aws.images.new
+        # AWS.images.new
         #
         # ==== Returns
         #
         # Returns the details of the new image
         #
-        #>> Aws.images.new
+        #>> AWS.images.new
         #  <Fog::AWS::Compute::Image
         #    id=nil,
         #    architecture=nil,

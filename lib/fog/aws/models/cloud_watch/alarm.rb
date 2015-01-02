@@ -29,7 +29,7 @@ module Fog
 
         def initialize(attributes)
           attributes['EvaluationPeriods'] ||= 1
-          attributes['Namespace']         ||= 'Aws/EC2'
+          attributes['Namespace']         ||= 'AWS/EC2'
           super
         end
 

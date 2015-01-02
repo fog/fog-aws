@@ -109,7 +109,7 @@ module Fog
         end
       end
       body.chop!
-
+      
       headers['Authorization'] = options[:signer].sign({:method => options[:method], :headers => headers, :body => body, :query => {}, :path => options[:path]}, date)
 
       return body, headers
@@ -117,7 +117,7 @@ module Fog
 
     def self.signed_params(params, options = {})
       params.merge!({
-        'AwsAccessKeyId'    => options[:aws_access_key_id],
+        'AWSAccessKeyId'    => options[:aws_access_key_id],
         'SignatureMethod'   => 'HmacSHA256',
         'SignatureVersion'  => '2',
         'Timestamp'         => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),

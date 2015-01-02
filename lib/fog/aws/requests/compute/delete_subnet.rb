@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
         # Deletes a subnet from a VPC. You must terminate all running instances in the subnet before deleting it, otherwise Amazon
@@ -15,7 +15,7 @@ module Fog
         # * 'requestId'<~String> - Id of request
         # * 'return'<~Boolean> - Returns true if the request succeeds.
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/2011-07-15/APIReference/ApiReference-query-DeleteSubnet.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2011-07-15/APIReference/ApiReference-query-DeleteSubnet.html]
         def delete_subnet(subnet_id)
           request(
             'Action' => 'DeleteSubnet',

@@ -63,7 +63,7 @@ module Fog
         #
         def describe_scheduled_actions(options = {})
           if scheduled_action_names = options.delete('ScheduledActionNames')
-            options.merge!(Aws.indexed_param('ScheduledActionNames.member.%d', [*scheduled_action_names]))
+            options.merge!(AWS.indexed_param('ScheduledActionNames.member.%d', [*scheduled_action_names]))
           end
           request({
             'Action' => 'DescribeScheduledActions',

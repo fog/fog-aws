@@ -7,7 +7,7 @@ module Fog
         # Returns descriptions for existing environments.
         #
         # ==== Options
-        # * ApplicationName<~String>: If specified, Aws Elastic Beanstalk restricts the returned descriptions
+        # * ApplicationName<~String>: If specified, AWS Elastic Beanstalk restricts the returned descriptions
         #   to include only those that are associated with this application.
         # * EnvironmentIds
         # * EnvironmentNames
@@ -23,10 +23,10 @@ module Fog
         #
         def describe_environments(options={})
           if environment_ids = options.delete('EnvironmentIds')
-            options.merge!(Aws.indexed_param('EnvironmentIds.member.%d', [*environment_ids]))
+            options.merge!(AWS.indexed_param('EnvironmentIds.member.%d', [*environment_ids]))
           end
           if environment_names = options.delete('EnvironmentNames')
-            options.merge!(Aws.indexed_param('EnvironmentNames.member.%d', [*environment_names]))
+            options.merge!(AWS.indexed_param('EnvironmentNames.member.%d', [*environment_names]))
           end
           request({
                       'Operation'    => 'DescribeEnvironments',

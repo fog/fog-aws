@@ -1,11 +1,11 @@
-Shindo.tests("Aws::CloudWatch | metric_statistics", ['aws', 'cloudwatch']) do
+Shindo.tests("AWS::CloudWatch | metric_statistics", ['aws', 'cloudwatch']) do
 
   tests('success') do
     pending if Fog.mocking?
 
     instanceId = 'i-420c352f'
     metricName = 'DiskReadBytes'
-    namespace = 'Aws/EC2'
+    namespace = 'AWS/EC2'
     startTime = (Time.now-600).iso8601
     endTime = Time.now.iso8601
     period = 60

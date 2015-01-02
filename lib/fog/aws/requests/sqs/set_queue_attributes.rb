@@ -12,7 +12,7 @@ module Fog
         # * attribute_value<~String> - Value to set for attribute
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/AwsSimpleQueueService/latest/APIReference/Query_QuerySetQueueAttributes.html
+        # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QuerySetQueueAttributes.html
         #
 
         def set_queue_attributes(queue_url, attribute_name, attribute_value)

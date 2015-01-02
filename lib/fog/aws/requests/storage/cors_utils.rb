@@ -1,6 +1,6 @@
 module Fog
   module Storage
-    class Aws
+    class AWS
       require 'fog/aws/parsers/storage/cors_configuration'
 
       private

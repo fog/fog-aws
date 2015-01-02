@@ -1,6 +1,6 @@
 module Fog
   module Storage
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/storage/get_service'
 

@@ -59,7 +59,7 @@ module Fog
         #   * region<~String> - optional region to use. For instance, in 'eu-west-1', 'us-east-1' and etc.
         #
         # ==== Returns
-        # * EMR object with connection to Aws.
+        # * EMR object with connection to AWS.
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
           @connection_options     = options[:connection_options] || {}

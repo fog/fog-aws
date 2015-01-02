@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/create_volume'
 
@@ -28,7 +28,7 @@ module Fog
         #     * 'iops'<~Integer> - Number of IOPS the volume supports
         #     * 'encrypted'<~Boolean> - Indicates whether the volume will be encrypted
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-CreateVolume.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVolume.html]
         def create_volume(availability_zone, size, options = {})
           unless options.is_a?(Hash)
             Fog::Logger.deprecation("create_volume with a bare snapshot_id is deprecated, use create_volume(availability_zone, size, 'SnapshotId' => snapshot_id) instead [light_black](#{caller.first})[/]")

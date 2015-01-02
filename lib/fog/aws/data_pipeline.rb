@@ -50,7 +50,7 @@ module Fog
         #   * region<~String> - optional region to use. For instance, 'eu-west-1', 'us-east-1' and etc.
         #
         # ==== Returns
-        # * DataPipeline object with connection to Aws.
+        # * DataPipeline object with connection to AWS.
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
           @instrumentor       = options[:instrumentor]

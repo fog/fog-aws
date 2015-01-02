@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/create_route_table'
 
@@ -22,7 +22,7 @@ module Fog
         # *       'gatewayId'<~String> - The ID of an Internet gateway attached to your VPC.
         # *       'state'<~String> - The state of the route. ['blackhole', 'available']
         #
-        # {Amazon API Reference}[http://docs.aws.amazon.com/AwsEC2/latest/APIReference/ApiReference-query-CreateRouteTable.html]
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateRouteTable.html]
         def create_route_table(vpc_id)
           request({
             'Action' => 'CreateRouteTable',

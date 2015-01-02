@@ -5,9 +5,9 @@ module Fog
         # This operation creates a new vault with the specified name.  .
         #
         # ==== Parameters
-        # * name<~String> 1-255 characters. must be unique within a region for an Aws account
+        # * name<~String> 1-255 characters. must be unique within a region for an AWS account
         # * options<~Hash>
-        #   * account_id<~String> - The Aws account id. Defaults to the account owning the credentials making the request
+        #   * account_id<~String> - The AWS account id. Defaults to the account owning the credentials making the request
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:

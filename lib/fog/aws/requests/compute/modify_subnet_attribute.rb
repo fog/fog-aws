@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/modify_subnet_attribute'
 
@@ -19,7 +19,7 @@ module Fog
         # * body<~Hash>:
         # * 'requestId'<~String> - Id of request
         # * 'return'<~Boolean> - Returns true if the request succeeds. Otherwise, returns an error.
-        # http://docs.aws.amazon.com/AwsEC2/latest/APIReference/ApiReference-query-ModifySubnetAttribute.html
+        # http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-ModifySubnetAttribute.html
         def modify_subnet_attribute(subnet_id, options = {})
           params = {}
           params['MapPublicIpOnLaunch.Value'] = options.delete 'MapPublicIpOnLaunch' if options['MapPublicIpOnLaunch']

@@ -3,7 +3,7 @@ require 'fog/aws/models/compute/vpc'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Vpcs < Fog::Collection
         attribute :filters
 
@@ -11,13 +11,13 @@ module Fog
 
         # Creates a new VPC
         #
-        # Aws.vpcs.new
+        # AWS.vpcs.new
         #
         # ==== Returns
         #
         # Returns the details of the new VPC
         #
-        #>> Aws.vpcs.new
+        #>> AWS.vpcs.new
         # <Fog::AWS::VPC::VPC
         # id=nil,
         # state=nil,
@@ -35,13 +35,13 @@ module Fog
 
         # Returns an array of all VPCs that have been created
         #
-        # Aws.vpcs.all
+        # AWS.vpcs.all
         #
         # ==== Returns
         #
         # Returns an array of all VPCs
         #
-        #>> Aws.vpcs.all
+        #>> AWS.vpcs.all
         # <Fog::AWS::VPC::VPCs
         # filters={}
         # [
@@ -67,11 +67,11 @@ module Fog
         # vpc_id is required to get the associated VPC information.
         #
         # You can run the following command to get the details:
-        # Aws.vpcs.get("vpc-12345678")
+        # AWS.vpcs.get("vpc-12345678")
         #
         # ==== Returns
         #
-        #>> Aws.vpcs.get("vpc-12345678")
+        #>> AWS.vpcs.get("vpc-12345678")
         # <Fog::AWS::Compute::VPC
         # id="vpc-12345678",
         # TODO

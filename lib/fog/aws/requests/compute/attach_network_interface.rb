@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/attach_network_interface'
 
@@ -17,7 +17,7 @@ module Fog
         # * 'requestId'<~String>    - Id of request
         # * 'attachmentId'<~String> - ID of the attachment
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/2012-03-01/APIReference/index.html?ApiReference-query-AttachNetworkInterface.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2012-03-01/APIReference/index.html?ApiReference-query-AttachNetworkInterface.html]
         def attach_network_interface(nic_id, instance_id, device_index)
           request(
             'Action' => 'AttachNetworkInterface',

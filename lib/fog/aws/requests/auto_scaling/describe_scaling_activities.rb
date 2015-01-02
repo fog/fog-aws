@@ -63,7 +63,7 @@ module Fog
         #
         def describe_scaling_activities(options = {})
           if activity_ids = options.delete('ActivityIds')
-            options.merge!(Aws.indexed_param('ActivityIds.member.%d', [*activity_ids]))
+            options.merge!(AWS.indexed_param('ActivityIds.member.%d', [*activity_ids]))
           end
           request({
             'Action' => 'DescribeScalingActivities',

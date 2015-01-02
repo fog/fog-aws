@@ -1,6 +1,6 @@
 module Fog
   module Storage
-    class Aws
+    class AWS
       class Real
         # Sync clock against S3 to avoid skew errors
         #
@@ -20,5 +20,5 @@ module Fog
         end
       end # Mock
     end # Storage
-  end # Aws
+  end # AWS
 end # Fog

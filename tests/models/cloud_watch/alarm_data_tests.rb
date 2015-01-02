@@ -1,4 +1,4 @@
-Shindo.tests("Aws::CloudWatch | alarm_data", ['aws', 'cloudwatch']) do
+Shindo.tests("AWS::CloudWatch | alarm_data", ['aws', 'cloudwatch']) do
 
   pending if Fog.mocking?
 
@@ -12,7 +12,7 @@ Shindo.tests("Aws::CloudWatch | alarm_data", ['aws', 'cloudwatch']) do
       Fog::AWS[:cloud_watch].alarm_data.all(alarm_name_prefix)
     end
 
-    namespace = 'Aws/EC2'
+    namespace = 'AWS/EC2'
     metric_name = 'CPUUtilization'
 
     tests("#get").succeeds do

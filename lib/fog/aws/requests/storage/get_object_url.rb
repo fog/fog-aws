@@ -1,6 +1,6 @@
 module Fog
   module Storage
-    class Aws
+    class AWS
       module GetObjectUrl
         def get_object_url(bucket_name, object_name, expires, options = {})
           unless bucket_name

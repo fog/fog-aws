@@ -7,7 +7,7 @@ module Fog
         # Returns descriptions for existing application versions.
         #
         # ==== Options
-        # * ApplicationName<~String>: If specified, Aws Elastic Beanstalk restricts the returned descriptions to
+        # * ApplicationName<~String>: If specified, AWS Elastic Beanstalk restricts the returned descriptions to
         #     only include ones that are associated with the specified application.
         # * VersionLabels<~Array>: If specified, restricts the returned descriptions to only include ones that have
         #     the specified version labels.
@@ -20,7 +20,7 @@ module Fog
         #
         def describe_application_versions(options={})
           if version_labels = options.delete('VersionLabels')
-            options.merge!(Aws.indexed_param('VersionLabels.member.%d', [*version_labels]))
+            options.merge!(AWS.indexed_param('VersionLabels.member.%d', [*version_labels]))
           end
           request({
                       'Operation'    => 'DescribeApplicationVersions',

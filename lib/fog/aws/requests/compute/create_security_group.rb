@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/create_security_group'
 
@@ -18,7 +18,7 @@ module Fog
         #     * 'return'<~Boolean> - success?
         #     * 'groupId'<~String> - Id of created group
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-CreateSecurityGroup.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateSecurityGroup.html]
         def create_security_group(name, description, vpc_id=nil)
           request(
             'Action'            => 'CreateSecurityGroup',

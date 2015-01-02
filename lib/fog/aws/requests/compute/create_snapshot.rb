@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/create_snapshot'
 
@@ -20,7 +20,7 @@ module Fog
         #     * 'status'<~String> - state of snapshot
         #     * 'volumeId'<~String> - id of volume snapshot targets
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-CreateSnapshot.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateSnapshot.html]
         def create_snapshot(volume_id, description = nil)
           request(
             'Action'      => 'CreateSnapshot',
@@ -35,7 +35,7 @@ module Fog
         #
         # Usage
         #
-        # Aws[:compute].create_snapshot("vol-f7c23423", "latest snapshot")
+        # Fog::AWS[:compute].create_snapshot("vol-f7c23423", "latest snapshot")
         #
 
         def create_snapshot(volume_id, description = nil)

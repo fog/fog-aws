@@ -14,23 +14,23 @@ module Fog
         #       * 'AccountMFAEnabled'<~Integer> - 1 if the root account has an MFA device assigned to it, 0 otherwise
         #       * 'AssumeRolePolicySizeQuota'<~Integer> - Maximum allowed size for assume role policy documents (in kilobytes)
         #       * 'GroupPolicySizeQuota'<~Integer> - Maximum allowed size for Group policy documents (in kilobytes)
-        #       * 'Groups'<~Integer> - Number of Groups for the Aws account
+        #       * 'Groups'<~Integer> - Number of Groups for the AWS account
         #       * 'GroupsPerUserQuota'<~Integer> - Maximum number of groups a user can belong to
-        #       * 'GroupsQuota'<~Integer> - Maximum groups allowed for the Aws account
-        #       * 'InstanceProfiles'<~Integer> - Number of instance profiles for the Aws account
-        #       * 'InstanceProfilesQuota'<~Integer> - Maximum instance profiles allowed for the Aws account
+        #       * 'GroupsQuota'<~Integer> - Maximum groups allowed for the AWS account
+        #       * 'InstanceProfiles'<~Integer> - Number of instance profiles for the AWS account
+        #       * 'InstanceProfilesQuota'<~Integer> - Maximum instance profiles allowed for the AWS account
         #       * 'MFADevices'<~Integer> - Number of MFA devices, either assigned or unassigned
         #       * 'MFADevicesInUse'<~Integer> - Number of MFA devices that have been assigned to an IAM user or to the root account
         #       * 'Providers'<~Integer> -
         #       * 'RolePolicySizeQuota'<~Integer> - Maximum allowed size for role policy documents (in kilobytes)
-        #       * 'Roles'<~Integer> - Number of roles for the Aws account
-        #       * 'RolesQuota'<~Integer> - Maximum roles allowed for the Aws account
-        #       * 'ServerCertificates'<~Integer> - Number of server certificates for the Aws account
-        #       * 'ServerCertificatesQuota'<~Integer> - Maximum server certificates allowed for the Aws account
+        #       * 'Roles'<~Integer> - Number of roles for the AWS account
+        #       * 'RolesQuota'<~Integer> - Maximum roles allowed for the AWS account
+        #       * 'ServerCertificates'<~Integer> - Number of server certificates for the AWS account
+        #       * 'ServerCertificatesQuota'<~Integer> - Maximum server certificates allowed for the AWS account
         #       * 'SigningCertificatesPerUserQuota'<~Integer> - Maximum number of X509 certificates allowed for a user
         #       * 'UserPolicySizeQuota'<~Integer> - Maximum allowed size for user policy documents (in kilobytes)
-        #       * 'Users'<~Integer> - Number of users for the Aws account
-        #       * 'UsersQuota'<~Integer> - Maximum users allowed for the Aws account
+        #       * 'Users'<~Integer> - Number of users for the AWS account
+        #       * 'UsersQuota'<~Integer> - Maximum users allowed for the AWS account
         #     * 'RequestId'<~String> - Id of the request
         #
         # ==== See Also

@@ -3,7 +3,7 @@ require 'fog/aws/models/compute/snapshot'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Snapshots < Fog::Collection
         attribute :filters
         attribute :volume

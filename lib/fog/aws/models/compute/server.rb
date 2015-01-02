@@ -2,7 +2,7 @@ require 'fog/compute/models/server'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Server < Fog::Compute::Server
         extend Fog::Deprecation
         deprecate :ip_address, :public_ip_address

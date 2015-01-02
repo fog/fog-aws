@@ -21,7 +21,7 @@ module Fog
         #   * body [Hash:
         #     * StackId [String] - Id of the new stack
         #
-        # @see http://docs.amazonwebservices.com/AwsCloudFormation/latest/APIReference/API_CreateStack.html
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_CreateStack.html
 
         def create_stack(stack_name, options = {})
           params = {

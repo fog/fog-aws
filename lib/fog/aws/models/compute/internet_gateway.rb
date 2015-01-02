@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class InternetGateway < Fog::Model
         identity  :id,                          :aliases => 'internetGatewayId'
         attribute :attachment_set,              :aliases => 'attachmentSet'
@@ -57,7 +57,7 @@ module Fog
 
         # Create an internet gateway
         #
-        #  >> g = Aws.internet_gateways.new()
+        #  >> g = AWS.internet_gateways.new()
         #  >> g.save
         #
         # == Returns:

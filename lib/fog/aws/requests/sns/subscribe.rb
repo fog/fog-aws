@@ -51,31 +51,6 @@ module Fog
             "Endpoint"        => endpoint,
           }
 
-          access_key, _ = Fog::AWS::SQS.data.values.find { |_, data| !!data[:queues][endpoint] }
-
-          if protocol == "sqs" && access_key
-            token     = SecureRandom.hex(128)
-            message   = "You have chosen to subscribe to the topic #{arn}.\nTo confirm the subscription, visit the SubscribeURL included in this message."
-            signature = Fog::HMAC.new("sha256", token).sign(message)
-
-            Fog::AWS::SQS.new(
-              :region                => self.region,
-              :aws_access_key_id     => access_key,
-              :aws_secret_access_key => @aws_secret_access_key,
-            ).send_message(endpoint, {
-                "Type"             => "SubscriptionConfirmation",
-                "MessageId"        => SecureRandom.uuid,
-                "Token"            => token,
-                "TopicArn"         => arn,
-                "Message"          => message,
-                "SubscribeURL"     => "https://sns.#{self.region}.amazonaws.com/?Action=ConfirmSubscription&TopicArn=#{arn}&Token=#{token}",
-                "Timestamp"        => Time.now.iso8601,
-                "SignatureVersion" => "1",
-                "Signature"        => signature,
-                "SigningCertURL"   => "https://sns.#{self.region}.amazonaws.com/SimpleNotificationService-#{SecureRandom.hex(16)}.pem"
-              })
-          end
-
           response.body = { 'SubscriptionArn' => 'pending confirmation', 'RequestId' => Fog::AWS::Mock.request_id }
           response
         end

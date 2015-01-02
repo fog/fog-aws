@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Subnet < Fog::Model
         identity  :subnet_id,                   :aliases => 'subnetId'
         attribute :state
@@ -36,7 +36,7 @@ module Fog
 
         # Create a subnet
         #
-        #  >> g = Aws.subnets.new(:vpc_id => "vpc-someId", :cidr_block => "10.0.0.0/24")
+        #  >> g = AWS.subnets.new(:vpc_id => "vpc-someId", :cidr_block => "10.0.0.0/24")
         #  >> g.save
         #
         # == Returns:

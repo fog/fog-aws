@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module Storage
-    class Aws
+    class AWS
       class Version < Fog::Model
         identity  :version,             :aliases => 'VersionId'
 

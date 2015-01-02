@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_spot_price_history'
 
@@ -20,7 +20,7 @@ module Fog
         #       * 'spotPrice'<~Float> - maximum price to launch one or more instances
         #       * 'timestamp'<~Time> - date and time of request creation
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeSpotPriceHistory.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSpotPriceHistory.html]
         def describe_spot_price_history(filters = {})
           params = Fog::AWS.indexed_filters(filters)
           request({

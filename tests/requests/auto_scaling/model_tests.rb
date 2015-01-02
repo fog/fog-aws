@@ -1,4 +1,4 @@
-Shindo.tests('Aws::AutoScaling | model_tests', ['aws', 'auto_scaling']) do
+Shindo.tests('AWS::AutoScaling | model_tests', ['aws', 'auto_scaling']) do
 
   tests('success') do
     lc = nil

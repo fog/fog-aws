@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class NetworkAcl < Fog::Model
         ICMP = 1
         TCP  = 6
@@ -155,7 +155,7 @@ module Fog
 
         # Create a network ACL
         #
-        #  >> g = Aws.network_acls.new(:vpc_id => 'vpc-abcdefgh')
+        #  >> g = AWS.network_acls.new(:vpc_id => 'vpc-abcdefgh')
         #  >> g.save
         def save
           requires :vpc_id

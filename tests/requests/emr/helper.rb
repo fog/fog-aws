@@ -1,4 +1,4 @@
-class Aws
+class AWS
   module EMR
     module Formats
       BASIC = {

@@ -11,7 +11,7 @@ module Fog
         # * offset<~Integer> The offset of the data within the archive
         # * hash<~String> The tree hash for this part
         # * options<~Hash>
-        #   * account_id<~String> - The Aws account id. Defaults to the account owning the credentials making the request
+        #   * account_id<~String> - The AWS account id. Defaults to the account owning the credentials making the request
         # ==== Returns
         # * response<~Excon::Response>:
         #

@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -17,7 +17,7 @@ module Fog
         # * 'requestId'<~String> - Id of request
         # * 'return'<~Boolean> - Returns true if the request succeeds.
         #
-        # {Amazon API Reference}[http://docs.aws.amazon.com/AwsEC2/latest/APIReference/ApiReference-query-DeleteNetworkAclEntry.html]
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DeleteNetworkAclEntry.html]
         def delete_network_acl_entry(network_acl_id, rule_number, egress)
           request(
             'Action'       => 'DeleteNetworkAclEntry',

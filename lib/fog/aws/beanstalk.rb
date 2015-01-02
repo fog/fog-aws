@@ -108,7 +108,7 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-          body, headers = Aws.signed_params_v4(
+          body, headers = AWS.signed_params_v4(
               params,
               { 'Content-Type' => 'application/x-www-form-urlencoded' },
               {

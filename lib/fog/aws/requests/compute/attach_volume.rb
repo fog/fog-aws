@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/attach_volume'
 
@@ -21,7 +21,7 @@ module Fog
         #     * 'status'<~String> - Status of volume
         #     * 'volumeId'<~String> - Reference to volume
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-AttachVolume.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-AttachVolume.html]
         def attach_volume(instance_id, volume_id, device)
           request(
             'Action'      => 'AttachVolume',

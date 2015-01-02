@@ -26,7 +26,7 @@ module Fog
         #
         def describe_configuration_options(options={})
           if option_filters = options.delete('Options')
-            options.merge!(Aws.indexed_param('Options.member.%d', [*option_filters]))
+            options.merge!(AWS.indexed_param('Options.member.%d', [*option_filters]))
           end
           request({
                       'Operation'    => 'DescribeConfigurationOptions',

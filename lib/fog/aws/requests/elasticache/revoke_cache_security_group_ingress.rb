@@ -10,7 +10,7 @@ module Fog
         # === Parameters
         # * name <~String> - The name of the cache security group
         # * ec2_name <~String> - The name of the EC2 security group to revoke
-        # * ec2_owner_id <~String> - The Aws Account Number of the EC2 security group
+        # * ec2_owner_id <~String> - The AWS Account Number of the EC2 security group
         # === Returns
         # * response <~Excon::Response>:
         #   * body <~Hash>

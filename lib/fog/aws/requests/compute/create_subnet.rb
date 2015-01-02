@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'ipaddress'
         require 'fog/aws/parsers/compute/create_subnet'
@@ -11,7 +11,7 @@ module Fog
         # * vpcId<~String> - The ID of the VPC where you want to create the subnet.
         # * cidrBlock<~String> - The CIDR block you want the Subnet to cover (e.g., 10.0.0.0/16).
         # * options<~Hash>:
-        #   * AvailabilityZone<~String> - The Availability Zone you want the subnet in. Default: Aws selects a zone for you (recommended)
+        #   * AvailabilityZone<~String> - The Availability Zone you want the subnet in. Default: AWS selects a zone for you (recommended)
         #
         # === Returns
         # * response<~Excon::Response>:
@@ -28,7 +28,7 @@ module Fog
         # * 'key'<~String> - Tag's key
         # * 'value'<~String> - Tag's value
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/2011-07-15/APIReference/ApiReference-query-CreateSubnet.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2011-07-15/APIReference/ApiReference-query-CreateSubnet.html]
         def create_subnet(vpcId, cidrBlock, options = {})
           request({
             'Action'     => 'CreateSubnet',

@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/create_dhcp_options'
 
@@ -14,7 +14,7 @@ module Fog
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-CreateDhcpOptions.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateDhcpOptions.html]
         def create_dhcp_options(dhcp_configurations = {})
           params = {}
           params.merge!(indexed_multidimensional_params(dhcp_configurations))

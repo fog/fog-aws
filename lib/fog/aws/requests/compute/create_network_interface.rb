@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/create_network_interface'
 
@@ -46,7 +46,7 @@ module Fog
         # *     'key'<~String>              - Tag's key
         # *     'value'<~String>            - Tag's value
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/2012-03-01/APIReference/ApiReference-query-CreateNetworkInterface.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2012-03-01/APIReference/ApiReference-query-CreateNetworkInterface.html]
         def create_network_interface(subnetId, options = {})
           if security_groups = options.delete('GroupSet')
             options.merge!(Fog::AWS.indexed_param('SecurityGroupId', [*security_groups]))

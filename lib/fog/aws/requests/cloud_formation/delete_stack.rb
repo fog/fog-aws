@@ -10,7 +10,7 @@ module Fog
         #
         # @return [Excon::Response]
         #
-        # @see http://docs.amazonwebservices.com/AwsCloudFormation/latest/APIReference/API_DeleteStack.html
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_DeleteStack.html
 
         def delete_stack(stack_name)
           request(

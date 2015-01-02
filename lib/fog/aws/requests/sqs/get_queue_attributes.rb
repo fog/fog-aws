@@ -11,7 +11,7 @@ module Fog
         # * attribute_name<~Array> - Name of attribute to return, in ['All', 'ApproximateNumberOfMessages', 'ApproximateNumberOfMessagesNotVisible', 'CreatedTimestamp', 'LastModifiedTimestamp', 'MaximumMessageSize', 'MessageRetentionPeriod', 'Policy', 'QueueArn', 'VisibilityTimeout']
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/AwsSimpleQueueService/latest/APIReference/Query_QueryGetQueueAttributes.html
+        # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QueryGetQueueAttributes.html
         #
 
         def get_queue_attributes(queue_url, attribute_name)

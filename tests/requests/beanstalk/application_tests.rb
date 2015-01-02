@@ -1,4 +1,4 @@
-Shindo.tests('Aws::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) do
+Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) do
 
   def unique_name(prefix)
     #get time (with 1/100th of sec accuracy)

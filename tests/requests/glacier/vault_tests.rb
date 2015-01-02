@@ -1,4 +1,4 @@
-Shindo.tests('Aws::Glacier | glacier vault requests', ['aws']) do
+Shindo.tests('AWS::Glacier | glacier vault requests', ['aws']) do
   pending if Fog.mocking?
 
   topic_arn = Fog::AWS[:sns].create_topic( 'fog_test_glacier_topic').body['TopicArn']

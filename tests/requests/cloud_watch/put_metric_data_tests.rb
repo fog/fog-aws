@@ -1,4 +1,4 @@
-Shindo.tests('Aws::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
+Shindo.tests('AWS::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
   tests('success') do
 
     namespace = 'Custom/Test'

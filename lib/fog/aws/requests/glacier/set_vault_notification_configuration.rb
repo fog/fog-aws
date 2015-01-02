@@ -9,7 +9,7 @@ module Fog
         # * SnsTopic<~String> ARN of the topic to notify
         # * events<~Array> Events you wish to receive. Valid events are ArchiveRetrievalCompleted, InventoryRetrievalCompleted
         # * options<~Hash>
-        #   * account_id<~String> - The Aws account id. Defaults to the account owning the credentials making the request
+        #   * account_id<~String> - The AWS account id. Defaults to the account owning the credentials making the request
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:

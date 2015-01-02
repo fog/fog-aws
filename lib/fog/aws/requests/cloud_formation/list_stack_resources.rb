@@ -20,7 +20,7 @@ module Fog
         #         * LastUpdatedTimestamp [Time] -
         #
         #
-        # @see http://docs.aws.amazon.com/AwsCloudFormation/latest/APIReference/API_ListStacks.html
+        # @see http://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListStacks.html
 
         def list_stack_resources(options = {})
           request({

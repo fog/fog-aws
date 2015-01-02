@@ -1,4 +1,4 @@
-Shindo.tests("Aws::RDS | snapshots", ['aws', 'rds']) do
+Shindo.tests("AWS::RDS | snapshots", ['aws', 'rds']) do
 
   @server = Fog::AWS[:rds].servers.create(rds_default_server_params)
   @server.wait_for { ready? }

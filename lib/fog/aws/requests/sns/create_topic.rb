@@ -36,7 +36,7 @@ module Fog
             "DisplayName"             => name,
             "TopicArn"                => topic_arn,
             "EffectiveDeliveryPolicy" => %Q|{"http":{"defaultHealthyRetryPolicy":{"minDelayTarget":20,"maxDelayTarget":20,"numRetries":3,"numMaxDelayRetries":0,"numNoDelayRetries":0,"numMinDelayRetries":0,"backoffFunction":"linear"},"disableSubscriptionOverrides":false}}|,
-            "Policy"                  => %Q|{"Version":"2008-10-17","Id":"__default_policy_ID","Statement":[{"Sid":"__default_statement_ID","Effect":"Allow","Principal":{"Aws":"*"},"Action":["SNS:Publish","SNS:RemovePermission","SNS:SetTopicAttributes","SNS:DeleteTopic","SNS:ListSubscriptionsByTopic","SNS:GetTopicAttributes","SNS:Receive","SNS:AddPermission","SNS:Subscribe"],"Resource":"arn:aws:sns:us-east-1:990279267269:Smithy","Condition":{"StringEquals":{"Aws:SourceOwner":"990279267269"}}}]}|
+            "Policy"                  => %Q|{"Version":"2008-10-17","Id":"__default_policy_ID","Statement":[{"Sid":"__default_statement_ID","Effect":"Allow","Principal":{"AWS":"*"},"Action":["SNS:Publish","SNS:RemovePermission","SNS:SetTopicAttributes","SNS:DeleteTopic","SNS:ListSubscriptionsByTopic","SNS:GetTopicAttributes","SNS:Receive","SNS:AddPermission","SNS:Subscribe"],"Resource":"arn:aws:sns:us-east-1:990279267269:Smithy","Condition":{"StringEquals":{"AWS:SourceOwner":"990279267269"}}}]}|
           }
           response.body = {"TopicArn" => topic_arn, "RequestId" => Fog::AWS::Mock.request_id}
           response

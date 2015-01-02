@@ -2,7 +2,7 @@ require 'fog/aws/core'
 
 module Fog
   module CDN
-    class Aws < Fog::Service
+    class AWS < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
@@ -178,7 +178,7 @@ EOF
           params[:headers] ||= {}
           params[:headers]['Date'] = Fog::Time.now.to_date_header
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
-          params[:headers]['Authorization'] = "Aws #{@aws_access_key_id}:#{signature(params)}"
+          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
           params[:path] = "/#{@version}/#{params[:path]}"
 
           if @instrumentor

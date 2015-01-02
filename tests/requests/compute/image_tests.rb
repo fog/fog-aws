@@ -138,7 +138,7 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
     # for quicker tests: uncomment the rest of this block
     #Fog.wait_for { Fog::Compute.new(:provider => :aws, :region => "us-west-1").snapshots.get(@eu_image_id) }
 
-    #tests("#delete_snapshots(#{@eu_image_id})").formats(Aws::Compute::Formats::BASIC) do
+    #tests("#delete_snapshots(#{@eu_image_id})").formats(AWS::Compute::Formats::BASIC) do
     #  Fog::Compute.new(:provider => :aws, :region => "us-west-1").delete_snapshot(@eu_image_id).body
     #end
 

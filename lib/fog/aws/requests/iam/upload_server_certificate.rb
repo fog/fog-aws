@@ -4,7 +4,7 @@ module Fog
       class Real
         require 'fog/aws/parsers/iam/upload_server_certificate'
 
-        # Uploads a server certificate entity for the Aws Account.
+        # Uploads a server certificate entity for the AWS Account.
         # Includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded.
         #
         # ==== Parameters

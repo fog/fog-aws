@@ -1,6 +1,6 @@
 module Fog
   module CDN
-    class Aws
+    class AWS
       class Real
         # Delete a streaming distribution from CloudFront.
         #

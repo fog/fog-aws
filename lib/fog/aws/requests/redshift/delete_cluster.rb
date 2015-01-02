@@ -10,7 +10,7 @@ module Fog
         # * :cluster_identifier - required - (String)
         #    A unique identifier for the cluster. You use this identifier to refer to the cluster
         #    for any subsequent cluster operations such as deleting or modifying. Must be unique
-        #    for all clusters within an Aws account. Example: myexamplecluster
+        #    for all clusters within an AWS account. Example: myexamplecluster
         # * :skip_final_cluster_snapshot - (Boolean)
         #    Determines whether a final snapshot of the cluster is created before Amazon Redshift
         #    deletes the cluster. If  `true` , a final cluster snapshot is not created. If `false`,

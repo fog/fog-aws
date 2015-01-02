@@ -10,7 +10,7 @@ module Fog
         # Describes all configuration templates, may optionally pass an ApplicationName filter
         #
         # Note: This is currently an expensive operation requiring multiple API calls due to a lack of
-        # a describe configuration templates call in the Aws API.
+        # a describe configuration templates call in the AWS API.
         def all(options={})
           application_filter = []
           if options.key?('ApplicationName')

@@ -52,15 +52,15 @@ Shindo.tests('Fog::Compute[:aws] | network acl requests', ['aws']) do
       data['networkAcl']
     end
 
-    tests("#create_network_acl_entry").formats(Aws::Compute::Formats::BASIC) do
+    tests("#create_network_acl_entry").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].create_network_acl_entry(@network_acl['networkAclId'], 100, 6, 'allow', '0.0.0.0/8', false, 'PortRange.From' => 22, 'PortRange.To' => 22).body
     end
 
-    tests("#replace_network_acl_entry").formats(Aws::Compute::Formats::BASIC) do
+    tests("#replace_network_acl_entry").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].replace_network_acl_entry(@network_acl['networkAclId'], 100, 6, 'deny', '0.0.0.0/8', false, 'PortRange.From' => 22, 'PortRange.To' => 22).body
     end
 
-    tests("#delete_network_acl_entry").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_network_acl_entry").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_network_acl_entry(@network_acl['networkAclId'], 100, false).body
     end
 
@@ -98,7 +98,7 @@ Shindo.tests('Fog::Compute[:aws] | network acl requests', ['aws']) do
       body
     end
 
-    tests('#delete_network_acl').formats(Aws::Compute::Formats::BASIC) do
+    tests('#delete_network_acl').formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_network_acl(@network_acl['networkAclId']).body
     end
 

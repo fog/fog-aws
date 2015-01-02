@@ -1,4 +1,4 @@
-Shindo.tests('Aws::Glacier | glacier tree hash calcuation', ['aws']) do
+Shindo.tests('AWS::Glacier | glacier tree hash calcuation', ['aws']) do
 
   tests('tree_hash(single part < 1MB)') do
     returns(Digest::SHA256.hexdigest('')) { Fog::AWS::Glacier::TreeHash.digest('')}

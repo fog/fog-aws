@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_security_groups'
 
@@ -21,14 +21,14 @@ module Fog
         #         * 'fromPort'<~Integer> - Start of port range (or -1 for ICMP wildcard)
         #         * 'groups'<~Array>:
         #           * 'groupName'<~String> - Name of security group
-        #           * 'userId'<~String> - Aws User Id of account
+        #           * 'userId'<~String> - AWS User Id of account
         #         * 'ipProtocol'<~String> - Ip protocol, must be in ['tcp', 'udp', 'icmp']
         #         * 'ipRanges'<~Array>:
         #           * 'cidrIp'<~String> - CIDR range
         #         * 'toPort'<~Integer> - End of port range (or -1 for ICMP wildcard)
-        #       * 'ownerId'<~String> - Aws Access Key Id of the owner of the security group
+        #       * 'ownerId'<~String> - AWS Access Key Id of the owner of the security group
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeSecurityGroups.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSecurityGroups.html]
         def describe_security_groups(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_security_groups with #{filters.class} param is deprecated, use describe_security_groups('group-name' => []) instead [light_black](#{caller.first})[/]")

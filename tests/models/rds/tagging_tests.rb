@@ -1,4 +1,4 @@
-Shindo.tests("Aws::RDS | tagging", ['aws', 'rds']) do
+Shindo.tests("AWS::RDS | tagging", ['aws', 'rds']) do
 
   @server = Fog::AWS[:rds].servers.create(rds_default_server_params)
   Formatador.display_line "Creating RDS instance #{@server.id}"

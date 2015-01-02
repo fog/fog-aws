@@ -1,4 +1,4 @@
-Shindo.tests("Aws::DataPipeline | pipelines", ['aws', 'data_pipeline']) do
+Shindo.tests("AWS::DataPipeline | pipelines", ['aws', 'data_pipeline']) do
   pending if Fog.mocking?
 
   unique_id = uniq_id

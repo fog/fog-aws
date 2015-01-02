@@ -12,7 +12,7 @@ module Fog
         #    Constraints: Must contain from 1 to 63 alphanumeric characters or hyphens.
         #    Alphabetic characters must be lowercase. First character must be a letter. Cannot
         #    end with a hyphen or contain two consecutive hyphens. Must be unique for all
-        #    clusters within an Aws account.
+        #    clusters within an AWS account.
         # * :snapshot_identifier - required - (String)
         #    The name of the snapshot from which to create the new cluster. This parameter
         #    isn't case sensitive. Example: my-snapshot-id
@@ -33,7 +33,7 @@ module Fog
         # * :publicly_accessible - (Boolean)
         #    If true , the cluster can be accessed from a public network.
         # * :owner_account - (String)
-        #    The Aws customer account used to create or copy the snapshot. Required if you are
+        #    The AWS customer account used to create or copy the snapshot. Required if you are
         #    restoring a snapshot you do not own, optional if you own the snapshot.
         #
         # ==== See Also

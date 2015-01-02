@@ -35,7 +35,7 @@ Shindo.tests('Fog::Compute[:aws] | key pair requests', ['aws']) do
       Fog::Compute[:aws].describe_key_pairs('key-name' => @key_pair_name).body
     end
 
-    tests("#delete_key_pair('#{@key_pair_name}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_key_pair('#{@key_pair_name}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_key_pair(@key_pair_name).body
     end
 

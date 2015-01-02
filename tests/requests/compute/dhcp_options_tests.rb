@@ -23,15 +23,15 @@ Shindo.tests('Fog::Compute[:aws] | dhcp_options requests', ['aws']) do
       Fog::Compute[:aws].describe_dhcp_options.body
     end
 
-    tests("#associate_dhcp_options('#{@dopt_id}, #{@vpc_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#associate_dhcp_options('#{@dopt_id}, #{@vpc_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].associate_dhcp_options(@dopt_id, @vpc_id).body
     end
 
-    tests("#associate_default_dhcp_options('default', #{@vpc_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#associate_default_dhcp_options('default', #{@vpc_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].associate_dhcp_options('default', @vpc_id).body
     end
 
-    tests("#delete_dhcp_options('#{@dopt_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_dhcp_options('#{@dopt_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_dhcp_options(@dopt_id).body
     end
     @vpc.destroy

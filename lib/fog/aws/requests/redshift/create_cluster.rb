@@ -15,7 +15,7 @@ module Fog
         # * :cluster_identifier - required - (String)
         #    A unique identifier for the cluster. You use this identifier to refer to the cluster
         #    for any subsequent cluster operations such as deleting or modifying. Must be unique
-        #    for all clusters within an Aws account. Example: myexamplecluster
+        #    for all clusters within an AWS account. Example: myexamplecluster
         # * :cluster_type - (String)
         #    Type of the cluster. When cluster type is specified as single-node, the NumberOfNodes
         #    parameter is not required. multi-node, the NumberOfNodes parameter is required. Valid

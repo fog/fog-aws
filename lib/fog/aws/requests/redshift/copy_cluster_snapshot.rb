@@ -15,7 +15,7 @@ module Fog
         #    The identifier given to the new manual snapshot. Constraints: Cannot be null,
         #    empty, or blank. Must contain from 1 to 255 alphanumeric characters or hyphens.
         #    First character must be a letter. Cannot end with a hyphen or contain two
-        #    consecutive hyphens. Must be unique for the Aws account that is making the request.
+        #    consecutive hyphens. Must be unique for the AWS account that is making the request.
         #
         # ==== See Also
         # http://docs.aws.amazon.com/redshift/latest/APIReference/API_CopyClusterSnapshot.html

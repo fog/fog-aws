@@ -79,17 +79,17 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
     #   - using network interface
     #
     Fog::Compute[:aws].attach_internet_gateway(@internet_gateway_id, vpc.id).body
-    tests("#create_route('#{@route_table_id}', '#{@destination_cidr_block}', '#{@internet_gateway_id}', 'nil')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#create_route('#{@route_table_id}', '#{@destination_cidr_block}', '#{@internet_gateway_id}', 'nil')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].create_route(@route_table_id, @destination_cidr_block, @internet_gateway_id, nil).body
     end
 
     instance = Fog::Compute[:aws].servers.create(:image_id => @ami, :flavor_id => 't1.micro', :key_name => 'fog-test-key', :subnet_id => @subnet_id)
     instance.wait_for { state.eql? "running" }
-    tests("#create_route('#{@route_table_id}', '10.0.10.0/22', 'nil', '#{instance.id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#create_route('#{@route_table_id}', '10.0.10.0/22', 'nil', '#{instance.id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].create_route(@route_table_id, '10.0.10.0/22', nil, instance.id).body
     end
 
-    tests("#create_route('#{@route_table_id}', '10.0.10.0/21', 'nil', 'nil', '#{@network_interface_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#create_route('#{@route_table_id}', '10.0.10.0/21', 'nil', 'nil', '#{@network_interface_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].create_route(@route_table_id, '10.0.10.0/21', nil, nil, @network_interface_id).body
     end
 
@@ -99,17 +99,17 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
     #   - using network interface
     #
     Fog::Compute[:aws].attach_internet_gateway(@alt_internet_gateway_id, vpc.id).body
-    tests("#replace_route('#{@route_table_id}', '#{@destination_cidr_block}', {'gatewayId' => '#{@alt_internet_gateway_id}'})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#replace_route('#{@route_table_id}', '#{@destination_cidr_block}', {'gatewayId' => '#{@alt_internet_gateway_id}'})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].replace_route(@route_table_id, @destination_cidr_block, {'gatewayId' => @alt_internet_gateway_id}).body
     end
 
     instance = Fog::Compute[:aws].servers.create(:image_id => @ami, :flavor_id => 't1.micro', :key_name => 'fog-test-key', :subnet_id => @subnet_id)
     instance.wait_for { state.eql? "running" }
-    tests("#replace_route('#{@route_table_id}', '10.0.10.0/22', {'instanceId' => '#{instance.id}'})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#replace_route('#{@route_table_id}', '10.0.10.0/22', {'instanceId' => '#{instance.id}'})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].replace_route(@route_table_id, '10.0.10.0/22', {'instanceId' => instance.id}).body
     end
 
-    tests("#replace_route('#{@route_table_id}', '10.0.10.0/21', {'networkInterfaceId' => '#{@network_interface_id}'})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#replace_route('#{@route_table_id}', '10.0.10.0/21', {'networkInterfaceId' => '#{@network_interface_id}'})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].replace_route(@route_table_id, '10.0.10.0/21', {'networkInterfaceId' => @network_interface_id}).body
     end
 
@@ -130,10 +130,10 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
 
     # Test delete_route(route_table_id, cidr_block)
     #
-    tests("#delete_route('#{@route_table_id}', '10.0.10.0/21')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_route('#{@route_table_id}', '10.0.10.0/21')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_route(@route_table_id, '10.0.10.0/21').body
     end
-    tests("#delete_route('#{@route_table_id}', '10.0.10.0/22')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_route('#{@route_table_id}', '10.0.10.0/22')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_route(@route_table_id, '10.0.10.0/22').body
     end
 
@@ -141,19 +141,19 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
     if !Fog.mocking?
       instance.wait_for { state.eql? "terminated" }
     end
-    tests("#delete_route('#{@route_table_id}', '#{@destination_cidr_block}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_route('#{@route_table_id}', '#{@destination_cidr_block}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_route(@route_table_id, @destination_cidr_block).body
     end
 
     # Test disassociate_route_table(association_id)
     #
-    tests("#disassociate_route_table('#{@association_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#disassociate_route_table('#{@association_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].disassociate_route_table(@association_id).body
     end
 
     # Test delete_route_table(route_table_id)
     #
-    tests("#delete_route_table('#{@route_table_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_route_table('#{@route_table_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_route_table(@route_table_id).body
     end
   end

@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_vpcs'
 
@@ -23,7 +23,7 @@ module Fog
         # * 'value'<~String> - Tag's value
         # * 'instanceTenancy'<~String> - The allowed tenancy of instances launched into the VPC.
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/2011-07-15/APIReference/index.html?ApiReference-query-DescribeVpcs.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2011-07-15/APIReference/index.html?ApiReference-query-DescribeVpcs.html]
         def describe_vpcs(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.warning("describe_vpcs with #{filters.class} param is deprecated, use describe_vpcs('vpc-id' => []) instead [light_black](#{caller.first})[/]")

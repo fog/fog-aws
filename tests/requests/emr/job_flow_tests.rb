@@ -1,4 +1,4 @@
-Shindo.tests('Aws::EMR | job flows', ['aws', 'emr']) do
+Shindo.tests('AWS::EMR | job flows', ['aws', 'emr']) do
 
   pending if Fog.mocking?
 
@@ -36,29 +36,29 @@ Shindo.tests('Aws::EMR | job flows', ['aws', 'emr']) do
 
   tests('success') do
 
-    tests("#run_job_flow").formats(Aws::EMR::Formats::RUN_JOB_FLOW) do
+    tests("#run_job_flow").formats(AWS::EMR::Formats::RUN_JOB_FLOW) do
       pending if Fog.mocking?
 
-      result = Aws[:emr].run_job_flow(@job_flow_name, @job_flow_options).body
+      result = Fog::AWS[:emr].run_job_flow(@job_flow_name, @job_flow_options).body
       @job_flow_id = result['JobFlowId']
 
       result
     end
 
-    tests("#add_job_flow_steps").formats(Aws::EMR::Formats::BASIC) do
+    tests("#add_job_flow_steps").formats(AWS::EMR::Formats::BASIC) do
       pending if Fog.mocking?
 
-      result = Aws[:emr].add_job_flow_steps(@job_flow_id, @job_flow_steps).body
+      result = Fog::AWS[:emr].add_job_flow_steps(@job_flow_id, @job_flow_steps).body
 
       result
     end
 
-    tests("#set_termination_protection").formats(Aws::EMR::Formats::BASIC) do
+    tests("#set_termination_protection").formats(AWS::EMR::Formats::BASIC) do
 
-      result = Aws[:emr].set_termination_protection(true, 'JobFlowIds' => [@job_flow_id]).body
+      result = Fog::AWS[:emr].set_termination_protection(true, 'JobFlowIds' => [@job_flow_id]).body
 
       test("protected?") do
-        res = Aws[:emr].describe_job_flows('JobFlowIds' => [@job_flow_id]).body
+        res = Fog::AWS[:emr].describe_job_flows('JobFlowIds' => [@job_flow_id]).body
         jf = res['JobFlows'].first
 
         jf['Instances']['TerminationProtected'] == 'true'
@@ -67,19 +67,19 @@ Shindo.tests('Aws::EMR | job flows', ['aws', 'emr']) do
       result
     end
 
-    tests("#terminate_job_flow").formats(Aws::EMR::Formats::BASIC) do
+    tests("#terminate_job_flow").formats(AWS::EMR::Formats::BASIC) do
       pending if Fog.mocking?
-      Aws[:emr].set_termination_protection(false, 'JobFlowIds' => [@job_flow_id])
+      Fog::AWS[:emr].set_termination_protection(false, 'JobFlowIds' => [@job_flow_id])
 
-      result = Aws[:emr].terminate_job_flows('JobFlowIds' => [@job_flow_id]).body
+      result = Fog::AWS[:emr].terminate_job_flows('JobFlowIds' => [@job_flow_id]).body
 
       result
     end
 
-    tests("#describe_job_flows").formats(Aws::EMR::Formats::SIMPLE_DESCRIBE_JOB_FLOW) do
+    tests("#describe_job_flows").formats(AWS::EMR::Formats::SIMPLE_DESCRIBE_JOB_FLOW) do
       pending if Fog.mocking?
 
-      result = Aws[:emr].describe_job_flows('JobFlowIds' => [@job_flow_id]).body
+      result = Fog::AWS[:emr].describe_job_flows('JobFlowIds' => [@job_flow_id]).body
 
       result
     end

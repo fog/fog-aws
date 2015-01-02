@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -17,7 +17,7 @@ module Fog
         #                                                       attachmentid - the attachment to change
         #                                                       deleteOnTermination - a boolean
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/2012-03-01/APIReference/ApiReference-query-ModifyNetworkInterfaceAttribute.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2012-03-01/APIReference/ApiReference-query-ModifyNetworkInterfaceAttribute.html]
         def modify_network_interface_attribute(network_interface_id, attribute, value)
           params = {}
           case attribute

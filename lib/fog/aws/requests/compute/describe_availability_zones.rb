@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_availability_zones'
 
@@ -18,7 +18,7 @@ module Fog
         #       * 'zoneName'<~String> - Name of zone
         #       * 'zoneState'<~String> - State of zone
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeAvailabilityZones.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeAvailabilityZones.html]
         def describe_availability_zones(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_availability_zones with #{filters.class} param is deprecated, use describe_availability_zones('zone-name' => []) instead [light_black](#{caller.first})[/]")

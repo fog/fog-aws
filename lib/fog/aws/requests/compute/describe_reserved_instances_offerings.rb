@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_reserved_instances_offerings'
 
@@ -32,7 +32,7 @@ module Fog
         #       * 'reservedInstancesOfferingId'<~String> - id of offering
         #       * 'usagePrice'<~Float> - usage price of offering, per hour
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeReservedInstancesOfferings.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeReservedInstancesOfferings.html]
         def describe_reserved_instances_offerings(filters = {})
           options = {}
           for key in ['AvailabilityZone', 'InstanceType', 'InstanceTenancy', 'OfferingType', 'ProductDescription', 'MaxDuration', 'MinDuration']

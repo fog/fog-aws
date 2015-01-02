@@ -10,7 +10,7 @@ module Fog
         # * :cluster_identifier - required - (String)
         #    The unique identifier of a cluster whose resize progress you are requesting.
         #    This parameter isn't case-sensitive. By default, resize operations for all
-        #    clusters defined for an Aws account are returned.
+        #    clusters defined for an AWS account are returned.
         #
         # ==== See Also
         # http://docs.aws.amazon.com/redshift/latest/APIReference/API_DescribeResize.html

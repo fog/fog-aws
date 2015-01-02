@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/terminate_instances'
 
@@ -22,7 +22,7 @@ module Fog
         #         * 'code'<~Integer> - current status code
         #         * 'name'<~String> - name of current state
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-TerminateInstances.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-TerminateInstances.html]
         def terminate_instances(instance_id)
           params = Fog::AWS.indexed_param('InstanceId', instance_id)
           request({

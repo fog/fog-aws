@@ -1,4 +1,4 @@
-Shindo.tests('Aws::IAM | mfa requests', ['aws']) do
+Shindo.tests('AWS::IAM | mfa requests', ['aws']) do
 
   tests('success') do
     @mfa_devices_format = {

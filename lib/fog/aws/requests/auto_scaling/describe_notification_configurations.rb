@@ -35,7 +35,7 @@ module Fog
         #
         def describe_notification_configurations(options = {})
           if auto_scaling_group_names = options.delete('AutoScalingGroupNames')
-            options.merge!(Aws.indexed_param('AutoScalingGroupNames.member.%d', [*auto_scaling_group_names]))
+            options.merge!(AWS.indexed_param('AutoScalingGroupNames.member.%d', [*auto_scaling_group_names]))
           end
           request({
             'Action' => 'DescribeNotificationConfigurations',

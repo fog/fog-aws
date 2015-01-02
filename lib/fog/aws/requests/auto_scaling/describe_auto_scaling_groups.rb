@@ -95,7 +95,7 @@ module Fog
         #
         def describe_auto_scaling_groups(options = {})
           if auto_scaling_group_names = options.delete('AutoScalingGroupNames')
-            options.merge!(Aws.indexed_param('AutoScalingGroupNames.member.%d', [*auto_scaling_group_names]))
+            options.merge!(AWS.indexed_param('AutoScalingGroupNames.member.%d', [*auto_scaling_group_names]))
           end
           request({
             'Action' => 'DescribeAutoScalingGroups',

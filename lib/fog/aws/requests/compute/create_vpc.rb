@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/create_vpc'
 
@@ -26,7 +26,7 @@ module Fog
         # * 'key'<~String> - Tag's key
         # * 'value'<~String> - Tag's value
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/2011-07-15/APIReference/index.html?ApiReference-query-CreateVpc.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2011-07-15/APIReference/index.html?ApiReference-query-CreateVpc.html]
         def create_vpc(cidrBlock, options = {})
           request({
             'Action' => 'CreateVpc',
@@ -58,7 +58,7 @@ module Fog
               default_route = self.route_tables.new(:vpc_id => vpc_id)
               default_route.save
 
-              # You are not able to push a main route in the normal Aws, so we are re-implementing some of the
+              # You are not able to push a main route in the normal AWS, so we are re-implementing some of the
               # associate_route_table here in order to accomplish this.
               route_table = self.data[:route_tables].find { |routetable| routetable["routeTableId"].eql? default_route.id }
 

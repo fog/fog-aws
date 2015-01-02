@@ -24,7 +24,7 @@ module Fog
         #         * Timestamp [Time] -
         #         * ResourceStatus [String] -
         #
-        # @see http://docs.amazonwebservices.com/AwsCloudFormation/latest/APIReference/API_DescribeStackResources.html
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_DescribeStackResources.html
 
         def describe_stack_resources(options = {})
           request({

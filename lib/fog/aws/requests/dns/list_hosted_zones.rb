@@ -1,6 +1,6 @@
 module Fog
   module DNS
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/dns/list_hosted_zones'
 

@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/get_console_output'
 
@@ -17,7 +17,7 @@ module Fog
         #     * 'requestId'<~String> - Id of request
         #     * 'timestamp'<~Time> - Timestamp of last update to output
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-GetConsoleOutput.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-GetConsoleOutput.html]
         def get_console_output(instance_id)
           request(
             'Action'      => 'GetConsoleOutput',

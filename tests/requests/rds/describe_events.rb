@@ -1,12 +1,12 @@
-Shindo.tests('Aws::RDS | describe DB events requests',['aws', 'rds']) do
+Shindo.tests('AWS::RDS | describe DB events requests',['aws', 'rds']) do
 
   tests('success') do
     pending if Fog.mocking?
 
     tests(
     '#describe_events'
-    ).formats(Aws::RDS::Formats::EVENT_LIST) do
-      Aws[:rds].describe_events().body['Events']
+    ).formats(AWS::RDS::Formats::EVENT_LIST) do
+      Fog::AWS[:rds].describe_events().body['Events']
     end
   end
 

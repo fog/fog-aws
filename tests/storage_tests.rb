@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-Shindo.tests('Aws Storage | escape', ['aws']) do
+Shindo.tests('AWS Storage | escape', ['aws']) do
   tests('Keys can contain a hierarchical prefix which should not be escaped') do
     returns( Fog::Storage::AWS.new.send(:escape, "key/with/prefix") ) { "key/with/prefix" }
   end

@@ -1,4 +1,4 @@
-Shindo.tests("Aws::RDS | parameter_group", ['aws', 'rds']) do
+Shindo.tests("AWS::RDS | parameter_group", ['aws', 'rds']) do
 
   group_name = 'fog-test'
   params = {:id => group_name, :family => 'mysql5.1', :description => group_name}

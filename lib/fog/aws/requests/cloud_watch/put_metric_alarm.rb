@@ -32,17 +32,17 @@ module Fog
         #
         def put_metric_alarm(options)
           if dimensions = options.delete('Dimensions')
-            options.merge!(Aws.indexed_param('Dimensions.member.%d.Name', dimensions.map {|dimension| dimension['Name']}))
-            options.merge!(Aws.indexed_param('Dimensions.member.%d.Value', dimensions.map {|dimension| dimension['Value']}))
+            options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.map {|dimension| dimension['Name']}))
+            options.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.map {|dimension| dimension['Value']}))
           end
           if alarm_actions = options.delete('AlarmActions')
-            options.merge!(Aws.indexed_param('AlarmActions.member.%d', [*alarm_actions]))
+            options.merge!(AWS.indexed_param('AlarmActions.member.%d', [*alarm_actions]))
           end
           if insufficient_data_actions = options.delete('InsufficientDataActions')
-            options.merge!(Aws.indexed_param('InsufficientDataActions.member.%d', [*insufficient_data_actions]))
+            options.merge!(AWS.indexed_param('InsufficientDataActions.member.%d', [*insufficient_data_actions]))
           end
           if ok_actions = options.delete('OKActions')
-            options.merge!(Aws.indexed_param('OKActions.member.%d', [*ok_actions]))
+            options.merge!(AWS.indexed_param('OKActions.member.%d', [*ok_actions]))
           end
 
           request({

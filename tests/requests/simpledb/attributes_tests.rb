@@ -1,4 +1,4 @@
-Shindo.tests('Aws::SimpleDB | attributes requests', ['aws']) do
+Shindo.tests('AWS::SimpleDB | attributes requests', ['aws']) do
 
   @domain_name = "fog_domain_#{Time.now.to_f.to_s.gsub('.','')}"
 
@@ -6,7 +6,7 @@ Shindo.tests('Aws::SimpleDB | attributes requests', ['aws']) do
 
   tests('success') do
 
-    tests("#batch_put_attributes('#{@domain_name}', { 'a' => { 'b' => 'c', 'd' => 'e' }, 'x' => { 'y' => 'z' } }).body").formats(Aws::SimpleDB::Formats::BASIC) do
+    tests("#batch_put_attributes('#{@domain_name}', { 'a' => { 'b' => 'c', 'd' => 'e' }, 'x' => { 'y' => 'z' } }).body").formats(AWS::SimpleDB::Formats::BASIC) do
       Fog::AWS[:simpledb].batch_put_attributes(@domain_name, { 'a' => { 'b' => 'c', 'd' => 'e' }, 'x' => { 'y' => 'z' } }).body
     end
 
@@ -23,11 +23,11 @@ Shindo.tests('Aws::SimpleDB | attributes requests', ['aws']) do
       Fog::AWS[:simpledb].select("select * from #{@domain_name}", {'ConsistentRead' => true}).body['Items']
     end
 
-    tests("#put_attributes('#{@domain_name}', 'conditional', { 'version' => '1' }).body").formats(Aws::SimpleDB::Formats::BASIC) do
+    tests("#put_attributes('#{@domain_name}', 'conditional', { 'version' => '1' }).body").formats(AWS::SimpleDB::Formats::BASIC) do
       Fog::AWS[:simpledb].put_attributes(@domain_name, 'conditional', { 'version' => '1' }).body
     end
 
-    tests("#put_attributes('#{@domain_name}', 'conditional', { 'version' => '2' }, :expect => { 'version' => '1' }, :replace => ['version']).body").formats(Aws::SimpleDB::Formats::BASIC) do
+    tests("#put_attributes('#{@domain_name}', 'conditional', { 'version' => '2' }, :expect => { 'version' => '1' }, :replace => ['version']).body").formats(AWS::SimpleDB::Formats::BASIC) do
       Fog::AWS[:simpledb].put_attributes(@domain_name, 'conditional', { 'version' => '2' }, :expect => { 'version' => '1' }, :replace => ['version']).body
     end
 
@@ -41,7 +41,7 @@ Shindo.tests('Aws::SimpleDB | attributes requests', ['aws']) do
       Fog::AWS[:simpledb].get_attributes(@domain_name, 'a', {'AttributeName' => ['d'], 'ConsistentRead' => true}).body['Attributes']
     end
 
-    tests("#delete_attributes('#{@domain_name}', 'a').body").formats(Aws::SimpleDB::Formats::BASIC) do
+    tests("#delete_attributes('#{@domain_name}', 'a').body").formats(AWS::SimpleDB::Formats::BASIC) do
       Fog::AWS[:simpledb].delete_attributes(@domain_name, 'a').body
     end
 

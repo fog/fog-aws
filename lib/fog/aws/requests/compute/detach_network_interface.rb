@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
         # Detaches a network interface.
@@ -15,7 +15,7 @@ module Fog
         # * 'requestId'<~String> - Id of request
         # * 'return'<~Boolean>   - Returns true if the request succeeds.
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/2012-03-01/APIReference/ApiReference-query-DetachNetworkInterface.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2012-03-01/APIReference/ApiReference-query-DetachNetworkInterface.html]
         def detach_network_interface(attachment_id, force = false)
           request(
             'Action'       => 'DetachNetworkInterface',

@@ -1,6 +1,6 @@
 module Fog
   module DNS
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/dns/change_resource_record_sets'
 
@@ -61,7 +61,7 @@ module Fog
         #     change_resource_record_sets("ABCDEFGHIJKLMN", change_batch_options)
         #
         def change_resource_record_sets(zone_id, change_batch, options = {})
-          # Aws methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
+          # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
           # that form or just the actual id (which is what this request needs)
           zone_id = zone_id.sub('/hostedzone/', '')
 
@@ -121,7 +121,7 @@ module Fog
               if change_item[:alias_target]
                 # Accept either underscore or camel case for hash keys.
                 dns_name = change_item[:alias_target][:dns_name] || change_item[:alias_target][:DNSName]
-                hosted_zone_id = change_item[:alias_target][:hosted_zone_id] || change_item[:alias_target][:HostedZoneId] || Aws.hosted_zone_for_alias_target(dns_name)
+                hosted_zone_id = change_item[:alias_target][:hosted_zone_id] || change_item[:alias_target][:HostedZoneId] || AWS.hosted_zone_for_alias_target(dns_name)
                 evaluate_target_health = change_item[:alias_target][:evaluate_target_health] || change_item[:alias_target][:EvaluateTargetHealth] || false
                 evaluate_target_health_xml = !evaluate_target_health.nil? ? %Q{<EvaluateTargetHealth>#{evaluate_target_health}</EvaluateTargetHealth>} : ''
                 alias_target_tag += %Q{<AliasTarget><HostedZoneId>#{hosted_zone_id}</HostedZoneId><DNSName>#{dns_name}</DNSName>#{evaluate_target_health_xml}</AliasTarget>}

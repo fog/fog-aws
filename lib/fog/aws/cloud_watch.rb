@@ -87,7 +87,7 @@ module Fog
         #   * region<~String> - optional region to use. For instance, 'eu-west-1', 'us-east-1', etc.
         #
         # ==== Returns
-        # * CloudWatch object with connection to Aws.
+        # * CloudWatch object with connection to AWS.
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
 
@@ -128,7 +128,7 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-          body, headers = Aws.signed_params_v4(
+          body, headers = AWS.signed_params_v4(
             params,
             { 'Content-Type' => 'application/x-www-form-urlencoded' },
             {

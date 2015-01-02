@@ -9,7 +9,7 @@ module Fog
         # the running environment.
         #
         # ==== Options
-        # * ApplicationName<~String>: If specified, Aws Elastic Beanstalk restricts the returned descriptions
+        # * ApplicationName<~String>: If specified, AWS Elastic Beanstalk restricts the returned descriptions
         #   to include only those that are associated with this application.
         # * EnvironmentIds
         # * EnvironmentNames
@@ -25,10 +25,10 @@ module Fog
         #
         def update_environment(options={})
           if option_settings = options.delete('OptionSettings')
-            options.merge!(Aws.indexed_param('OptionSettings.member.%d', [*option_settings]))
+            options.merge!(AWS.indexed_param('OptionSettings.member.%d', [*option_settings]))
           end
           if options_to_remove = options.delete('OptionsToRemove')
-            options.merge!(Aws.indexed_param('OptionsToRemove.member.%d', [*options_to_remove]))
+            options.merge!(AWS.indexed_param('OptionsToRemove.member.%d', [*options_to_remove]))
           end
           request({
                       'Operation'    => 'UpdateEnvironment',

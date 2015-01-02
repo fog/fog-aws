@@ -1,4 +1,4 @@
-Shindo.tests('Aws::ELB | load_balancer_tests', ['aws', 'elb']) do
+Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
   @load_balancer_id = 'fog-test-elb'
   @key_name = 'fog-test'
 
@@ -7,15 +7,15 @@ Shindo.tests('Aws::ELB | load_balancer_tests', ['aws', 'elb']) do
       Fog::AWS[:iam].delete_server_certificate(@key_name)
     end
 
-    @certificate = Fog::AWS[:iam].upload_server_certificate(Aws::IAM::SERVER_CERT, Aws::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
+    @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
 
-    tests("#create_load_balancer").formats(Aws::ELB::Formats::CREATE_LOAD_BALANCER) do
+    tests("#create_load_balancer").formats(AWS::ELB::Formats::CREATE_LOAD_BALANCER) do
       zones = ['us-east-1a']
       listeners = [{'LoadBalancerPort' => 80, 'InstancePort' => 80, 'InstanceProtocol' => 'HTTP', 'Protocol' => 'HTTP'}]
       Fog::AWS[:elb].create_load_balancer(zones, @load_balancer_id, listeners).body
     end
 
-    tests("#describe_load_balancers").formats(Aws::ELB::Formats::DESCRIBE_LOAD_BALANCERS) do
+    tests("#describe_load_balancers").formats(AWS::ELB::Formats::DESCRIBE_LOAD_BALANCERS) do
       Fog::AWS[:elb].describe_load_balancers.body
     end
 
@@ -60,7 +60,7 @@ Shindo.tests('Aws::ELB | load_balancer_tests', ['aws', 'elb']) do
       end
     end
 
-    tests("#configure_health_check").formats(Aws::ELB::Formats::CONFIGURE_HEALTH_CHECK) do
+    tests("#configure_health_check").formats(AWS::ELB::Formats::CONFIGURE_HEALTH_CHECK) do
       health_check = {
         'Target' => 'HTTP:80/index.html',
         'Interval' => 10,
@@ -72,15 +72,15 @@ Shindo.tests('Aws::ELB | load_balancer_tests', ['aws', 'elb']) do
       Fog::AWS[:elb].configure_health_check(@load_balancer_id, health_check).body
     end
 
-    tests("#delete_load_balancer").formats(Aws::ELB::Formats::DELETE_LOAD_BALANCER) do
+    tests("#delete_load_balancer").formats(AWS::ELB::Formats::DELETE_LOAD_BALANCER) do
       Fog::AWS[:elb].delete_load_balancer(@load_balancer_id).body
     end
 
-    tests("#delete_load_balancer when non existant").formats(Aws::ELB::Formats::DELETE_LOAD_BALANCER) do
+    tests("#delete_load_balancer when non existant").formats(AWS::ELB::Formats::DELETE_LOAD_BALANCER) do
       Fog::AWS[:elb].delete_load_balancer('non-existant').body
     end
 
-    tests("#delete_load_balancer when already deleted").formats(Aws::ELB::Formats::DELETE_LOAD_BALANCER) do
+    tests("#delete_load_balancer when already deleted").formats(AWS::ELB::Formats::DELETE_LOAD_BALANCER) do
       Fog::AWS[:elb].delete_load_balancer(@load_balancer_id).body
     end
 

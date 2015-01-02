@@ -11,7 +11,7 @@ module Fog
         #   * QueueNamePrefix<~String> - String used to filter results to only those with matching prefixes
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/AwsSimpleQueueService/latest/APIReference/Query_QueryListQueues.html
+        # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QueryListQueues.html
         #
 
         def list_queues(options = {})

@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/associate_route_table'
         # Associates a subnet with a route table.
@@ -15,7 +15,7 @@ module Fog
         #     * 'requestId'<~String> - The ID of the request
         #     * 'associationId'<~String> - The route table association ID (needed to disassociate the route table)
         #
-        # {Amazon API Reference}[http://docs.aws.amazon.com/AwsEC2/latest/APIReference/ApiReference-query-AssociateRouteTable.html]
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-AssociateRouteTable.html]
         def associate_route_table(routeTableId, subnetId)
           request(
             'Action'       => 'AssociateRouteTable',

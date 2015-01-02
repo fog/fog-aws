@@ -20,7 +20,7 @@ module Fog
       class Real
         require 'fog/aws/parsers/iam/single_role'
 
-        # Creates a new role for your Aws account
+        # Creates a new role for your AWS account
         #
         # ==== Parameters
         # * RoleName<~String>: name of the role to create

@@ -1,4 +1,4 @@
-Shindo.tests("Aws::ELB | tagging", ['aws', 'elb']) do
+Shindo.tests("AWS::ELB | tagging", ['aws', 'elb']) do
   @elb5 = Fog::AWS[:elb].load_balancers.create(:id => "fog-test-elb-tagging")
   tags1 = {'key1' => 'val1'}
   tags2 = {'key2' => 'val2'}

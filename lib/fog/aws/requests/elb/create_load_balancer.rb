@@ -154,7 +154,7 @@ module Fog
             'BackendServerDescriptions' => [],
             # Hack to facilitate not updating the local data structure
             # (BackendServerDescriptions) until we do a subsequent
-            # describe as that is how Aws behaves.
+            # describe as that is how AWS behaves.
             'BackendServerDescriptionsRemote' => [],
             'Subnets' => options[:subnet_ids] || [],
             'Scheme' => options[:scheme].nil? ? 'internet-facing' : options[:scheme],

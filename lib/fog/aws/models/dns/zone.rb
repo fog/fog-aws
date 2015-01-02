@@ -3,7 +3,7 @@ require 'fog/core/model'
 
 module Fog
   module DNS
-    class Aws
+    class AWS
       class Zone < Fog::Model
         identity :id,                 :aliases => 'Id'
 

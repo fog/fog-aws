@@ -3,7 +3,7 @@ require 'fog/aws/models/compute/security_group'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class SecurityGroups < Fog::Collection
         attribute :filters
 
@@ -11,13 +11,13 @@ module Fog
 
         # Creates a new security group
         #
-        # Aws.security_groups.new
+        # AWS.security_groups.new
         #
         # ==== Returns
         #
         # Returns the details of the new image
         #
-        #>> Aws.security_groups.new
+        #>> AWS.security_groups.new
         #  <Fog::AWS::Compute::SecurityGroup
         #    name=nil,
         #    description=nil,
@@ -34,13 +34,13 @@ module Fog
 
         # Returns an array of all security groups that have been created
         #
-        # Aws.security_groups.all
+        # AWS.security_groups.all
         #
         # ==== Returns
         #
         # Returns an array of all security groups
         #
-        #>> Aws.security_groups.all
+        #>> AWS.security_groups.all
         #  <Fog::AWS::Compute::SecurityGroups
         #    filters={}
         #    [
@@ -69,11 +69,11 @@ module Fog
         # group name is required to get the associated flavor information.
         #
         # You can run the following command to get the details:
-        # Aws.security_groups.get("default")
+        # AWS.security_groups.get("default")
         #
         # ==== Returns
         #
-        #>> Aws.security_groups.get("default")
+        #>> AWS.security_groups.get("default")
         #  <Fog::AWS::Compute::SecurityGroup
         #    name="default",
         #    description="default group",
@@ -93,11 +93,11 @@ module Fog
         # group id is required to get the associated flavor information.
         #
         # You can run the following command to get the details:
-        # Aws.security_groups.get_by_id("default")
+        # AWS.security_groups.get_by_id("default")
         #
         # ==== Returns
         #
-        #>> Aws.security_groups.get_by_id("sg-123456")
+        #>> AWS.security_groups.get_by_id("sg-123456")
         #  <Fog::AWS::Compute::SecurityGroup
         #    name="default",
         #    description="default group",

@@ -44,7 +44,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     expected_permissions = []
 
     permission = { 'SourceSecurityGroupName' => 'default' }
-    tests("#authorize_security_group_ingress('fog_security_group', #{permission.inspect})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#authorize_security_group_ingress('fog_security_group', #{permission.inspect})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', permission).body
     end
 
@@ -77,7 +77,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     end
 
     permission = { 'SourceSecurityGroupName' => 'fog_security_group_two', 'SourceSecurityGroupOwnerId' => @owner_id }
-    tests("#authorize_security_group_ingress('fog_security_group', #{permission.inspect})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#authorize_security_group_ingress('fog_security_group', #{permission.inspect})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', permission).body
     end
 
@@ -112,7 +112,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     end
 
     permission = { 'IpProtocol' => 'tcp', 'FromPort' => '22', 'ToPort' => '22' }
-    tests("#authorize_security_group_ingress('fog_security_group', #{permission.inspect})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#authorize_security_group_ingress('fog_security_group', #{permission.inspect})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', permission).body
     end
 
@@ -124,7 +124,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     end
 
     permission = { 'IpProtocol' => 'tcp', 'FromPort' => '22', 'ToPort' => '22', 'CidrIp' => '10.0.0.0/8' }
-    tests("#authorize_security_group_ingress('fog_security_group', #{permission.inspect})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#authorize_security_group_ingress('fog_security_group', #{permission.inspect})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', permission).body
     end
 
@@ -148,7 +148,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
         { 'IpProtocol' => 'tcp', 'FromPort' => '22', 'ToPort' => '22' }
       ]
     }
-    tests("#authorize_security_group_ingress('fog_security_group', #{permissions.inspect})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#authorize_security_group_ingress('fog_security_group', #{permissions.inspect})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', permissions).body
     end
 
@@ -168,7 +168,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
         }
       ]
     }
-    tests("#authorize_security_group_ingress('fog_security_group', #{permissions.inspect})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#authorize_security_group_ingress('fog_security_group', #{permissions.inspect})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', permissions).body
     end
 
@@ -195,7 +195,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
         }
       ]
     }
-    tests("#authorize_security_group_ingress('fog_security_group', #{permissions.inspect})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#authorize_security_group_ingress('fog_security_group', #{permissions.inspect})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', permissions).body
     end
 
@@ -223,7 +223,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
         }
       ]
     }
-    tests("#authorize_security_group_ingress('fog_security_group', #{permissions.inspect})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#authorize_security_group_ingress('fog_security_group', #{permissions.inspect})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', permissions).body
     end
 
@@ -251,7 +251,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     end
 
     to_be_revoked.reverse.each do |permission, expected_permissions_after|
-      tests("#revoke_security_group_ingress('fog_security_group', #{permission.inspect})").formats(Aws::Compute::Formats::BASIC) do
+      tests("#revoke_security_group_ingress('fog_security_group', #{permission.inspect})").formats(AWS::Compute::Formats::BASIC) do
         Fog::Compute[:aws].revoke_security_group_ingress('fog_security_group', permission).body
       end
 
@@ -260,11 +260,11 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       end
     end
 
-    tests("#delete_security_group('fog_security_group')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_security_group('fog_security_group')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_security_group('fog_security_group').body
     end
 
-    tests("#delete_security_group('fog_security_group_two')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_security_group('fog_security_group_two')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_security_group('fog_security_group_two').body
     end
 
@@ -294,7 +294,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
 
     options = permissions.clone
     options['GroupId'] = group_id
-    tests("#authorize_security_group_ingress(#{options.inspect})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#authorize_security_group_ingress(#{options.inspect})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].authorize_security_group_ingress(options).body
     end
 
@@ -302,7 +302,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       array_differences(expected_permissions, Fog::Compute[:aws].describe_security_groups('group-name' => 'vpc_security_group').body['securityGroupInfo'].first['ipPermissions'])
     end
 
-    tests("#revoke_security_group_ingress(#{options.inspect})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#revoke_security_group_ingress(#{options.inspect})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].revoke_security_group_ingress(options).body
     end
 
@@ -343,7 +343,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       )
     end
 
-    tests("#authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}]})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}]})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}]}).body
     end
 
@@ -351,7 +351,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}]})
     end
 
-    tests("#authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'Groups' => [{'GroupName' => '#{@other_security_group.name}'}], 'FromPort' => 80, 'ToPort' => 80, 'IpProtocol' => 'tcp'}]})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'Groups' => [{'GroupName' => '#{@other_security_group.name}'}], 'FromPort' => 80, 'ToPort' => 80, 'IpProtocol' => 'tcp'}]})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'Groups' => [{'GroupName' => @other_security_group.name}], 'FromPort' => 80, 'ToPort' => 80, 'IpProtocol' => 'tcp'}]}).body
     end
 

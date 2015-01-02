@@ -15,7 +15,7 @@ module Fog
         #     * Description [String] - description found within the template
         #     * Parameters [String] - list of template parameter structures
         #
-        # @see http://docs.amazonwebservices.com/AwsCloudFormation/latest/APIReference/API_ValidateTemplate.html
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_ValidateTemplate.html
         #
         def validate_template(options = {})
           request({

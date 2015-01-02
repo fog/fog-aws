@@ -1,4 +1,4 @@
-Shindo.tests('Aws::STS | session tokens', ['aws']) do
+Shindo.tests('AWS::STS | session tokens', ['aws']) do
 
 	@policy = {"Statement" => [{"Effect" => "Allow", "Action" => "*", "Resource" => "*"}]}
 

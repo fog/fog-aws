@@ -71,7 +71,7 @@ module Fog
         #   * region<~String> - optional region to use. For instance, 'us-east-1' and etc.
         #
         # ==== Returns
-        # * Redshift object with connection to Aws.
+        # * Redshift object with connection to AWS.
 
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]

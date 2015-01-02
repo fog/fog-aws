@@ -9,7 +9,7 @@ module Fog
         # ==== Options
         # * EnvironmentId<~String>: The ID of the environment to terminate.
         # * EnvironmentName<~String>: The name of the environment to terminate.
-        # * TerminateResources<~Boolean>: Indicates whether the associated Aws resources should shut down when the
+        # * TerminateResources<~Boolean>: Indicates whether the associated AWS resources should shut down when the
         #     environment is terminated
         #
         # ==== Returns

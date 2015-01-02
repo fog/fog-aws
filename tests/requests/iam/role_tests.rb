@@ -1,4 +1,4 @@
-Shindo.tests('Aws::IAM | role requests', ['aws']) do
+Shindo.tests('AWS::IAM | role requests', ['aws']) do
   tests('success') do
 
     @role = {
@@ -65,7 +65,7 @@ Shindo.tests('Aws::IAM | role requests', ['aws']) do
       Fog::AWS[:iam].get_instance_profile('fogprofile').body
     end
 
-    tests("#add_role_to_instance_profile('fogprofile','fogrole')").formats(Aws::IAM::Formats::BASIC) do
+    tests("#add_role_to_instance_profile('fogprofile','fogrole')").formats(AWS::IAM::Formats::BASIC) do
       pending if Fog.mocking?
       Fog::AWS[:iam].add_role_to_instance_profile('fogrole', 'fogprofile').body
     end
@@ -97,7 +97,7 @@ Shindo.tests('Aws::IAM | role requests', ['aws']) do
 
     sample_policy = {"Statement" => [{"Effect" => "Allow", "Action" => "*", "Resource" => "*"}]}
 
-    tests("put_role_policy").formats(Aws::IAM::Formats::BASIC) do
+    tests("put_role_policy").formats(AWS::IAM::Formats::BASIC) do
       pending if Fog.mocking?
       Fog::AWS[:iam].put_role_policy('fogrole', 'fogpolicy', sample_policy).body
     end
@@ -133,7 +133,7 @@ Shindo.tests('Aws::IAM | role requests', ['aws']) do
       body
     end
 
-    tests("delete_role_policy").formats(Aws::IAM::Formats::BASIC) do
+    tests("delete_role_policy").formats(AWS::IAM::Formats::BASIC) do
       pending if Fog.mocking?
       Fog::AWS[:iam].delete_role_policy('fogrole', 'fogpolicy').body
     end
@@ -143,7 +143,7 @@ Shindo.tests('Aws::IAM | role requests', ['aws']) do
       Fog::AWS[:iam].list_role_policies('fogrole').body['PolicyNames']
     end
 
-    tests("remove_role_from_instance_profile").formats(Aws::IAM::Formats::BASIC) do
+    tests("remove_role_from_instance_profile").formats(AWS::IAM::Formats::BASIC) do
       pending if Fog.mocking?
       Fog::AWS[:iam].remove_role_from_instance_profile('fogrole', 'fogprofile').body
     end
@@ -153,12 +153,12 @@ Shindo.tests('Aws::IAM | role requests', ['aws']) do
       Fog::AWS[:iam].list_instance_profiles_for_role('fogrole').body['InstanceProfiles']
     end
 
-    tests("#delete_instance_profile('fogprofile'").formats(Aws::IAM::Formats::BASIC) do
+    tests("#delete_instance_profile('fogprofile'").formats(AWS::IAM::Formats::BASIC) do
       pending if Fog.mocking?
       Fog::AWS[:iam].delete_instance_profile('fogprofile').body
     end
 
-    tests("#delete_role('fogrole'").formats(Aws::IAM::Formats::BASIC) do
+    tests("#delete_role('fogrole'").formats(AWS::IAM::Formats::BASIC) do
       pending if Fog.mocking?
       Fog::AWS[:iam].delete_role('fogrole').body
     end

@@ -51,7 +51,7 @@ Shindo.tests('Fog::Compute[:aws] | snapshot requests', ['aws']) do
       data
     end
 
-    tests("#delete_snapshots(#{@snapshot_id})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_snapshots(#{@snapshot_id})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_snapshot(@snapshot_id).body
     end
 
@@ -59,7 +59,7 @@ Shindo.tests('Fog::Compute[:aws] | snapshot requests', ['aws']) do
     #for faster tests: comment out the rest of this block
     Fog.wait_for { Fog::Compute.new(:provider => :aws, :region => "us-west-1").snapshots.get(@west_snapshot_id) }
 
-    tests("#delete_snapshots(#{@west_snapshot_id})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_snapshots(#{@west_snapshot_id})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute.new(:provider => :aws, :region => "us-west-1").delete_snapshot(@west_snapshot_id).body
     end
 

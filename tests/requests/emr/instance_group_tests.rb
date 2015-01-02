@@ -1,4 +1,4 @@
-Shindo.tests('Aws::EMR | instance groups', ['aws', 'emr']) do
+Shindo.tests('AWS::EMR | instance groups', ['aws', 'emr']) do
 
   pending if Fog.mocking?
 
@@ -40,51 +40,51 @@ Shindo.tests('Aws::EMR | instance groups', ['aws', 'emr']) do
     }]
   }
 
-  result = Aws[:emr].run_job_flow(@job_flow_name, @job_flow_options).body
+  result = Fog::AWS[:emr].run_job_flow(@job_flow_name, @job_flow_options).body
   @job_flow_id = result['JobFlowId']
 
   tests('success') do
 
-    tests("#add_instance_groups").formats(Aws::EMR::Formats::ADD_INSTANCE_GROUPS) do
+    tests("#add_instance_groups").formats(AWS::EMR::Formats::ADD_INSTANCE_GROUPS) do
       pending if Fog.mocking?
 
-      result = Aws[:emr].add_instance_groups(@job_flow_id, @instance_groups).body
+      result = Fog::AWS[:emr].add_instance_groups(@job_flow_id, @instance_groups).body
 
       @instance_group_id = result['InstanceGroupIds'].first
 
       result
     end
 
-    tests("#describe_job_flows_with_instance_groups").formats(Aws::EMR::Formats::DESCRIBE_JOB_FLOW_WITH_INSTANCE_GROUPS) do
+    tests("#describe_job_flows_with_instance_groups").formats(AWS::EMR::Formats::DESCRIBE_JOB_FLOW_WITH_INSTANCE_GROUPS) do
       pending if Fog.mocking?
 
-      result = Aws[:emr].describe_job_flows('JobFlowIds' => [@job_flow_id]).body
+      result = Fog::AWS[:emr].describe_job_flows('JobFlowIds' => [@job_flow_id]).body
 
       result
     end
 
-    tests("#modify_instance_groups").formats(Aws::EMR::Formats::BASIC) do
+    tests("#modify_instance_groups").formats(AWS::EMR::Formats::BASIC) do
       pending if Fog.mocking?
 
       # Add a step so the state doesn't go directly from STARTING to SHUTTING_DOWN
-      Aws[:emr].add_job_flow_steps(@job_flow_id, @job_flow_steps)
+      Fog::AWS[:emr].add_job_flow_steps(@job_flow_id, @job_flow_steps)
 
       # Wait until job has started before modifying the instance group
       begin
         sleep 10
 
-        result = Aws[:emr].describe_job_flows('JobFlowIds' => [@job_flow_id]).body
+        result = Fog::AWS[:emr].describe_job_flows('JobFlowIds' => [@job_flow_id]).body
         job_flow = result['JobFlows'].first
         state = job_flow['ExecutionStatusDetail']['State']
         print "."
       end while(state == 'STARTING')
 
       # Check results
-      result = Aws[:emr].modify_instance_groups('InstanceGroups' => [{'InstanceGroupId' => @instance_group_id, 'InstanceCount' => 4}]).body
+      result = Fog::AWS[:emr].modify_instance_groups('InstanceGroups' => [{'InstanceGroupId' => @instance_group_id, 'InstanceCount' => 4}]).body
 
       # Check the it actually modified the instance count
       tests("modify worked?") do
-        ig_res = Aws[:emr].describe_job_flows('JobFlowIds' => [@job_flow_id]).body
+        ig_res = Fog::AWS[:emr].describe_job_flows('JobFlowIds' => [@job_flow_id]).body
 
         matched = false
         jf = ig_res['JobFlows'].first
@@ -102,5 +102,5 @@ Shindo.tests('Aws::EMR | instance groups', ['aws', 'emr']) do
 
   end
 
-  Aws[:emr].terminate_job_flows('JobFlowIds' => [@job_flow_id])
+  Fog::AWS[:emr].terminate_job_flows('JobFlowIds' => [@job_flow_id])
 end

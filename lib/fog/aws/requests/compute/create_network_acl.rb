@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/create_network_acl'
 
@@ -37,7 +37,7 @@ module Fog
         # *     'key'<~String>                     - Tag's key
         # *     'value'<~String>                   - Tag's value
         #
-        # {Amazon API Reference}[http://docs.aws.amazon.com/AwsEC2/latest/APIReference/ApiReference-query-CreateNetworkAcl.html]
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateNetworkAcl.html]
         def create_network_acl(vpcId, options = {})
           request({
             'Action' => 'CreateNetworkAcl',

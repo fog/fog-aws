@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -20,7 +20,7 @@ module Fog
         # * 'requestId'<~String> - Id of the request
         # * 'return'<~Boolean> - Returns true if the request succeeds. Otherwise, returns an error.
         #
-        # {Amazon API Reference}[http://docs.aws.amazon.com/AwsEC2/latest/APIReference/ApiReference-query-ReplaceRoute.html]
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-ReplaceRoute.html]
         def replace_route(route_table_id, destination_cidr_block, options = {})
           options['DestinationCidrBlock'] ||= destination_cidr_block
 

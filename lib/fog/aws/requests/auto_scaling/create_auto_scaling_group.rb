@@ -65,10 +65,10 @@ module Fog
         ExpectedOptions[:create_auto_scaling_group] = %w[DefaultCooldown DesiredCapacity HealthCheckGracePeriod HealthCheckType LoadBalancerNames PlacementGroup Tags TerminationPolicies VPCZoneIdentifier]
 
         def create_auto_scaling_group(auto_scaling_group_name, availability_zones, launch_configuration_name, max_size, min_size, options = {})
-          options.merge!(Aws.indexed_param('AvailabilityZones.member.%d', [*availability_zones]))
+          options.merge!(AWS.indexed_param('AvailabilityZones.member.%d', [*availability_zones]))
           options.delete('AvailabilityZones')
           if load_balancer_names = options.delete('LoadBalancerNames')
-            options.merge!(Aws.indexed_param('LoadBalancerNames.member.%d', [*load_balancer_names]))
+            options.merge!(AWS.indexed_param('LoadBalancerNames.member.%d', [*load_balancer_names]))
           end
 
           if tags = options.delete('Tags')
@@ -78,7 +78,7 @@ module Fog
             end
           end
           if termination_policies = options.delete('TerminationPolicies')
-            options.merge!(Aws.indexed_param('TerminationPolicies.member.%d', [*termination_policies]))
+            options.merge!(AWS.indexed_param('TerminationPolicies.member.%d', [*termination_policies]))
           end
 
           request({

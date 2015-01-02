@@ -22,20 +22,20 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
       @image_id = Fog::Compute[:aws].register_image('image', 'image', '/dev/sda1').body['imageId']
     end
 
-    tests("#create_tags('#{@volume.identity}', 'foo' => 'bar')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#create_tags('#{@volume.identity}', 'foo' => 'bar')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].create_tags(@volume.identity, 'foo' => 'bar').body
     end
 
     if Fog.mocking?
-      tests("#create_tags('#{@image_id}', 'foo' => 'baz')").formats(Aws::Compute::Formats::BASIC) do
+      tests("#create_tags('#{@image_id}', 'foo' => 'baz')").formats(AWS::Compute::Formats::BASIC) do
         Fog::Compute[:aws].create_tags(@image_id, 'foo' => 'baz').body
       end
 
-      tests("#create_tags('#{@vpc.id}', 'type' => 'vpc')").formats(Aws::Compute::Formats::BASIC) do
+      tests("#create_tags('#{@vpc.id}', 'type' => 'vpc')").formats(AWS::Compute::Formats::BASIC) do
         Fog::Compute[:aws].create_tags(@vpc.id, 'type' => 'vpc').body
       end
 
-      tests("#create_tags('#{@network_acl.network_acl_id}', 'type' => 'network_acl')").formats(Aws::Compute::Formats::BASIC) do
+      tests("#create_tags('#{@network_acl.network_acl_id}', 'type' => 'network_acl')").formats(AWS::Compute::Formats::BASIC) do
         Fog::Compute[:aws].create_tags(@network_acl.network_acl_id, 'type' => 'network_acl').body
       end
     end
@@ -64,7 +64,7 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
         @other_account.describe_tags('key' => 'foo', 'value' => 'baz').body['tagSet'].map {|t| t['resourceId'] }
       end
 
-      tests("other_account#create_tags('#{@image_id}', 'foo' => 'quux')").formats(Aws::Compute::Formats::BASIC) do
+      tests("other_account#create_tags('#{@image_id}', 'foo' => 'quux')").formats(AWS::Compute::Formats::BASIC) do
         @other_account.create_tags(@image_id, 'foo' => 'quux').body
       end
 
@@ -75,7 +75,7 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
 
     @volume.destroy
 
-    tests("#delete_tags('#{@volume.identity}', 'foo' => 'bar')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_tags('#{@volume.identity}', 'foo' => 'bar')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_tags(@volume.identity, 'foo' => 'bar').body
     end
   end

@@ -1,10 +1,10 @@
 module Fog
   module DNS
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/dns/list_health_checks'
 
-        # This action gets a list of the health checks that are associated with the current Aws account.
+        # This action gets a list of the health checks that are associated with the current AWS account.
         # http://docs.aws.amazon.com/Route53/latest/APIReference/API_ListHealthChecks.html
         #
         # === Returns

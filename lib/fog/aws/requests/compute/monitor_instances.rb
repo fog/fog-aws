@@ -1,11 +1,11 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/monitor_unmonitor_instances'
 
         # Monitor specified instance
-        # http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-MonitorInstances.html
+        # http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-MonitorInstances.html
         #
         # ==== Parameters
         # * instance_ids<~Array> - Arrays of instances Ids to monitor
@@ -14,9 +14,9 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
-        #     * 'instancesSet': http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-ItemType-MonitorInstancesResponseSetItemType.html
+        #     * 'instancesSet': http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-ItemType-MonitorInstancesResponseSetItemType.html
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-MonitorInstances.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-MonitorInstances.html]
         def monitor_instances(instance_ids)
           params = Fog::AWS.indexed_param('InstanceId', instance_ids)
           request({

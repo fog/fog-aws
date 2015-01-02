@@ -8,7 +8,7 @@ module Fog
         # * :cluster_subnet_group_name - required - (String)
         #    The name for the subnet group. Amazon Redshift stores the value as a lowercase string.
         #    Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Must not
-        #    be "Default". Must be unique for all subnet groups that are created by your Aws account.
+        #    be "Default". Must be unique for all subnet groups that are created by your AWS account.
         #    Example: examplesubnetgroup
         #
         # ==== See Also

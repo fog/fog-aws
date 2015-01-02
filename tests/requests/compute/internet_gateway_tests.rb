@@ -32,15 +32,15 @@ Shindo.tests('Fog::Compute[:aws] | internet_gateway requests', ['aws']) do
       Fog::Compute[:aws].describe_internet_gateways.body
     end
 
-    tests("#attach_internet_gateway('#{@igw_id}, #{@vpc_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#attach_internet_gateway('#{@igw_id}, #{@vpc_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].attach_internet_gateway(@igw_id, @vpc_id).body
     end
 
-    tests("#detach_internet_gateway('#{@igw_id}, #{@vpc_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#detach_internet_gateway('#{@igw_id}, #{@vpc_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].detach_internet_gateway(@igw_id, @vpc_id).body
     end
 
-    tests("#delete_internet_gateway('#{@igw_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_internet_gateway('#{@igw_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_internet_gateway(@igw_id).body
     end
     @subnet.destroy

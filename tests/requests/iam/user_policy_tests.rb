@@ -1,4 +1,4 @@
-Shindo.tests('Aws::IAM | user policy requests', ['aws']) do
+Shindo.tests('AWS::IAM | user policy requests', ['aws']) do
 
   Fog::AWS[:iam].create_user('fog_user_policy_tests')
 
@@ -6,7 +6,7 @@ Shindo.tests('Aws::IAM | user policy requests', ['aws']) do
 
     @policy = {"Statement" => [{"Effect" => "Allow", "Action" => "*", "Resource" => "*"}]}
 
-    tests("#put_user_policy('fog_user_policy_tests', 'fog_policy', #{@policy.inspect})").formats(Aws::IAM::Formats::BASIC) do
+    tests("#put_user_policy('fog_user_policy_tests', 'fog_policy', #{@policy.inspect})").formats(AWS::IAM::Formats::BASIC) do
       Fog::AWS[:iam].put_user_policy('fog_user_policy_tests', 'fog_policy', @policy).body
     end
 
@@ -30,7 +30,7 @@ Shindo.tests('Aws::IAM | user policy requests', ['aws']) do
       Fog::AWS[:iam].get_user_policy('fog_policy', 'fog_user_policy_tests').body['Policy']
     end
 
-    tests("#delete_user_policy('fog_user_policy_tests', 'fog_policy')").formats(Aws::IAM::Formats::BASIC) do
+    tests("#delete_user_policy('fog_user_policy_tests', 'fog_policy')").formats(AWS::IAM::Formats::BASIC) do
       Fog::AWS[:iam].delete_user_policy('fog_user_policy_tests', 'fog_policy').body
     end
 

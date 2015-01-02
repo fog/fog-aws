@@ -3,7 +3,7 @@ require 'fog/aws/models/compute/network_interface'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class NetworkInterfaces < Fog::Collection
         attribute :filters
 
@@ -11,13 +11,13 @@ module Fog
 
         # Creates a new network interface
         #
-        # Aws.network_interfaces.new
+        # AWS.network_interfaces.new
         #
         # ==== Returns
         #
         # Returns the details of the new network interface
         #
-        #>> Aws.network_interfaces.new
+        #>> AWS.network_interfaces.new
         #  <Fog::AWS::Compute::NetworkInterface
         #    network_interface_id=nil
         #    state=nil
@@ -49,13 +49,13 @@ module Fog
 
         # Returns an array of all network interfaces that have been created
         #
-        # Aws.network_interfaces.all
+        # AWS.network_interfaces.all
         #
         # ==== Returns
         #
         # Returns an array of all network interfaces
         #
-        #>> Aws.network_interfaves.all
+        #>> AWS.network_interfaves.all
         #  <Fog::AWS::Compute::NetworkInterfaces
         #    filters={}
         #    [
@@ -94,11 +94,11 @@ module Fog
         # network interface id is required to get any information
         #
         # You can run the following command to get the details:
-        # Aws.network_interfaces.get("eni-11223344")
+        # AWS.network_interfaces.get("eni-11223344")
         #
         # ==== Returns
         #
-        #>> Aws.NetworkInterface.get("eni-11223344")
+        #>> AWS.NetworkInterface.get("eni-11223344")
         #  <Fog::AWS::Compute::NetworkInterface
         #    network_interface_id="eni-da5dc7ca",
         #    state=nil,

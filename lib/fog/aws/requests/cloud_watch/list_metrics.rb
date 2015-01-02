@@ -21,8 +21,8 @@ module Fog
         #
         def list_metrics(options={})
           if dimensions = options.delete('Dimensions')
-            options.merge!(Aws.indexed_param('Dimensions.member.%d.Name', dimensions.map {|dimension| dimension['Name']}))
-            options.merge!(Aws.indexed_param('Dimensions.member.%d.Value', dimensions.map {|dimension| dimension['Value']}))
+            options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.map {|dimension| dimension['Name']}))
+            options.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.map {|dimension| dimension['Value']}))
           end
 
           request({

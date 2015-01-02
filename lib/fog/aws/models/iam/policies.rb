@@ -14,7 +14,7 @@ module Fog
         end
 
         def all
-          # Aws method get_user_policy only returns an array of policy names, this is kind of useless,
+          # AWS method get_user_policy only returns an array of policy names, this is kind of useless,
           # that's why it has to loop through the list to get the details of each element. I don't like it because it makes this method slow
           policy_names = service.list_user_policies(@username).body['PolicyNames'] # it returns an array
           policies = []

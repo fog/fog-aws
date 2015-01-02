@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
         #Deletes a set of DHCP options that you specify. Amazon VPC returns an error if the set of options you specify is currently
@@ -16,7 +16,7 @@ module Fog
         # * 'requestId'<~String> - Id of request
         # * 'return'<~Boolean> - Returns true if the request succeeds.
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DeleteDhcpOptions.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DeleteDhcpOptions.html]
         def delete_dhcp_options(dhcp_options_id)
           request(
             'Action' => 'DeleteDhcpOptions',

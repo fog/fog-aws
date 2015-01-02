@@ -1,4 +1,4 @@
-Shindo.tests('Aws::Elasticache | describe cache cluster events',
+Shindo.tests('AWS::Elasticache | describe cache cluster events',
   ['aws', 'elasticache']) do
 
   tests('success') do
@@ -6,8 +6,8 @@ Shindo.tests('Aws::Elasticache | describe cache cluster events',
 
     tests(
     '#describe_events'
-    ).formats(Aws::Elasticache::Formats::EVENT_LIST) do
-      Aws[:elasticache].describe_events().body['Events']
+    ).formats(AWS::Elasticache::Formats::EVENT_LIST) do
+      Fog::AWS[:elasticache].describe_events().body['Events']
     end
   end
 

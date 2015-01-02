@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_key_pairs'
 
@@ -17,7 +17,7 @@ module Fog
         #       * 'keyName'<~String> - Name of key
         #       * 'keyFingerprint'<~String> - Fingerprint of key
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeKeyPairs.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeKeyPairs.html]
         def describe_key_pairs(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_key_pairs with #{filters.class} param is deprecated, use describe_key_pairs('key-name' => []) instead [light_black](#{caller.first})[/]")

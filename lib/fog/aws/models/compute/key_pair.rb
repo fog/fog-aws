@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class KeyPair < Fog::Model
         identity  :name,        :aliases => 'keyName'
 

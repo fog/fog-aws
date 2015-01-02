@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/get_password_data'
 
@@ -17,9 +17,9 @@ module Fog
         #     * 'requestId'<~String> - Id of request
         #     * 'timestamp'<~Time> - Timestamp of last update to output
         #
-        # See http://docs.amazonwebservices.com/AwsEC2/2010-08-31/APIReference/index.html?ApiReference-query-GetPasswordData.html
+        # See http://docs.amazonwebservices.com/AWSEC2/2010-08-31/APIReference/index.html?ApiReference-query-GetPasswordData.html
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-GetPasswordData.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-GetPasswordData.html]
         def get_password_data(instance_id)
           request(
             'Action'      => 'GetPasswordData',

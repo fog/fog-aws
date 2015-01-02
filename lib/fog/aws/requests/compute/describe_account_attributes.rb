@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_account_attributes'
 
@@ -18,7 +18,7 @@ module Fog
         #       * 'attributeValueSet'<~Array>:
         #         * 'attributeValue'<~String> - Value of attribute
         #
-        # {Amazon API Reference}[http://docs.aws.amazon.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeAccountAttributes.html]
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeAccountAttributes.html]
 
         def describe_account_attributes(filters = {})
           params = Fog::AWS.indexed_filters(filters)

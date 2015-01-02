@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/start_stop_instances'
 
@@ -15,7 +15,7 @@ module Fog
         #     * 'requestId'<~String> - Id of request
         #     * TODO: fill in the blanks
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-StartInstances.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-StartInstances.html]
         def start_instances(instance_id)
           params = Fog::AWS.indexed_param('InstanceId', instance_id)
           request({

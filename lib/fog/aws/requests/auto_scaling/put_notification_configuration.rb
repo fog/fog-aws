@@ -25,7 +25,7 @@ module Fog
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_PutNotificationConfiguration.html
         #
         def put_notification_configuration(auto_scaling_group_name, notification_types, topic_arn)
-          params = Aws.indexed_param('NotificationTypes.member.%d', [*notification_types])
+          params = AWS.indexed_param('NotificationTypes.member.%d', [*notification_types])
           request({
             'Action'               => 'PutNotificationConfiguration',
             'AutoScalingGroupName' => auto_scaling_group_name,

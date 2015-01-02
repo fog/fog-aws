@@ -2,7 +2,7 @@ require 'fog/compute/models/server'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class SpotRequest < Fog::Compute::Server
         identity :id,                          :aliases => 'spotInstanceRequestId'
 

@@ -1,6 +1,6 @@
 module Fog
   module DNS
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/dns/list_resource_record_sets'
 
@@ -33,7 +33,7 @@ module Fog
         #     * 'NextRecordIdentifier'<~String>
         #   * status<~Integer> - 201 when successful
         def list_resource_record_sets(zone_id, options = {})
-          # Aws methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
+          # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
           # that form or just the actual id (which is what this request needs)
           zone_id = zone_id.sub('/hostedzone/', '')
 

@@ -1,4 +1,4 @@
-Shindo.tests('Aws::Elasticache | subnet group', ['aws', 'elasticache']) do
+Shindo.tests('AWS::Elasticache | subnet group', ['aws', 'elasticache']) do
   # random_differentiator
   # Useful when rapidly re-running tests, so we don't have to wait
   # serveral minutes for deleted VPCs/subnets to disappear
@@ -27,12 +27,12 @@ Shindo.tests('Aws::Elasticache | subnet group', ['aws', 'elasticache']) do
     subnet_ids = @subnets.map { |sn| sn['subnetId'] }.to_a
 
     model_tests(
-      Aws[:elasticache].subnet_groups,
+      Fog::AWS[:elasticache].subnet_groups,
       {:name => group_name, :subnet_ids => subnet_ids, :description => description}, true
     )
 
     collection_tests(
-      Aws[:elasticache].subnet_groups,
+      Fog::AWS[:elasticache].subnet_groups,
       {:name => group_name, :subnet_ids => subnet_ids, :description => description}, true
     )
   end

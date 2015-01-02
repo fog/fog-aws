@@ -41,31 +41,31 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
       Fog::Compute[:aws].describe_addresses('public-ip' => @public_ip).body
     end
 
-    tests("#associate_addresses('#{@server.identity}', '#{@public_ip}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#associate_addresses('#{@server.identity}', '#{@public_ip}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].associate_address(@server.identity, @public_ip).body
     end
 
-    tests("#associate_addresses({:instance_id=>'#{@server.identity}', :public_ip=>'#{@public_ip}'})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#associate_addresses({:instance_id=>'#{@server.identity}', :public_ip=>'#{@public_ip}'})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].associate_address({:instance_id=>@server.identity,:public_ip=> @public_ip}).body
     end
 
-    tests("#dissassociate_address('#{@public_ip}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#dissassociate_address('#{@public_ip}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].disassociate_address(@public_ip).body
     end
 
-    tests("#associate_addresses('#{@server.id}', nil, nil, '#{@vpc_allocation_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#associate_addresses('#{@server.id}', nil, nil, '#{@vpc_allocation_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].associate_address(@server.id, nil, nil, @vpc_allocation_id).body
     end
 
-    tests("#associate_addresses({:instance_id=>'#{@server.id}', :allocation_id=>'#{@vpc_allocation_id}'})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#associate_addresses({:instance_id=>'#{@server.id}', :allocation_id=>'#{@vpc_allocation_id}'})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].associate_address({:instance_id=>@server.id, :allocation_id=>@vpc_allocation_id}).body
     end
 
-    tests("#release_address('#{@public_ip}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#release_address('#{@public_ip}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].release_address(@public_ip).body
     end
 
-    tests("#release_address('#{@vpc_allocation_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#release_address('#{@vpc_allocation_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].release_address(@vpc_allocation_id).body
     end
   end

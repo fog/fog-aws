@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_images'
 
@@ -37,7 +37,7 @@ module Fog
         #       * 'rootDeviceType'<~String> - Root device type, ebs or instance-store
         #       * 'virtualizationType'<~String> - Type of virtualization
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeImages.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeImages.html]
         def describe_images(filters = {})
           options = {}
           for key in ['ExecutableBy', 'ImageId', 'Owner']

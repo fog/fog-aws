@@ -1,4 +1,4 @@
-Shindo.tests('Aws::Elasticache | cache cluster requests', ['aws', 'elasticache']) do
+Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']) do
 
   tests('success') do
 
@@ -8,8 +8,8 @@ Shindo.tests('Aws::Elasticache | cache cluster requests', ['aws', 'elasticache']
 
     tests(
     '#create_cache_cluster'
-    ).formats(Aws::Elasticache::Formats::SINGLE_CACHE_CLUSTER) do
-      body = Aws[:elasticache].create_cache_cluster(CLUSTER_ID,
+    ).formats(AWS::Elasticache::Formats::SINGLE_CACHE_CLUSTER) do
+      body = Fog::AWS[:elasticache].create_cache_cluster(CLUSTER_ID,
         :num_nodes => NUM_NODES
       ).body
       cluster = body['CacheCluster']
@@ -20,8 +20,8 @@ Shindo.tests('Aws::Elasticache | cache cluster requests', ['aws', 'elasticache']
 
     tests(
     '#describe_cache_clusters without options'
-    ).formats(Aws::Elasticache::Formats::DESCRIBE_CACHE_CLUSTERS) do
-      body = Aws[:elasticache].describe_cache_clusters.body
+    ).formats(AWS::Elasticache::Formats::DESCRIBE_CACHE_CLUSTERS) do
+      body = Fog::AWS[:elasticache].describe_cache_clusters.body
       returns(true, "has #{CLUSTER_ID}") do
         body['CacheClusters'].any? do |cluster|
           cluster['CacheClusterId'] == CLUSTER_ID
@@ -37,8 +37,8 @@ Shindo.tests('Aws::Elasticache | cache cluster requests', ['aws', 'elasticache']
 
     tests(
     '#describe_cache_clusters with cluster ID'
-    ).formats(Aws::Elasticache::Formats::DESCRIBE_CACHE_CLUSTERS) do
-      body = Aws[:elasticache].describe_cache_clusters(CLUSTER_ID).body
+    ).formats(AWS::Elasticache::Formats::DESCRIBE_CACHE_CLUSTERS) do
+      body = Fog::AWS[:elasticache].describe_cache_clusters(CLUSTER_ID).body
       returns(1, "size of 1") { body['CacheClusters'].size }
       returns(CLUSTER_ID, "has #{CLUSTER_ID}") do
         body['CacheClusters'].first['CacheClusterId']
@@ -47,12 +47,12 @@ Shindo.tests('Aws::Elasticache | cache cluster requests', ['aws', 'elasticache']
     end
 
     Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
-    Aws[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
+    Fog::AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
 
     tests(
     '#describe_cache_clusters with node info'
-    ).formats(Aws::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
-      cluster = Aws[:elasticache].describe_cache_clusters(CLUSTER_ID,
+    ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
+      cluster = Fog::AWS[:elasticache].describe_cache_clusters(CLUSTER_ID,
         :show_node_info => true
       ).body['CacheClusters'].first
       returns(NUM_NODES, "has #{NUM_NODES} nodes") do
@@ -63,8 +63,8 @@ Shindo.tests('Aws::Elasticache | cache cluster requests', ['aws', 'elasticache']
 
     tests(
     '#modify_cache_cluster - change a non-pending cluster attribute'
-    ).formats(Aws::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
-      body = Aws[:elasticache].modify_cache_cluster(CLUSTER_ID,
+    ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
+      body = Fog::AWS[:elasticache].modify_cache_cluster(CLUSTER_ID,
         :auto_minor_version_upgrade => false
       ).body
       # now check that parameter change is in place
@@ -74,11 +74,11 @@ Shindo.tests('Aws::Elasticache | cache cluster requests', ['aws', 'elasticache']
 
     tests(
     '#reboot_cache_cluster - reboot a node'
-    ).formats(Aws::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
-      c = Aws[:elasticache].clusters.get(CLUSTER_ID)
+    ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
+      c = Fog::AWS[:elasticache].clusters.get(CLUSTER_ID)
       node_id = c.nodes.last['CacheNodeId']
       Formatador.display_line "Rebooting node #{node_id}..."
-      body = Aws[:elasticache].reboot_cache_cluster(c.id, [ node_id ]).body
+      body = Fog::AWS[:elasticache].reboot_cache_cluster(c.id, [ node_id ]).body
       returns('rebooting cache cluster nodes') do
         body['CacheCluster']['CacheClusterStatus']
       end
@@ -86,15 +86,15 @@ Shindo.tests('Aws::Elasticache | cache cluster requests', ['aws', 'elasticache']
     end
 
     Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
-    Aws[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
+    Fog::AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
 
     tests(
     '#modify_cache_cluster - remove a node'
-    ).formats(Aws::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
-      c = Aws[:elasticache].clusters.get(CLUSTER_ID)
+    ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
+      c = Fog::AWS[:elasticache].clusters.get(CLUSTER_ID)
       node_id = c.nodes.last['CacheNodeId']
       Formatador.display_line "Removing node #{node_id}..."
-      body = Aws[:elasticache].modify_cache_cluster(c.id,
+      body = Fog::AWS[:elasticache].modify_cache_cluster(c.id,
       {
         :num_nodes          => NUM_NODES - 1,
         :nodes_to_remove    => [node_id],
@@ -107,12 +107,12 @@ Shindo.tests('Aws::Elasticache | cache cluster requests', ['aws', 'elasticache']
     end
 
     Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
-    Aws[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
+    Fog::AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
 
     tests(
     '#delete_cache_clusters'
-    ).formats(Aws::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
-      body = Aws[:elasticache].delete_cache_cluster(CLUSTER_ID).body
+    ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
+      body = Fog::AWS[:elasticache].delete_cache_cluster(CLUSTER_ID).body
       # make sure this particular cluster is in the returned list
       returns(true, "has #{CLUSTER_ID}") do
         body['CacheClusters'].any? do |cluster|

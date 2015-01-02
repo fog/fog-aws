@@ -14,7 +14,7 @@ module Fog
         #   * VisibilityTimeout<~Integer> - Duration, in seconds, to hide message from other receives. In 0..43200, defaults to visibility timeout for queue
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/AwsSimpleQueueService/latest/APIReference/Query_QueryReceiveMessage.html
+        # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QueryReceiveMessage.html
         #
 
         def receive_message(queue_url, options = {})

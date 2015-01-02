@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/create_key_pair'
 
@@ -17,7 +17,7 @@ module Fog
         #     * 'keyName'<~String> - Name of key
         #     * 'requestId'<~String> - Id of request
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-CreateKeyPair.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateKeyPair.html]
         def create_key_pair(key_name)
           request(
             'Action'  => 'CreateKeyPair',

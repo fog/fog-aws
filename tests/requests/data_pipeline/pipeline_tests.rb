@@ -1,10 +1,10 @@
-Shindo.tests('Aws::DataPipeline | pipeline_tests', ['aws', 'data_pipeline']) do
+Shindo.tests('AWS::DataPipeline | pipeline_tests', ['aws', 'data_pipeline']) do
   pending if Fog.mocking?
 
   @pipeline_id = nil
 
   tests('success') do
-    tests("#create_pipeline").formats(Aws::DataPipeline::Formats::BASIC) do
+    tests("#create_pipeline").formats(AWS::DataPipeline::Formats::BASIC) do
       unique_id = 'fog-test-pipeline-unique-id'
       name = 'fog-test-pipeline-name'
       description = 'Fog test pipeline'
@@ -14,16 +14,16 @@ Shindo.tests('Aws::DataPipeline | pipeline_tests', ['aws', 'data_pipeline']) do
       result
     end
 
-    tests("#list_pipelines").formats(Aws::DataPipeline::Formats::LIST_PIPELINES) do
+    tests("#list_pipelines").formats(AWS::DataPipeline::Formats::LIST_PIPELINES) do
       Fog::AWS[:data_pipeline].list_pipelines()
     end
 
-    tests("#describe_pipelines").formats(Aws::DataPipeline::Formats::DESCRIBE_PIPELINES) do
+    tests("#describe_pipelines").formats(AWS::DataPipeline::Formats::DESCRIBE_PIPELINES) do
       ids = [@pipeline_id]
       Fog::AWS[:data_pipeline].describe_pipelines(ids)
     end
 
-    tests("#put_pipeline_definition").formats(Aws::DataPipeline::Formats::PUT_PIPELINE_DEFINITION) do
+    tests("#put_pipeline_definition").formats(AWS::DataPipeline::Formats::PUT_PIPELINE_DEFINITION) do
       objects = [
         {
           "id" => "Nightly",
@@ -46,25 +46,25 @@ Shindo.tests('Aws::DataPipeline | pipeline_tests', ['aws', 'data_pipeline']) do
       Fog::AWS[:data_pipeline].activate_pipeline(@pipeline_id)
     end
 
-    tests("#get_pipeline_definition").formats(Aws::DataPipeline::Formats::GET_PIPELINE_DEFINITION) do
+    tests("#get_pipeline_definition").formats(AWS::DataPipeline::Formats::GET_PIPELINE_DEFINITION) do
       Fog::AWS[:data_pipeline].get_pipeline_definition(@pipeline_id)
     end
 
     tests("#query_objects") do
-      tests("for COMPONENTs").formats(Aws::DataPipeline::Formats::QUERY_OBJECTS) do
+      tests("for COMPONENTs").formats(AWS::DataPipeline::Formats::QUERY_OBJECTS) do
         Fog::AWS[:data_pipeline].query_objects(@pipeline_id, 'COMPONENT')
       end
 
-      tests("for INSTANCEs").formats(Aws::DataPipeline::Formats::QUERY_OBJECTS) do
+      tests("for INSTANCEs").formats(AWS::DataPipeline::Formats::QUERY_OBJECTS) do
         Fog::AWS[:data_pipeline].query_objects(@pipeline_id, 'INSTANCE')
       end
 
-      tests("for ATTEMPTs").formats(Aws::DataPipeline::Formats::QUERY_OBJECTS) do
+      tests("for ATTEMPTs").formats(AWS::DataPipeline::Formats::QUERY_OBJECTS) do
         Fog::AWS[:data_pipeline].query_objects(@pipeline_id, 'ATTEMPT')
       end
     end
 
-    tests('#describe_objects').formats(Aws::DataPipeline::Formats::DESCRIBE_OBJECTS) do
+    tests('#describe_objects').formats(AWS::DataPipeline::Formats::DESCRIBE_OBJECTS) do
       attempts = Fog::AWS[:data_pipeline].query_objects(@pipeline_id, 'ATTEMPT')
       object_ids = attempts['ids'][0..5]
       Fog::AWS[:data_pipeline].describe_objects(@pipeline_id, object_ids)

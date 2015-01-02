@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -16,7 +16,7 @@ module Fog
         #   * 'Remove.Group'<~Array> - One or more groups to revoke launch permission from
         #   * 'Remove.UserId'<~Array> - One or more account ids to revoke launch permission from
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-ModifyImageAttribute.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-ModifyImageAttribute.html]
         #
         def modify_image_attribute(image_id, attributes)
           raise ArgumentError.new("image_id is required") unless image_id

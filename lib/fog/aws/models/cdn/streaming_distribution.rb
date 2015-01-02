@@ -4,7 +4,7 @@ require 'fog/aws/models/cdn/distribution_helper'
 
 module Fog
   module CDN
-    class Aws
+    class AWS
       class StreamingDistribution < Fog::Model
         include Fog::CDN::AWS::DistributionHelper
 

@@ -11,7 +11,7 @@ module Fog
         # * receipt_handle<~String> - Token from previous recieve message
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/AwsSimpleQueueService/latest/APIReference/Query_QueryDeleteMessage.html
+        # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QueryDeleteMessage.html
         #
 
         def delete_message(queue_url, receipt_handle)

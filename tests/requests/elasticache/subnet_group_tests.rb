@@ -1,4 +1,4 @@
-Shindo.tests('Aws::Elasticache | subnet group requests', ['aws', 'elasticache']) do
+Shindo.tests('AWS::Elasticache | subnet group requests', ['aws', 'elasticache']) do
   # random_differentiator
   # Useful when rapidly re-running tests, so we don't have to wait
   # serveral minutes for deleted VPCs/subnets to disappear
@@ -23,7 +23,7 @@ Shindo.tests('Aws::Elasticache | subnet group requests', ['aws', 'elasticache'])
 
     subnet_ids = @subnets.map { |sn| sn['subnetId'] }.to_a
 
-    tests("#create_cache_subnet_group").formats(Aws::Elasticache::Formats::CREATE_CACHE_SUBNET_GROUP) do
+    tests("#create_cache_subnet_group").formats(AWS::Elasticache::Formats::CREATE_CACHE_SUBNET_GROUP) do
       result = Fog::AWS[:elasticache].create_cache_subnet_group(@subnet_group_name, subnet_ids, 'A subnet group').body
 
       returns(@subnet_group_name) { result['CreateCacheSubnetGroupResult']['CacheSubnetGroup']['CacheSubnetGroupName'] }
@@ -34,11 +34,11 @@ Shindo.tests('Aws::Elasticache | subnet group requests', ['aws', 'elasticache'])
       result
     end
 
-    tests("#describe_cache_subnet_groups").formats(Aws::Elasticache::Formats::DESCRIBE_CACHE_SUBNET_GROUPS) do
+    tests("#describe_cache_subnet_groups").formats(AWS::Elasticache::Formats::DESCRIBE_CACHE_SUBNET_GROUPS) do
       Fog::AWS[:elasticache].describe_cache_subnet_groups.body
     end
 
-    tests("#delete_cache_subnet_group").formats(Aws::Elasticache::Formats::BASIC) do
+    tests("#delete_cache_subnet_group").formats(AWS::Elasticache::Formats::BASIC) do
       Fog::AWS[:elasticache].delete_cache_subnet_group(@subnet_group_name).body
     end
 

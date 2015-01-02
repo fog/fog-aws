@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/copy_snapshot'
 
@@ -16,7 +16,7 @@ module Fog
         #     * 'requestId'<~String> - id of request
         #     * 'snapshotId'<~String> - id of snapshot
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-CopySnapshot.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CopySnapshot.html]
         def copy_snapshot(source_snapshot_id, source_region, description = nil)
           request(
             'Action'          => 'CopySnapshot',
@@ -32,7 +32,7 @@ module Fog
         #
         # Usage
         #
-        # Aws[:compute].copy_snapshot("snap-1db0a957", 'us-east-1')
+        # Fog::AWS[:compute].copy_snapshot("snap-1db0a957", 'us-east-1')
         #
 
         def copy_snapshot(source_snapshot_id, source_region, description = nil)

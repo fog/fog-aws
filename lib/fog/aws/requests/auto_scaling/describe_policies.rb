@@ -60,7 +60,7 @@ module Fog
         #
         def describe_policies(options = {})
           if policy_names = options.delete('PolicyNames')
-            options.merge!(Aws.indexed_param('PolicyNames.member.%d', [*policy_names]))
+            options.merge!(AWS.indexed_param('PolicyNames.member.%d', [*policy_names]))
           end
           request({
             'Action' => 'DescribePolicies',

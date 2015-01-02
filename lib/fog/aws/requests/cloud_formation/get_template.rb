@@ -12,7 +12,7 @@ module Fog
         #   * body [Hash]:
         #     * TemplateBody [String] - structure containing the template body (json)
         #
-        # @see http://docs.amazonwebservices.com/AwsCloudFormation/latest/APIReference/API_GetTemplate.html
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_GetTemplate.html
 
         def get_template(stack_name)
           request(

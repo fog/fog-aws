@@ -1,4 +1,4 @@
-Shindo.tests('Aws | credentials', ['aws']) do
+Shindo.tests('AWS | credentials', ['aws']) do
   old_mock_value = Excon.defaults[:mock]
   Excon.stubs.clear
 

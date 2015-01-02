@@ -7,7 +7,7 @@ module Fog
         # Returns list of event descriptions matching criteria up to the last 6 weeks.
         #
         # ==== Options
-        # * ApplicationName<~String>: If specified, Aws Elastic Beanstalk restricts the returned descriptions
+        # * ApplicationName<~String>: If specified, AWS Elastic Beanstalk restricts the returned descriptions
         #   to include only those that are associated with this application.
         #
         # ==== Returns

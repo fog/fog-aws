@@ -1,6 +1,6 @@
 module Fog
   module CDN
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/cdn/get_distribution_list'
 

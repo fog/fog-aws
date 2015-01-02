@@ -1,4 +1,4 @@
-Shindo.tests('Aws::IAM | user requests', ['aws']) do
+Shindo.tests('AWS::IAM | user requests', ['aws']) do
 
   unless Fog.mocking?
     Fog::AWS[:iam].create_user('fog_user')
@@ -26,7 +26,7 @@ Shindo.tests('Aws::IAM | user requests', ['aws']) do
       result
     end
 
-    tests("#update_login_profile('fog_user')").formats(Aws::IAM::Formats::BASIC) do
+    tests("#update_login_profile('fog_user')").formats(AWS::IAM::Formats::BASIC) do
       pending if Fog.mocking?
       begin
         Fog::AWS[:iam].update_login_profile('fog_user', 'otherpassword').body
@@ -36,7 +36,7 @@ Shindo.tests('Aws::IAM | user requests', ['aws']) do
       end
     end
 
-    tests("#delete_login_profile('fog_user')").formats(Aws::IAM::Formats::BASIC) do
+    tests("#delete_login_profile('fog_user')").formats(AWS::IAM::Formats::BASIC) do
       pending if Fog.mocking?
       Fog::AWS[:iam].delete_login_profile('fog_user').body
     end

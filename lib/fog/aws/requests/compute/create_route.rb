@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -19,7 +19,7 @@ module Fog
         # * 'requestId'<~String> - Id of the request
         # * 'return'<~Boolean> - Returns true if the request succeeds. Otherwise, returns an error.
         #
-        # {Amazon API Reference}[http://docs.aws.amazon.com/AwsEC2/latest/APIReference/ApiReference-query-CreateRoute.html]
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateRoute.html]
         def create_route(route_table_id, destination_cidr_block, internet_gateway_id=nil, instance_id=nil, network_interface_id=nil)
           request_vars = {
             'Action'                => 'CreateRoute',

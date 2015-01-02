@@ -10,7 +10,7 @@ module Fog
         # * queue_url<~String> - Url of queue to delete
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/AwsSimpleQueueService/latest/APIReference/Query_QueryDeleteQueue.html
+        # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QueryDeleteQueue.html
         #
 
         def delete_queue(queue_url)

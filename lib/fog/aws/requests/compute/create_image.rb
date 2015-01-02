@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/create_image'
 
@@ -18,7 +18,7 @@ module Fog
         #     * 'imageId'<~String> - The ID of the created AMI.
         #     * 'requestId'<~String> - Id of request.
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-CreateImage.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateImage.html]
         def create_image(instance_id, name, description, no_reboot = false, options={})
           params = {}
           block_device_mappings = options[:block_device_mappings] ||  []
@@ -47,7 +47,7 @@ module Fog
       class Mock
         # Usage
         #
-        # Aws[:compute].create_image("i-ac65ee8c", "test", "something")
+        # Fog::AWS[:compute].create_image("i-ac65ee8c", "test", "something")
         #
 
         def create_image(instance_id, name, description, no_reboot = false, options = {})

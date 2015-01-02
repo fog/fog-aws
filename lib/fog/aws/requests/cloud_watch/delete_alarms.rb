@@ -17,7 +17,7 @@ module Fog
 
         def delete_alarms(alarm_names)
           options = {}
-          options.merge!(Aws.indexed_param('AlarmNames.member.%d', [*alarm_names]))
+          options.merge!(AWS.indexed_param('AlarmNames.member.%d', [*alarm_names]))
           request({
               'Action'    => 'DeleteAlarms',
               :parser     => Fog::Parsers::AWS::CloudWatch::DeleteAlarms.new

@@ -17,7 +17,7 @@ module Fog
 
         def disable_alarm_actions(alarm_names)
           options = {}
-          options.merge!(Aws.indexed_param('AlarmNames.member.%d', [*alarm_names]))
+          options.merge!(AWS.indexed_param('AlarmNames.member.%d', [*alarm_names]))
           request({
               'Action'    => 'DisableAlarmActions',
               :parser     => Fog::Parsers::AWS::CloudWatch::DisableAlarmActions.new

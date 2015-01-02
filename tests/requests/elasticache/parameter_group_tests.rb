@@ -1,4 +1,4 @@
-Shindo.tests('Aws::Elasticache | parameter group requests', ['aws', 'elasticache']) do
+Shindo.tests('AWS::Elasticache | parameter group requests', ['aws', 'elasticache']) do
 
   tests('success') do
     pending if Fog.mocking?
@@ -8,8 +8,8 @@ Shindo.tests('Aws::Elasticache | parameter group requests', ['aws', 'elasticache
 
     tests(
     '#describe_engine_default_parameters'
-    ).formats(Aws::Elasticache::Formats::ENGINE_DEFAULTS) do
-      response = Aws[:elasticache].describe_engine_default_parameters
+    ).formats(AWS::Elasticache::Formats::ENGINE_DEFAULTS) do
+      response = Fog::AWS[:elasticache].describe_engine_default_parameters
       engine_defaults = response.body['EngineDefaults']
       returns('memcached1.4') { engine_defaults['CacheParameterGroupFamily'] }
       engine_defaults
@@ -17,8 +17,8 @@ Shindo.tests('Aws::Elasticache | parameter group requests', ['aws', 'elasticache
 
     tests(
     '#create_cache_parameter_group'
-    ).formats(Aws::Elasticache::Formats::SINGLE_PARAMETER_GROUP) do
-      body = Aws[:elasticache].create_cache_parameter_group(name, description).body
+    ).formats(AWS::Elasticache::Formats::SINGLE_PARAMETER_GROUP) do
+      body = Fog::AWS[:elasticache].create_cache_parameter_group(name, description).body
       group = body['CacheParameterGroup']
       returns(name)           { group['CacheParameterGroupName'] }
       returns(description)    { group['Description'] }
@@ -28,16 +28,16 @@ Shindo.tests('Aws::Elasticache | parameter group requests', ['aws', 'elasticache
 
     tests(
     '#describe_cache_parameters'
-    ).formats(Aws::Elasticache::Formats::PARAMETER_SET) do
-      response = Aws[:elasticache].describe_cache_parameters(name)
+    ).formats(AWS::Elasticache::Formats::PARAMETER_SET) do
+      response = Fog::AWS[:elasticache].describe_cache_parameters(name)
       parameter_set = response.body['DescribeCacheParametersResult']
       parameter_set
     end
 
     tests(
     '#describe_cache_parameter_groups without options'
-    ).formats(Aws::Elasticache::Formats::DESCRIBE_PARAMETER_GROUPS) do
-      body = Aws[:elasticache].describe_cache_parameter_groups.body
+    ).formats(AWS::Elasticache::Formats::DESCRIBE_PARAMETER_GROUPS) do
+      body = Fog::AWS[:elasticache].describe_cache_parameter_groups.body
       returns(true, "has #{name}") do
         body['CacheParameterGroups'].any? do |group|
           group['CacheParameterGroupName'] == name
@@ -49,7 +49,7 @@ Shindo.tests('Aws::Elasticache | parameter group requests', ['aws', 'elasticache
     tests(
     '#reset_cache_parameter_group completely'
     ).formats('CacheParameterGroupName' => String) do
-      result = Aws[:elasticache].reset_cache_parameter_group(
+      result = Fog::AWS[:elasticache].reset_cache_parameter_group(
         name
       ).body['ResetCacheParameterGroupResult']
       returns(name) {result['CacheParameterGroupName']}
@@ -59,7 +59,7 @@ Shindo.tests('Aws::Elasticache | parameter group requests', ['aws', 'elasticache
     tests(
     '#modify_cache_parameter_group'
     ).formats('CacheParameterGroupName' => String) do
-      result = Aws[:elasticache].modify_cache_parameter_group(
+      result = Fog::AWS[:elasticache].modify_cache_parameter_group(
         name, {"chunk_size" => 32}
       ).body['ModifyCacheParameterGroupResult']
       returns(name) {result['CacheParameterGroupName']}
@@ -71,7 +71,7 @@ Shindo.tests('Aws::Elasticache | parameter group requests', ['aws', 'elasticache
     '#reset_cache_parameter_group with one parameter'
     ).formats('CacheParameterGroupName' => String) do
       pending
-      result = Aws[:elasticache].reset_cache_parameter_group(
+      result = Fog::AWS[:elasticache].reset_cache_parameter_group(
         name, ["chunk_size"]
       ).body['ResetCacheParameterGroupResult']
       returns(name) {result['CacheParameterGroupName']}
@@ -80,8 +80,8 @@ Shindo.tests('Aws::Elasticache | parameter group requests', ['aws', 'elasticache
 
     tests(
     '#describe_cache_parameter_groups with name'
-    ).formats(Aws::Elasticache::Formats::DESCRIBE_PARAMETER_GROUPS) do
-      body = Aws[:elasticache].describe_cache_parameter_groups(name).body
+    ).formats(AWS::Elasticache::Formats::DESCRIBE_PARAMETER_GROUPS) do
+      body = Fog::AWS[:elasticache].describe_cache_parameter_groups(name).body
       returns(1, "size of 1") { body['CacheParameterGroups'].size }
       returns(name, "has #{name}") do
         body['CacheParameterGroups'].first['CacheParameterGroupName']
@@ -91,8 +91,8 @@ Shindo.tests('Aws::Elasticache | parameter group requests', ['aws', 'elasticache
 
     tests(
     '#delete_cache_parameter_group'
-    ).formats(Aws::Elasticache::Formats::BASIC) do
-      body = Aws[:elasticache].delete_cache_parameter_group(name).body
+    ).formats(AWS::Elasticache::Formats::BASIC) do
+      body = Fog::AWS[:elasticache].delete_cache_parameter_group(name).body
     end
   end
 

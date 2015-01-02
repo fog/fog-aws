@@ -1,10 +1,10 @@
-Shindo.tests('Aws::SQS | message requests', ['aws']) do
+Shindo.tests('AWS::SQS | message requests', ['aws']) do
 
   tests('success') do
 
     @queue_url = Fog::AWS[:sqs].create_queue('fog_message_tests').body['QueueUrl']
 
-    send_message_format = Aws::SQS::Formats::BASIC.merge({
+    send_message_format = AWS::SQS::Formats::BASIC.merge({
       'MessageId'         => String,
       'MD5OfMessageBody'  => String
     })
@@ -13,7 +13,7 @@ Shindo.tests('Aws::SQS | message requests', ['aws']) do
       Fog::AWS[:sqs].send_message(@queue_url, 'message').body
     end
 
-    receive_message_format = Aws::SQS::Formats::BASIC.merge({
+    receive_message_format = AWS::SQS::Formats::BASIC.merge({
       'Message' => [{
         'Attributes'    => {
           'ApproximateFirstReceiveTimestamp'  => Time,
@@ -34,11 +34,11 @@ Shindo.tests('Aws::SQS | message requests', ['aws']) do
       data
     end
 
-    tests("#change_message_visibility('#{@queue_url}, '#{@receipt_handle}', 60)").formats(Aws::SQS::Formats::BASIC) do
+    tests("#change_message_visibility('#{@queue_url}, '#{@receipt_handle}', 60)").formats(AWS::SQS::Formats::BASIC) do
       Fog::AWS[:sqs].change_message_visibility(@queue_url, @receipt_handle, 60).body
     end
 
-    tests("#delete_message('#{@queue_url}', '#{@receipt_handle}')").formats(Aws::SQS::Formats::BASIC) do
+    tests("#delete_message('#{@queue_url}', '#{@receipt_handle}')").formats(AWS::SQS::Formats::BASIC) do
       Fog::AWS[:sqs].delete_message(@queue_url, @receipt_handle).body
     end
 

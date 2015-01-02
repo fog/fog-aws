@@ -1,10 +1,10 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_volume_status'
 
-        # http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeVolumeStatus.html
+        # http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeVolumeStatus.html
         def describe_volume_status(filters = {})
           raise ArgumentError.new("Filters must be a hash, but is a #{filters.class}.") unless filters.is_a?(Hash)
           next_token = filters.delete('nextToken') || filters.delete('NextToken')

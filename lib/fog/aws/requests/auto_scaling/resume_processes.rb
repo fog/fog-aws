@@ -24,7 +24,7 @@ module Fog
         #
         def resume_processes(auto_scaling_group_name, options = {})
           if scaling_processes = options.delete('ScalingProcesses')
-            options.merge!(Aws.indexed_param('ScalingProcesses.member.%d', [*scaling_processes]))
+            options.merge!(AWS.indexed_param('ScalingProcesses.member.%d', [*scaling_processes]))
           end
           request({
             'Action'               => 'ResumeProcesses',

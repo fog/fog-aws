@@ -1,6 +1,6 @@
 module Fog
   module DNS
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/dns/get_change'
 
@@ -17,7 +17,7 @@ module Fog
         #     * 'SubmittedAt'<~String>
         #   * status<~Integer> - 200 when successful
         def get_change(change_id)
-          # Aws methods return change_ids that looks like '/change/id'.  Let the caller either use
+          # AWS methods return change_ids that looks like '/change/id'.  Let the caller either use
           # that form or just the actual id (which is what this request needs)
           change_id = change_id.sub('/change/', '')
 

@@ -4,7 +4,7 @@ module Fog
       class Real
         require 'fog/aws/parsers/beanstalk/describe_environment_resources'
 
-        # Returns Aws resources for this environment.
+        # Returns AWS resources for this environment.
         #
         # ==== Options
         # * EnvironmentId

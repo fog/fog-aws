@@ -16,11 +16,11 @@ Shindo.tests('Fog::Compute[:aws] | internet_gateway requests', ['aws']) do
     @ip_address = Fog::AWS::Mock.ip_address
     @second_ip_address = Fog::AWS::Mock.ip_address
 
-    tests("#assign_private_ip_addresses('#{@network_interface_id}', {'PrivateIpAddresses'=>['#{@ip_address}','#{@second_ip_address}']})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#assign_private_ip_addresses('#{@network_interface_id}', {'PrivateIpAddresses'=>['#{@ip_address}','#{@second_ip_address}']})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].assign_private_ip_addresses(@network_interface_id, { 'PrivateIpAddresses' =>[@ip_address, @second_ip_address]}).body
     end
 
-    tests("#assign_private_ip_addresses('#{@network_interface_id}', {'SecondaryPrivateIpAddressCount'=>4})").formats(Aws::Compute::Formats::BASIC) do
+    tests("#assign_private_ip_addresses('#{@network_interface_id}', {'SecondaryPrivateIpAddressCount'=>4})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].assign_private_ip_addresses(@network_interface_id, {'SecondaryPrivateIpAddressCount'=>4}).body
     end
 

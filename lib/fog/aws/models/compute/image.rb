@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Image < Fog::Model
         identity :id,                     :aliases => 'imageId'
 

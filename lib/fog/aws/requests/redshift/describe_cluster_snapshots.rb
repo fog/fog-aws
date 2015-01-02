@@ -23,9 +23,9 @@ module Fog
         #    time. The time value is specified in ISO 8601 format. For more information
         #    about ISO 8601, go to the ISO8601 Wikipedia page. Example: 2012-07-16T18:00:00Z
         # * :owner_account - (String)
-        #    The Aws customer account used to create or copy the snapshot. Use this field to
+        #    The AWS customer account used to create or copy the snapshot. Use this field to
         #    filter the results to snapshots owned by a particular account. To describe snapshots
-        #    you own, either specify your Aws customer account, or do not specify the parameter.
+        #    you own, either specify your AWS customer account, or do not specify the parameter.
         # * :max_records - (Integer)
         #    The maximum number of records to include in the response. If more than the
         #    MaxRecords value is available, a marker is included in the response so that the

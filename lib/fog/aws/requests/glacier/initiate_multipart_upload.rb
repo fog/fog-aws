@@ -9,7 +9,7 @@ module Fog
         # * part_size<~Integer> The part size to use. Must be a power of 2 multiple of 1MB (1,2,4,8,16,...)
         # * options<~Hash>
         #   * description<~String> - The archive description
-        #   * account_id<~String> - The Aws account id. Defaults to the account owning the credentials making the request
+        #   * account_id<~String> - The AWS account id. Defaults to the account owning the credentials making the request
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:

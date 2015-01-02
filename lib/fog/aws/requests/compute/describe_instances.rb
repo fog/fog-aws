@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_instances'
 
@@ -18,7 +18,7 @@ module Fog
         #     * 'nextToken' - The token to use when requesting the next set of items when fetching items in batches.
         #     * 'reservationSet'<~Array>:
         #       * 'groupSet'<~Array> - Group names for reservation
-        #       * 'ownerId'<~String> - Aws Access Key ID of reservation owner
+        #       * 'ownerId'<~String> - AWS Access Key ID of reservation owner
         #       * 'reservationId'<~String> - Id of the reservation
         #       * 'instancesSet'<~Array>:
         #         * instance<~Hash>:
@@ -55,7 +55,7 @@ module Fog
         #           * 'ramdiskId'<~String> - Id of ramdisk used to launch instance
         #           * 'reason'<~String> - reason for most recent state transition, or blank
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeInstances.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeInstances.html]
         def describe_instances(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead [light_black](#{caller.first})[/]")

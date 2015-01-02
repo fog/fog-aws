@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module CDN
-    class Aws
+    class AWS
       class Invalidation < Fog::Model
         identity :id,                :aliases => 'Id'
 

@@ -1,4 +1,4 @@
-Shindo.tests('Aws::IAM | group requests', ['aws']) do
+Shindo.tests('AWS::IAM | group requests', ['aws']) do
 
   tests('success') do
 
@@ -31,7 +31,7 @@ Shindo.tests('Aws::IAM | group requests', ['aws']) do
       Fog::AWS[:iam].list_groups.body
     end
 
-    tests("#delete_group('fog_group')").formats(Aws::IAM::Formats::BASIC) do
+    tests("#delete_group('fog_group')").formats(AWS::IAM::Formats::BASIC) do
       Fog::AWS[:iam].delete_group('fog_group').body
     end
 

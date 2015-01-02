@@ -1,4 +1,4 @@
-Shindo.tests("Aws::RDS | event_subscription", ['aws', 'rds']) do
+Shindo.tests("AWS::RDS | event_subscription", ['aws', 'rds']) do
   pending unless Fog.mocking?
 
   name = 'fog'

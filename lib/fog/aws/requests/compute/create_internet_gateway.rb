@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/create_internet_gateway'
 
@@ -21,7 +21,7 @@ module Fog
         # *     'key'<~String> - Tag's key
         # *     'value'<~String> - Tag's value
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-ItemType-InternetGatewayAttachmentType.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-ItemType-InternetGatewayAttachmentType.html]
         def create_internet_gateway()
           request({
             'Action'     => 'CreateInternetGateway',

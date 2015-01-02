@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/purchase_reserved_instances_offering'
 
@@ -16,7 +16,7 @@ module Fog
         #     * 'requestId'<~String> - Id of request
         #     * 'reservedInstancesId'<~String> - Id of the purchased reserved instances.
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-PurchaseReservedInstancesOffering.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-PurchaseReservedInstancesOffering.html]
         def purchase_reserved_instances_offering(reserved_instances_offering_id, instance_count = 1)
           request({
             'Action'                      => 'PurchaseReservedInstancesOffering',

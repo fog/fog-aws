@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Volume < Fog::Model
         identity  :id,                    :aliases => 'volumeId'
 

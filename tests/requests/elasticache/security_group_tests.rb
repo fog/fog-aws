@@ -1,4 +1,4 @@
-Shindo.tests('Aws::Elasticache | security group requests', ['aws', 'elasticache']) do
+Shindo.tests('AWS::Elasticache | security group requests', ['aws', 'elasticache']) do
 
   tests('success') do
 
@@ -7,8 +7,8 @@ Shindo.tests('Aws::Elasticache | security group requests', ['aws', 'elasticache'
 
     tests(
     '#create_cache_security_group'
-    ).formats(Aws::Elasticache::Formats::SINGLE_SECURITY_GROUP) do
-      body = Aws[:elasticache].create_cache_security_group(name, description).body
+    ).formats(AWS::Elasticache::Formats::SINGLE_SECURITY_GROUP) do
+      body = Fog::AWS[:elasticache].create_cache_security_group(name, description).body
       group = body['CacheSecurityGroup']
       returns(name)        { group['CacheSecurityGroupName'] }
       returns(description) { group['Description'] }
@@ -18,8 +18,8 @@ Shindo.tests('Aws::Elasticache | security group requests', ['aws', 'elasticache'
 
     tests(
     '#describe_cache_security_groups without options'
-    ).formats(Aws::Elasticache::Formats::DESCRIBE_SECURITY_GROUPS) do
-      body = Aws[:elasticache].describe_cache_security_groups.body
+    ).formats(AWS::Elasticache::Formats::DESCRIBE_SECURITY_GROUPS) do
+      body = Fog::AWS[:elasticache].describe_cache_security_groups.body
       returns(true, "has #{name}") do
         body['CacheSecurityGroups'].any? do |group|
           group['CacheSecurityGroupName'] == name
@@ -30,8 +30,8 @@ Shindo.tests('Aws::Elasticache | security group requests', ['aws', 'elasticache'
 
     tests(
     '#describe_cache_security_groups with name'
-    ).formats(Aws::Elasticache::Formats::DESCRIBE_SECURITY_GROUPS) do
-      body = Aws[:elasticache].describe_cache_security_groups(name).body
+    ).formats(AWS::Elasticache::Formats::DESCRIBE_SECURITY_GROUPS) do
+      body = Fog::AWS[:elasticache].describe_cache_security_groups(name).body
       returns(1, "size of 1") { body['CacheSecurityGroups'].size }
       returns(name, "has #{name}") do
         body['CacheSecurityGroups'].first['CacheSecurityGroupName']
@@ -40,7 +40,7 @@ Shindo.tests('Aws::Elasticache | security group requests', ['aws', 'elasticache'
     end
 
     tests('authorization') do
-      ec2_group = Fog::Compute.new(:provider => 'Aws').security_groups.create(
+      ec2_group = Fog::Compute.new(:provider => 'AWS').security_groups.create(
         :name => 'fog-test-elasticache', :description => 'Fog Test Elasticache'
       )
       # Reload to get the owner_id
@@ -48,8 +48,8 @@ Shindo.tests('Aws::Elasticache | security group requests', ['aws', 'elasticache'
 
       tests(
       '#authorize_cache_security_group_ingress'
-      ).formats(Aws::Elasticache::Formats::SINGLE_SECURITY_GROUP) do
-        body = Aws[:elasticache].authorize_cache_security_group_ingress(
+      ).formats(AWS::Elasticache::Formats::SINGLE_SECURITY_GROUP) do
+        body = Fog::AWS[:elasticache].authorize_cache_security_group_ingress(
           name, ec2_group.name, ec2_group.owner_id
         ).body
         group = body['CacheSecurityGroup']
@@ -65,17 +65,17 @@ Shindo.tests('Aws::Elasticache | security group requests', ['aws', 'elasticache'
 
       # Wait for the state to be active
       Fog.wait_for do
-        response = Aws[:elasticache].describe_cache_security_groups(name)
+        response = Fog::AWS[:elasticache].describe_cache_security_groups(name)
         group = response.body['CacheSecurityGroups'].first
         group['EC2SecurityGroups'].all? {|ec2| ec2['Status'] == 'authorized'}
       end
 
       tests(
       '#revoke_cache_security_group_ingress'
-      ).formats(Aws::Elasticache::Formats::SINGLE_SECURITY_GROUP) do
+      ).formats(AWS::Elasticache::Formats::SINGLE_SECURITY_GROUP) do
         pending if Fog.mocking?
 
-        body = Aws[:elasticache].revoke_cache_security_group_ingress(
+        body = Fog::AWS[:elasticache].revoke_cache_security_group_ingress(
           name, ec2_group.name, ec2_group.owner_id
         ).body
         group = body['CacheSecurityGroup']
@@ -94,8 +94,8 @@ Shindo.tests('Aws::Elasticache | security group requests', ['aws', 'elasticache'
 
     tests(
     '#delete_cache_security_group'
-    ).formats(Aws::Elasticache::Formats::BASIC) do
-      body = Aws[:elasticache].delete_cache_security_group(name).body
+    ).formats(AWS::Elasticache::Formats::BASIC) do
+      body = Fog::AWS[:elasticache].delete_cache_security_group(name).body
     end
   end
 

@@ -1,22 +1,22 @@
-Shindo.tests('Aws::SNS | topic lifecycle tests', ['aws', 'sns']) do
+Shindo.tests('AWS::SNS | topic lifecycle tests', ['aws', 'sns']) do
 
   tests('success') do
 
-    tests("#create_topic('fog_topic_tests')").formats(Aws::SNS::Formats::BASIC.merge('TopicArn' => String)) do
+    tests("#create_topic('fog_topic_tests')").formats(AWS::SNS::Formats::BASIC.merge('TopicArn' => String)) do
       body = Fog::AWS[:sns].create_topic('fog_topic_tests').body
       @topic_arn = body["TopicArn"]
       body
     end
 
-    tests("#list_topics").formats(Aws::SNS::Formats::BASIC.merge('Topics' => [String])) do
+    tests("#list_topics").formats(AWS::SNS::Formats::BASIC.merge('Topics' => [String])) do
       Fog::AWS[:sns].list_topics.body
     end
 
-    tests("#set_topic_attributes('#{@topic_arn}', 'DisplayName', 'other-fog_topic_tests')").formats(Aws::SNS::Formats::BASIC) do
+    tests("#set_topic_attributes('#{@topic_arn}', 'DisplayName', 'other-fog_topic_tests')").formats(AWS::SNS::Formats::BASIC) do
       Fog::AWS[:sns].set_topic_attributes(@topic_arn, 'DisplayName', 'other-fog_topic_tests').body
     end
 
-    get_topic_attributes_format = Aws::SNS::Formats::BASIC.merge({
+    get_topic_attributes_format = AWS::SNS::Formats::BASIC.merge({
       'Attributes' => {
         'DisplayName'             => String,
         'Owner'                   => String,
@@ -32,7 +32,7 @@ Shindo.tests('Aws::SNS | topic lifecycle tests', ['aws', 'sns']) do
       Fog::AWS[:sns].get_topic_attributes(@topic_arn).body
     end
 
-    tests("#delete_topic('#{@topic_arn}')").formats(Aws::SNS::Formats::BASIC) do
+    tests("#delete_topic('#{@topic_arn}')").formats(AWS::SNS::Formats::BASIC) do
       Fog::AWS[:sns].delete_topic(@topic_arn).body
     end
 

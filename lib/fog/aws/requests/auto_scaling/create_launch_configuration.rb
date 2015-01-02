@@ -62,7 +62,7 @@ module Fog
             end
           end
           if security_groups = options.delete('SecurityGroups')
-             options.merge!(Aws.indexed_param('SecurityGroups.member.%d', [*security_groups]))
+             options.merge!(AWS.indexed_param('SecurityGroups.member.%d', [*security_groups]))
           end
           if options['UserData']
             options['UserData'] = Base64.encode64(options['UserData'])

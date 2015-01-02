@@ -1,4 +1,4 @@
-Shindo.tests('Aws::ELB | models', ['aws', 'elb']) do
+Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
   Fog::Compute::AWS::Mock.reset if Fog.mocking?
   @availability_zones = Fog::Compute[:aws].describe_availability_zones('state' => 'available').body['availabilityZoneInfo'].map{ |az| az['zoneName'] }
   @key_name = 'fog-test-model'
@@ -69,7 +69,7 @@ Shindo.tests('Aws::ELB | models', ['aws', 'elb']) do
         Fog::Compute[:aws].disable_ec2_classic if Fog.mocking?
 
         if Fog::Compute[:aws].supported_platforms.include?("EC2")
-          Formatador.display_line("[yellow]Skipping test [bold]with default vpc[/][yellow] due to Aws account having EC2 available[/]")
+          Formatador.display_line("[yellow]Skipping test [bold]with default vpc[/][yellow] due to AWS account having EC2 available[/]")
         else
           elb2 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :availability_zones => @availability_zones[0])
           tests("elb source group should start with default_elb_").returns(true) { !!(elb2.source_group["GroupName"] =~ /default_elb_/) }
@@ -101,7 +101,7 @@ Shindo.tests('Aws::ELB | models', ['aws', 'elb']) do
 
       # Need to sleep here for IAM changes to propgate
       tests('with ListenerDescriptions') do
-        @certificate = Fog::AWS[:iam].upload_server_certificate(Aws::IAM::SERVER_CERT, Aws::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
+        @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
         sleep(10) unless Fog.mocking?
         listeners = [{
           'Listener' => {
@@ -239,11 +239,11 @@ Shindo.tests('Aws::ELB | models', ['aws', 'elb']) do
 
     tests('configure_health_check') do
       new_health_check = {
-        "HealthyThreshold"   => 5,
-        "Timeout"            => 10,
-        "UnhealthyThreshold" => 3,
-        "Interval"           => 15,
-        "Target"             => "HTTP:80/index.html"
+        "HealthyThreshold"=>5,
+        "Timeout"=>10,
+        "UnhealthyThreshold"=>3,
+        "Interval"=>15,
+        "Target"=>"HTTP:80/index.html"
       }
       elb.configure_health_check(new_health_check)
       returns(new_health_check) { elb.health_check }
@@ -318,12 +318,12 @@ Shindo.tests('Aws::ELB | models', ['aws', 'elb']) do
 
       public_key_policy_id = 'fog-public-key-policy'
       tests('create public key policy') do
-        elb.policies.create(:id => public_key_policy_id, :type_name => 'PublicKeyPolicyType', :policy_attributes => {'PublicKey' => Aws::IAM::SERVER_CERT_PUBLIC_KEY})
+        elb.policies.create(:id => public_key_policy_id, :type_name => 'PublicKeyPolicyType', :policy_attributes => {'PublicKey' => AWS::IAM::SERVER_CERT_PUBLIC_KEY})
         policy = elb.policies.get(public_key_policy_id)
 
         returns(public_key_policy_id) { policy.id }
         returns("PublicKeyPolicyType") { policy.type_name }
-        returns(Aws::IAM::SERVER_CERT_PUBLIC_KEY) { policy.policy_attributes["PublicKey"] }
+        returns(AWS::IAM::SERVER_CERT_PUBLIC_KEY) { policy.policy_attributes["PublicKey"] }
       end
 
       tests('a malformed policy') do

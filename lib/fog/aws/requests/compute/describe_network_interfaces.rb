@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_network_interfaces'
 
@@ -51,7 +51,7 @@ module Fog
         # *     'privateDnsName'<~String>   - The private DNS associate to the ip address
         # *     'primay'<~String>           - Whether main ip associate with NIC true of false
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/2012-03-01/APIReference/index.html?ApiReference-query-DescribeNetworkInterfaces.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2012-03-01/APIReference/index.html?ApiReference-query-DescribeNetworkInterfaces.html]
         def describe_network_interfaces(filters = {})
           params = Fog::AWS.indexed_filters(filters)
           request({

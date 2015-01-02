@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class SecurityGroup < Fog::Model
         identity  :name,            :aliases => 'groupName'
         attribute :description,     :aliases => 'groupDescription'
@@ -15,7 +15,7 @@ module Fog
 
         # Authorize access by another security group
         #
-        #  >> g = Aws.security_groups.all(:description => "something").first
+        #  >> g = AWS.security_groups.all(:description => "something").first
         #  >> g.authorize_group_and_owner("some_group_name", "1234567890")
         #
         # == Parameters:
@@ -54,7 +54,7 @@ module Fog
 
         # Authorize a new port range for a security group
         #
-        #  >> g = Aws.security_groups.all(:description => "something").first
+        #  >> g = AWS.security_groups.all(:description => "something").first
         #  >> g.authorize_port_range(20..21)
         #
         # == Parameters:
@@ -129,7 +129,7 @@ module Fog
 
         # Revoke access by another security group
         #
-        #  >> g = Aws.security_groups.all(:description => "something").first
+        #  >> g = AWS.security_groups.all(:description => "something").first
         #  >> g.revoke_group_and_owner("some_group_name", "1234567890")
         #
         # == Parameters:
@@ -168,7 +168,7 @@ module Fog
 
         # Revoke an existing port range for a security group
         #
-        #  >> g = Aws.security_groups.all(:description => "something").first
+        #  >> g = AWS.security_groups.all(:description => "something").first
         #  >> g.revoke_port_range(20..21)
         #
         # == Parameters:
@@ -223,7 +223,7 @@ module Fog
 
         # Reload a security group
         #
-        #  >> g = Aws.security_groups.get(:name => "some_name")
+        #  >> g = AWS.security_groups.get(:name => "some_name")
         #  >> g.reload
         #
         #  == Returns:
@@ -253,7 +253,7 @@ module Fog
 
         # Create a security group
         #
-        #  >> g = Aws.security_groups.new(:name => "some_name", :description => "something")
+        #  >> g = AWS.security_groups.new(:name => "some_name", :description => "something")
         #  >> g.save
         #
         # == Returns:

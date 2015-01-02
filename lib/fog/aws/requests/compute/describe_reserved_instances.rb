@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_reserved_instances'
 
@@ -26,7 +26,7 @@ module Fog
         #       * 'usagePrice"<~Float> - usage price of reserved instances, per hour
         #       * 'end' - time reservation stopped being applied (i.e sold or canceled - as of version 2013/10/01)
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeReservedInstances.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeReservedInstances.html]
         def describe_reserved_instances(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_reserved_instances with #{filters.class} param is deprecated, use describe_reserved_instances('reserved-instances-id' => []) instead [light_black](#{caller.first})[/]")

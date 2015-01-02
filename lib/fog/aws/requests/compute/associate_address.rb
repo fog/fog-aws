@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/associate_address'
 
@@ -21,7 +21,7 @@ module Fog
         #     * 'return'<~Boolean> - success?
         #     * 'associationId'<~String> - association Id for eip to node (vpc only)
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-AssociateAddress.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-AssociateAddress.html]
         def associate_address(*args)
           if args.first.kind_of? Hash
             params = args.first

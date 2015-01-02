@@ -44,7 +44,7 @@ module Fog
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
         #
         # ==== Returns
-        # * CloudFormation object with connection to Aws.
+        # * CloudFormation object with connection to AWS.
         def initialize(options={})
 
           @use_iam_profile = options[:use_iam_profile]

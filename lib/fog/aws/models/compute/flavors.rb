@@ -3,7 +3,7 @@ require 'fog/aws/models/compute/flavor'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       FLAVORS = [
         {
           :id                      => 't1.micro',
@@ -392,13 +392,13 @@ module Fog
 
         # Returns an array of all flavors that have been created
         #
-        # Aws.flavors.all
+        # AWS.flavors.all
         #
         # ==== Returns
         #
         # Returns an array of all available instances and their general information
         #
-        #>> Aws.flavors.all
+        #>> AWS.flavors.all
         #  <Fog::AWS::Compute::Flavors
         #    [
         #      <Fog::AWS::Compute::Flavor
@@ -580,11 +580,11 @@ module Fog
         # i2.xlarge, i2.2xlarge, i2.4xlarge, i2.8xlarge
         #
         # You can run the following command to get the details:
-        # Aws.flavors.get("t1.micro")
+        # AWS.flavors.get("t1.micro")
         #
         # ==== Returns
         #
-        #>> Aws.flavors.get("t1.micro")
+        #>> AWS.flavors.get("t1.micro")
         # <Fog::AWS::Compute::Flavor
         #  id="t1.micro",
         #  bits=0,

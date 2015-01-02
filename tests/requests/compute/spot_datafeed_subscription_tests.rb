@@ -26,7 +26,7 @@ Shindo.tests('Fog::Compute[:aws] | spot datafeed subscription requests', ['aws']
       Fog::Compute[:aws].describe_spot_datafeed_subscription.body
     end
 
-    tests("#delete_spot_datafeed_subscription").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_spot_datafeed_subscription").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_spot_datafeed_subscription.body
     end
 

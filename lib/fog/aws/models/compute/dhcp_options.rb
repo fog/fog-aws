@@ -3,7 +3,7 @@ require 'fog/aws/models/compute/dhcp_option'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class DhcpOptions < Fog::Collection
         attribute :filters
 
@@ -11,13 +11,13 @@ module Fog
 
         # Creates a new dhcp option
         #
-        # Aws.dhcp_options.new
+        # AWS.dhcp_options.new
         #
         # ==== Returns
         #
         # Returns the details of the new DHCP options
         #
-        #>> Aws.dhcp_options.new
+        #>> AWS.dhcp_options.new
         #=>   <Fog::Compute::AWS::DhcpOption
         #id=nil,
         #dhcp_configuration_set=nil,
@@ -32,13 +32,13 @@ module Fog
 
         # Returns an array of all DhcpOptions that have been created
         #
-        # Aws.dhcp_options.all
+        # AWS.dhcp_options.all
         #
         # ==== Returns
         #
         # Returns an array of all DhcpOptions
         #
-        #>> Aws.dhcp_options.all
+        #>> AWS.dhcp_options.all
         #<Fog::Compute::AWS::DhcpOptions
         #filters={}
         #[
@@ -64,11 +64,11 @@ module Fog
         # Used to retrieve an DhcpOption
         #
         # You can run the following command to get the details:
-        # Aws.dhcp_options.get("dopt-12345678")
+        # AWS.dhcp_options.get("dopt-12345678")
         #
         # ==== Returns
         #
-        #>> Aws.dhcp_options.get("dopt-12345678")
+        #>> AWS.dhcp_options.get("dopt-12345678")
         #=>   <Fog::Compute::AWS::DhcpOption
         #id="dopt-12345678",
         #dhcp_configuration_set={"vpcId"=>"vpc-12345678", "state"=>"available"},

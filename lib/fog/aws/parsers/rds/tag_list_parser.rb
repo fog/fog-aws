@@ -2,7 +2,7 @@ module Fog
   module Parsers
     module AWS
       module RDS
-        # parses an XML-formatted list of resource tags from Aws
+        # parses an XML-formatted list of resource tags from AWS
         class TagListParser < Fog::Parsers::Base
           # each tag is modeled as a String pair (2-element Array)
           def reset

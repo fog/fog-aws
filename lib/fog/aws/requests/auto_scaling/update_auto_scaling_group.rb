@@ -55,10 +55,10 @@ module Fog
 
         def update_auto_scaling_group(auto_scaling_group_name, options = {})
           if availability_zones = options.delete('AvailabilityZones')
-            options.merge!(Aws.indexed_param('AvailabilityZones.member.%d', [*availability_zones]))
+            options.merge!(AWS.indexed_param('AvailabilityZones.member.%d', [*availability_zones]))
           end
           if termination_policies = options.delete('TerminationPolicies')
-            options.merge!(Aws.indexed_param('TerminationPolicies.member.%d', [*termination_policies]))
+            options.merge!(AWS.indexed_param('TerminationPolicies.member.%d', [*termination_policies]))
           end
           request({
             'Action'               => 'UpdateAutoScalingGroup',

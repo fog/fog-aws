@@ -1,4 +1,4 @@
-Shindo.tests('Aws::IAM | user requests', ['aws']) do
+Shindo.tests('AWS::IAM | user requests', ['aws']) do
 
   Fog::AWS[:iam].create_group('fog_user_tests')
 
@@ -39,7 +39,7 @@ Shindo.tests('Aws::IAM | user requests', ['aws']) do
       Fog::AWS[:iam].get_user('fog_user').body
     end
 
-    tests("#add_user_to_group('fog_user_tests', 'fog_user')").formats(Aws::IAM::Formats::BASIC) do
+    tests("#add_user_to_group('fog_user_tests', 'fog_user')").formats(AWS::IAM::Formats::BASIC) do
       Fog::AWS[:iam].add_user_to_group('fog_user_tests', 'fog_user').body
     end
 
@@ -58,11 +58,11 @@ Shindo.tests('Aws::IAM | user requests', ['aws']) do
       Fog::AWS[:iam].list_groups_for_user('fog_user').body
     end
 
-    tests("#remove_user_from_group('fog_user_tests', 'fog_user')").formats(Aws::IAM::Formats::BASIC) do
+    tests("#remove_user_from_group('fog_user_tests', 'fog_user')").formats(AWS::IAM::Formats::BASIC) do
       Fog::AWS[:iam].remove_user_from_group('fog_user_tests', 'fog_user').body
     end
 
-    tests("#delete_user('fog_user')").formats(Aws::IAM::Formats::BASIC) do
+    tests("#delete_user('fog_user')").formats(AWS::IAM::Formats::BASIC) do
       Fog::AWS[:iam].delete_user('fog_user').body
     end
 

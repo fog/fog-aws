@@ -46,7 +46,7 @@ module Fog
         #   * region<~String> - optional region to use. For instance, 'us-east-1' and etc.
         #
         # ==== Returns
-        # * SES object with connection to Aws.
+        # * SES object with connection to AWS.
         def initialize(options={})
 
           @use_iam_profile = options[:use_iam_profile]
@@ -90,9 +90,9 @@ module Fog
             'Date'          => Fog::Time.now.to_date_header,
           }
           headers['x-amz-security-token'] = @aws_session_token if @aws_session_token
-          #Aws3-HTTPS AwsAccessKeyId=<Your Aws Access Key ID>, Algorithm=HmacSHA256, Signature=<Signature>
-          headers['X-Amzn-Authorization'] = 'Aws3-HTTPS '
-          headers['X-Amzn-Authorization'] << 'AwsAccessKeyId=' << @aws_access_key_id
+          #AWS3-HTTPS AWSAccessKeyId=<Your AWS Access Key ID>, Algorithm=HmacSHA256, Signature=<Signature>
+          headers['X-Amzn-Authorization'] = 'AWS3-HTTPS '
+          headers['X-Amzn-Authorization'] << 'AWSAccessKeyId=' << @aws_access_key_id
           headers['X-Amzn-Authorization'] << ', Algorithm=HmacSHA256'
           headers['X-Amzn-Authorization'] << ', Signature=' << Base64.encode64(@hmac.sign(headers['Date'])).chomp!
 

@@ -1,4 +1,4 @@
-class Aws
+class AWS
   module ELB
     module Formats
       BASIC = {

@@ -1,8 +1,8 @@
-Shindo.tests('Aws::AutoScaling | describe types requests', ['aws', 'auto_scaling']) do
+Shindo.tests('AWS::AutoScaling | describe types requests', ['aws', 'auto_scaling']) do
 
   tests('success') do
 
-    tests("#describe_adjustment_types").formats(Aws::AutoScaling::Formats::DESCRIBE_ADJUSTMENT_TYPES) do
+    tests("#describe_adjustment_types").formats(AWS::AutoScaling::Formats::DESCRIBE_ADJUSTMENT_TYPES) do
       body = Fog::AWS[:auto_scaling].describe_adjustment_types.body
 
       [ 'ChangeInCapacity',
@@ -17,7 +17,7 @@ Shindo.tests('Aws::AutoScaling | describe types requests', ['aws', 'auto_scaling
       body
     end
 
-    tests("#describe_auto_scaling_notification_types").formats(Aws::AutoScaling::Formats::DESCRIBE_AUTO_SCALING_NOTIFICATION_TYPES) do
+    tests("#describe_auto_scaling_notification_types").formats(AWS::AutoScaling::Formats::DESCRIBE_AUTO_SCALING_NOTIFICATION_TYPES) do
       body = Fog::AWS[:auto_scaling].describe_auto_scaling_notification_types.body
 
       [ 'autoscaling:EC2_INSTANCE_LAUNCH',
@@ -34,7 +34,7 @@ Shindo.tests('Aws::AutoScaling | describe types requests', ['aws', 'auto_scaling
       body
     end
 
-    tests("#describe_metric_collection_types").formats(Aws::AutoScaling::Formats::DESCRIBE_METRIC_COLLECTION_TYPES) do
+    tests("#describe_metric_collection_types").formats(AWS::AutoScaling::Formats::DESCRIBE_METRIC_COLLECTION_TYPES) do
       body = Fog::AWS[:auto_scaling].describe_metric_collection_types.body
 
       [ 'GroupDesiredCapacity',
@@ -60,7 +60,7 @@ Shindo.tests('Aws::AutoScaling | describe types requests', ['aws', 'auto_scaling
       body
     end
 
-    tests("#describe_scaling_process_types").formats(Aws::AutoScaling::Formats::DESCRIBE_SCALING_PROCESS_TYPES) do
+    tests("#describe_scaling_process_types").formats(AWS::AutoScaling::Formats::DESCRIBE_SCALING_PROCESS_TYPES) do
       body = Fog::AWS[:auto_scaling].describe_scaling_process_types.body
 
       [ 'AZRebalance',
@@ -80,7 +80,7 @@ Shindo.tests('Aws::AutoScaling | describe types requests', ['aws', 'auto_scaling
       body
     end
 
-    tests("#describe_termination_policy_types").formats(Aws::AutoScaling::Formats::DESCRIBE_TERMINATION_POLICY_TYPES) do
+    tests("#describe_termination_policy_types").formats(AWS::AutoScaling::Formats::DESCRIBE_TERMINATION_POLICY_TYPES) do
       body = Fog::AWS[:auto_scaling].describe_termination_policy_types.body
 
       [ 'ClosestToNextInstanceHour',

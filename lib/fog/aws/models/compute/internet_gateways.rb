@@ -3,7 +3,7 @@ require 'fog/aws/models/compute/internet_gateway'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class InternetGateways < Fog::Collection
         attribute :filters
 
@@ -11,13 +11,13 @@ module Fog
 
         # Creates a new internet gateway
         #
-        # Aws.internet_gateways.new
+        # AWS.internet_gateways.new
         #
         # ==== Returns
         #
         # Returns the details of the new InternetGateway
         #
-        #>> Aws.internet_gateways.new
+        #>> AWS.internet_gateways.new
         #=>   <Fog::Compute::AWS::InternetGateway
         #id=nil,
         #attachment_set=nil,
@@ -32,13 +32,13 @@ module Fog
 
         # Returns an array of all InternetGateways that have been created
         #
-        # Aws.internet_gateways.all
+        # AWS.internet_gateways.all
         #
         # ==== Returns
         #
         # Returns an array of all InternetGateways
         #
-        #>> Aws.internet_gateways.all
+        #>> AWS.internet_gateways.all
         #<Fog::Compute::AWS::InternetGateways
         #filters={}
         #[
@@ -64,11 +64,11 @@ module Fog
         # Used to retrieve an InternetGateway
         #
         # You can run the following command to get the details:
-        # Aws.internet_gateways.get("igw-12345678")
+        # AWS.internet_gateways.get("igw-12345678")
         #
         # ==== Returns
         #
-        #>> Aws.internet_gateways.get("igw-12345678")
+        #>> AWS.internet_gateways.get("igw-12345678")
         #=>   <Fog::Compute::AWS::InternetGateway
         #id="igw-12345678",
         #attachment_set={"vpcId"=>"vpc-12345678", "state"=>"available"},

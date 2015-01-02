@@ -1,4 +1,4 @@
-Shindo.tests('Aws::Storage | delete_multiple_objects', ['aws']) do
+Shindo.tests('AWS::Storage | delete_multiple_objects', ['aws']) do
   @directory = Fog::Storage[:aws].directories.create(:key => 'fogobjecttests-' + Time.now.to_i.to_s(32))
 
   tests("doesn't alter options") do

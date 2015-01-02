@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class DhcpOption < Fog::Model
         identity  :id,                          :aliases => 'dhcpOptionsId'
         attribute :dhcp_configuration_set,      :aliases => 'dhcpConfigurationSet'
@@ -43,7 +43,7 @@ module Fog
 
         # Create a dhcp configuration set
         #
-        #  >> g = Aws.dhcp_options.new()
+        #  >> g = AWS.dhcp_options.new()
         #  >> g.save
         #
         # == Returns:

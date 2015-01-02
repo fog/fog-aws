@@ -17,7 +17,7 @@ module Fog
 
         def enable_alarm_actions(alarm_names)
           options = {}
-          options.merge!(Aws.indexed_param('AlarmNames.member.%d', [*alarm_names]))
+          options.merge!(AWS.indexed_param('AlarmNames.member.%d', [*alarm_names]))
           request({
               'Action'    => 'EnableAlarmActions',
               :parser     => Fog::Parsers::AWS::CloudWatch::EnableAlarmActions.new

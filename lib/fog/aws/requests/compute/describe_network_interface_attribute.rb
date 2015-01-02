@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_network_interface_attribute'
         # Describes a network interface attribute value
@@ -28,7 +28,7 @@ module Fog
         # *   'attachTime'<~String>
         # *   'deleteOnTermination<~Boolean>
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/2012-03-01/APIReference/ApiReference-query-DescribeNetworkInterfaceAttribute.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2012-03-01/APIReference/ApiReference-query-DescribeNetworkInterfaceAttribute.html]
         def describe_network_interface_attribute(network_interface_id, attribute)
           request(
             'Action'             => 'DescribeNetworkInterfaceAttribute',

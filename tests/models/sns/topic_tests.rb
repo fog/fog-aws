@@ -1,4 +1,4 @@
-Shindo.tests("Aws::SNS | topic", ['aws', 'sns']) do
+Shindo.tests("AWS::SNS | topic", ['aws', 'sns']) do
   params = {:id => 'fog'}
 
   model_tests(Fog::AWS[:sns].topics, params) do

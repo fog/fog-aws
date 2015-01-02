@@ -1,16 +1,16 @@
-Shindo.tests('Aws::Elasticache | security groups', ['aws', 'elasticache']) do
+Shindo.tests('AWS::Elasticache | security groups', ['aws', 'elasticache']) do
   group_name = 'fog-test'
   description = 'Fog Test'
 
   pending if Fog.mocking?
 
   model_tests(
-  Aws[:elasticache].security_groups,
+  Fog::AWS[:elasticache].security_groups,
   {:id => group_name, :description => description}, false
   ) do
 
     # An EC2 group to authorize
-    ec2_group = Fog::Compute.new(:provider => 'Aws').security_groups.create(
+    ec2_group = Fog::Compute.new(:provider => 'AWS').security_groups.create(
       :name => 'fog-test-elasticache', :description => 'fog test'
     )
 
@@ -45,7 +45,7 @@ Shindo.tests('Aws::Elasticache | security groups', ['aws', 'elasticache']) do
   end
 
   collection_tests(
-    Aws[:elasticache].security_groups,
+    Fog::AWS[:elasticache].security_groups,
     {:id => group_name, :description => description}, false
   )
 

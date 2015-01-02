@@ -1,4 +1,4 @@
-Shindo.tests("Aws::RDS | db instance options", ['aws', 'rds']) do
+Shindo.tests("AWS::RDS | db instance options", ['aws', 'rds']) do
 
   params = {:engine => 'mysql'}
 

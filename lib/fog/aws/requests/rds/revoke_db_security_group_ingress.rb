@@ -10,7 +10,7 @@ module Fog
         # * CIDRIP <~String> - The IP range to revoke
         # * DBSecurityGroupName <~String> - The name for the DB Security Group.
         # * EC2SecurityGroupName <~String> - Name of the EC2 Security Group to revoke.
-        # * EC2SecurityGroupOwnerId <~String> - Aws Account Number of the owner of the security group specified in the EC2SecurityGroupName parameter. The Aws Access Key ID is not an acceptable value.
+        # * EC2SecurityGroupOwnerId <~String> - AWS Account Number of the owner of the security group specified in the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value.
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:

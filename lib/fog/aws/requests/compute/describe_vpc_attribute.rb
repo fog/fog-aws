@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_vpc_attribute'
         # Describes a vpc attribute value
@@ -17,7 +17,7 @@ module Fog
         # * 'enableDnsSupport'<~Boolean>   - Flag indicating whether DNS resolution is enabled for the VPC (if requested)
         # * 'enableDnsHostnames'<~Boolean> - Flag indicating whether the instances launched in the VPC get DNS hostnames (if requested)
         #
-        # (Amazon API Reference)[http://docs.amazonwebservices.com/AwsEC2/2014-02-01/APIReference/ApiReference-query-DescribeVpcAttribute.html]
+        # (Amazon API Reference)[http://docs.amazonwebservices.com/AWSEC2/2014-02-01/APIReference/ApiReference-query-DescribeVpcAttribute.html]
         def describe_vpc_attribute(vpc_id, attribute)
           request(
             'Action'    => 'DescribeVpcAttribute',

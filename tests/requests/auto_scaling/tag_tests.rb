@@ -1,4 +1,4 @@
-Shindo.tests('Aws::AutoScaling | tag requests', ['aws', 'auto_scaling']) do
+Shindo.tests('AWS::AutoScaling | tag requests', ['aws', 'auto_scaling']) do
 
   image_id = {  # Ubuntu 12.04 LTS 64-bit EBS
     'ap-northeast-1' => 'ami-60c77761',
@@ -37,7 +37,7 @@ Shindo.tests('Aws::AutoScaling | tag requests', ['aws', 'auto_scaling']) do
   end
 
   tests('success') do
-    tests("#describe_auto_scaling_groups(#{asg_name}").formats(Aws::AutoScaling::Formats::DESCRIBE_AUTO_SCALING_GROUPS) do
+    tests("#describe_auto_scaling_groups(#{asg_name}").formats(AWS::AutoScaling::Formats::DESCRIBE_AUTO_SCALING_GROUPS) do
       body = Fog::AWS[:auto_scaling].describe_auto_scaling_groups('AutoScalingGroupNames' => asg_name).body
       auto_scaling_group = body['DescribeAutoScalingGroupsResult']['AutoScalingGroups'].first
       returns(true) { auto_scaling_group.key?('Tags') }
@@ -46,7 +46,7 @@ Shindo.tests('Aws::AutoScaling | tag requests', ['aws', 'auto_scaling']) do
       body
     end
 
-    tests("#describe_tags").formats(Aws::AutoScaling::Formats::DESCRIBE_TAGS) do
+    tests("#describe_tags").formats(AWS::AutoScaling::Formats::DESCRIBE_TAGS) do
       pending if Fog.mocking?
       body = Fog::AWS[:auto_scaling].describe_tags.body
       tags = body['DescribeTagsResult']['Tags']

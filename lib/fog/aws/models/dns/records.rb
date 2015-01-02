@@ -3,7 +3,7 @@ require 'fog/aws/models/dns/record'
 
 module Fog
   module DNS
-    class Aws
+    class AWS
       class Records < Fog::Collection
         attribute :is_truncated,            :aliases => ['IsTruncated']
         attribute :max_items,               :aliases => ['MaxItems']
@@ -66,7 +66,7 @@ module Fog
         end
 
         #
-        # Aws Route 53 records are uniquely identified by a compound key of name, type, and identifier.
+        # AWS Route 53 records are uniquely identified by a compound key of name, type, and identifier.
         # #get allows one to retrieve a record using one or more of those key components.
         #
         # ==== Parameters

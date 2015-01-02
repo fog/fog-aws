@@ -115,7 +115,7 @@ module Fog
         #   * region<~String> - optional region to use. For instance, 'us-east-1' and etc.
         #
         # ==== Returns
-        # * Glacier object with connection to Aws.
+        # * Glacier object with connection to AWS.
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
           @region = options[:region] || 'us-east-1'

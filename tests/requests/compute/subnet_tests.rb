@@ -59,7 +59,7 @@ Shindo.tests('Fog::Compute[:aws] | subnet requests', ['aws']) do
       Fog::Compute[:aws].describe_subnets.body
     end
 
-    tests("#delete_subnet('#{@subnet_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_subnet('#{@subnet_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_subnet(@subnet_id).body
     end
   end

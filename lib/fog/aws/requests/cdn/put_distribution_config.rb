@@ -1,6 +1,6 @@
 module Fog
   module CDN
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/cdn/distribution'
 
@@ -30,7 +30,7 @@ module Fog
         #     * Prefix [String] Optional prefix for log filenames, ie 'myprefix/'.
         #   * OriginAccessIdentity [String] Used for serving private content, in format 'origin-access-identity/cloudfront/ID'.
         #   * RequiredProtocols [String] Optional, set to 'https' to force https connections.
-        #   * TrustedSigners [Array] Optional grant of rights to up to 5 aws accounts to generate signed URLs for private content, elements are either 'Self' for your own account or an Aws Account Number.
+        #   * TrustedSigners [Array] Optional grant of rights to up to 5 aws accounts to generate signed URLs for private content, elements are either 'Self' for your own account or an AWS Account Number.
         #
         # @return [Excon::Response]
         #   * body [Hash]:

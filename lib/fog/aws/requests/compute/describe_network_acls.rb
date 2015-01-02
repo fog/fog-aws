@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_network_acls'
 
@@ -37,7 +37,7 @@ module Fog
         # *     'key'<~String>                     - Tag's key
         # *     'value'<~String>                   - Tag's value
         #
-        # {Amazon API Reference}[http://docs.aws.amazon.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeNetworkAcls.html]
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeNetworkAcls.html]
         def describe_network_acls(filters = {})
           params = Fog::AWS.indexed_filters(filters)
           request({

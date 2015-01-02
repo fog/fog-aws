@@ -169,10 +169,10 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
     end
 
     # Delete network interfaces
-    tests("#delete_network_interface('#{@nic2_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_network_interface('#{@nic2_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_network_interface(@nic2_id).body
     end
-    tests("#delete_network_interface('#{@nic_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_network_interface('#{@nic_id}')").formats(AWS::Compute::Formats::BASIC) do
      Fog::Compute[:aws].delete_network_interface(@nic_id).body
     end
 

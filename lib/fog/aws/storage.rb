@@ -2,7 +2,7 @@ require 'fog/aws/core'
 
 module Fog
   module Storage
-    class Aws < Fog::Service
+    class AWS < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       COMPLIANT_BUCKET_NAMES = /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
@@ -139,7 +139,7 @@ module Fog
 
         def signed_url(params, expires)
           #convert expires from a point in time to a delta to now
-          now = Fog::Time.now          
+          now = Fog::Time.now
 
           expires = expires.to_i - now.to_i
           params[:headers] ||= {}
@@ -224,10 +224,10 @@ module Fog
               if COMPLIANT_BUCKET_NAMES !~ bucket_name
                 Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) is not a valid dns name, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
                 path_style = true
-              elsif scheme == 'https' && bucket_name =~ /\./
+              elsif scheme == 'https' && !path_style && bucket_name =~ /\./
                 Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) contains a '.' so is not accessible over https as a virtual hosted bucket, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
                 path_style = true
-              end  
+              end
             end
 
             if path_style
@@ -406,7 +406,7 @@ module Fog
         #
         # ==== Examples
         #   s3 = Fog::Storage.new(
-        #     :provider => "Aws",
+        #     :provider => "AWS",
         #     :aws_access_key_id => your_aws_access_key_id,
         #     :aws_secret_access_key => your_aws_secret_access_key
         #   )
@@ -494,7 +494,7 @@ module Fog
           if @signature_version == 2
             expires = date.to_date_header
             params[:headers]['Date'] = expires
-            params[:headers]['Authorization'] = "Aws #{@aws_access_key_id}:#{signature_v2(params, expires)}"
+            params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature_v2(params, expires)}"
           end
 
           params = request_params(params)
@@ -508,7 +508,7 @@ module Fog
             params[:headers]['x-amz-date'] = date.to_iso8601_basic
             if params[:body].respond_to?(:read)
               # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
-              params[:headers]['x-amz-content-sha256'] = 'STREAMING-Aws4-HMAC-SHA256-PAYLOAD'
+              params[:headers]['x-amz-content-sha256'] = 'STREAMING-AWS4-HMAC-SHA256-PAYLOAD'
               params[:headers]['x-amz-decoded-content-length'] = params[:headers].delete 'Content-Length'
 
               encoding = "aws-chunked"
@@ -520,7 +520,7 @@ module Fog
             end
             signature_components = @signer.signature_components(params, date, params[:headers]['x-amz-content-sha256'])
             params[:headers]['Authorization'] = @signer.components_to_header(signature_components)
-            
+
             if params[:body].respond_to?(:read)
               body = params.delete :body
               params[:request_block] = S3Streamer.new(body, signature_components['X-Amz-Signature'], @signer, date)
@@ -580,7 +580,7 @@ module Fog
             if body.respond_to?(:binmode)
               body.binmode
             end
-            
+
             if body.respond_to?(:pos=)
               body.pos = 0
             end
@@ -615,7 +615,7 @@ module Fog
 
           def sign_chunk(data, previous_signature)
             string_to_sign = <<-DATA
-Aws4-HMAC-SHA256-PAYLOAD
+AWS4-HMAC-SHA256-PAYLOAD
 #{date.to_iso8601_basic}
 #{signer.credential_scope(date)}
 #{previous_signature}

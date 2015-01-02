@@ -37,7 +37,7 @@ Shindo.tests("Fog::AWS[:beanstalk] | version", ['aws', 'beanstalk']) do
 
       passed = false
       if @instance.description == new_description
-        # reload version from Aws to verify save is committed to server, not just on local object
+        # reload version from AWS to verify save is committed to server, not just on local object
         if @beanstalk.versions.get(@application_name, @version_name).description == new_description
           passed = true
         end
@@ -51,7 +51,7 @@ Shindo.tests("Fog::AWS[:beanstalk] | version", ['aws', 'beanstalk']) do
 
       passed = false
       if @instance.description == nil
-        # reload version from Aws to verify save is committed to server, not just on local object
+        # reload version from AWS to verify save is committed to server, not just on local object
         if @beanstalk.versions.get(@application_name, @version_name).description == nil
           passed = true
         end

@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -16,7 +16,7 @@ module Fog
         #     * 'requestId'<~String> - The ID of the request.
         #     * 'return'<~Boolean> - Returns true if the request succeeds. Otherwise, returns an error.
         #
-        # {Amazon API Reference}[http://docs.aws.amazon.com/AwsEC2/latest/APIReference/ApiReference-query-DeleteRoute.html]
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DeleteRoute.html]
         def delete_route(route_table_id, destination_cidr_block)
           request(
             'Action'                => 'DeleteRoute',

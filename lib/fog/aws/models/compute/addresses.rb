@@ -3,7 +3,7 @@ require 'fog/aws/models/compute/address'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Addresses < Fog::Collection
         attribute :filters
         attribute :server
@@ -14,13 +14,13 @@ module Fog
         #
         # ==== Returns
         #
-        #>> Aws.addresses.create
+        #>> AWS.addresses.create
         #  <Fog::AWS::Compute::Address
         #    public_ip="4.88.524.95",
         #    server_id=nil
         #  >
         #
-        # The IP address can be retrieved by running Aws.addresses.get("test").  See get method below.
+        # The IP address can be retrieved by running AWS.addresses.get("test").  See get method below.
         #
 
         def initialize(attributes)
@@ -28,13 +28,13 @@ module Fog
           super
         end
 
-        # Aws.addresses.all
+        # AWS.addresses.all
         #
         # ==== Returns
         #
         # Returns an array of all IP addresses
         #
-        #>> Aws.addresses.all
+        #>> AWS.addresses.all
         #  <Fog::AWS::Compute::Addresses
         #    filters={},
         #    server=nil
@@ -75,7 +75,7 @@ module Fog
         # public_ip is required to get the associated IP information.
         #
         # You can run the following command to get the details:
-        # Aws.addresses.get("76.7.46.54")
+        # AWS.addresses.get("76.7.46.54")
 
         def get(public_ip)
           if public_ip

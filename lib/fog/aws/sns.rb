@@ -39,8 +39,6 @@ module Fog
           end
         end
 
-        attr_reader :region
-
         def initialize(options={})
           @region            = options[:region] || 'us-east-1'
           @aws_access_key_id = options[:aws_access_key_id]
@@ -79,7 +77,7 @@ module Fog
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
         #
         # ==== Returns
-        # * SNS object with connection to Aws.
+        # * SNS object with connection to AWS.
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
           @connection_options     = options[:connection_options] || {}
@@ -98,8 +96,6 @@ module Fog
 
           setup_credentials(options)
         end
-
-        attr_reader :region
 
         def reload
           @connection.reset
@@ -122,7 +118,7 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-          body, headers = Aws.signed_params_v4(
+          body, headers = AWS.signed_params_v4(
             params,
             { 'Content-Type' => 'application/x-www-form-urlencoded' },
             {

@@ -32,7 +32,7 @@ module Fog
         #
         def enable_metrics_collection(auto_scaling_group_name, granularity, options = {})
           if metrics = options.delete('Metrics')
-            options.merge!(Aws.indexed_param('Metrics.member.%d', [*metrics]))
+            options.merge!(AWS.indexed_param('Metrics.member.%d', [*metrics]))
           end
           request({
             'Action'               => 'EnableMetricsCollection',

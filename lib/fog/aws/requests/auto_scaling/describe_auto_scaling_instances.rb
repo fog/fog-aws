@@ -56,7 +56,7 @@ module Fog
         #
         def describe_auto_scaling_instances(options = {})
           if instance_ids = options.delete('InstanceIds')
-            options.merge!(Aws.indexed_param('InstanceIds.member.%d', [*instance_ids]))
+            options.merge!(AWS.indexed_param('InstanceIds.member.%d', [*instance_ids]))
           end
           request({
             'Action' => 'DescribeAutoScalingInstances',

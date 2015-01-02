@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/spot_datafeed_subscription'
 
@@ -19,11 +19,11 @@ module Fog
         #       * 'fault'<~Hash>:
         #         * 'code'<~String> - fault code
         #         * 'reason'<~String> - fault reason
-        #       * 'ownerId'<~String> - Aws id of account owner
+        #       * 'ownerId'<~String> - AWS id of account owner
         #       * 'prefix'<~String> - prefix for datafeed items
         #       * 'state'<~String> - state of datafeed subscription
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-CreateSpotDatafeedSubscription.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateSpotDatafeedSubscription.html]
         def create_spot_datafeed_subscription(bucket, prefix)
           request(
             'Action'    => 'CreateSpotDatafeedSubscription',

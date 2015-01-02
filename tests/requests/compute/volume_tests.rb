@@ -138,11 +138,11 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
 
     Fog::Compute[:aws].volumes.get(@volume_id).wait_for { ready? }
 
-    tests("#modify_volume_attribute('#{@volume_id}', true)").formats(Aws::Compute::Formats::BASIC) do
+    tests("#modify_volume_attribute('#{@volume_id}', true)").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].modify_volume_attribute(@volume_id, true).body
     end
 
-    tests("#delete_volume('#{@volume_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#delete_volume('#{@volume_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_volume(@volume_id).body
     end
   end

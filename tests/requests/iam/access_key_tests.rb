@@ -1,4 +1,4 @@
-Shindo.tests('Aws::IAM | access key requests', ['aws']) do
+Shindo.tests('AWS::IAM | access key requests', ['aws']) do
 
   Fog::AWS[:iam].create_user('fog_access_key_tests')
 
@@ -33,12 +33,12 @@ Shindo.tests('Aws::IAM | access key requests', ['aws']) do
       Fog::AWS[:iam].list_access_keys('UserName' => 'fog_access_key_tests').body
     end
 
-    tests("#update_access_key('#{@access_key_id}', 'Inactive', 'UserName' => 'fog_access_key_tests')").formats(Aws::IAM::Formats::BASIC) do
+    tests("#update_access_key('#{@access_key_id}', 'Inactive', 'UserName' => 'fog_access_key_tests')").formats(AWS::IAM::Formats::BASIC) do
       pending if Fog.mocking?
       Fog::AWS[:iam].update_access_key(@access_key_id, 'Inactive', 'UserName' => 'fog_access_key_tests').body
     end
 
-    tests("#delete_access_key('#{@access_key_id}', 'UserName' => 'fog_access_key_tests)").formats(Aws::IAM::Formats::BASIC) do
+    tests("#delete_access_key('#{@access_key_id}', 'UserName' => 'fog_access_key_tests)").formats(AWS::IAM::Formats::BASIC) do
       Fog::AWS[:iam].delete_access_key(@access_key_id, 'UserName' => 'fog_access_key_tests').body
     end
 

@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class NetworkInterface < Fog::Model
         identity  :network_interface_id,        :aliases => 'networkInterfaceId'
         attribute :state
@@ -44,7 +44,7 @@ module Fog
 
         # Create a network_interface
         #
-        #  >> g = Aws.network_interfaces.new(:subnet_id => "subnet-someId", options)
+        #  >> g = AWS.network_interfaces.new(:subnet_id => "subnet-someId", options)
         #  >> g.save
         #
         # options is an optional hash which may contain 'PrivateIpAddress', 'Description', 'GroupSet'

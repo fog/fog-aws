@@ -23,7 +23,7 @@ module Fog
         #             * OutputKey [String] -
         #             * OutputValue [String] -
         #
-        # @see http://docs.amazonwebservices.com/AwsCloudFormation/latest/APIReference/API_DescribeStacks.html
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_DescribeStacks.html
 
         def describe_stacks(options = {})
           request({

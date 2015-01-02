@@ -17,9 +17,9 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'Arn'<~String>: The ARN of the assumed role/user
-        #     * 'AccessKeyId'<~String>: The Aws access key of the temporary credentials for the assumed role
-        #     * 'SecretAccessKey'<~String>: The Aws secret key of the temporary credentials for the assumed role
-        #     * 'SessionToken'<~String>: The Aws session token of the temporary credentials for the assumed role
+        #     * 'AccessKeyId'<~String>: The AWS access key of the temporary credentials for the assumed role
+        #     * 'SecretAccessKey'<~String>: The AWS secret key of the temporary credentials for the assumed role
+        #     * 'SessionToken'<~String>: The AWS session token of the temporary credentials for the assumed role
         #     * 'Expiration'<~Time>: The expiration time of the temporary credentials for the assumed role
         #
         # ==== See Also

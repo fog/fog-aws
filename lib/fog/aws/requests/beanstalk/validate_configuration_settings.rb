@@ -7,7 +7,7 @@ module Fog
         # Updates the specified configuration template to have the specified properties or configuration option values.
         #
         # ==== Options
-        # * ApplicationName<~String>: If specified, Aws Elastic Beanstalk restricts the returned descriptions
+        # * ApplicationName<~String>: If specified, AWS Elastic Beanstalk restricts the returned descriptions
         #   to include only those that are associated with this application.
         # * VersionLabel<~String>:
         #
@@ -19,7 +19,7 @@ module Fog
         #
         def validate_configuration_settings(options={})
           if option_settings = options.delete('OptionSettings')
-            options.merge!(Aws.indexed_param('OptionSettings.member.%d', [*option_settings]))
+            options.merge!(AWS.indexed_param('OptionSettings.member.%d', [*option_settings]))
           end
           request({
                       'Operation'    => 'ValidateConfigurationSettings',

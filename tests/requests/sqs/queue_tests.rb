@@ -1,8 +1,8 @@
-Shindo.tests('Aws::SQS | queue requests', ['aws']) do
+Shindo.tests('AWS::SQS | queue requests', ['aws']) do
 
   tests('success') do
 
-    create_queue_format = Aws::SQS::Formats::BASIC.merge({
+    create_queue_format = AWS::SQS::Formats::BASIC.merge({
       'QueueUrl' => String
     })
 
@@ -12,7 +12,7 @@ Shindo.tests('Aws::SQS | queue requests', ['aws']) do
       data
     end
 
-    list_queues_format = Aws::SQS::Formats::BASIC.merge({
+    list_queues_format = AWS::SQS::Formats::BASIC.merge({
       'QueueUrls' => [String]
     })
 
@@ -20,11 +20,11 @@ Shindo.tests('Aws::SQS | queue requests', ['aws']) do
       Fog::AWS[:sqs].list_queues.body
     end
 
-    tests("#set_queue_attributes('#{@queue_url}', 'VisibilityTimeout', 60)").formats(Aws::SQS::Formats::BASIC) do
+    tests("#set_queue_attributes('#{@queue_url}', 'VisibilityTimeout', 60)").formats(AWS::SQS::Formats::BASIC) do
       Fog::AWS[:sqs].set_queue_attributes(@queue_url, 'VisibilityTimeout', 60).body
     end
 
-    get_queue_attributes_format = Aws::SQS::Formats::BASIC.merge({
+    get_queue_attributes_format = AWS::SQS::Formats::BASIC.merge({
       'Attributes' => {
         'ApproximateNumberOfMessages'           => Integer,
         'ApproximateNumberOfMessagesNotVisible' => Integer,
@@ -41,7 +41,7 @@ Shindo.tests('Aws::SQS | queue requests', ['aws']) do
       Fog::AWS[:sqs].get_queue_attributes(@queue_url, 'All').body
     end
 
-    tests("#delete_queue('#{@queue_url}')").formats(Aws::SQS::Formats::BASIC) do
+    tests("#delete_queue('#{@queue_url}')").formats(AWS::SQS::Formats::BASIC) do
       Fog::AWS[:sqs].delete_queue(@queue_url).body
     end
 

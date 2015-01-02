@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_tags'
 
@@ -19,7 +19,7 @@ module Fog
         #       * 'key'<~String> - Tag's key
         #       * 'value'<~String> - Tag's value
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeTags.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeTags.html]
         def describe_tags(filters = {})
           params = Fog::AWS.indexed_filters(filters)
           request({

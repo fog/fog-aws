@@ -1,4 +1,4 @@
-Shindo.tests('Aws::Glacier | glacier archive tests', ['aws']) do
+Shindo.tests('AWS::Glacier | glacier archive tests', ['aws']) do
   pending if Fog.mocking?
 
   Fog::AWS[:glacier].create_vault('Fog-Test-Vault-upload')

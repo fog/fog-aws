@@ -10,7 +10,7 @@ module Fog
         # * total_size<~Integer> The total archive size
         # * tree_hash<~String> the treehash for the archive
         # * options<~Hash>
-        #   * account_id<~String> - The Aws account id. Defaults to the account owning the credentials making the request
+        #   * account_id<~String> - The AWS account id. Defaults to the account owning the credentials making the request
         # ==== Returns
         # * response<~Excon::Response>:
         #

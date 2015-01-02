@@ -3,7 +3,7 @@ require 'fog/aws/models/compute/route_table'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class RouteTables < Fog::Collection
         attribute :filters
 
@@ -11,13 +11,13 @@ module Fog
 
         # Creates a new route table
         #
-        # Aws.route_tables.new
+        # AWS.route_tables.new
         #
         # ==== Returns
         #
         # Returns the details of the new route table
         #
-        #>> Aws.route_tables.new
+        #>> AWS.route_tables.new
         # <Fog::Compute::AWS::RouteTable
         # id=nil,
         # vpc_id=nil,
@@ -34,13 +34,13 @@ module Fog
 
         # Returns an array of all route tables that have been created
         #
-        # Aws.route_tables.all
+        # AWS.route_tables.all
         #
         # ==== Returns
         #
         # Returns an array of all route tables
         #
-        #>> Aws.route_tables.all
+        #>> AWS.route_tables.all
         # <Fog::Compute::AWS::RouteTables
         # filters={}
         # [
@@ -66,11 +66,11 @@ module Fog
         # route_table_id is required to get the associated route table information.
         #
         # You can run the following command to get the details:
-        # Aws.route_tables.get("rtb-41e8552f")
+        # AWS.route_tables.get("rtb-41e8552f")
         #
         # ==== Returns
         #
-        #>> Aws.route_tables.get("rtb-41e8552f")
+        #>> AWS.route_tables.get("rtb-41e8552f")
         # <Fog::Compute::AWS::RouteTable
         # id="rtb-41e8552f",
         # TODO

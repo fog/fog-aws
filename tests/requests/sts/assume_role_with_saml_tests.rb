@@ -1,4 +1,4 @@
-Shindo.tests('Aws::STS | assume role with SAML', ['aws']) do
+Shindo.tests('AWS::STS | assume role with SAML', ['aws']) do
 
 	@policy = {"Statement" => [{"Effect" => "Allow", "Action" => "*", "Resource" => "*"}]}
 

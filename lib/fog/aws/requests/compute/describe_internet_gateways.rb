@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_internet_gateways'
 
@@ -22,7 +22,7 @@ module Fog
         #   * 'key'<~String> - Tag's key
         #   * 'value'<~String> - Tag's value
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-ItemType-InternetGatewayType.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-ItemType-InternetGatewayType.html]
         def describe_internet_gateways(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.warning("describe_internet_gateways with #{filters.class} param is deprecated, use internet_gateways('internet-gateway-id' => []) instead [light_black](#{caller.first})[/]")

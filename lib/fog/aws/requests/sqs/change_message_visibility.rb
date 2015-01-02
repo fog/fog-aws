@@ -12,7 +12,7 @@ module Fog
         # * visibility_timeout<~Integer> - New visibility timeout in 0..43200
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/AwsSimpleQueueService/latest/APIReference/Query_QueryChangeMessageVisibility.html
+        # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QueryChangeMessageVisibility.html
         #
 
         def change_message_visibility(queue_url, receipt_handle, visibility_timeout)

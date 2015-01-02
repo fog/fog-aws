@@ -4,12 +4,12 @@ require 'fog/aws/core'
 module Fog
   module AWS
     class SignatureV4
-      ALGORITHM = 'Aws4-HMAC-SHA256'
+      ALGORITHM = 'AWS4-HMAC-SHA256'
       def initialize(aws_access_key_id, secret_key, region, service)
         @region = region
         @service = service
         @aws_access_key_id  = aws_access_key_id
-        @hmac = Fog::HMAC.new('sha256', 'Aws4' + secret_key)
+        @hmac = Fog::HMAC.new('sha256', 'AWS4' + secret_key)
       end
 
       def signature_parameters(params, date, body_sha = nil)

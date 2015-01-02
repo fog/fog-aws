@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -14,7 +14,7 @@ module Fog
         #   * 'Remove.Group'<~Array> - One or more groups to revoke volume create permission from
         #   * 'Remove.UserId'<~Array> - One or more account ids to revoke volume create permission from
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-ModifySnapshotAttribute.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-ModifySnapshotAttribute.html]
         #
         def modify_snapshot_attribute(snapshot_id, attributes)
           params = {}

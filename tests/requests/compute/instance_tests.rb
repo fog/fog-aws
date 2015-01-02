@@ -242,7 +242,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
 
     key.destroy
 
-    tests("#reboot_instances('#{@instance_id}')").formats(Aws::Compute::Formats::BASIC) do
+    tests("#reboot_instances('#{@instance_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].reboot_instances(@instance_id).body
     end
 

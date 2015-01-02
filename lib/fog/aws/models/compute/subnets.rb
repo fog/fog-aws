@@ -3,7 +3,7 @@ require 'fog/aws/models/compute/subnet'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Subnets < Fog::Collection
         attribute :filters
 
@@ -11,13 +11,13 @@ module Fog
 
         # Creates a new subnet
         #
-        # Aws.subnets.new
+        # AWS.subnets.new
         #
         # ==== Returns
         #
         # Returns the details of the new Subnet
         #
-        #>> Aws.subnets.new
+        #>> AWS.subnets.new
         # <Fog::AWS::Compute::Subnet
         # subnet_id=subnet-someId,
         # state=[pending|available],
@@ -35,13 +35,13 @@ module Fog
 
         # Returns an array of all Subnets that have been created
         #
-        # Aws.subnets.all
+        # AWS.subnets.all
         #
         # ==== Returns
         #
         # Returns an array of all VPCs
         #
-        #>> Aws.subnets.all
+        #>> AWS.subnets.all
         # <Fog::AWS::Compute::Subnet
         # filters={}
         # [
@@ -69,11 +69,11 @@ module Fog
         # subnet-id is required to get the associated VPC information.
         #
         # You can run the following command to get the details:
-        # Aws.subnets.get("subnet-12345678")
+        # AWS.subnets.get("subnet-12345678")
         #
         # ==== Returns
         #
-        #>> Aws.subnets.get("subnet-12345678")
+        #>> AWS.subnets.get("subnet-12345678")
         # <Fog::AWS::Compute::Subnet
         # subnet_id=subnet-someId,
         # state=[pending|available],

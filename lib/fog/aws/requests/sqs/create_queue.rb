@@ -12,7 +12,7 @@ module Fog
         #   * DefaultVisibilityTimeout<~String> - Time, in seconds, to hide a message after it has been received, in 0..43200, defaults to 30
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/AwsSimpleQueueService/latest/APIReference/Query_QueryCreateQueue.html
+        # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QueryCreateQueue.html
         #
 
         def create_queue(name, options = {})

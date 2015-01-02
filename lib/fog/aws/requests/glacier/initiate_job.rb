@@ -13,7 +13,7 @@ module Fog
         #    * Format<~String> The format to return (only for inventory retrieval). Values: CSV, JSON
         #    * SNSTopic<String> ARN of a topic to publish to when the job is complete
         # * options<~Hash>
-        #   * account_id<~String> - The Aws account id. Defaults to the account owning the credentials making the request
+        #   * account_id<~String> - The AWS account id. Defaults to the account owning the credentials making the request
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:

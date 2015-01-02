@@ -11,7 +11,7 @@ module Fog
         #   * statuscode<~String> Filter returned jobs by status (InProgress, Succeeded, or Failed)
         #   * limit<~Integer> - The maximum number of items returned in the response. (default 1000)
         #   * marker<~String> - marker used for pagination
-        #   * account_id<~String> - The Aws account id. Defaults to the account owning the credentials making the request
+        #   * account_id<~String> - The AWS account id. Defaults to the account owning the credentials making the request
         # ==== Returns
         # * response<~Excon::Response>:
         # ==== See Also

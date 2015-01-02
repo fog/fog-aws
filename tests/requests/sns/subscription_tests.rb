@@ -1,4 +1,4 @@
-Shindo.tests('Aws::SES | topic lifecycle tests', ['aws', 'sns']) do
+Shindo.tests('AWS::SES | topic lifecycle tests', ['aws', 'sns']) do
 
   unless Fog.mocking?
     @topic_arn = Fog::AWS[:sns].create_topic('fog_subscription_tests').body['TopicArn']
@@ -15,7 +15,7 @@ Shindo.tests('Aws::SES | topic lifecycle tests', ['aws', 'sns']) do
             'StringEquals' => { 'aws:SourceArn' => @topic_arn }
           },
           'Effect'    => 'Allow',
-          'Principal' => { 'Aws' => '*' },
+          'Principal' => { 'AWS' => '*' },
           'Resource'  => @queue_arn,
           'Sid'       => "#{@topic_arn}+sqs:SendMessage"
         },
@@ -26,14 +26,14 @@ Shindo.tests('Aws::SES | topic lifecycle tests', ['aws', 'sns']) do
 
   tests('success') do
 
-    tests("#subscribe('#{@topic_arn}', '#{@queue_arn}', 'sqs')").formats(Aws::SNS::Formats::BASIC.merge('SubscriptionArn' => String)) do
+    tests("#subscribe('#{@topic_arn}', '#{@queue_arn}', 'sqs')").formats(AWS::SNS::Formats::BASIC.merge('SubscriptionArn' => String)) do
       pending if Fog.mocking?
       body = Fog::AWS[:sns].subscribe(@topic_arn, @queue_arn, 'sqs').body
       @subscription_arn = body['SubscriptionArn']
       body
     end
 
-    list_subscriptions_format = Aws::SNS::Formats::BASIC.merge({
+    list_subscriptions_format = AWS::SNS::Formats::BASIC.merge({
       'Subscriptions' => [{
         'Endpoint'        => String,
         'Owner'           => String,
@@ -53,7 +53,7 @@ Shindo.tests('Aws::SES | topic lifecycle tests', ['aws', 'sns']) do
       body = Fog::AWS[:sns].list_subscriptions_by_topic(@topic_arn).body
     end
 
-    tests("#publish('#{@topic_arn}', 'message')").formats(Aws::SNS::Formats::BASIC.merge('MessageId' => String)) do
+    tests("#publish('#{@topic_arn}', 'message')").formats(AWS::SNS::Formats::BASIC.merge('MessageId' => String)) do
       pending if Fog.mocking?
       body = Fog::AWS[:sns].publish(@topic_arn, 'message').body
     end
@@ -67,7 +67,7 @@ Shindo.tests('Aws::SES | topic lifecycle tests', ['aws', 'sns']) do
       Fog::JSON.decode(message['Body'])['Message']
     end
 
-    tests("#unsubscribe('#{@subscription_arn}')").formats(Aws::SNS::Formats::BASIC) do
+    tests("#unsubscribe('#{@subscription_arn}')").formats(AWS::SNS::Formats::BASIC) do
       pending if Fog.mocking?
       Fog::AWS[:sns].unsubscribe(@subscription_arn).body
     end

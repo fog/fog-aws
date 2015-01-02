@@ -2,7 +2,7 @@ require 'fog/aws/core'
 
 module Fog
   module DNS
-    class Aws < Fog::Service
+    class AWS < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
@@ -127,7 +127,7 @@ module Fog
           params[:headers] ||= {}
           params[:headers]['Date'] = Fog::Time.now.to_date_header
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
-          params[:headers]['X-Amzn-Authorization'] = "Aws3-HTTPS AwsAccessKeyId=#{@aws_access_key_id},Algorithm=HmacSHA1,Signature=#{signature(params)}"
+          params[:headers]['X-Amzn-Authorization'] = "AWS3-HTTPS AWSAccessKeyId=#{@aws_access_key_id},Algorithm=HmacSHA1,Signature=#{signature(params)}"
           params[:path] = "/#{@version}/#{params[:path]}"
 
           if @instrumentor

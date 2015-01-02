@@ -3,7 +3,7 @@ require 'fog/aws/models/compute/network_acl'
 
 module Fog
   module Compute
-    class Aws
+    class AWS
       class NetworkAcls < Fog::Collection
         attribute :filters
 
@@ -11,7 +11,7 @@ module Fog
 
         # Creates a new network ACL
         #
-        # Aws.network_acls.new
+        # AWS.network_acls.new
         #
         # ==== Returns
         #
@@ -33,13 +33,13 @@ module Fog
 
         # Returns an array of all network ACLs that have been created
         #
-        # Aws.network_acls.all
+        # AWS.network_acls.all
         #
         # ==== Returns
         #
         # Returns an array of all network ACLs
         #
-        #>> Aws.network_acls.all
+        #>> AWS.network_acls.all
         #  <Fog::AWS::Compute::NetworkAcls
         #    filters={}
         #    [
@@ -89,11 +89,11 @@ module Fog
         # network interface id is required to get any information
         #
         # You can run the following command to get the details:
-        # Aws.network_interfaces.get("eni-11223344")
+        # AWS.network_interfaces.get("eni-11223344")
         #
         # ==== Returns
         #
-        #>> Aws.network_acls.get("acl-abcdefgh")
+        #>> AWS.network_acls.get("acl-abcdefgh")
         #  <Fog::Compute::AWS::NetworkAcl
         #    network_acl_id="acl-abcdefgh",
         #    vpc_id="vpc-abcdefgh",

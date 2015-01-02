@@ -1,4 +1,4 @@
-Shindo.tests('Aws::IAM | server certificate requests', ['aws']) do
+Shindo.tests('AWS::IAM | server certificate requests', ['aws']) do
   @key_name = 'fog-test'
   @key_name_chained = 'fog-test-chained'
 
@@ -25,10 +25,10 @@ Shindo.tests('Aws::IAM | server certificate requests', ['aws']) do
   }
 
   tests('#upload_server_certificate') do
-    public_key  = Aws::IAM::SERVER_CERT
-    private_key = Aws::IAM::SERVER_CERT_PRIVATE_KEY
-    private_key_pkcs8 = Aws::IAM::SERVER_CERT_PRIVATE_KEY_PKCS8
-    private_key_mismatch = Aws::IAM::SERVER_CERT_PRIVATE_KEY_MISMATCHED
+    public_key  = AWS::IAM::SERVER_CERT
+    private_key = AWS::IAM::SERVER_CERT_PRIVATE_KEY
+    private_key_pkcs8 = AWS::IAM::SERVER_CERT_PRIVATE_KEY_PKCS8
+    private_key_mismatch = AWS::IAM::SERVER_CERT_PRIVATE_KEY_MISMATCHED
 
     tests('empty public key').raises(Fog::AWS::IAM::ValidationError) do
       Fog::AWS::IAM.new.upload_server_certificate('', private_key, @key_name)
@@ -68,8 +68,8 @@ Shindo.tests('Aws::IAM | server certificate requests', ['aws']) do
   end
 
   tests('#update_server_certificate') do
-    public_key  = Aws::IAM::SERVER_CERT
-    private_key = Aws::IAM::SERVER_CERT_PRIVATE_KEY
+    public_key  = AWS::IAM::SERVER_CERT
+    private_key = AWS::IAM::SERVER_CERT_PRIVATE_KEY
     key_name    = "update-key"
 
     Fog::AWS::IAM.new.upload_server_certificate(public_key, private_key, key_name)
@@ -119,7 +119,7 @@ Shindo.tests('Aws::IAM | server certificate requests', ['aws']) do
     result
   end
 
-  tests('#delete_server_certificate').formats(Aws::IAM::Formats::BASIC) do
+  tests('#delete_server_certificate').formats(AWS::IAM::Formats::BASIC) do
     tests('raises NotFound').raises(Fog::AWS::IAM::NotFound) do
       Fog::AWS::IAM.new.delete_server_certificate("#{@key_name}fake")
     end

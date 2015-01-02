@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_subnets'
 
@@ -26,7 +26,7 @@ module Fog
         # * 'value'<~String> - Tag's value
         # * 'instanceTenancy'<~String> - The allowed tenancy of instances launched into the Subnet.
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/2011-07-15/APIReference/index.html?ApiReference-query-DescribeSubnets.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2011-07-15/APIReference/index.html?ApiReference-query-DescribeSubnets.html]
         def describe_subnets(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.warning("describe_subnets with #{filters.class} param is deprecated, use describe_subnets('subnet-id' => []) instead [light_black](#{caller.first})[/]")

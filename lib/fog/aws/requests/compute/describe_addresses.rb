@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_addresses'
 
@@ -17,7 +17,7 @@ module Fog
         #       * 'instanceId'<~String> - instance for ip address
         #       * 'publicIp'<~String> - ip address for instance
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeAddresses.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeAddresses.html]
         def describe_addresses(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_addresses with #{filters.class} param is deprecated, use describe_addresses('public-ip' => []) instead [light_black](#{caller.first})[/]")

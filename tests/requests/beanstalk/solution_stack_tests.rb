@@ -1,4 +1,4 @@
-Shindo.tests('Aws::ElasticBeanstalk | solution_stack_tests', ['aws', 'beanstalk']) do
+Shindo.tests('AWS::ElasticBeanstalk | solution_stack_tests', ['aws', 'beanstalk']) do
 
   tests('success') do
     pending if Fog.mocking?

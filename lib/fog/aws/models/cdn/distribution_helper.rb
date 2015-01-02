@@ -2,7 +2,7 @@ require 'fog/core/collection'
 
 module Fog
   module CDN
-    class Aws
+    class AWS
       module DistributionHelper
         def destroy
           requires :identity, :etag, :caller_reference

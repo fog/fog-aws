@@ -1,10 +1,10 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_instance_status'
 
-        # http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DescribeInstanceStatus.html
+        # http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeInstanceStatus.html
         #
         def describe_instance_status(filters = {})
           raise ArgumentError.new("Filters must be a hash, but is a #{filters.class}.") unless filters.is_a?(Hash)

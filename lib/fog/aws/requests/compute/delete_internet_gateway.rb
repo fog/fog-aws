@@ -1,9 +1,9 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/basic'
-        #Deletes an Internet gateway from your Aws account. The gateway must not be attached to a VPC
+        #Deletes an Internet gateway from your AWS account. The gateway must not be attached to a VPC
         #
         # ==== Parameters
         # * internet_gateway_id<~String> - The ID of the InternetGateway you want to delete.
@@ -14,7 +14,7 @@ module Fog
         # * 'requestId'<~String> - Id of request
         # * 'return'<~Boolean> - Returns true if the request succeeds.
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DeleteInternetGateway.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DeleteInternetGateway.html]
         def delete_internet_gateway(internet_gateway_id)
           request(
             'Action' => 'DeleteInternetGateway',

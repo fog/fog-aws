@@ -7,7 +7,7 @@ module Fog
         # Returns the descriptions of existing applications.
         #
         # ==== Options
-        # * application_names<~Array>: If specified, Aws Elastic Beanstalk restricts the returned descriptions
+        # * application_names<~Array>: If specified, AWS Elastic Beanstalk restricts the returned descriptions
         #                               to only include those with the specified names.
         # ==== Returns
         # * response<~Excon::Response>:
@@ -17,7 +17,7 @@ module Fog
         #
         def describe_applications(application_names=[])
           options = {}
-          options.merge!(Aws.indexed_param('ApplicationNames.member.%d', [*application_names]))
+          options.merge!(AWS.indexed_param('ApplicationNames.member.%d', [*application_names]))
           request({
                       'Operation'    => 'DescribeApplications',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::DescribeApplications.new

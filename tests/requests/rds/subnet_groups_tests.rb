@@ -1,4 +1,4 @@
-Shindo.tests('Aws::RDS | subnet group requests', ['aws', 'rds']) do
+Shindo.tests('AWS::RDS | subnet group requests', ['aws', 'rds']) do
   # random_differentiator
   # Useful when rapidly re-running tests, so we don't have to wait
   # serveral minutes for deleted VPCs/subnets to disappear
@@ -23,7 +23,7 @@ Shindo.tests('Aws::RDS | subnet group requests', ['aws', 'rds']) do
 
     subnet_ids = @subnets.map { |sn| sn['subnetId'] }.to_a
 
-    tests("#create_db_subnet_group").formats(Aws::RDS::Formats::CREATE_DB_SUBNET_GROUP) do
+    tests("#create_db_subnet_group").formats(AWS::RDS::Formats::CREATE_DB_SUBNET_GROUP) do
       result = Fog::AWS[:rds].create_db_subnet_group(@subnet_group_name, subnet_ids, 'A subnet group').body
 
       returns(@subnet_group_name) { result['CreateDBSubnetGroupResult']['DBSubnetGroup']['DBSubnetGroupName'] }
@@ -34,11 +34,11 @@ Shindo.tests('Aws::RDS | subnet group requests', ['aws', 'rds']) do
       result
     end
 
-    tests("#describe_db_subnet_groups").formats(Aws::RDS::Formats::DESCRIBE_DB_SUBNET_GROUPS) do
+    tests("#describe_db_subnet_groups").formats(AWS::RDS::Formats::DESCRIBE_DB_SUBNET_GROUPS) do
       Fog::AWS[:rds].describe_db_subnet_groups.body
     end
 
-    tests("#delete_db_subnet_group").formats(Aws::RDS::Formats::BASIC) do
+    tests("#delete_db_subnet_group").formats(AWS::RDS::Formats::BASIC) do
       Fog::AWS[:rds].delete_db_subnet_group(@subnet_group_name).body
     end
 

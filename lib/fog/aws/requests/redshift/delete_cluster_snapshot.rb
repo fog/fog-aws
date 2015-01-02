@@ -9,7 +9,7 @@ module Fog
         # @param [Hash] options
         # * :snapshot_identifier - required - (String)
         #    A unique identifier for the snapshot that you are requesting. This identifier
-        #    must be unique for all snapshots within the Aws account. Constraints: Cannot be
+        #    must be unique for all snapshots within the AWS account. Constraints: Cannot be
         #    null, empty, or blank Must contain from 1 to 255 alphanumeric characters or
         #    hyphens First character must be a letter Cannot end with a hyphen or contain two
         #    consecutive hyphens Example: my-snapshot-id

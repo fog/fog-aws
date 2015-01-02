@@ -18,7 +18,7 @@ module Fog
         #   * body [Hash]:
         #     * StackId [String] - Id of the stack being updated
         #
-        # @see http://docs.amazonwebservices.com/AwsCloudFormation/latest/APIReference/API_UpdateStack.html
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_UpdateStack.html
         #
         def update_stack(stack_name, options = {})
           params = {

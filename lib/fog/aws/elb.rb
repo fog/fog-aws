@@ -129,7 +129,7 @@ module Fog
         #   * region<~String> - optional region to use. For instance, 'eu-west-1', 'us-east-1', etc.
         #
         # ==== Returns
-        # * ELB object with connection to Aws.
+        # * ELB object with connection to AWS.
         def initialize(options={})
 
           @use_iam_profile = options[:use_iam_profile]

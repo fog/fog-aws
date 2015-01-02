@@ -74,7 +74,7 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
         caller_ref = zone['CallerReference']
         ns_servers = response.body['NameServers']
 
-        # Aws returns domain with a dot at end - so when compare, remove dot
+        # AWS returns domain with a dot at end - so when compare, remove dot
         if (zone_id == @zone_id) and (name.chop == @domain_name) and (caller_ref.length > 0) and
            (ns_servers.count > 0)
            result = true
@@ -206,7 +206,7 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       response.status == 200
     }
 
-    tests("list resource records").formats(Aws::DNS::Formats::LIST_RESOURCE_RECORD_SETS)  {
+    tests("list resource records").formats(AWS::DNS::Formats::LIST_RESOURCE_RECORD_SETS)  {
       # get resource records for zone
       @r53_connection.list_resource_record_sets(@zone_id).body
     }

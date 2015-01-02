@@ -24,7 +24,7 @@ module Fog
         #         * ResourceStatus [String] -
         #         * ResourceStatusReason [String] -
         #
-        # @see http://docs.amazonwebservices.com/AwsCloudFormation/latest/APIReference/API_DescribeStackEvents.html
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_DescribeStackEvents.html
 
         def describe_stack_events(stack_name, options = {})
           request({

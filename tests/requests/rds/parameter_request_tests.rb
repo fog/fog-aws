@@ -1,10 +1,10 @@
-Shindo.tests('Aws::RDS | parameter requests', ['aws', 'rds']) do
+Shindo.tests('AWS::RDS | parameter requests', ['aws', 'rds']) do
   tests('success') do
     pending if Fog.mocking?
 
     Fog::AWS[:rds].create_db_parameter_group('fog-group', 'MySQL5.1', 'Some description')
 
-    tests('#modify_db_parameter_group').formats(Aws::RDS::Formats::MODIFY_PARAMETER_GROUP) do
+    tests('#modify_db_parameter_group').formats(AWS::RDS::Formats::MODIFY_PARAMETER_GROUP) do
       body = Fog::AWS[:rds].modify_db_parameter_group('fog-group',[
         {'ParameterName' => 'query_cache_size',
         'ParameterValue' => '12345',
@@ -14,7 +14,7 @@ Shindo.tests('Aws::RDS | parameter requests', ['aws', 'rds']) do
       body
     end
 
-    tests('#describe_db_parameters').formats(Aws::RDS::Formats::DESCRIBE_DB_PARAMETERS) do
+    tests('#describe_db_parameters').formats(AWS::RDS::Formats::DESCRIBE_DB_PARAMETERS) do
       Fog::AWS[:rds].describe_db_parameters('fog-group', :max_records => 20).body
     end
 

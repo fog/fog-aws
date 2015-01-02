@@ -1,4 +1,4 @@
-Shindo.tests('Aws::Elasticache | cache clusters', ['aws', 'elasticache']) do
+Shindo.tests('AWS::Elasticache | cache clusters', ['aws', 'elasticache']) do
   cluster_params = {
     :id               => "fog-test-cluster-#{rand(999).to_s}",
     :node_type        => 'cache.m1.large',
@@ -10,8 +10,8 @@ Shindo.tests('Aws::Elasticache | cache clusters', ['aws', 'elasticache']) do
   pending if Fog.mocking?
 
   Formatador.display_line "Creating cluster #{cluster_params[:id]}..."
-  model_tests(Aws[:elasticache].clusters, cluster_params, false) do
-    @instance.reload  # Reload to get the cluster info from Aws
+  model_tests(Fog::AWS[:elasticache].clusters, cluster_params, false) do
+    @instance.reload  # Reload to get the cluster info from AWS
     Formatador.display_line "Waiting for #{@instance.id} "+
       "to become available (#{@instance.status})..."
     @instance.wait_for {ready?}
@@ -20,8 +20,8 @@ Shindo.tests('Aws::Elasticache | cache clusters', ['aws', 'elasticache']) do
   # Single model is still deleting, so re-randomize the cluster ID
   cluster_params[:id] = "fog-test-cluster-#{rand(999).to_s}"
   Formatador.display_line "Creating cluster #{cluster_params[:id]}..."
-  collection_tests(Aws[:elasticache].clusters, cluster_params, false) do
-    @instance.reload  # Reload to get the cluster info from Aws
+  collection_tests(Fog::AWS[:elasticache].clusters, cluster_params, false) do
+    @instance.reload  # Reload to get the cluster info from AWS
     Formatador.display_line "Waiting for #{@instance.id} "+
       "to become available (#{@instance.status})..."
     @instance.wait_for {ready?}

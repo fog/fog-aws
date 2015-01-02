@@ -3,9 +3,9 @@ require 'fog/aws/models/storage/versions'
 
 module Fog
   module Storage
-    class Aws
+    class AWS
       class File < Fog::Model
-        # @see Aws Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html
+        # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html
 
         identity  :key,             :aliases => 'Key'
 
@@ -180,7 +180,7 @@ module Fog
         # @option options [String] content_encoding sets Content-Encoding HTTP header. For example, 'x-gzip'
         # @option options [String] content_md5 sets Content-MD5. For example, '79054025255fb1a26e4bc422aef54eb4'
         # @option options [String] content_type Content-Type. For example, 'text/plain'
-        # @option options [String] expires sets number of seconds before Aws Object expires.
+        # @option options [String] expires sets number of seconds before AWS Object expires.
         # @option options [String] storage_class sets x-amz-storage-class HTTP header. Defaults to 'STANDARD'. Or, 'REDUCED_REDUNDANCY'
         # @option options [String] encryption sets HTTP encryption header. Set to 'AES256' to encrypt files at rest on S3
         # @return [Boolean] true if no errors

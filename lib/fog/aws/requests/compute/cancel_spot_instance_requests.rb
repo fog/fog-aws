@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/cancel_spot_instance_requests'
 
@@ -17,7 +17,7 @@ module Fog
         #       * 'spotInstanceRequestId'<~String> - id of cancelled spot instance
         #       * 'state'<~String> - state of cancelled spot instance
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-CancelSpotInstanceRequests.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CancelSpotInstanceRequests.html]
         def cancel_spot_instance_requests(spot_instance_request_id)
           params = Fog::AWS.indexed_param('SpotInstanceRequestId', spot_instance_request_id)
           request({

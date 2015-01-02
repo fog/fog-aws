@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_dhcp_options'
 
@@ -23,7 +23,7 @@ module Fog
         #   * 'key'<~String> - Tag's key
         #   * 'value'<~String> - Tag's value
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-ItemType-DhcpOptionsType.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-ItemType-DhcpOptionsType.html]
         def describe_dhcp_options(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.warning("describe_dhcp_options with #{filters.class} param is deprecated, use dhcp_options('dhcp-options-id' => []) instead [light_black](#{caller.first})[/]")

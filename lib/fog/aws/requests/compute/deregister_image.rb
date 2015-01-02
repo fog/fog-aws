@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Aws
+    class AWS
       class Real
         require 'fog/aws/parsers/compute/deregister_image'
 
@@ -15,7 +15,7 @@ module Fog
         #     * 'return'<~Boolean> - Returns true if deregistration succeeded
         #     * 'requestId'<~String> - Id of request
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AwsEC2/latest/APIReference/ApiReference-query-DeregisterImage.html]
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DeregisterImage.html]
         def deregister_image(image_id)
           request(
             'Action'      => 'DeregisterImage',

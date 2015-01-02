@@ -3,7 +3,7 @@ require 'fog/aws/models/cdn/invalidation'
 
 module Fog
   module CDN
-    class Aws
+    class AWS
       class Invalidations < Fog::Collection
         attribute :is_truncated,            :aliases => ['IsTruncated']
         attribute :max_items,               :aliases => ['MaxItems']

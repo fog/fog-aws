@@ -1,4 +1,4 @@
-class Aws
+class AWS
   module DNS
     module Formats
       RESOURCE_RECORD_SET = {

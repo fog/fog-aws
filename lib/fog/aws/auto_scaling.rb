@@ -83,7 +83,7 @@ module Fog
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
         #
         # ==== Returns
-        # * AutoScaling object with connection to Aws.
+        # * AutoScaling object with connection to AWS.
 
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
@@ -118,7 +118,7 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-          body, headers = Aws.signed_params_v4(
+          body, headers = AWS.signed_params_v4(
             params,
             { 'Content-Type' => 'application/x-www-form-urlencoded' },
             {

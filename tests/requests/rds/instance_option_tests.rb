@@ -1,7 +1,7 @@
-Shindo.tests('Aws::RDS | db instance option requests', ['aws', 'rds']) do
+Shindo.tests('AWS::RDS | db instance option requests', ['aws', 'rds']) do
   tests('success') do
 
-    tests("#describe_orderable_db_instance_options('mysql)").formats(Aws::RDS::Formats::DESCRIBE_ORDERABLE_DB_INSTANCE_OPTION) do
+    tests("#describe_orderable_db_instance_options('mysql)").formats(AWS::RDS::Formats::DESCRIBE_ORDERABLE_DB_INSTANCE_OPTION) do
 
       body = Fog::AWS[:rds].describe_orderable_db_instance_options('mysql').body
 
