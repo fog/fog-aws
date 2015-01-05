@@ -1,3 +1,6 @@
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
+
 require File.expand_path('../../lib/fog/aws', __FILE__)
 
 Bundler.require(:test)
