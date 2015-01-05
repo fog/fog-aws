@@ -1,6 +1,10 @@
 # Fog::Aws
 
-![Gem Version](https://badge.fury.io/rb/fog-aws.svg) [![Build Status](https://travis-ci.org/fog/fog-aws.svg?branch=master)](https://travis-ci.org/fog/fog-aws) [![Dependency Status](https://gemnasium.com/fog/fog-aws.svg)](https://gemnasium.com/fog/fog-aws) [![Test Coverage](https://codeclimate.com/github/fog/fog-aws/badges/coverage.svg)](https://codeclimate.com/github/fog/fog-aws) [![Code Climate](https://codeclimate.com/github/fog/fog-aws.png)](https://codeclimate.com/github/fog/fog-aws)
+![Gem Version](https://badge.fury.io/rb/fog-aws.svg)
+[![Build Status](https://travis-ci.org/fog/fog-aws.svg?branch=master)](https://travis-ci.org/fog/fog-aws)
+[![Dependency Status](https://gemnasium.com/fog/fog-aws.svg)](https://gemnasium.com/fog/fog-aws)
+[![Test Coverage](https://codeclimate.com/github/fog/fog-aws/badges/coverage.svg)](https://codeclimate.com/github/fog/fog-aws)
+[![Code Climate](https://codeclimate.com/github/fog/fog-aws.png)](https://codeclimate.com/github/fog/fog-aws)
 
 
 ## Installation
