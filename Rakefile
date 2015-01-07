@@ -1,9 +1,9 @@
 require "bundler/gem_tasks"
-require 'rspec/core/rake_task'
+require "rspec/core/rake_task"
 
 task :default => :test
 
-mock = ENV['FOG_MOCK'] || 'true'
+mock = ENV['FOG_MOCK'] || "true"
 
 task :test => ["test:shindo", "test:rspec"]
 
