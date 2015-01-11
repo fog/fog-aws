@@ -40,7 +40,7 @@ module Fog
       class Mock
         def describe_classic_link_instances(options={})
           response = Excon::Response.new
-          instances = self.data[:instances].select {|instance| instance['classicLinkVpcId']}
+          instances = self.data[:instances].values.select {|instance| instance['classicLinkVpcId']}
           if options[:filters]
             instances = apply_tag_filters(instances, options[:filters], 'instanceId')
             instances = instances.select {|instance| instance['classicLinkVpcId'] == options[:filters]['vpc-id']} if options[:filters]['vpc-id']

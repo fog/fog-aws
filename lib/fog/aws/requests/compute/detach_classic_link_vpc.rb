@@ -44,7 +44,7 @@ module Fog
             }
             unless dry_run
               instance['classicLinkSecurityGroups'] = nil
-              instance['classicLinkVpc'] = nil
+              instance['classicLinkVpcId'] = nil
             end
             response
           elsif !instance 

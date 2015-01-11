@@ -44,7 +44,7 @@ module Fog
             response.body = {
               'instancesSet' => instance_set.reduce([]) do |ia, instance|
                                   instance['classicLinkSecurityGroups'] = nil
-                                  instance['classicLinkVpc'] = nil
+                                  instance['classicLinkVpcId'] = nil
                                   ia << {'currentState' => { 'code' => 0, 'name' => 'stopping' },
                                          'previousState' => instance['instanceState'],
                                          'instanceId' => instance['instanceId'] }
