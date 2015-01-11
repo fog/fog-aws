@@ -124,8 +124,10 @@ module Fog
       request :detach_network_interface
       request :detach_internet_gateway
       request :detach_volume
+      request :disable_vpc_classic_link
       request :disassociate_address
       request :disassociate_route_table
+      request :enable_vpc_classic_link
       request :get_console_output
       request :get_password_data
       request :import_key_pair
@@ -454,7 +456,7 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
-          @version                = options[:version]     ||  '2014-06-15'
+          @version                = options[:version]     ||  '2014-10-01'
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)

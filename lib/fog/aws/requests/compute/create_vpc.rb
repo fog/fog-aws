@@ -50,7 +50,8 @@ module Fog
                 'tagSet'             => {},
                 'enableDnsSupport'   => true,
                 'enableDnsHostnames' => false,
-                'mapPublicIpOnLaunch'=> false
+                'mapPublicIpOnLaunch'=> false,
+                'classicLinkEnabled' => false
               }
               self.data[:vpcs].push(vpc)
 
