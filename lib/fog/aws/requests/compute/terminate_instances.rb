@@ -45,6 +45,8 @@ module Fog
             response.status = 200
             for id in instance_id
               instance = self.data[:instances][id]
+              instance['classicLinkSecurityGroups'] = nil
+              instance['classicLinkVpc'] = nil
               self.data[:deleted_at][id] = Time.now
               code = case instance['instanceState']['name']
               when 'pending'
