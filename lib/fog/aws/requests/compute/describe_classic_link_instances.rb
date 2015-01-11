@@ -53,7 +53,7 @@ module Fog
 
           response.status = 200
           instance_data = instances.collect do |instance| 
-            groups = self.data[:security_groups].select {|name, data| instance['classicLinkSecurityGroups'].include?(data['groupId'])}.values
+            groups = self.data[:security_groups].values.select {|data| instance['classicLinkSecurityGroups'].include?(data['groupId'])}
             {
               'instanceId' => instance['instanceId'],
               'vpcId' => instance['classicLinkVpcId'],
