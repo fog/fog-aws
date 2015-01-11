@@ -104,14 +104,14 @@ DATA
       def canonical_headers(headers)
         canonical_headers = ''
 
-        for key in headers.keys.sort_by {|k| k.to_s}
+        for key in headers.keys.sort_by {|k| k.to_s.downcase}
           canonical_headers << "#{key.to_s.downcase}:#{headers[key].to_s.strip}\n"
         end
         canonical_headers
       end
 
       def signed_headers(headers)
-        headers.keys.map {|key| key.to_s}.sort.map {|key| key.downcase}.join(';')
+        headers.keys.map {|key| key.to_s.downcase}.sort.join(';')
       end
 
     end

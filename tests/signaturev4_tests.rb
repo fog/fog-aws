@@ -13,6 +13,12 @@ Shindo.tests('AWS | signaturev4', ['aws']) do
     end
   end
 
+  tests('get-headers-mixed-case-headers') do
+    returns(@signer.sign({:headers => {'HOST' => 'host.foo.com', 'date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '/'}, @now)) do
+      'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=date;host, Signature=b27ccfbfa7df52a200ff74193ca6e32d4b48b8856fab7ebf1c595d0670a7e470'
+    end
+  end
+
   tests('get-vanilla-query-order-key with symbol keys') do
     returns(@signer.sign({:query => {:'a' => 'foo', :'b' => 'foo'}, :headers => {:'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '/'}, @now)) do
       'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=date;host, Signature=0dc122f3b28b831ab48ba65cb47300de53fbe91b577fe113edac383730254a3b'
