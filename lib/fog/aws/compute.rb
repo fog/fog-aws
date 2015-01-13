@@ -53,6 +53,7 @@ module Fog
       request :associate_dhcp_options
       request :attach_network_interface
       request :associate_route_table
+      request :attach_classic_link_vpc
       request :attach_internet_gateway
       request :attach_volume
       request :authorize_security_group_ingress
@@ -96,6 +97,7 @@ module Fog
       request :describe_account_attributes
       request :describe_addresses
       request :describe_availability_zones
+      request :describe_classic_link_instances
       request :describe_dhcp_options
       request :describe_images
       request :describe_instances
@@ -121,11 +123,15 @@ module Fog
       request :describe_volume_status
       request :describe_vpcs
       request :describe_vpc_attribute
+      request :describe_vpc_classic_link
       request :detach_network_interface
       request :detach_internet_gateway
       request :detach_volume
+      request :detach_classic_link_vpc
+      request :disable_vpc_classic_link
       request :disassociate_address
       request :disassociate_route_table
+      request :enable_vpc_classic_link
       request :get_console_output
       request :get_password_data
       request :import_key_pair
@@ -454,7 +460,7 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
-          @version                = options[:version]     ||  '2014-06-15'
+          @version                = options[:version]     ||  '2014-10-01'
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)

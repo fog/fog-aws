@@ -11,6 +11,25 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
     'requestId' => String
   }
 
+  @describe_vpcs_classic_link_format = {
+    'vpcSet' => [{
+      'vpcId'              => String,
+      'tagSet'             => Hash,
+      'classicLinkEnabled' => Fog::Boolean
+    }],
+    'requestId' => String
+  }
+  @describe_classic_link_instances = {
+    'instancesSet' => [{
+      'vpcId'              => String,
+      'tagSet'             => Hash,
+      'instanceId'         => String,
+      'groups'             => [{'groupId' => String, 'groupName' => String}]
+    }],
+    'requestId' => String,
+    'NextToken' => Fog::Nullable::String
+  }
+
   @describe_vpcs_format = {
     'vpcSet' => [{
       'vpcId'           => String,
@@ -97,6 +116,47 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
       body = Fog::Compute[:aws].describe_vpcs('tag:foo' => 'bar').body
       tests("returns 1 vpc").returns(1) { body['vpcSet'].size }
       body
+    end
+
+    tests("describe_vpc_classic_link(:filters => {'tag-key' => 'foo'}").formats(@describe_vpcs_classic_link_format) do
+      body = Fog::Compute[:aws].describe_vpc_classic_link(:filters => {'tag-key' => 'foo'})
+      tests("returns 1 vpc").returns(1) { body['vpcSet'].size }
+      body
+    end
+
+    tests("enable_vpc_classic_link").returns(true) do
+      Fog::Compute[:aws].enable_vpc_classic_link @vpc_id
+      body = Fog::Compute[:aws].describe_vpc_classic_link(:vpc_ids => [@vpc_id])
+      body['vpcSet'].first['classicLinkEnabled']
+    end
+
+    @server = Fog::Compute[:aws].servers.create
+    @server.wait_for {ready?}
+
+    @group = Fog::Compute[:aws].security_groups.create :name => 'test-group', :description => 'vpc security group'
+
+    tests("attach_classic_link_vpc") do
+      Fog::Compute[:aws].attach_classic_link_vpc(@server.id, @vpc_id, [@group])
+    end
+
+    tests('describe_classic_link_instances').formats(@describe_classic_link_instances) do
+      Fog::Compute[:aws].describe_classic_link_instances().body
+    end
+
+    tests("detach_classic_link_vpc").returns([]) do
+      Fog::Compute[:aws].detach_classic_link_vpc(@server.id, @vpc_id)
+      Fog::Compute[:aws].describe_classic_link_instances().body['instancesSet']
+    end
+    
+    if !Fog.mocking?
+      @server.destroy
+      @server.wait_for {state == 'terminated'}
+    end
+
+    tests("disable_vpc_classic_link").returns(false) do
+      Fog::Compute[:aws].disable_vpc_classic_link @vpc_id
+      body = Fog::Compute[:aws].describe_vpc_classic_link(:vpc_ids => [@vpc_id])
+      body['vpcSet'].first['classicLinkEnabled']
     end
 
     tests("#delete_vpc('#{@vpc_id}')").formats(AWS::Compute::Formats::BASIC) do
