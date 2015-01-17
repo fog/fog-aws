@@ -1,8 +1,8 @@
 Shindo.tests("AWS::RDS | tagging", ['aws', 'rds']) do
 
   @server = Fog::AWS[:rds].servers.create(rds_default_server_params)
-  Formatador.display_line "Creating RDS instance #{@server.id}"
-  Formatador.display_line "Waiting for instance #{@server.id} to be ready"
+  Fog::Formatador.display_line "Creating RDS instance #{@server.id}"
+  Fog::Formatador.display_line "Waiting for instance #{@server.id} to be ready"
   @server.wait_for { ready? }
 
   tags1 = {'key1' => 'val1'}

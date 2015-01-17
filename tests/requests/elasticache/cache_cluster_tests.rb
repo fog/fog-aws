@@ -46,7 +46,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
       body
     end
 
-    Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
+    Fog::Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
     Fog::AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
 
     tests(
@@ -77,7 +77,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
     ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
       c = Fog::AWS[:elasticache].clusters.get(CLUSTER_ID)
       node_id = c.nodes.last['CacheNodeId']
-      Formatador.display_line "Rebooting node #{node_id}..."
+      Fog::Formatador.display_line "Rebooting node #{node_id}..."
       body = Fog::AWS[:elasticache].reboot_cache_cluster(c.id, [ node_id ]).body
       returns('rebooting cache cluster nodes') do
         body['CacheCluster']['CacheClusterStatus']
@@ -85,7 +85,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
       body['CacheCluster']
     end
 
-    Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
+    Fog::Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
     Fog::AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
 
     tests(
@@ -93,7 +93,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
     ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
       c = Fog::AWS[:elasticache].clusters.get(CLUSTER_ID)
       node_id = c.nodes.last['CacheNodeId']
-      Formatador.display_line "Removing node #{node_id}..."
+      Fog::Formatador.display_line "Removing node #{node_id}..."
       body = Fog::AWS[:elasticache].modify_cache_cluster(c.id,
       {
         :num_nodes          => NUM_NODES - 1,
@@ -106,7 +106,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
       body['CacheCluster']
     end
 
-    Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
+    Fog::Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
     Fog::AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
 
     tests(

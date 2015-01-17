@@ -69,7 +69,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
         Fog::Compute[:aws].disable_ec2_classic if Fog.mocking?
 
         if Fog::Compute[:aws].supported_platforms.include?("EC2")
-          Formatador.display_line("[yellow]Skipping test [bold]with default vpc[/][yellow] due to AWS account having EC2 available[/]")
+          Fog::Formatador.display_line("[yellow]Skipping test [bold]with default vpc[/][yellow] due to AWS account having EC2 available[/]")
         else
           elb2 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :availability_zones => @availability_zones[0])
           tests("elb source group should start with default_elb_").returns(true) { !!(elb2.source_group["GroupName"] =~ /default_elb_/) }
