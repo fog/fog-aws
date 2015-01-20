@@ -365,17 +365,21 @@ module Fog
 
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
+
+          @region = options[:region] || DEFAULT_REGION
+
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
             @scheme = endpoint.scheme
             @port = endpoint.port
           else
-            @region     = options[:region]      || DEFAULT_REGION
             @host       = options[:host]        || region_to_host(@region)
             @scheme     = options[:scheme]      || DEFAULT_SCHEME
             @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
           end
+
+
           @path_style = options[:path_style] || false
           setup_credentials(options)
         end
@@ -430,13 +434,14 @@ module Fog
           validate_signature_version!
           @path_style = options[:path_style]  || false
 
+          @region = options[:region] || DEFAULT_REGION
+
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
             @scheme = endpoint.scheme
             @port = endpoint.port
           else
-            @region     = options[:region]      || DEFAULT_REGION
             @host       = options[:host]        || region_to_host(@region)
             @scheme     = options[:scheme]      || DEFAULT_SCHEME
             @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
