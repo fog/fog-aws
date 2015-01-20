@@ -32,12 +32,17 @@ module Fog
         end
 
         def save
-          requires :id
+          requires_one :id, :display_name
 
-          data = service.create_topic(id).body["TopicArn"]
-          if data
-            data = {"id" => data}
-            merge_attributes(data)
+          name = if id
+                   Fog::Logger.deprecation("#{self.class}#save with #id is deprecated, use display_name instead [light_black](#{caller.first})[/]")
+                   id
+                 else
+                   display_name
+                 end
+
+          if identity = service.create_topic(name).body["TopicArn"]
+            merge_attributes("id" => identity)
             true
           else false
           end
