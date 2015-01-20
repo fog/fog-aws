@@ -7,14 +7,18 @@ Shindo.tests('AWS::AutoScaling | auto_scaling_tests', ['aws', 'auto_scaling']) d
       image_id = 'ami-8c1fece5'
       instance_type = 't1.micro'
       #listeners = [{'LoadBalancerPort' => 80, 'InstancePort' => 80, 'Protocol' => 'http'}]
-      Fog::AWS[:auto_scaling].create_launch_configuration(image_id, instance_type, @lc_name).body
+      options = {
+        'PlacementTenancy' => 'dedicated',
+      }
+      Fog::AWS[:auto_scaling].create_launch_configuration(image_id, instance_type, @lc_name, options).body
     end
 
     tests("#describe_launch_configurations").formats(AWS::AutoScaling::Formats::DESCRIBE_LAUNCH_CONFIGURATIONS) do
       Fog::AWS[:auto_scaling].describe_launch_configurations().body
     end
     tests("#describe_launch_configurations").formats(AWS::AutoScaling::Formats::DESCRIBE_LAUNCH_CONFIGURATIONS) do
-      Fog::AWS[:auto_scaling].describe_launch_configurations('LaunchConfigurationNames' => @lc_name).body
+      body = Fog::AWS[:auto_scaling].describe_launch_configurations('LaunchConfigurationNames' => @lc_name).body
+      returns(body['PlacementTenancy']) { 'dedicated' }
     end
     tests("#describe_launch_configurations").formats(AWS::AutoScaling::Formats::DESCRIBE_LAUNCH_CONFIGURATIONS) do
       Fog::AWS[:auto_scaling].describe_launch_configurations('LaunchConfigurationNames' => [@lc_name]).body
