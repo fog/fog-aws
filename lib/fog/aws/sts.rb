@@ -16,6 +16,7 @@ module Fog
       request :get_session_token
       request :assume_role
       request :assume_role_with_saml
+      request :assume_role_with_web_identity
 
       class Mock
         def self.data

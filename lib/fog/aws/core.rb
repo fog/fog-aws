@@ -21,6 +21,7 @@ module Fog
     service(:elasticache,     'Elasticache')
     service(:elb,             'ELB')
     service(:emr,             'EMR')
+    service(:federation,      'Federation')
     service(:glacier,         'Glacier')
     service(:iam,             'IAM')
     service(:rds,             'RDS')
@@ -109,7 +110,7 @@ module Fog
         end
       end
       body.chop!
-      
+
       headers['Authorization'] = options[:signer].sign({:method => options[:method], :headers => headers, :body => body, :query => {}, :path => options[:path]}, date)
 
       return body, headers

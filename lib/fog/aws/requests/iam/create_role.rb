@@ -50,6 +50,30 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def create_role(role_name, assume_role_policy_document, path = '/')
+          if data[:roles].key?(role_name)
+            raise Fog::AWS::IAM::EntityAlreadyExists.new("Role with name #{role_name} already exists")
+          else
+            data[:roles][role_name][:path] = path
+            Excon::Response.new.tap do |response|
+              response.body = {
+                'Role' => {
+                  'Arn'                      => data[:roles][role_name][:arn].strip,
+                  'AssumeRolePolicyDocument' => Fog::JSON.encode(data[:roles][role_name][:assume_role_policy_document]),
+                  'CreateDate'               => data[:roles][role_name][:create_date],
+                  'Path'                     => path,
+                  'RoleId'                   => data[:roles][role_name][:role_id].strip,
+                  'RoleName'                 => role_name,
+                },
+                'RequestId' => Fog::AWS::Mock.request_id
+              }
+              response.status = 200
+            end
+          end
+        end
+      end
     end
   end
 end
