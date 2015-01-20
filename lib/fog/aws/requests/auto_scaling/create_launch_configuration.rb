@@ -64,6 +64,11 @@ module Fog
           if security_groups = options.delete('SecurityGroups')
              options.merge!(AWS.indexed_param('SecurityGroups.member.%d', [*security_groups]))
           end
+
+          if classic_link_groups = options.delete('ClassicLinkVPCSecurityGroups')
+            options.merge!(AWS.indexed_param('ClassicLinkVPCSecurityGroups.member.%d', [*classic_link_groups]))
+          end
+          
           if options['UserData']
             options['UserData'] = Base64.encode64(options['UserData'])
           end
