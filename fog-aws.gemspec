@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec',   '~> 3.1'
   spec.add_development_dependency 'shindo',  '~> 0.3'
 
-  spec.add_dependency 'fog-core',  '~> 1.27'
+  spec.add_dependency 'fog-core',  '~> 1.27', '>= 1.27.3'
   spec.add_dependency 'fog-json',  '~> 1.0'
   spec.add_dependency 'fog-xml',   '~> 0.1'
   spec.add_dependency 'ipaddress', '~> 0.8'
