@@ -49,7 +49,7 @@ module Fog
             when 'DeviceName', 'VirtualName'
               @block_device_mapping[name] = value
 
-            when 'SnapshotId', 'VolumeSize'
+            when 'SnapshotId', 'VolumeSize', 'VolumeType', 'Iops'
               @ebs[name] = value
             when 'Ebs'
               @block_device_mapping[name] = @ebs
