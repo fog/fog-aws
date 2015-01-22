@@ -51,8 +51,8 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            'DescribeAlarmsResult' => results,
-            'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
+            'DescribeAlarmsResult' => { 'MetricAlarms' => results },
+            'ResponseMetadata'     => { 'RequestId'    => Fog::AWS::Mock.request_id }
           }
           response
         end
