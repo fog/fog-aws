@@ -29,7 +29,7 @@ module Fog
           topic_arn = Fog::AWS::Mock.arn(@module, @account_id, name, @region)
 
           self.data[:topics][topic_arn] = {
-            "Owner"                   => Fog::AWS::Mock.owner_id,
+            "Owner"                   => @account_id,
             "SubscriptionsPending"    => 0,
             "SubscriptionsConfirmed"  => 0,
             "SubscriptionsDeleted"    => 0,

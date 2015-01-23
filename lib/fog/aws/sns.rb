@@ -39,10 +39,13 @@ module Fog
           end
         end
 
+        attr_reader :region
+        attr_writer :account_id
+
         def initialize(options={})
           @region            = options[:region] || 'us-east-1'
           @aws_access_key_id = options[:aws_access_key_id]
-          @account_id        = "12345678910"
+          @account_id        = Fog::AWS::Mock.owner_id
           @module            = "sns"
 
           unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-central-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
@@ -96,6 +99,8 @@ module Fog
 
           setup_credentials(options)
         end
+
+        attr_reader :region
 
         def reload
           @connection.reset
