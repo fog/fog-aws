@@ -62,7 +62,7 @@ module Fog
             Fog::AWS::SQS.new(
               :region                => self.region,
               :aws_access_key_id     => access_key,
-              :aws_secret_access_key => SecureRandom.hex(3),
+              :aws_secret_access_key => SecureRandom.hex(3)
             ).send_message(endpoint, Fog::JSON.encode(
                 "Type"             => "SubscriptionConfirmation",
                 "MessageId"        => SecureRandom.uuid,
