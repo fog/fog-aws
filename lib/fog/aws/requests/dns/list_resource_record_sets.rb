@@ -48,11 +48,12 @@ module Fog
           end
 
           request({
-            :query   => parameters,
-            :parser  => Fog::Parsers::DNS::AWS::ListResourceRecordSets.new,
             :expects => 200,
+            :idempotent => true,
             :method  => 'GET',
-            :path    => "hostedzone/#{zone_id}/rrset"
+            :parser  => Fog::Parsers::DNS::AWS::ListResourceRecordSets.new,
+            :path    => "hostedzone/#{zone_id}/rrset",
+            :query   => parameters
           })
         end
       end
