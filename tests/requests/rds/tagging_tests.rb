@@ -1,11 +1,11 @@
 Shindo.tests('AWS::RDS | tagging requests', ['aws', 'rds']) do
   @rds = Fog::AWS[:rds]
   @db_instance_id = "fog-test-#{rand(65536).to_s(16)}"
-  Formatador.display_line "Creating RDS instance #{@db_instance_id}"
+  Fog::Formatador.display_line "Creating RDS instance #{@db_instance_id}"
   @rds.create_db_instance(@db_instance_id, 'AllocatedStorage' => 5,
         'DBInstanceClass' => 'db.t1.micro', 'Engine' => 'mysql',
         'MasterUsername' => 'foguser', 'MasterUserPassword' => 'fogpassword')
-  Formatador.display_line "Waiting for instance #{@db_instance_id} to be ready"
+  Fog::Formatador.display_line "Waiting for instance #{@db_instance_id} to be ready"
   @db = @rds.servers.get(@db_instance_id)
   @db.wait_for { ready? }
 
@@ -73,6 +73,6 @@ Shindo.tests('AWS::RDS | tagging requests', ['aws', 'rds']) do
     end
   end
 
-  Formatador.display_line "Destroying DB instance #{@db_instance_id}"
+  Fog::Formatador.display_line "Destroying DB instance #{@db_instance_id}"
   @db.destroy
 end
