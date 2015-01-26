@@ -42,19 +42,8 @@ module Fog
 
         def activities
           requires :id
-          data = []
-          next_token = nil
-          loop do
-            result = service.describe_scaling_activities('AutoScalingGroupName' => id, 'NextToken' => next_token).body['DescribeScalingActivitiesResult']
-            data += result['Activities']
-            next_token = result['NextToken']
-            break if next_token.nil?
-          end
-          Fog::AWS::AutoScaling::Activities.new({
-            :data => data,
-            :service => service,
-            #:load_balancer => self
-          })
+
+          activities = Fog::AWS::AutoScaling::Activities.new(:service => service, :filters => {'AutoScalingGroupName' => id})
         end
 
         def configuration

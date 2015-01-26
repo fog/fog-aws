@@ -10,8 +10,8 @@ module Fog
 
         # Creates a new scaling policy.
         def initialize(attributes={})
-          self.filters = attributes
-          super(attributes)
+          self.filters ||= {}
+          super
         end
 
         def all(filters_arg = filters)
