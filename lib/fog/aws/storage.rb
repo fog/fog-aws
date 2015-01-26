@@ -590,7 +590,7 @@ module Fog
             new_params[:bucket_name] =  %r{<Bucket>([^<]*)</Bucket>}.match(body).captures.first
             new_params[:host] = %r{<Endpoint>([^<]*)</Endpoint>}.match(body).captures.first
             # some errors provide it directly
-            @new_region = %r{<Region>([^<]*)</Region>}.match(body).captures.first
+            @new_region = %r{<Region>([^<]*)</Region>}.match(body) ? Regexp.last_match.captures.first : nil
           end
           Fog::Logger.warning("fog: followed redirect to #{host}, connecting to the matching region will be more performant")
           original_region, original_signer = @region, @signer
