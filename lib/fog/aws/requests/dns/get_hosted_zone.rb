@@ -27,8 +27,9 @@ module Fog
 
           request({
             :expects => 200,
-            :parser  => Fog::Parsers::DNS::AWS::GetHostedZone.new,
+            :idempotent => true,
             :method  => 'GET',
+            :parser  => Fog::Parsers::DNS::AWS::GetHostedZone.new,
             :path    => "hostedzone/#{zone_id}"
           })
         end
