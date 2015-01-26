@@ -141,9 +141,28 @@ module Fog
 
         def signed_url(params, expires)
           #convert expires from a point in time to a delta to now
+          expires = expires.to_i
+          if @signature_version == 4
+            params = v4_signed_params_for_url(params, expires)
+          else
+            params = v2_signed_params_for_url(params, expires)
+          end
+
+          params_to_url(params)
+        end
+
+        private
+
+        def validate_signature_version!
+          unless @signature_version == 2 || @signature_version == 4
+            raise "Unknown signature version #{@signature_version}; valid versions are 2 or 4"
+          end
+        end
+
+        def v4_signed_params_for_url(params, expires)
           now = Fog::Time.now
 
-          expires = expires.to_i - now.to_i
+          expires = expires - now.to_i
           params[:headers] ||= {}
 
           params[:query]||= {}
@@ -157,14 +176,29 @@ module Fog
           params = request_params(params)
           params[:headers][:host] = params[:host]
 
-          signature = @signer.signature_parameters(params, now, "UNSIGNED-PAYLOAD")
-
-          params[:query] = (params[:query] || {}).merge(signature)
-
-          params_to_url(params)
+          signature_query_params = @signer.signature_parameters(params, now, "UNSIGNED-PAYLOAD")
+          params[:query] = (params[:query] || {}).merge(signature_query_params)
+          params
         end
 
-        private
+        def v2_signed_params_for_url(params, expires)
+          if @aws_session_token
+            params[:headers]||= {}
+            params[:headers]['x-amz-security-token'] = @aws_session_token
+          end
+          signature = signature_v2(params, expires)
+
+          params = request_params(params)
+
+          signature_query_params = {
+            'AWSAccessKeyId' => @aws_access_key_id,
+            'Signature' => signature,
+            'Expires' => expires,
+          }
+          params[:query] = (params[:query] || {}).merge(signature_query_params)
+          params[:query]['x-amz-security-token'] = @aws_session_token if @aws_session_token
+          params
+        end
 
         def region_to_host(region=nil)
           case region.to_s
@@ -377,6 +411,8 @@ module Fog
             @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
           end
           @path_style = options[:path_style] || false
+          @signature_version = options.fetch(:aws_signature_version, 4)
+          validate_signature_version!
           setup_credentials(options)
         end
 
@@ -396,6 +432,11 @@ module Fog
 
           @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region, 's3')
         end
+
+        def signature_v2(params, expires)
+          'foo'
+        end
+
       end
 
       class Real
@@ -451,11 +492,6 @@ module Fog
 
         private
 
-        def validate_signature_version!
-          unless @signature_version == 2 || @signature_version == 4
-            raise "Unknown signature version #{@signature_version}; valid versions are 2 or 4"
-          end
-        end
 
         def setup_credentials(options)
           @aws_access_key_id     = options[:aws_access_key_id]
