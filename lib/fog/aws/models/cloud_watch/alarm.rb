@@ -27,6 +27,12 @@ module Fog
         attribute :threshold, :aliases => 'Threshold'
         attribute :unit, :aliases => 'Unit'
 
+        def initialize(attributes)
+          self.namespace ||= "AWS/EC2"
+          self.evaluation_periods ||= 1
+          super
+        end
+
         def save
           requires :id
           requires :comparison_operator
@@ -35,8 +41,6 @@ module Fog
           requires :statistic
           requires :threshold
 
-          self.namespace ||= "AWS/EC2"
-          self.evaluation_periods ||= 1
 
           options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
           options.delete_if { |key, value| value.nil? }
