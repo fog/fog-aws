@@ -40,6 +40,8 @@ module Fog
           requires :period
           requires :statistic
           requires :threshold
+          requires :namespace
+          requires :evaluation_periods
 
 
           options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
