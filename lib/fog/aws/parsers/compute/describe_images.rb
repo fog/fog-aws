@@ -30,7 +30,7 @@ module Fog
               case name
                 when 'blockDeviceMapping'
                   @in_block_device_mapping = false
-                when 'deviceName', 'virtualName', 'snapshotId', 'deleteOnTermination'
+                when 'deviceName', 'virtualName', 'snapshotId', 'deleteOnTermination', 'volumeType', 'encrypted'
                   @block_device_mapping[name] = value
                 when 'volumeSize'
                   @block_device_mapping[name] = value.to_i
