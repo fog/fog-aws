@@ -27,6 +27,23 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def delete_group_policy(group_name, policy_name)
+          if !data[:groups].key? group_name
+            raise Fog::AWS::IAM::NotFound.new("The group with name #{group_name} cannot be found.")
+          elsif !data[:groups][group_name][:policies].key? policy_name
+            raise Fog::AWS::IAM::NotFound.new("The group policy with name #{policy_name} cannot be found.")
+          else
+            data[:groups][group_name][:policies].delete(policy_name)
+
+            Excon::Response.new.tap do |response|
+              response.body = { 'RequestId' => Fog::AWS::Mock.request_id }
+              response.status = 200
+            end
+          end
+        end
+      end
     end
   end
 end
