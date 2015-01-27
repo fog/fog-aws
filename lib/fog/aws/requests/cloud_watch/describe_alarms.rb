@@ -35,17 +35,24 @@ module Fog
 
       class Mock
         def describe_alarms(options={})
-          results = { 'MetricAlarms' => [] }
-          data[:metric_alarms].each do |alarm_name, alarm_data|
-            results['MetricAlarms'] << {
-              'AlarmName' => alarm_name
-            }.merge!(alarm_data)
+
+          records = if alarm_names = options.delete('AlarmNames')
+                      [*alarm_names].inject({}) do |r, name|
+                        (record = data[:metric_alarms][name]) ? r.merge(name => record) : r
+                      end
+                    else
+                      self.data[:metric_alarms]
+                    end
+
+          results = records.inject([]) do |r, (name, data)|
+            r << {'AlarmName' => name}.merge(data)
           end
+
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            'DescribeAlarmsResult' => results,
-            'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
+            'DescribeAlarmsResult' => { 'MetricAlarms' => results },
+            'ResponseMetadata'     => { 'RequestId'    => Fog::AWS::Mock.request_id }
           }
           response
         end
