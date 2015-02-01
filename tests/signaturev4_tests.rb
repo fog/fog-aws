@@ -62,6 +62,12 @@ Shindo.tests('AWS | signaturev4', ['aws']) do
     end
   end
 
+  tests('get with repeated // inside path') do
+    returns(@signer.sign({:query => {}, :headers => {'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '/foo//bar//baz'}, @now)) do
+      'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=date;host, Signature=b250c85c72c5d7c33f67759c7a1ad79ea381cf62105290cecd530af2771575d4'
+    end
+  end
+
   tests('get with repeated trailing / ') do
     returns(@signer.sign({:query => {}, :headers => {'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '//foo//'}, @now)) do
       'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=date;host, Signature=b00392262853cfe3201e47ccf945601079e9b8a7f51ee4c3d9ee4f187aa9bf19'
