@@ -36,6 +36,28 @@ module Fog
           }.merge!(options))
         end
       end
+
+      class Mock
+        def list_roles(options={})
+          Excon::Response.new.tap do |response|
+            response.body = {
+              'Roles' => data[:roles].map do |role, data|
+                {
+                  'Arn'                      => data[:arn].strip,
+                  'AssumeRolePolicyDocument' => Fog::JSON.encode(data[:assume_role_policy_document]),
+                  'RoleId'                   => data[:role_id],
+                  'Path'                     => data[:path],
+                  'RoleName'                 => role,
+                  'CreateDate'               => data[:create_date],
+                }
+              end,
+              'RequestId' => Fog::AWS::Mock.request_id,
+              'IsTruncated' => false,
+            }
+            response.status = 200
+          end
+        end
+      end
     end
   end
 end

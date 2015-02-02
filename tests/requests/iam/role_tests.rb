@@ -2,42 +2,32 @@ Shindo.tests('AWS::IAM | role requests', ['aws']) do
   tests('success') do
 
     @role = {
-        'Arn'       => String,
+        'Arn'                      => String,
         'AssumeRolePolicyDocument' => String,
-        'CreateDate' => Time,
-        'Path'      => String,
-        'RoleId'    => String,
-        'RoleName'  => String
+        'CreateDate'               => Time,
+        'Path'                     => String,
+        'RoleId'                   => String,
+        'RoleName'                 => String
       }
     @role_format = {
       'Role' => @role,
       'RequestId' => String
     }
     tests("#create_role('fogrole')").formats(@role_format) do
-      pending if Fog.mocking?
       Fog::AWS[:iam].create_role('fogrole', Fog::AWS::IAM::EC2_ASSUME_ROLE_POLICY).body
     end
 
     tests("#get_role('fogrole')").formats(@role_format) do
-      pending if Fog.mocking?
       Fog::AWS[:iam].get_role('fogrole').body
     end
 
     @list_roles_format = {
-      'Roles' => [{
-        'Arn'       => String,
-        'AssumeRolePolicyDocument' => String,
-        'CreateDate' => Time,
-        'Path'      => String,
-        'RoleId'    => String,
-        'RoleName'  => String
-      }],
-      'RequestId' => String,
+      'Roles'       => [@role],
+      'RequestId'   => String,
       'IsTruncated' => Fog::Boolean,
     }
 
     tests("#list_roles").formats(@list_roles_format) do
-      pending if Fog.mocking?
       body = Fog::AWS[:iam].list_roles.body
       returns(true){!! body['Roles'].find {|role| role['RoleName'] == 'fogrole'}}
       body
@@ -159,7 +149,6 @@ Shindo.tests('AWS::IAM | role requests', ['aws']) do
     end
 
     tests("#delete_role('fogrole'").formats(AWS::IAM::Formats::BASIC) do
-      pending if Fog.mocking?
       Fog::AWS[:iam].delete_role('fogrole').body
     end
   end

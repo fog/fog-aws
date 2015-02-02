@@ -31,6 +31,29 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def get_role(role_name)
+          role = self.data[:roles][role_name]
+
+          raise Fog::AWS::IAM::NotFound.new("The role with name #{role_name} cannot be found") unless role
+
+          Excon::Response.new.tap do |response|
+            response.body = {
+              'Role' => {
+                  'Arn'                      => role[:arn].strip,
+                  'AssumeRolePolicyDocument' => Fog::JSON.encode(role[:assume_role_policy_document]),
+                  'CreateDate'               => role[:create_date],
+                  'Path'                     => role[:path],
+                  'RoleId'                   => role[:role_id].strip,
+                  'RoleName'                 => role_name,
+              },
+              'RequestId' => Fog::AWS::Mock.request_id
+            }
+            response.status = 200
+          end
+        end
+      end
     end
   end
 end

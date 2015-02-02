@@ -25,7 +25,7 @@ module Fog
       request :create_role
       request :create_user
       request :delete_access_key
-      request :delete_account_password_policy      
+      request :delete_account_password_policy
       request :delete_account_alias
       request :delete_group
       request :delete_group_policy
@@ -119,6 +119,27 @@ module Fog
                   :members    => [],
                   :created_at  => Time.now,
                   :policies    => {}
+                }
+              end,
+              :roles => Hash.new do |rhash, rkey|
+                rhash[rkey] = {
+                  :role_id                     => Fog::AWS::Mock.key_id,
+                  :arn                         => "arn:aws:iam:#{Fog::AWS::Mock.owner_id}:role/#{rkey}",
+                  :create_date                 => Time.now,
+                  :assume_role_policy_document => {
+                    "Version" => "2012-10-17",
+                    "Statement" => [
+                      {
+                        "Effect" => "Allow",
+                        "Principal" => {
+                          "Service" => [
+                            "ec2.amazonaws.com"
+                          ]
+                        },
+                        "Action" => ["sts:AssumeRole"]
+                      }
+                    ]
+                  },
                 }
               end
             }
