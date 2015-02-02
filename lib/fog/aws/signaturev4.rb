@@ -79,7 +79,9 @@ DATA
       protected
 
       def canonical_path(path)
-        components = path.split(%r{/+}, -1)
+        #leading and trailing repeated slashes are collapsed, but not ones that appear elsewhere
+        path = path.gsub(%r{\A/+},'/').gsub(%r{/+\z},'/')
+        components = path.split('/',-1)
         path = components.inject([]) do |acc, component|
           case component
           when '.'   #canonicalize by removing .
