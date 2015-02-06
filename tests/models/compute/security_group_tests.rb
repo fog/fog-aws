@@ -39,7 +39,6 @@ Shindo.tests("Fog::Compute[:aws] | security_group", ['aws']) do
       "#{@other_group.owner_id}:#{@other_group.group_id}", # deprecated form
       @other_group.group_id,
       {@other_group.owner_id => @other_group.group_id},
-      {@other_user_id => @other_users_group_id}
     ]
 
     group_forms.each do |group_arg|
@@ -55,6 +54,17 @@ Shindo.tests("Fog::Compute[:aws] | security_group", ['aws']) do
         @group.revoke_port_range(5000..6000, {:group => group_arg})
         @group.reload
         @group.ip_permissions.empty?
+      end
+    end
+
+    [
+      { @other_user_id => @other_users_group_id }
+    ].each do |group_arg|
+      test("does not authorize port range access by an invalid security group #{group_arg.inspect}") do
+        raises(Fog::Compute::AWS::NotFound, "The security group '#{@other_users_group_id}' does not exist") {
+          @other_group.reload
+          @group.authorize_port_range(5000..6000, {:group => group_arg})
+        }
       end
     end
 

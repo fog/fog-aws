@@ -87,43 +87,39 @@ module Fog
           end
 
           response = Excon::Response.new
-          group = self.data[:security_groups][group_name]
+          group = self.data[:security_groups][group_name] || raise(Fog::Compute::AWS::NotFound.new("The security group '#{group_name}' does not exist"))
 
-          if group
-            verify_permission_options(options, group['vpcId'] != nil)
+          verify_permission_options(options, group['vpcId'] != nil)
 
-            normalized_permissions = normalize_permissions(options)
+          normalized_permissions = normalize_permissions(options)
 
-            normalized_permissions.each do |permission|
-              if matching_group_permission = find_matching_permission(group, permission)
-                if permission['groups'].any? {|pg| matching_group_permission['groups'].include?(pg) }
-                  raise Fog::Compute::AWS::Error, "InvalidPermission.Duplicate => The permission '123' has already been authorized in the specified group"
-                end
+          normalized_permissions.each do |permission|
+            if matching_group_permission = find_matching_permission(group, permission)
+              if permission['groups'].any? {|pg| matching_group_permission['groups'].include?(pg) }
+                raise Fog::Compute::AWS::Error, "InvalidPermission.Duplicate => The permission '123' has already been authorized in the specified group"
+              end
 
-                if permission['ipRanges'].any? {|pr| matching_group_permission['ipRanges'].include?(pr) }
-                  raise Fog::Compute::AWS::Error, "InvalidPermission.Duplicate => The permission '123' has already been authorized in the specified group"
-                end
+              if permission['ipRanges'].any? {|pr| matching_group_permission['ipRanges'].include?(pr) }
+                raise Fog::Compute::AWS::Error, "InvalidPermission.Duplicate => The permission '123' has already been authorized in the specified group"
               end
             end
-
-            normalized_permissions.each do |permission|
-              if matching_group_permission = find_matching_permission(group, permission)
-                matching_group_permission['groups'] += permission['groups']
-                matching_group_permission['ipRanges'] += permission['ipRanges']
-              else
-                group['ipPermissions'] << permission
-              end
-            end
-
-            response.status = 200
-            response.body = {
-              'requestId' => Fog::AWS::Mock.request_id,
-              'return'    => true
-            }
-            response
-          else
-            raise Fog::Compute::AWS::NotFound.new("The security group '#{group_name}' does not exist")
           end
+
+          normalized_permissions.each do |permission|
+            if matching_group_permission = find_matching_permission(group, permission)
+              matching_group_permission['groups'] += permission['groups']
+              matching_group_permission['ipRanges'] += permission['ipRanges']
+            else
+              group['ipPermissions'] << permission
+            end
+          end
+
+          response.status = 200
+          response.body = {
+            'requestId' => Fog::AWS::Mock.request_id,
+            'return'    => true
+          }
+          response
         end
 
         private
@@ -158,58 +154,67 @@ module Fog
             ['tcp', 'udp'].each do |protocol|
               normalized_permissions << {
                 'ipProtocol' => protocol,
-                'fromPort' => 1,
-                'toPort' => 65535,
-                'groups' => [{'groupName' => options['SourceSecurityGroupName'], 'userId' => options['SourceSecurityGroupOwnerId'] || self.data[:owner_id], 'groupId' => source_group_id }],
-                'ipRanges' => []
+                'fromPort'   => 1,
+                'toPort'     => 65535,
+                'groups'     => [{
+                  'groupName' => options['SourceSecurityGroupName'],
+                  'userId'    => options['SourceSecurityGroupOwnerId'] || self.data[:owner_id],
+                  'groupId'   => source_group_id
+                }],
+                'ipRanges'   => []
               }
             end
             normalized_permissions << {
               'ipProtocol' => 'icmp',
-              'fromPort' => -1,
-              'toPort' => -1,
-              'groups' => [{'groupName' => options['SourceSecurityGroupName'], 'userId' => options['SourceSecurityGroupOwnerId'] || self.data[:owner_id], 'groupId' => source_group_id }],
+              'fromPort'   => -1,
+              'toPort'     => -1,
+              'groups'     => [{
+                'groupName' => options['SourceSecurityGroupName'],
+                'userId'    => options['SourceSecurityGroupOwnerId'] || self.data[:owner_id],
+                'groupId'   => source_group_id
+              }],
               'ipRanges' => []
             }
           elsif options['CidrIp']
             normalized_permissions << {
               'ipProtocol' => options['IpProtocol'],
-              'fromPort' => Integer(options['FromPort']),
-              'toPort' => Integer(options['ToPort']),
-              'groups' => [],
-              'ipRanges' => [{'cidrIp' => options['CidrIp']}]
+              'fromPort'   => Integer(options['FromPort']),
+              'toPort'     => Integer(options['ToPort']),
+              'groups'     => [],
+              'ipRanges'   => [{'cidrIp' => options['CidrIp']}]
             }
           elsif options['IpPermissions']
             options['IpPermissions'].each do |permission|
+
+              groups = (permission['Groups'] || []).map do |authorized_group|
+                security_group = if group_name = authorized_group['GroupName']
+                                   self.data[:security_groups][group_name]
+                                 elsif group_id = authorized_group['GroupId']
+                                   self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id }
+                                 end ||
+                                 raise(Fog::Compute::AWS::NotFound.new("The security group '#{group_name || group_id}' does not exist"))
+
+                                 {
+                                   'groupName' => authorized_group['GroupName'] || security_group["groupName"],
+                                   'userId'    => authorized_group['UserId']    || self.data[:owner_id],
+                                   'groupId'   => authorized_group["GroupId"]   || security_group['groupId']
+                                 }
+                  end
+
+
               if ['tcp', 'udp', 'icmp'].include?(permission['IpProtocol'])
                 normalized_permissions << {
                   'ipProtocol' => permission['IpProtocol'],
-                  'fromPort' => Integer(permission['FromPort']),
-                  'toPort' => Integer(permission['ToPort']),
-                  'groups' => (permission['Groups'] || []).map do |authorized_group|
-                    security_group = if group_name = authorized_group['GroupName']
-                                       self.data[:security_groups][group_name] || {}
-                                     elsif group_id = authorized_group['GroupId']
-                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id } || {}
-                                     end
-
-                    {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}
-                  end,
+                  'fromPort'   => Integer(permission['FromPort']),
+                  'toPort'     => Integer(permission['ToPort']),
+                  'groups'     => groups,
                   'ipRanges' => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
                 }
               else
                 normalized_permissions << {
                   'ipProtocol' => permission['IpProtocol'],
-                  'groups' => (permission['Groups'] || []).map do |authorized_group|
-                    security_group = if group_name = authorized_group['GroupName']
-                                       self.data[:security_groups][group_name] || {}
-                                     elsif group_id = authorized_group['GroupId']
-                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id } || {}
-                                     end
-
-                    {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}
-                  end,
-                  'ipRanges' => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
+                  'groups'     => groups,
+                  'ipRanges'   => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
                 }
               end
             end
@@ -221,8 +226,8 @@ module Fog
         def find_matching_permission(group, permission)
           group['ipPermissions'].find {|group_permission|
             permission['ipProtocol'] == group_permission['ipProtocol'] &&
-            permission['fromPort'] == group_permission['fromPort'] &&
-            permission['toPort'] == group_permission['toPort'] }
+              permission['fromPort'] == group_permission['fromPort'] &&
+              permission['toPort'] == group_permission['toPort'] }
         end
       end
     end
