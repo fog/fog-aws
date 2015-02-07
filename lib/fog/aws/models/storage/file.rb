@@ -23,6 +23,7 @@ module Fog
         attribute :owner,               :aliases => 'Owner'
         attribute :storage_class,       :aliases => ['x-amz-storage-class', 'StorageClass']
         attribute :encryption,          :aliases => 'x-amz-server-side-encryption'
+        attribute :encryption_key,      :aliases => 'x-amz-server-side-encryption-customer-key'
         attribute :version,             :aliases => 'x-amz-version-id'
 
         # @note Chunk size to use for multipart uploads.
@@ -199,7 +200,7 @@ module Fog
           options['Expires'] = expires if expires
           options.merge!(metadata)
           options['x-amz-storage-class'] = storage_class if storage_class
-          options['x-amz-server-side-encryption'] = encryption if encryption
+          options.merge!(encryption_headers)
 
           if multipart_chunk_size && body.respond_to?(:read)
             data = multipart_save(options)
@@ -261,8 +262,7 @@ module Fog
             body.rewind  rescue nil
           end
           while (chunk = body.read(multipart_chunk_size)) do
-            md5 = Base64.encode64(Digest::MD5.digest(chunk)).strip
-            part_upload = service.upload_part(directory.key, key, upload_id, part_tags.size + 1, chunk, 'Content-MD5' => md5 )
+            part_upload = service.upload_part(directory.key, key, upload_id, part_tags.size + 1, chunk, part_headers(chunk, options))
             part_tags << part_upload.headers["ETag"]
           end
 
@@ -273,6 +273,31 @@ module Fog
         else
           # Complete the upload
           service.complete_multipart_upload(directory.key, key, upload_id, part_tags)
+        end
+
+        def encryption_headers
+          if encryption && encryption_key
+            encryption_customer_key_headers
+          elsif encryption
+            { 'x-amz-server-side-encryption' => encryption }
+          else
+            {}
+          end
+        end
+
+        def part_headers(chunk, options)
+          md5 = Base64.encode64(Digest::MD5.digest(chunk)).strip
+          encryption_keys = encryption_customer_key_headers.keys
+          encryption_headers = options.select { |key| encryption_keys.include?(key) }
+          { 'Content-MD5' => md5 }.merge(encryption_headers)
+        end
+
+        def encryption_customer_key_headers
+          {
+            'x-amz-server-side-encryption-customer-algorithm' => encryption,
+            'x-amz-server-side-encryption-customer-key' => Base64.encode64(encryption_key.to_s).chomp!,
+            'x-amz-server-side-encryption-customer-key-md5' => Base64.encode64(Digest::MD5.digest(encryption_key.to_s)).chomp!
+          }
         end
       end
     end
