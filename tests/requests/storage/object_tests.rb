@@ -118,6 +118,12 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       (object_url =~ /http:\/\/#{Regexp.quote(@directory.identity)}\.s3\.amazonaws\.com\/fog_object/) != nil
     end
 
+    tests("#head_object_url('#{@directory.identity}', 'fog_object', expiration timestamp)").returns(true) do
+      object_url = Fog::Storage[:aws].head_object_url(@directory.identity, 'fog_object', (Time.now + 60))
+      puts object_url
+      (object_url =~ /https:\/\/#{Regexp.quote(@directory.identity)}\.s3\.amazonaws\.com\/fog_object/) != nil
+    end
+
     tests("delete_multiple_objects('#{@directory.identity}', ['fog_object', 'fog_other_object'])").formats(@multiple_delete_format) do
       Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object', 'fog_other_object']).body
     end
