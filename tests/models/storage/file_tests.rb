@@ -74,6 +74,35 @@ Shindo.tests("Storage[:aws] | file", ["aws"]) do
 
     end
 
+    tests("multipart upload with customer encryption").returns(true) do
+      pending if Fog.mocking?
+
+      encryption_key = OpenSSL::Cipher.new("AES-256-ECB").random_key
+
+      # A 6MB file
+      @large_file = Tempfile.new("fog-test-aws-s3-multipart")
+      6.times { @large_file.write("x" * (1024**2)) }
+      @large_file.rewind
+
+      tests("#save(:multipart_chunk_size => 5242880)").succeeds do
+        @directory.files.create(
+          :key => 'multipart-encrypted-upload',
+          :body => @large_file,
+          :multipart_chunk_size => 5242880,
+          :encryption => "AES256",
+          :encryption_key => encryption_key
+        )
+      end
+
+      @large_file.close
+
+      @directory.files.get('multipart-encrypted-upload',
+        'x-amz-server-side-encryption-customer-algorithm' => 'AES256',
+        'x-amz-server-side-encryption-customer-key' => Base64.encode64(encryption_key).chomp!,
+        'x-amz-server-side-encryption-customer-key-MD5' => Base64.encode64(Digest::MD5.digest(encryption_key.to_s)).chomp!
+      ).body == "x" * 6*1024**2
+    end
+
     acl = Fog::Storage[:aws].get_object_acl(@directory.key, @instance.key).body["AccessControlList"]
 
     tests("#acl").returns(acl) do
