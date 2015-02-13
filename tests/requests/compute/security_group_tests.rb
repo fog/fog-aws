@@ -408,6 +408,15 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       Fog::Compute[:aws].delete_security_group('not_a_group_name')
     end
 
+    @rds_security_group = Fog::AWS[:rds].security_groups.create(:id => "rdsgroup", :description => 'fog rds test')
+
+    tests("#delete_security_group('when authorized to an rds firewall')").raises(Fog::Compute::AWS::Error) do
+      @rds_security_group.authorize_ec2_security_group(@security_group.name)
+      Fog::Compute[:aws].delete_security_group(@security_group.name)
+    end
+
+    @rds_security_group.destroy
+
     @security_group.destroy
     @other_security_group.destroy
 
