@@ -79,7 +79,7 @@ module Fog
           Fog::AWS::RDS::Mock.data[self.region].each do |_, data|
             (data[:security_groups] || []).each do |group_name, group|
               (group["EC2SecurityGroups"] || []).each do |ec2_group|
-                if ec2_group["EC2SecurityGroupName"] == name && ec2_group["Status"] != "revoking"
+                if ec2_group["EC2SecurityGroupName"] == name
                   used_by_groups << "#{group["OwnerId"]}:#{group_name}"
                 end
               end
