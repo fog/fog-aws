@@ -196,6 +196,16 @@ module Fog
           :instance_store_volumes  => 2
         },
         {
+          :id                      => 'c4.8xlarge',
+          :name                    => 'C4 Eight Extra Large',
+          :bits                    => 64,
+          :cores                   => 122,
+          :disk                    => 640,
+          :ram                     => 61440,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 2
+        },
+        {
           :id                      => 'g2.2xlarge',
           :name                    => 'GPU Double Extra Large',
           :bits                    => 64,
