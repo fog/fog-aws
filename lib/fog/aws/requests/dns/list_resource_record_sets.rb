@@ -86,7 +86,6 @@ module Fog
           if options[:name]
             name = options[:name].gsub(zone[:name],"")
             records = records.select{|r| r[:name].gsub(zone[:name],"") >= name }
-            require 'pp'
           end
 
           next_record  = records[maxitems]

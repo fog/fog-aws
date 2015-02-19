@@ -155,20 +155,25 @@ module Fog
           response = Excon::Response.new
           errors   = []
 
+
           if (zone = self.data[:zones][zone_id])
             response.status = 200
 
             change_id = Fog::AWS::Mock.change_id
             change_batch.each do |change|
+
+              change_name = change[:name]
+              change_name = change_name + "." unless change_name.end_with?(".")
+
               case change[:action]
               when "CREATE"
                 if zone[:records][change[:type]].nil?
                   zone[:records][change[:type]] = {}
                 end
 
-                if zone[:records][change[:type]][change[:name]].nil?
+                if zone[:records][change[:type]][change_name].nil?
                   # raise change.to_s if change[:resource_records].nil?
-                  zone[:records][change[:type]][change[:name]] =
+                  zone[:records][change[:type]][change_name] =
                   if change[:alias_target]
                     record = {
                       :alias_target => change[:alias_target]
@@ -178,11 +183,11 @@ module Fog
                       :ttl => change[:ttl].to_s,
                     }
                   end
-                  zone[:records][change[:type]][change[:name]] = {
-                    :change_id => change_id,
+                  zone[:records][change[:type]][change_name] = {
+                    :change_id        => change_id,
                     :resource_records => change[:resource_records] || [],
-                    :name => change[:name],
-                    :type => change[:type]
+                    :name             => change_name,
+                    :type             => change[:type]
                   }.merge(record)
                 else
                   errors << "Tried to create resource record set #{change[:name]}. type #{change[:type]}, but it already exists"
@@ -196,14 +201,14 @@ module Fog
 
             if errors.empty?
               change = {
-                :id => change_id,
-                :status => 'PENDING',
+                :id           => change_id,
+                :status       => 'PENDING',
                 :submitted_at => Time.now.utc.iso8601
               }
               self.data[:changes][change[:id]] = change
               response.body = {
-                'Id' => change[:id],
-                'Status' => change[:status],
+                'Id'          => change[:id],
+                'Status'      => change[:status],
                 'SubmittedAt' => change[:submitted_at]
               }
               response
@@ -221,10 +226,9 @@ module Fog
       end
 
       def self.hosted_zone_for_alias_target(dns_name)
-        k = elb_hosted_zone_mapping.keys.find do |k|
+        elb_hosted_zone_mapping.select { |k, _|
           dns_name =~ /\A.+\.#{k}\.elb\.amazonaws\.com\.?\z/
-        end
-        elb_hosted_zone_mapping[k]
+        }.last
       end
 
       def self.elb_hosted_zone_mapping
