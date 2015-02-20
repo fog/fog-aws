@@ -97,9 +97,7 @@ module Fog
             }
             response
           else
-            response.status = 400
-            response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>DelegationSetNotAvailable</Code><Message>Amazon Route 53 allows some duplication, but Amazon Route 53 has a maximum threshold of duplicated domains. This error is generated when you reach that threshold. In this case, the error indicates that too many hosted zones with the given domain name exist. If you want to create a hosted zone and Amazon Route 53 generates this error, contact Customer Support.</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestID></Response>"
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::DNS::AWS::Error.new("DelegationSetNotAvailable => Amazon Route 53 allows some duplication, but Amazon Route 53 has a maximum threshold of duplicated domains. This error is generated when you reach that threshold. In this case, the error indicates that too many hosted zones with the given domain name exist. If you want to create a hosted zone and Amazon Route 53 generates this error, contact Customer Support.")
           end
         end
       end

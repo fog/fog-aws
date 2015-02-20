@@ -100,7 +100,7 @@ module Fog
               record
             end
           end.compact.first
-        rescue Excon::Errors::NotFound
+        rescue Fog::DNS::AWS::NotFound
           nil
         end
 

@@ -193,7 +193,7 @@ module Fog
                   errors << "Tried to create resource record set #{change[:name]}. type #{change[:type]}, but it already exists"
                 end
               when "DELETE"
-                if zone[:records][change[:type]].nil? || zone[:records][change[:type]].delete(change[:name]).nil?
+                if zone[:records][change[:type]].nil? || zone[:records][change[:type]].delete(change_name).nil?
                   errors << "Tried to delete resource record set #{change[:name]}. type #{change[:type]}, but it was not found"
                 end
               end
@@ -213,14 +213,10 @@ module Fog
               }
               response
             else
-              response.status = 400
-              response.body = "<?xml version=\"1.0\"?><InvalidChangeBatch xmlns=\"https://route53.amazonaws.com/doc/2012-02-29/\"><Messages>#{errors.map {|e| "<Message>#{e}</Message>"}.join()}</Messages></InvalidChangeBatch>"
-              raise(Excon::Errors.status_error({:expects => 200}, response))
+              raise Fog::DNS::AWS::Error.new("InvalidChangeBatch => #{errors.join(", ")}")
             end
           else
-            response.status = 404
-            response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>NoSuchHostedZone</Code><Message>A hosted zone with the specified hosted zone ID does not exist.</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestID></Response>"
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::DNS::AWS::NotFound.new("NoSuchHostedZone => A hosted zone with the specified hosted zone ID does not exist.")
           end
         end
       end

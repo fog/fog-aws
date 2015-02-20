@@ -20,7 +20,7 @@ module Fog
         def get(zone_id)
           data = service.get_hosted_zone(zone_id).body
           new(data)
-        rescue Excon::Errors::NotFound
+        rescue Fog::DNS::AWS::NotFound
           nil
         end
       end
