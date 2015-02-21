@@ -148,7 +148,7 @@ module Fog
             raise
           else
             case match[:code]
-            when 'NoSuchHostedZone' then
+            when 'NoSuchHostedZone', 'NoSuchChange' then
               Fog::DNS::AWS::NotFound.slurp(error, match[:message])
             else
               Fog::DNS::AWS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
