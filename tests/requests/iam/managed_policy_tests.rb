@@ -1,5 +1,6 @@
 Shindo.tests('AWS::IAM | managed policy requests', ['aws']) do
 
+  pending if Fog.mocking?
   Fog::AWS[:iam].create_group('fog_policy_test_group')
   Fog::AWS[:iam].create_user('fog_policy_test_user')
   Fog::AWS[:iam].create_role('fog_policy_test_role', Fog::AWS::IAM::EC2_ASSUME_ROLE_POLICY)
