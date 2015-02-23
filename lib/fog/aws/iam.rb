@@ -17,11 +17,15 @@ module Fog
       request_path 'fog/aws/requests/iam'
       request :add_user_to_group
       request :add_role_to_instance_profile
+      request :attach_group_policy
+      request :attach_role_policy
+      request :attach_user_policy
       request :create_access_key
       request :create_account_alias
       request :create_group
       request :create_instance_profile
       request :create_login_profile
+      request :create_policy
       request :create_role
       request :create_user
       request :delete_access_key
@@ -31,12 +35,16 @@ module Fog
       request :delete_group_policy
       request :delete_instance_profile
       request :delete_login_profile
+      request :delete_policy
       request :delete_role
       request :delete_role_policy
       request :delete_server_certificate
       request :delete_signing_certificate
       request :delete_user
       request :delete_user_policy
+      request :detach_group_policy
+      request :detach_role_policy
+      request :detach_user_policy
       request :get_account_summary
       request :get_account_password_policy
       request :get_group
@@ -56,6 +64,7 @@ module Fog
       request :list_instance_profiles
       request :list_instance_profiles_for_role
       request :list_mfa_devices
+      request :list_policies
       request :list_roles
       request :list_role_policies
       request :list_server_certificates
