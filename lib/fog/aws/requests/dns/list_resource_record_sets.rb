@@ -64,19 +64,15 @@ module Fog
 
           response = Excon::Response.new
 
-          zone = self.data[:zones][zone_id]
-          if zone.nil?
-            response.status = 404
-            response.body = "<?xml version=\"1.0\"?>\n<ErrorResponse xmlns=\"https://route53.amazonaws.com/doc/2012-02-29/\"><Error><Type>Sender</Type><Code>NoSuchHostedZone</Code><Message>No hosted zone found with ID: #{zone_id}</Message></Error><RequestId>#{Fog::AWS::Mock.request_id}</RequestId></ErrorResponse>"
-            raise(Excon::Errors.status_error({:expects => 200}, response))
-          end
+          zone = self.data[:zones][zone_id] ||
+            raise(Fog::DNS::AWS::NotFound.new("NoSuchHostedZone => A hosted zone with the specified hosted zone ID does not exist."))
 
           records = if options[:type]
-            records_type = zone[:records][options[:type]]
-            records_type.values if records_type
-          else
-            zone[:records].values.map{|r| r.values}.flatten
-          end
+                      records_type = zone[:records][options[:type]]
+                      records_type.values if records_type
+                    else
+                      zone[:records].values.map{|r| r.values}.flatten
+                    end
 
           records ||= []
 
@@ -86,7 +82,6 @@ module Fog
           if options[:name]
             name = options[:name].gsub(zone[:name],"")
             records = records.select{|r| r[:name].gsub(zone[:name],"") >= name }
-            require 'pp'
           end
 
           next_record  = records[maxitems]

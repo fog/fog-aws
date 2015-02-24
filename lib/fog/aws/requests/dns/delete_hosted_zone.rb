@@ -36,14 +36,17 @@ module Fog
 
         def delete_hosted_zone(zone_id)
           response = Excon::Response.new
-          key = [zone_id, "/hostedzone/#{zone_id}"].find{|k| !self.data[:zones][k].nil?}
-          if key
+          key = [zone_id, "/hostedzone/#{zone_id}"].find { |k| !self.data[:zones][k].nil? } ||
+            raise(Fog::DNS::AWS::NotFound.new("NoSuchHostedZone => A hosted zone with the specified hosted zone does not exist."))
+
             change = {
               :id => Fog::AWS::Mock.change_id,
               :status => 'INSYNC',
               :submitted_at => Time.now.utc.iso8601
             }
+
             self.data[:changes][change[:id]] = change
+
             response.status = 200
             response.body = {
               'ChangeInfo' => {
@@ -54,11 +57,6 @@ module Fog
             }
             self.data[:zones].delete(key)
             response
-          else
-            response.status = 404
-            response.body = "<?xml version=\"1.0\"?><ErrorResponse xmlns=\"https://route53.amazonaws.com/doc/2012-02-29/\"><Error><Type>Sender</Type><Code>NoSuchHostedZone</Code><Message>The specified hosted zone does not exist.</Message></Error><RequestId>#{Fog::AWS::Mock.request_id}</RequestId></ErrorResponse>"
-            raise(Excon::Errors.status_error({:expects => 200}, response))
-          end
         end
       end
     end

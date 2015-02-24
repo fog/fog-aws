@@ -81,32 +81,26 @@ module Fog
           record_type = record_type.upcase unless record_type.nil?
 
           options = {
-              :max_items => 1,
-              :name => record_name,
-              :type => record_type,
+              :max_items  => 1,
+              :name       => record_name,
+              :type       => record_type,
               :identifier => record_identifier
           }
           options.delete_if {|key, value| value.nil?}
 
           data = service.list_resource_record_sets(zone.id, options).body
-          # Get first record
-          data = data['ResourceRecordSets'].shift
 
-          if data
-            record = new(data)
-            # make sure everything matches
-            if record.name == record_name
-              if (!record_type.nil? && record.type != record_type) ||
-                  (!record_identifier.nil? && record.set_identifier != record_identifier)
-                nil
-              else
-                record
-              end
+          # look for an exact match in the records
+          (data['ResourceRecordSets'] || []).map do |record_data|
+            record = new(record_data)
+
+            if (record.name == record_name) &&
+                (record_type.nil? || (record.type == record_type)) &&
+                (record_identifier.nil? || (record.set_identifier == record_identifier))
+              record
             end
-          else
-            nil
-          end
-        rescue Excon::Errors::NotFound
+          end.compact.first
+        rescue Fog::DNS::AWS::NotFound
           nil
         end
 

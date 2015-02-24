@@ -155,20 +155,25 @@ module Fog
           response = Excon::Response.new
           errors   = []
 
+
           if (zone = self.data[:zones][zone_id])
             response.status = 200
 
             change_id = Fog::AWS::Mock.change_id
             change_batch.each do |change|
+
+              change_name = change[:name]
+              change_name = change_name + "." unless change_name.end_with?(".")
+
               case change[:action]
               when "CREATE"
                 if zone[:records][change[:type]].nil?
                   zone[:records][change[:type]] = {}
                 end
 
-                if zone[:records][change[:type]][change[:name]].nil?
+                if zone[:records][change[:type]][change_name].nil?
                   # raise change.to_s if change[:resource_records].nil?
-                  zone[:records][change[:type]][change[:name]] =
+                  zone[:records][change[:type]][change_name] =
                   if change[:alias_target]
                     record = {
                       :alias_target => change[:alias_target]
@@ -178,17 +183,17 @@ module Fog
                       :ttl => change[:ttl].to_s,
                     }
                   end
-                  zone[:records][change[:type]][change[:name]] = {
-                    :change_id => change_id,
+                  zone[:records][change[:type]][change_name] = {
+                    :change_id        => change_id,
                     :resource_records => change[:resource_records] || [],
-                    :name => change[:name],
-                    :type => change[:type]
+                    :name             => change_name,
+                    :type             => change[:type]
                   }.merge(record)
                 else
                   errors << "Tried to create resource record set #{change[:name]}. type #{change[:type]}, but it already exists"
                 end
               when "DELETE"
-                if zone[:records][change[:type]].nil? || zone[:records][change[:type]].delete(change[:name]).nil?
+                if zone[:records][change[:type]].nil? || zone[:records][change[:type]].delete(change_name).nil?
                   errors << "Tried to delete resource record set #{change[:name]}. type #{change[:type]}, but it was not found"
                 end
               end
@@ -196,35 +201,30 @@ module Fog
 
             if errors.empty?
               change = {
-                :id => change_id,
-                :status => 'PENDING',
+                :id           => change_id,
+                :status       => 'PENDING',
                 :submitted_at => Time.now.utc.iso8601
               }
               self.data[:changes][change[:id]] = change
               response.body = {
-                'Id' => change[:id],
-                'Status' => change[:status],
+                'Id'          => change[:id],
+                'Status'      => change[:status],
                 'SubmittedAt' => change[:submitted_at]
               }
               response
             else
-              response.status = 400
-              response.body = "<?xml version=\"1.0\"?><InvalidChangeBatch xmlns=\"https://route53.amazonaws.com/doc/2012-02-29/\"><Messages>#{errors.map {|e| "<Message>#{e}</Message>"}.join()}</Messages></InvalidChangeBatch>"
-              raise(Excon::Errors.status_error({:expects => 200}, response))
+              raise Fog::DNS::AWS::Error.new("InvalidChangeBatch => #{errors.join(", ")}")
             end
           else
-            response.status = 404
-            response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>NoSuchHostedZone</Code><Message>A hosted zone with the specified hosted zone ID does not exist.</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestID></Response>"
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::DNS::AWS::NotFound.new("NoSuchHostedZone => A hosted zone with the specified hosted zone ID does not exist.")
           end
         end
       end
 
       def self.hosted_zone_for_alias_target(dns_name)
-        k = elb_hosted_zone_mapping.keys.find do |k|
+        elb_hosted_zone_mapping.select { |k, _|
           dns_name =~ /\A.+\.#{k}\.elb\.amazonaws\.com\.?\z/
-        end
-        elb_hosted_zone_mapping[k]
+        }.last
       end
 
       def self.elb_hosted_zone_mapping

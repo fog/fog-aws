@@ -79,7 +79,7 @@ module Fog
         # :aws_secret_access_key in order to create a connection
         #
         # ==== Examples
-        #   dns = Fog::AWS::DNS.new(
+        #   dns = Fog::DNS::AWS.new(
         #     :aws_access_key_id => your_aws_access_key_id,
         #     :aws_secret_access_key => your_aws_secret_access_key
         #   )
@@ -141,6 +141,19 @@ module Fog
 
         def _request(params, &block)
           @connection.request(params, &block)
+        rescue Excon::Errors::HTTPStatusError => error
+          match = Fog::AWS::Errors.match_error(error)
+
+          if match.empty?
+            raise
+          else
+            case match[:code]
+            when 'NoSuchHostedZone', 'NoSuchChange' then
+              Fog::DNS::AWS::NotFound.slurp(error, match[:message])
+            else
+              Fog::DNS::AWS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+            end
+          end
         end
 
         def signature(params)
