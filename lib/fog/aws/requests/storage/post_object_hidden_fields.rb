@@ -1,7 +1,7 @@
 module Fog
   module Storage
     class AWS
-      class Real
+      module PostObjectHiddenFields
         # Get a hash of hidden fields for form uploading to S3, in the form {:field_name => :field_value}
         # Form should look like: <form action="http://#{bucket_name}.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
         # These hidden fields should then appear, followed by a field named 'file' which is either a textarea or file input.
@@ -42,40 +42,18 @@ module Fog
             options['X-Amz-Date'] = date.to_iso8601_basic
             options['X-Amz-Algorithm'] = Fog::AWS::SignatureV4::ALGORITHM
             if @aws_session_token
-              options['X-Amz-Security-Token'] = @aws_session_token         
-            end
-            options['X-Amz-Signature'] = @signer.derived_hmac(date).sign(options['policy']).unpack('H*').first
-          end
-          options
-        end
-      end
-      class Mock
-        def post_object_hidden_fields(options = {})
-          options = options.dup
-          if policy = options['policy']
-            date = Fog::Time.now
-            credential = "#{@aws_access_key_id}/#{@signer.credential_scope(date)}"
-            extra_conditions = [
-              {'x-amz-date' => date.to_iso8601_basic},
-              {'x-amz-credential' => credential},
-              {'x-amz-algorithm' => Fog::AWS::SignatureV4::ALGORITHM}
-            ]
-
-            extra_conditions << {'x-amz-security-token' => @aws_session_token } if @aws_session_token
-
-            policy_with_auth_fields = policy.merge('conditions' => policy['conditions'] + extra_conditions)
-
-            options['policy'] = Base64.encode64(Fog::JSON.encode(policy_with_auth_fields)).gsub("\n", "")
-            options['X-Amz-Credential'] = credential
-            options['X-Amz-Date'] = date.to_iso8601_basic
-            options['X-Amz-Algorithm'] = Fog::AWS::SignatureV4::ALGORITHM
-            if @aws_session_token
               options['X-Amz-Security-Token'] = @aws_session_token
             end
             options['X-Amz-Signature'] = @signer.derived_hmac(date).sign(options['policy']).unpack('H*').first
           end
           options
         end
+      end
+      class Real
+        include PostObjectHiddenFields
+      end
+      class Mock
+        include PostObjectHiddenFields
       end
     end
   end
