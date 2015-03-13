@@ -233,6 +233,7 @@ module Fog
           "ap-southeast-1" => "Z1WI8VXHPB1R38",
           "ap-southeast-2" => "Z2999QAZ9SRTIC",
           "eu-west-1"      => "Z3NF1Z3NOM5OY2",
+          "eu-central-1"   => "Z215JYRZR1TBD5",
           "sa-east-1"      => "Z2ES78Y61JGQKS",
           "us-east-1"      => "Z3DZXE0Q79N41H",
           "us-west-1"      => "Z1M58G0W56PQJA",
