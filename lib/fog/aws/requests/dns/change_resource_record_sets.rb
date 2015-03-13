@@ -224,7 +224,7 @@ module Fog
       def self.hosted_zone_for_alias_target(dns_name)
         elb_hosted_zone_mapping.select { |k, _|
           dns_name =~ /\A.+\.#{k}\.elb\.amazonaws\.com\.?\z/
-        }.last
+        }.values.last
       end
 
       def self.elb_hosted_zone_mapping
