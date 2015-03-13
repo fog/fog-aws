@@ -536,7 +536,7 @@ module Fog
           date = Fog::Time.now
 
           params = params.dup
-          params = stringify_query_keys(params)
+          stringify_query_keys(params)
           params[:headers] = (params[:headers] || {}).dup
 
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
@@ -736,7 +736,7 @@ DATA
         end
 
         def stringify_query_keys(params)
-          params[:query] = Hash[params[:query].map { |k,v| [k.to_s, v] }]
+          params[:query] = Hash[params[:query].map { |k,v| [k.to_s, v] }] if params[:query]
         end
       end
     end
