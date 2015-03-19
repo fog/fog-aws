@@ -1,7 +1,4 @@
 Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
-  # Disabled due to https://github.com/fog/fog/1546
-  pending
-
   model_tests(Fog::AWS[:rds].servers, rds_default_server_params) do
     # We'll need this later; create it early to avoid waiting
     @instance_with_final_snapshot = Fog::AWS[:rds].servers.create(rds_default_server_params.merge(:id => uniq_id("fog-snapshot-test"), :backup_retention_period => 1))
@@ -89,6 +86,10 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
       returns(@instance_with_final_snapshot.id) { replica.read_replica_source }
 
       replica.wait_for { ready? }
+
+      # FinalDBSnapshotIdentifier can not be specified when deleting a replica instance
+      raises(Fog::AWS::RDS::Error) { replica.destroy("foobar") }
+
       replica.destroy
     end
 

@@ -18,10 +18,10 @@ module Fog
           params = {}
           params['FinalDBSnapshotIdentifier'] = snapshot_identifier if snapshot_identifier
           request({
-            'Action'  => 'DeleteDBInstance',
+            'Action'               => 'DeleteDBInstance',
             'DBInstanceIdentifier' => identifier,
-            'SkipFinalSnapshot' => skip_snapshot,
-            :parser   => Fog::Parsers::AWS::RDS::DeleteDBInstance.new
+            'SkipFinalSnapshot'    => skip_snapshot,
+            :parser                => Fog::Parsers::AWS::RDS::DeleteDBInstance.new
           }.merge(params))
         end
       end
@@ -30,20 +30,26 @@ module Fog
         def delete_db_instance(identifier, snapshot_identifier, skip_snapshot = false)
           response = Excon::Response.new
 
+
+          server_set = self.data[:servers][identifier] ||
+            raise(Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found"))
+
           unless skip_snapshot
-            create_db_snapshot(identifier, snapshot_identifier)
+            if server_set["ReadReplicaSourceDBInstanceIdentifier"]
+              raise Fog::AWS::RDS::Error.new("InvalidParameterCombination => FinalDBSnapshotIdentifier can not be specified when deleting a replica instance")
+            else
+              create_db_snapshot(identifier, snapshot_identifier)
+            end
           end
 
-          if server_set = self.data[:servers].delete(identifier)
-            response.status = 200
-            response.body = {
-              "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
-              "DeleteDBInstanceResult" => { "DBInstance" => server_set }
-            }
-            response
-          else
-            raise Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found")
-          end
+          self.data[:servers].delete(identifier)
+
+          response.status = 200
+          response.body = {
+            "ResponseMetadata"       => { "RequestId"  => Fog::AWS::Mock.request_id },
+            "DeleteDBInstanceResult" => { "DBInstance" => server_set }
+          }
+          response
         end
       end
     end

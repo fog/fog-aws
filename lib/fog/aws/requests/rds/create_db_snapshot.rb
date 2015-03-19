@@ -30,6 +30,7 @@ module Fog
           end
 
           server_data = data[:servers][identifier]
+
           unless server_data
             raise Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found")
           end
