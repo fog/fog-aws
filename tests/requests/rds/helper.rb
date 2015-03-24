@@ -291,6 +291,20 @@ class AWS
           'EventSubscriptionsList' => [EVENT_SUBSCRIPTION]
         }
       }
+
+      DB_ENGINE_VERSION = {
+        'Engine'                     => String,
+        'DBParameterGroupFamily'     => String,
+        'DBEngineDescription'        => String,
+        'EngineVersion'              => String,
+        'DBEngineVersionDescription' => String
+      }
+
+      DB_ENGINE_VERSIONS_LIST = BASIC.merge(
+        'DescribeDBEngineVersionsResult' => {
+          'DBEngineVersions' => [DB_ENGINE_VERSION]
+        }
+      )
     end
   end
 end

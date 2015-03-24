@@ -22,7 +22,14 @@ module Fog
 
       class Mock
         def describe_db_engine_versions(opts={})
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+
+          response.status = 200
+          response.body = {
+            "ResponseMetadata"               => { "RequestId"        => Fog::AWS::Mock.request_id },
+            "DescribeDBEngineVersionsResult" => { "DBEngineVersions" => self.data[:db_engine_versions] }
+          }
+          response
         end
       end
     end
