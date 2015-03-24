@@ -101,6 +101,22 @@ module Fog
                 :subnet_groups       => {},
                 :snapshots           => {},
                 :event_subscriptions => {},
+                :db_engine_versions  => [
+                  {
+                    'Engine'                     => "mysql",
+                    'DBParameterGroupFamily'     => "mysql5.1",
+                    'DBEngineDescription'        => "MySQL Community Edition",
+                    'EngineVersion'              => "5.1.57",
+                    'DBEngineVersionDescription' => "MySQL 5.1.57"
+                  },
+                  {
+                    'Engine'                     => "postgres",
+                    'DBParameterGroupFamily'     => "postgres9.3",
+                    'DBEngineDescription'        => "PostgreSQL",
+                    'EngineVersion'              => "9.3.5",
+                    'DBEngineVersionDescription' => "PostgreSQL 9.3.5"
+                  },
+                ],
                 :parameter_groups    => {
                   "default.mysql5.1" => {
                     "DBParameterGroupFamily" => "mysql5.1",
