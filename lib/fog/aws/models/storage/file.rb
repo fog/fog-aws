@@ -50,15 +50,19 @@ module Fog
           @acl = new_acl
         end
 
-        # Get file's body if exists, else ' '.
+        # Get file's body if exists, else ''.
         #
         # @return [File]
         #
         def body
-          attributes[:body] ||= if last_modified && (file = collection.get(identity))
-            file.body
+          return attributes[:body] if attributes[:body]
+          return '' unless last_modified
+
+          file = collection.get(identity)
+          if file
+            attributes[:body] = file.body
           else
-            ''
+            attributes[:body] = ''
           end
         end
 
