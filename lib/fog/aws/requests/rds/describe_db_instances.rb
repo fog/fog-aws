@@ -33,8 +33,8 @@ module Fog
           response = Excon::Response.new
           server_set = []
           if identifier
-            if server = self.data[:servers][identifier]
-              server_set << server
+            if specified_server = self.data[:servers][identifier]
+              server_set << specified_server
             else
               raise Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found")
             end
@@ -46,7 +46,6 @@ module Fog
              case server["DBInstanceStatus"]
              when "creating"
                if Time.now - server['InstanceCreateTime'] >= Fog::Mock.delay * 2
-                 region = "us-east-1"
                  server["DBInstanceStatus"] = "available"
                  server["AvailabilityZone"] ||= region + 'a'
                  server["Endpoint"] = {"Port"=>3306,
