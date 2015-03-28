@@ -1,4 +1,3 @@
-require 'fog/core/model'
 require 'fog/aws/models/cdn/invalidations'
 require 'fog/aws/models/cdn/distribution_helper'
 

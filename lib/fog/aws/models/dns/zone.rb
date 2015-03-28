@@ -1,4 +1,3 @@
-require 'fog/core/model'
 # require 'fog/aws/models/dns/records'
 
 module Fog

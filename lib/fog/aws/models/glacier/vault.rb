@@ -1,4 +1,3 @@
-require 'fog/core/model'
 require 'fog/aws/models/glacier/archives'
 require 'fog/aws/models/glacier/jobs'
 

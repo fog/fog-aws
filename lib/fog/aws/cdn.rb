@@ -1,5 +1,3 @@
-require 'fog/aws/core'
-
 module Fog
   module CDN
     class AWS < Fog::Service

@@ -1,4 +1,3 @@
-require 'fog/core/collection'
 require 'fog/aws/models/data_pipeline/pipeline'
 
 module Fog

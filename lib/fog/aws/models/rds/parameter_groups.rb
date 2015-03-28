@@ -1,4 +1,3 @@
-require 'fog/core/collection'
 require 'fog/aws/models/rds/parameter_group'
 
 module Fog

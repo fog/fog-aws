@@ -1,4 +1,3 @@
-require 'fog/core/model'
 module Fog
   module AWS
     class ELB

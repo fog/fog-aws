@@ -1,4 +1,3 @@
-require 'fog/core/collection'
 require 'fog/aws/models/cdn/streaming_distribution'
 require 'fog/aws/models/cdn/distributions_helper'
 

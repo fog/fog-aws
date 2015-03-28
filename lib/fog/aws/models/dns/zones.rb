@@ -1,4 +1,3 @@
-require 'fog/core/collection'
 require 'fog/aws/models/dns/zone'
 
 module Fog

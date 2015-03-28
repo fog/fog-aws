@@ -1,4 +1,3 @@
-require 'fog/core/collection'
 require 'fog/aws/models/compute/spot_request'
 
 module Fog

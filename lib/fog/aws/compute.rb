@@ -1,5 +1,3 @@
-require 'fog/aws/core'
-
 module Fog
   module Compute
     class AWS < Fog::Service
