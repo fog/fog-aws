@@ -15,7 +15,7 @@ module Fog
             when 'item'
               @response['spotPriceHistorySet'] << @spot_price
               @spot_price = {}
-            when 'requestId'
+            when 'requestId', 'nextToken'
               @response[name] = value
             when 'spotPrice'
               @spot_price[name] = value.to_f

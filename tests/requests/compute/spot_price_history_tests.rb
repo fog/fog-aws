@@ -8,7 +8,8 @@ Shindo.tests('Fog::Compute[:aws] | spot price history requests', ['aws']) do
       'productDescription'  => String,
       'timestamp'           => Time
     }],
-    'requestId' => String
+    'requestId' => String,
+    'nextToken' => Fog::Nullable::String
   }
 
   tests('success') do
