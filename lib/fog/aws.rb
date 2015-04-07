@@ -1,32 +1,209 @@
-require 'fog/aws/version'
+require 'fog/core'
+require 'fog/xml'
+require 'fog/json'
+
+require File.expand_path('../aws/version', __FILE__)
+require File.expand_path('../aws/credential_fetcher', __FILE__)
+require File.expand_path('../aws/region_methods', __FILE__)
+require File.expand_path('../aws/signaturev4', __FILE__)
 
 module Fog
+  module CDN
+    autoload :AWS,  File.expand_path('../aws/cdn', __FILE__)
+  end
+
+  module Compute
+    autoload :AWS, File.expand_path('../aws/compute', __FILE__)
+  end
+
+  module DNS
+    autoload :AWS, File.expand_path('../aws/dns', __FILE__)
+  end
+
+  module Storage
+    autoload :AWS, File.expand_path('../aws/storage', __FILE__)
+  end
+  
   module AWS
+    extend Fog::Provider
+
+    autoload :Mock, File.expand_path('../aws/mock', __FILE__)
+    autoload :Errors, File.expand_path('../aws/errors', __FILE__)
+
+    # Services
+    autoload :AutoScaling, File.expand_path('../aws/auto_scaling', __FILE__)
+    autoload :ElasticBeanstalk, File.expand_path('../aws/beanstalk', __FILE__)
+    autoload :CloudFormation, File.expand_path('../aws/cloud_formation', __FILE__)
+    autoload :CloudWatch, File.expand_path('../aws/cloud_watch', __FILE__)
+    autoload :DataPipeline, File.expand_path('../aws/data_pipeline', __FILE__)
+    autoload :DynamoDB, File.expand_path('../aws/dynamodb', __FILE__)
+    autoload :Elasticache, File.expand_path('../aws/elasticache', __FILE__)
+    autoload :ELB, File.expand_path('../aws/elb', __FILE__)
+    autoload :EMR, File.expand_path('../aws/emr', __FILE__)
+    autoload :Federation, File.expand_path('../aws/federation', __FILE__)
+    autoload :Glacier, File.expand_path('../aws/glacier', __FILE__)
+    autoload :IAM, File.expand_path('../aws/iam', __FILE__)
+    autoload :RDS, File.expand_path('../aws/rds', __FILE__)
+    autoload :Redshift, File.expand_path('../aws/redshift', __FILE__)
+    autoload :SES, File.expand_path('../aws/ses', __FILE__)
+    autoload :SimpleDB, File.expand_path('../aws/simpledb', __FILE__)
+    autoload :SNS, File.expand_path('../aws/sns', __FILE__)
+    autoload :SQS, File.expand_path('../aws/sqs', __FILE__)
+    autoload :STS, File.expand_path('../aws/sts', __FILE__)
+
+    service(:auto_scaling,    'AutoScaling')
+    service(:beanstalk,       'ElasticBeanstalk')
+    service(:cdn,             'CDN')
+    service(:compute,         'Compute')
+    service(:cloud_formation, 'CloudFormation')
+    service(:cloud_watch,     'CloudWatch')
+    service(:data_pipeline,   'DataPipeline')
+    service(:dynamodb,        'DynamoDB')
+    service(:dns,             'DNS')
+    service(:elasticache,     'Elasticache')
+    service(:elb,             'ELB')
+    service(:emr,             'EMR')
+    service(:federation,      'Federation')
+    service(:glacier,         'Glacier')
+    service(:iam,             'IAM')
+    service(:rds,             'RDS')
+    service(:redshift,        'Redshift')
+    service(:ses,             'SES')
+    service(:simpledb,        'SimpleDB')
+    service(:sns,             'SNS')
+    service(:sqs,             'SQS')
+    service(:sts,             'STS')
+    service(:storage,         'Storage')
+
+    def self.indexed_param(key, values)
+      params = {}
+      unless key.include?('%d')
+        key << '.%d'
+      end
+      [*values].each_with_index do |value, index|
+        if value.respond_to?('keys')
+          k = format(key, index + 1)
+          value.each do | vkey, vvalue |
+            params["#{k}.#{vkey}"] = vvalue
+          end
+        else
+          params[format(key, index + 1)] = value
+        end
+      end
+      params
+    end
+
+    def self.serialize_keys(key, value, options = {})
+      case value
+        when Hash
+          value.each do | k, v |
+            options.merge!(serialize_keys("#{key}.#{k}", v))
+          end
+          return options
+        when Array
+          value.each_with_index do | it, idx |
+            options.merge!(serialize_keys("#{key}.member.#{(idx + 1)}", it))
+          end
+          return options
+        else
+          return {key => value}
+      end
+    end
+
+    def self.indexed_request_param(name, values)
+      idx = -1
+      Array(values).reduce({}) do |params, value|
+        params["#{name}.#{idx += 1}"] = value
+        params
+      end
+    end
+
+    def self.indexed_filters(filters)
+      params = {}
+      filters.keys.each_with_index do |key, key_index|
+        key_index += 1
+        params[format('Filter.%d.Name', key_index)] = key
+        [*filters[key]].each_with_index do |value, value_index|
+          value_index += 1
+          params[format('Filter.%d.Value.%d', key_index, value_index)] = value
+        end
+      end
+      params
+    end
+
+    def self.escape(string)
+      string.gsub(/([^a-zA-Z0-9_.\-~]+)/) {
+        "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
+      }
+    end
+
+    def self.signed_params_v4(params, headers, options={})
+      date = Fog::Time.now
+
+      params = params.merge('Version' => options[:version])
+
+      headers = headers.merge('Host' => options[:host], 'x-amz-date' => date.to_iso8601_basic)
+      headers['x-amz-security-token'] = options[:aws_session_token] if options[:aws_session_token]
+
+      body = ''
+      for key in params.keys.sort
+        unless (value = params[key]).nil?
+          body << "#{key}=#{escape(value.to_s)}&"
+        end
+      end
+      body.chop!
+
+      headers['Authorization'] = options[:signer].sign({:method => options[:method], :headers => headers, :body => body, :query => {}, :path => options[:path]}, date)
+
+      return body, headers
+    end
+
+    def self.signed_params(params, options = {})
+      params.merge!({
+                        'AWSAccessKeyId'    => options[:aws_access_key_id],
+                        'SignatureMethod'   => 'HmacSHA256',
+                        'SignatureVersion'  => '2',
+                        'Timestamp'         => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                        'Version'           => options[:version]
+                    })
+
+      params.merge!({
+                        'SecurityToken'     => options[:aws_session_token]
+                    }) if options[:aws_session_token]
+
+      body = ''
+      for key in params.keys.sort
+        unless (value = params[key]).nil?
+          body << "#{key}=#{escape(value.to_s)}&"
+        end
+      end
+      string_to_sign = "POST\n#{options[:host]}:#{options[:port]}\n#{options[:path]}\n" << body.chop
+      signed_string = options[:hmac].sign(string_to_sign)
+      body << "Signature=#{escape(Base64.encode64(signed_string).chomp!)}"
+
+      body
+    end
+
+    def self.parse_security_group_options(group_name, options)
+      options ||= Hash.new
+      if group_name.is_a?(Hash)
+        options = group_name
+      elsif group_name
+        if options.key?('GroupName')
+          raise Fog::Compute::AWS::Error, 'Arguments specified both group_name and GroupName in options'
+        end
+        options = options.clone
+        options['GroupName'] = group_name
+      end
+      name_specified = options.key?('GroupName') && !options['GroupName'].nil?
+      group_id_specified = options.key?('GroupId') && !options['GroupId'].nil?
+      unless name_specified || group_id_specified
+        raise Fog::Compute::AWS::Error, 'Neither GroupName nor GroupId specified'
+      end
+      if name_specified && group_id_specified
+        options.delete('GroupName')
+      end
+      options
+    end
   end
 end
-
-require 'fog/aws/core'
-
-require 'fog/aws/auto_scaling'
-require 'fog/aws/beanstalk'
-require 'fog/aws/cdn'
-require 'fog/aws/cloud_formation'
-require 'fog/aws/cloud_watch'
-require 'fog/aws/compute'
-require 'fog/aws/data_pipeline'
-require 'fog/aws/dns'
-require 'fog/aws/dynamodb'
-require 'fog/aws/elasticache'
-require 'fog/aws/elb'
-require 'fog/aws/emr'
-require 'fog/aws/federation'
-require 'fog/aws/glacier'
-require 'fog/aws/iam'
-require 'fog/aws/rds'
-require 'fog/aws/redshift'
-require 'fog/aws/ses'
-require 'fog/aws/simpledb'
-require 'fog/aws/sns'
-require 'fog/aws/sqs'
-require 'fog/aws/storage'
-require 'fog/aws/sts'

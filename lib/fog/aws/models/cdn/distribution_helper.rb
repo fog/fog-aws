@@ -1,5 +1,3 @@
-require 'fog/core/collection'
-
 module Fog
   module CDN
     class AWS

@@ -1,4 +1,3 @@
-require 'fog/core/collection'
 require 'fog/aws/models/compute/dhcp_option'
 
 module Fog

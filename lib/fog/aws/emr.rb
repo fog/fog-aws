@@ -1,5 +1,3 @@
-require 'fog/aws/core'
-
 module Fog
   module AWS
     class EMR < Fog::Service

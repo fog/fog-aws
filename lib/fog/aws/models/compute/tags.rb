@@ -1,4 +1,3 @@
-require 'fog/core/collection'
 require 'fog/aws/models/compute/tag'
 
 module Fog

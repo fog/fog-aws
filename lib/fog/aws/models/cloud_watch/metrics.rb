@@ -1,4 +1,3 @@
-require 'fog/core/collection'
 require 'fog/aws/models/cloud_watch/metric'
 
 module Fog

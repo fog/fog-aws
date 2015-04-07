@@ -1,5 +1,3 @@
-require 'fog/core/model'
-
 module Fog
   module DNS
     class AWS

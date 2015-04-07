@@ -1,5 +1,3 @@
-require "fog/json"
-
 module Fog
   module AWS
     module CredentialFetcher

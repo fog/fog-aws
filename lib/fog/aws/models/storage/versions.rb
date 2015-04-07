@@ -1,4 +1,3 @@
-require 'fog/core/collection'
 require 'fog/aws/models/storage/version'
 
 module Fog

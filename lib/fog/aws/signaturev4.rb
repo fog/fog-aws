@@ -1,10 +1,10 @@
-require 'fog/aws/core'
-
 # See http://docs.amazonwebservices.com/general/latest/gr/signature-version-4.html
+
 module Fog
   module AWS
     class SignatureV4
       ALGORITHM = 'AWS4-HMAC-SHA256'
+
       def initialize(aws_access_key_id, secret_key, region, service)
         @region = region
         @service = service
@@ -115,7 +115,6 @@ DATA
       def signed_headers(headers)
         headers.keys.map {|key| key.to_s.downcase}.sort.join(';')
       end
-
     end
   end
 end

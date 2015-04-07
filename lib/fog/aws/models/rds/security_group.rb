@@ -1,6 +1,3 @@
-require 'fog/core/model'
-require 'fog/core/current_machine'
-
 module Fog
   module AWS
     class RDS
