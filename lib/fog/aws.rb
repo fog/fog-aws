@@ -3,9 +3,6 @@ require 'fog/xml'
 require 'fog/json'
 
 require File.expand_path('../aws/version', __FILE__)
-require File.expand_path('../aws/credential_fetcher', __FILE__)
-require File.expand_path('../aws/region_methods', __FILE__)
-require File.expand_path('../aws/signaturev4', __FILE__)
 
 module Fog
   module CDN
@@ -27,8 +24,11 @@ module Fog
   module AWS
     extend Fog::Provider
 
-    autoload :Mock, File.expand_path('../aws/mock', __FILE__)
+    autoload :CredentialFetcher, File.expand_path('../aws/credential_fetcher', __FILE__)
     autoload :Errors, File.expand_path('../aws/errors', __FILE__)
+    autoload :Mock, File.expand_path('../aws/mock', __FILE__)
+    autoload :RegionMethods, File.expand_path('../aws/region_methods', __FILE__)
+    autoload :SignatureV4, File.expand_path('../aws/signaturev4', __FILE__)
 
     # Services
     autoload :AutoScaling, File.expand_path('../aws/auto_scaling', __FILE__)
