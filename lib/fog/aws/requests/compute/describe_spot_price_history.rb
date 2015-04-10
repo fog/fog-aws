@@ -56,6 +56,65 @@ module Fog
           }.merge!(params))
         end
       end
+
+      class Mock
+        def describe_spot_price_history(filters = {})
+          params = {}
+          spot_price_history_set = []
+
+          response = Excon::Response.new
+          response.status = 200
+
+          for key in %w(StartTime EndTime NextToken)
+            if filters.is_a?(Hash) && filters.key?(key)
+              Fog::Logger.warning("#{key} filters are not yet mocked [light_black](#{caller.first})[/]")
+              Fog::Mock.not_implemented
+            end
+          end
+
+          for key in %w(AvailabilityZone MaxResults)
+            if filters.is_a?(Hash) && filters.key?(key)
+              params[key] = filters.delete(key)
+            end
+          end
+
+          all_zones = describe_availability_zones.body['availabilityZoneInfo'].map { |z| z['zoneName'] }
+          zones = params['AvailabilityZone']
+          if (!zones.nil? && !all_zones.include?([*zones].shuffle.first))
+            az_error = "InvalidParameterValue => Invalid availability zone: [#{zones}]"
+            raise Fog::Compute::AWS::Error, az_error
+          end
+          zones = all_zones if zones.nil?
+
+          max_results = params['MaxResults'] || Fog::Mock.random_numbers(3).to_i
+          if !(max_results.is_a?(Integer) && max_results > 0)
+            max_results_error = "InvalidParameterValue => Invalid value '#{max_results}' for maxResults"
+            raise Fog::Compute::AWS::Error, max_results_error
+          end
+
+          all_instance_types = flavors.map { |f| f.id }
+          instance_types = filters.delete('InstanceType') || all_instance_types
+          product_descriptions = filters.delete('ProductDescription') || Fog::AWS::Mock.spot_product_descriptions
+
+          max_results.times do
+            spot_price_history_set << {
+              'instanceType'       => [*instance_types].shuffle.first,
+              'productDescription' => [*product_descriptions].shuffle.first,
+              'spotPrice'          => ((rand + [0 , 1].shuffle.first) * 10000).round / 10000.0,
+              'timestamp'          => Time.now - (1 + rand(86400)),
+              'availabilityZone'   => [*zones].shuffle.first
+            }
+          end
+          spot_price_history_set.sort! { |x,y| x['timestamp'] <=> y['timestamp'] }
+
+          response.body = {
+            'spotPriceHistorySet' => spot_price_history_set,
+            'requestId'           => Fog::AWS::Mock.request_id,
+            'nextToken'           => nil
+          }
+          response
+        end
+      end
     end
   end
 end

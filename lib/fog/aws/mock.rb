@@ -165,6 +165,14 @@ module Fog
       def self.rds_address(db_name,region)
         "#{db_name}.#{Fog::Mock.random_letters(rand(12) + 4)}.#{region}.rds.amazonaws.com"
       end
+
+      def self.spot_product_descriptions
+        [
+          'Linux/UNIX',
+          'Windows',
+          'SUSE Linux'
+        ]
+      end
     end
   end
 end
