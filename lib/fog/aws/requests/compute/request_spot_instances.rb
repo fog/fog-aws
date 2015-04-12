@@ -91,6 +91,86 @@ module Fog
           }.merge!(options))
         end
       end
+
+      class Mock
+        def request_spot_instances(image_id, instance_type, spot_price, options = {})
+          response = Excon::Response.new
+
+          if (image_id && instance_type && spot_price)
+            response.status = 200
+
+            all_instance_types = flavors.map { |f| f.id }
+            if !all_instance_types.include?(instance_type)
+              message = "InvalidParameterValue => Invalid value '#{instance_type}' for InstanceType."
+              raise Fog::Compute::AWS::Error.new(message)
+            end
+
+            spot_price = spot_price.to_f
+            if !(spot_price > 0)
+              message = "InvalidParameterValue => Value (#{spot_price}) for parameter price is invalid."
+              message << " \"#{spot_price}\" is an invalid spot instance price"
+              raise Fog::Compute::AWS::Error.new(message)
+            end
+
+            if !image_id.match(/^ami-[a-f0-9]{8}$/)
+              message = "The image id '[#{image_id}]' does not exist"
+              raise Fog::Compute::AWS::NotFound.new(message)
+            end
+
+          else
+            message = 'MissingParameter => '
+            message << 'The request must contain the parameter '
+            if !image_id
+              message << 'image_id'
+            elsif !instance_type
+              message << 'instance_type'
+            else
+              message << 'spot_price'
+            end
+            raise Fog::Compute::AWS::Error.new(message)
+          end
+
+          for key in %w(AvailabilityZoneGroup LaunchGroup)
+            if options.is_a?(Hash) && options.key?(key)
+              Fog::Logger.warning("#{key} filters are not yet mocked [light_black](#{caller.first})[/]")
+              Fog::Mock.not_implemented
+            end
+          end
+
+          launch_spec = {
+            'iamInstanceProfile' => {},
+            'blockDeviceMapping' => [],
+            'groupSet'           => [Fog::AWS::Mock.security_group_id],
+            'imageId'            => image_id,
+            'instanceType'       => instance_type,
+            'monitoring'         => options['MonitoringEnabled'] || false,
+            'subnetId'           => nil,
+            'ebsOptimized'       => false,
+            'keyName'            => options['KeyName'] || nil
+          }
+
+          response.body = {
+            'spotInstanceRequestSet' => [
+              {
+                'launchSpecification'   => launch_spec,
+                'spotInstanceRequestId' => Fog::AWS::Mock.spot_instance_request_id,
+                'spotPrice'             => spot_price,
+                'type'                  => options['Type'] || 'one-time',
+                'state'                 => 'open',
+                'fault'                 => {
+                  'code'    => 'pending-evaluation',
+                  'message' => 'Your Spot request has been submitted for review, and is pending evaluation.'
+                },
+                'createTime'         => Time.now,
+                'productDescription' => 'Linux/UNIX'
+              }
+            ],
+            'requestId' => Fog::AWS::Mock.request_id
+          }
+
+          response
+        end
+      end
     end
   end
 end
