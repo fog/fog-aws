@@ -151,7 +151,7 @@ module Fog
       end
 
       class Mock
-
+        SET_PREFIX = 'SET_'
         def record_exist?(zone,change,change_name)
           return false if zone[:records][change[:type]].nil?
           current_records = zone[:records][change[:type]][change_name]
@@ -210,7 +210,7 @@ module Fog
                     zone[:records][change[:type]][change_name] = new_record
                   else
                     zone[:records][change[:type]][change_name] = {} if zone[:records][change[:type]][change_name].nil?
-                    zone[:records][change[:type]][change_name]['SET_' + change[:set_identifier]] = new_record
+                    zone[:records][change[:type]][change_name][SET_PREFIX + change[:set_identifier]] = new_record
                   end
                 else
                   errors << "Tried to create resource record set #{change[:name]}. type #{change[:type]}, but it already exists"
@@ -218,7 +218,7 @@ module Fog
               when "DELETE"
                 action_performed = false
                 if !zone[:records][change[:type]].nil? && !zone[:records][change[:type]][change_name].nil? && !change[:set_identifier].nil?
-                  action_performed = true unless zone[:records][change[:type]][change_name].delete('SET_' + change[:set_identifier]).nil?
+                  action_performed = true unless zone[:records][change[:type]][change_name].delete(SET_PREFIX + change[:set_identifier]).nil?
                   zone[:records][change[:type]].delete(change_name) if zone[:records][change[:type]][change_name].empty?
                 elsif !zone[:records][change[:type]].nil?
                   action_performed = true unless zone[:records][change[:type]].delete(change_name).nil?

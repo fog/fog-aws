@@ -62,7 +62,7 @@ module Fog
         def set_identified_records(record, zone, name)
           [].tap do |tmp_records|
             record.each do |key,subr|
-              if subr.is_a?(Hash) && key.start_with?('SET_')
+              if subr.is_a?(Hash) && key.start_with?(Fog::DNS::AWS::Mock::SET_PREFIX)
                 if name.nil?
                   tmp_records.append(subr)
                 else
