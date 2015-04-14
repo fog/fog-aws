@@ -166,6 +166,10 @@ module Fog
         "#{db_name}.#{Fog::Mock.random_letters(rand(12) + 4)}.#{region}.rds.amazonaws.com"
       end
 
+      def self.spot_instance_request_id
+        "sir-#{Fog::Mock.random_letters_and_numbers(8)}"
+      end
+
       def self.spot_product_descriptions
         [
           'Linux/UNIX',
