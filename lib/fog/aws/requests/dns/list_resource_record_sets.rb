@@ -59,6 +59,20 @@ module Fog
       end
 
       class Mock
+        def set_identified_records(record, zone, name)
+          [].tap do |tmp_records|
+            record.each do |key,subr|
+              if subr.is_a?(Hash) && key.start_with?('SET_')
+                if name.nil?
+                  tmp_records.append(subr)
+                else
+                  tmp_records.append(subr) if !subr[:name].nil? && subr[:name].gsub(zone[:name],"") >= name
+                end
+              end
+            end
+          end
+        end
+
         def list_resource_record_sets(zone_id, options = {})
           maxitems = [options[:max_items]||100,100].min
 
@@ -76,13 +90,24 @@ module Fog
 
           records ||= []
 
+          tmp_records = []
+          if options[:name]
+            name = options[:name].gsub(zone[:name],"")
+
+            records.each do |r|
+              tmp_records.append(r) if !r[:name].nil? && r[:name].gsub(zone[:name],"") >= name
+              tmp_records += set_identified_records(r, zone, name)
+            end
+          else
+            records.each do |r|
+              tmp_records += set_identified_records(r, zone, nil)
+            end
+          end
+          records = tmp_records
+
           # sort for pagination
           records.sort! { |a,b| a[:name].gsub(zone[:name],"") <=> b[:name].gsub(zone[:name],"") }
 
-          if options[:name]
-            name = options[:name].gsub(zone[:name],"")
-            records = records.select{|r| r[:name].gsub(zone[:name],"") >= name }
-          end
 
           next_record  = records[maxitems]
           records      = records[0, maxitems]
@@ -106,7 +131,9 @@ module Fog
               {
                 'ResourceRecords' => r[:resource_records],
                 'Name' => r[:name],
-                'Type' => r[:type]
+                'Type' => r[:type],
+                'SetIdentifier' => r[:set_identifier],
+                'Weight' => r[:weight]
               }.merge(record)
             end,
             'MaxItems' => maxitems,
