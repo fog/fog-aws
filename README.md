@@ -35,8 +35,8 @@ Since it's a bad practice to have your credentials in source code, you should lo
 
 ```
 default:
-  aws_access_key_id:     AKIAKFA8FKVJBJS8W3JG
-  aws_secret_access_key: k5OVuSAkh4dGeEiKHRC2ke0fSpX/5qOKGaoV+HBm
+  aws_access_key_id:     <YOUR_ACCESS_KEY_ID>
+  aws_secret_access_key: <YOUR_SECRET_ACCESS_KEY>
 ```
 
 ### Connecting to EC2 service
@@ -64,7 +64,7 @@ response = ec2.run_instances(
 instance_id = response.body["instancesSet"].first["instanceId"] # => "i-02db5af4"
 instance = ec2.servers.get(instance_id)
 instance.wait_for { ready? }
-puts instance.public_ip_address # => "54.200.201.120"
+puts instance.public_ip_address # => "356.300.501.20"
 ```
 
 ### Terminate an EC2 instance:
