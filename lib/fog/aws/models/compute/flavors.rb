@@ -433,6 +433,46 @@ module Fog
           :disk                    => 640,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "d2.xlarge",
+          :name                    => "D2 Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 31232,
+          :disk                    => 6000,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 3
+        },
+        {
+          :id                      => "d2.2xlarge",
+          :name                    => "D2 Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 62464,
+          :disk                    => 12000,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 6
+        },
+        {
+          :id                      => "d2.4xlarge",
+          :name                    => "D2 Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 124928,
+          :disk                    => 24000,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 12
+        },
+        {
+          :id                      => "d2.8xlarge",
+          :name                    => "D2 Eight Extra Large",
+          :bits                    => 64,
+          :cores                   => 36,
+          :ram                     => 249856,
+          :disk                    => 48000,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 24
         }
       ]
 
