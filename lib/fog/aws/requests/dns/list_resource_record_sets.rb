@@ -61,7 +61,7 @@ module Fog
       class Mock
         def list_all_records(record, zone, name)
           [].tap do |tmp_records|
-            tmp_records.push(record) if name.nil? || (!record[:name].nil? && record[:name].gsub(zone[:name],"") >= name)
+            tmp_records.push(record) if !record[:name].nil? && ( name.nil? || record[:name].gsub(zone[:name],"") >= name)
             record.each do |key,subr|
               if subr.is_a?(Hash) && key.is_a?(String) &&
                 key.start_with?(Fog::DNS::AWS::Mock::SET_PREFIX)
