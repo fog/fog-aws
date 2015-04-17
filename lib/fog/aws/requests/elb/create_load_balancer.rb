@@ -78,11 +78,14 @@ module Fog
           region = if availability_zones.any?
                      availability_zones.first.gsub(/[a-z]$/, '')
                    elsif subnet_ids.any?
-                     Fog::Compute::AWS::Mock.data.select do |_, region_data|
-                       region_data[@aws_access_key_id][:subnets].any? do |region_subnets|
-                         subnet_ids.include? region_subnets['subnetId']
+                     # using Hash here for Rubt 1.8.7 support.
+                     Hash[
+                       Fog::Compute::AWS::Mock.data.select do |_, region_data|
+                         region_data[@aws_access_key_id][:subnets].any? do |region_subnets|
+                           subnet_ids.include? region_subnets['subnetId']
+                         end
                        end
-                     end.keys[0]
+                     ].keys[0]
                    else
                      'us-east-1'
                    end
