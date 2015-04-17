@@ -151,6 +151,19 @@ module Fog
       end
 
       class Mock
+        SET_PREFIX = 'SET_'
+        def record_exist?(zone,change,change_name)
+          return false if zone[:records][change[:type]].nil?
+          current_records = zone[:records][change[:type]][change_name]
+          return false if current_records.nil?
+
+          if !change[:set_identifier].empty?
+            !current_records[change[:SetIdentifier]].nil?
+          else
+            !current_records.empty?
+          end
+        end
+
         def change_resource_record_sets(zone_id, change_batch, options = {})
           response = Excon::Response.new
           errors   = []
@@ -171,9 +184,9 @@ module Fog
                   zone[:records][change[:type]] = {}
                 end
 
-                if zone[:records][change[:type]][change_name].nil?
+                if !record_exist?(zone, change, change_name)
                   # raise change.to_s if change[:resource_records].nil?
-                  zone[:records][change[:type]][change_name] =
+                  new_record =
                   if change[:alias_target]
                     record = {
                       :alias_target => change[:alias_target]
@@ -183,17 +196,35 @@ module Fog
                       :ttl => change[:ttl].to_s,
                     }
                   end
-                  zone[:records][change[:type]][change_name] = {
+
+                  new_record = {
                     :change_id        => change_id,
                     :resource_records => change[:resource_records] || [],
                     :name             => change_name,
-                    :type             => change[:type]
+                    :type             => change[:type],
+                    :set_identifier   => change[:set_identifier],
+                    :weight           => change[:weight]
                   }.merge(record)
+
+                  if change[:set_identifier].nil?
+                    zone[:records][change[:type]][change_name] = new_record
+                  else
+                    zone[:records][change[:type]][change_name] = {} if zone[:records][change[:type]][change_name].nil?
+                    zone[:records][change[:type]][change_name][SET_PREFIX + change[:set_identifier]] = new_record
+                  end
                 else
                   errors << "Tried to create resource record set #{change[:name]}. type #{change[:type]}, but it already exists"
                 end
               when "DELETE"
-                if zone[:records][change[:type]].nil? || zone[:records][change[:type]].delete(change_name).nil?
+                action_performed = false
+                if !zone[:records][change[:type]].nil? && !zone[:records][change[:type]][change_name].nil? && !change[:set_identifier].nil?
+                  action_performed = true unless zone[:records][change[:type]][change_name].delete(SET_PREFIX + change[:set_identifier]).nil?
+                  zone[:records][change[:type]].delete(change_name) if zone[:records][change[:type]][change_name].empty?
+                elsif !zone[:records][change[:type]].nil?
+                  action_performed = true unless zone[:records][change[:type]].delete(change_name).nil?
+                end
+
+                if !action_performed
                   errors << "Tried to delete resource record set #{change[:name]}. type #{change[:type]}, but it was not found"
                 end
               end
