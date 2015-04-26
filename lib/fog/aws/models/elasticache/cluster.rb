@@ -23,6 +23,7 @@ module Fog
         attribute :cache_subnet_group_name, :aliases => 'CacheSubnetGroupName'
         attribute :vpc_security_groups, :aliases => 'VpcSecurityGroups', :type => :array
         attribute :s3_snapshot_location, :aliases => 'SnapshotArns', :type => :array
+        attribute :configuration_endpoint, :aliases => 'ConfigurationEndpoint'
 
         attr_accessor :parameter_group_name
 
