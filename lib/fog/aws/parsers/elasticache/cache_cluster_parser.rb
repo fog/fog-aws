@@ -14,7 +14,8 @@ module Fog
             @cache_cluster = {
               'CacheSecurityGroups' => [],
               'CacheNodes' => [],
-              'CacheParameterGroup' => {}
+              'CacheParameterGroup' => {},
+              'ConfigurationEndpoint' => {}
             }
           end
 
@@ -24,6 +25,7 @@ module Fog
             when 'CacheSecurityGroup'; then @security_group = {}
             when 'CacheNode'; then @cache_node = {}
             when 'PendingModifiedValues'; then @pending_values = {}
+            when 'ConfigurationEndpoint'; then @configuration_endpoint = {} 
             end
           end
 
@@ -49,6 +51,8 @@ module Fog
               @cache_cluster[name] = DateTime.parse(value)
             when 'CacheSecurityGroup'
               @cache_cluster["#{name}s"] << @security_group unless @security_group.empty?
+            when 'ConfigurationEndpoint'
+              @cache_cluster['ConfigurationEndpoint'] = @configuration_endpoint
             when 'CacheSecurityGroupName', 'Status', 'CacheSubnetGroupName'
               @cache_cluster[name] = value
             when 'CacheNode'
@@ -57,8 +61,16 @@ module Fog
             when'PendingModifiedValues'
               @cache_cluster[name] = @pending_values
               @pending_values = nil
-            when 'CacheNodeCreateTime', 'CacheNodeStatus', 'Address',
-              'ParameterGroupStatus', 'Port', 'CacheNodeId'
+            when 'Port', 'Address'
+              if @cache_node
+                @cache_node[name] = value ? value.strip : name                
+              elsif @pending_values
+                @pending_values[name] = value ? value.strip : name
+              elsif @configuration_endpoint
+                @configuration_endpoint[name] = value ? value.strip : name
+              end
+            when 'CacheNodeCreateTime', 'CacheNodeStatus',
+              'ParameterGroupStatus', 'CacheNodeId'
               if @cache_node
                 @cache_node[name] = value ? value.strip : name
               elsif @pending_values
