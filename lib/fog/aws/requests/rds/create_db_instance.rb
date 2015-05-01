@@ -83,7 +83,7 @@ module Fog
                  "DBInstanceIdentifier"=> db_name,
                  "DBName" => options["DBName"],
                  "InstanceCreateTime" => nil,
-                 "AutoMinorVersionUpgrade"=>true,
+                 "AutoMinorVersionUpgrade"=> options["AutoMinorVersionUpgrade"].nil? ? true : options["AutoMinorVersionUpgrade"],
                  "Endpoint"=>{},
                  "ReadReplicaDBInstanceIdentifiers"=>[],
                  "PreferredMaintenanceWindow"=>"mon:04:30-mon:05:00",
