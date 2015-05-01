@@ -231,6 +231,7 @@ module Fog
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
           #global services that have no region are signed with the us-east-1 region
+          #the only exception is GovCloud, which requires the region to be explicitly specified as us-gov-west-1
           @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region,'iam')
         end
 
