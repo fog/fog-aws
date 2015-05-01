@@ -10,7 +10,7 @@ module Fog
       class ValidationError < Fog::AWS::IAM::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent, :instrumentor, :instrumentor_name, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at
+      recognizes :host, :path, :port, :scheme, :persistent, :instrumentor, :instrumentor_name, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :region
 
       request_path 'fog/aws/requests/iam'
       request :add_user_to_group
@@ -211,6 +211,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
+          @region     = options[:region]      || "us-east-1"
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
 
           setup_credentials(options)
@@ -230,7 +231,8 @@ module Fog
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
           #global services that have no region are signed with the us-east-1 region
-          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key,'us-east-1','iam')
+          #the only exception is GovCloud, which requires the region to be explicitly specified as us-gov-west-1
+          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region,'iam')
         end
 
         def request(params)
