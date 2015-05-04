@@ -139,6 +139,8 @@ module Fog
         end
 
         def signed_url(params, expires)
+          refresh_credentials_if_expired
+
           #convert expires from a point in time to a delta to now
           expires = expires.to_i
           if @signature_version == 4
@@ -314,6 +316,7 @@ module Fog
 
       class Mock
         include Utils
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
 
         def self.acls(type)
           case type
