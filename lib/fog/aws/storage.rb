@@ -562,10 +562,10 @@ module Fog
               params[:headers]['x-amz-content-sha256'] = 'STREAMING-AWS4-HMAC-SHA256-PAYLOAD'
               params[:headers]['x-amz-decoded-content-length'] = params[:headers].delete 'Content-Length'
 
-              if params[:headers]['Content-Encoding']
-                encoding = "aws-chunked, #{params[:headers]['Content-Encoding']}"
+              if params[:headers]['Content-Encoding'] && params[:headers]['Content-Encoding'].to_s.length > 0
+                encoding = "aws-chunked,#{params[:headers]['Content-Encoding']}"
               else
-                encoding = "aws-chunked, identity"
+                encoding = "aws-chunked"
               end
 
               params[:headers]['Content-Encoding']  = encoding
