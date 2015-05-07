@@ -46,14 +46,11 @@ module Fog
             when 'Engine', 'DBInstanceStatus', 'DBInstanceIdentifier',
               'PreferredBackupWindow', 'PreferredMaintenanceWindow',
               'AvailabilityZone', 'MasterUsername', 'DBName', 'LicenseModel',
-              'DBSubnetGroupName', 'StorageType'
+              'DBSubnetGroupName', 'StorageType', 'KmsKeyId', 'TdeCredentialArn',
+              'SecondaryAvailabilityZone', 'DbiResourceId'
               @db_instance[name] = value
-            when 'MultiAZ', 'AutoMinorVersionUpgrade', 'PubliclyAccessible'
-              if value == 'false'
-                @db_instance[name] = false
-              else
-                @db_instance[name] = true
-              end
+            when 'MultiAZ', 'AutoMinorVersionUpgrade', 'PubliclyAccessible', 'StorageEncrypted'
+              @db_instance[name] = (value == 'true')
             when 'DBParameterGroups'
               @in_db_parameter_groups = false
               @db_instance['DBParameterGroups'] = @db_parameter_groups
@@ -64,7 +61,6 @@ module Fog
               if @in_db_parameter_groups
                 @db_parameter_group[name] = value
               end
-
             when 'BackupRetentionPeriod'
               if @in_pending_modified_values
                 @pending_modified_values[name] = value.to_i
@@ -86,7 +82,6 @@ module Fog
             when 'DBSecurityGroup'
               @db_security_groups << @db_security_group
               @db_security_group = {}
-
             when 'VpcSecurityGroups'
               @in_vpc_security_groups = false
               @db_instance['VpcSecurityGroups'] = @vpc_security_groups
@@ -95,7 +90,6 @@ module Fog
               @vpc_security_group = {}
             when 'VpcSecurityGroupId'
               @vpc_security_group[name] = value
-
             when 'Status'
               # Unfortunately, status is used in VpcSecurityGroupMemebership and
               # DBSecurityGroups
@@ -105,7 +99,6 @@ module Fog
               if @in_vpc_security_groups
                 @vpc_security_group[name] = value
               end
-
             when 'Address'
               @endpoint[name] = value
             when 'Port'
@@ -114,7 +107,6 @@ module Fog
               elsif @in_endpoint
                 @endpoint[name] = value.to_i
               end
-
             when 'PendingModifiedValues'
               @in_pending_modified_values = false
               @db_instance['PendingModifiedValues'] = @pending_modified_values
