@@ -1,6 +1,4 @@
 Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
-  # Disabled due to https://github.com/fog/fog/1546
-  pending
 
   # random_differentiator
   # Useful when rapidly re-running tests, so we don't have to wait
@@ -9,20 +7,22 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
 
   @db_instance_id       = "fog-test-#{suffix}"
   @db_replica_id        = "fog-replica-#{suffix}"
-  @db_snapshot_id       = "fog-snapshot"
-  @db_final_snapshot_id = "fog-final-snapshot"
+  @db_snapshot_id       = "fog-snapshot-#{suffix}"
+  @db_final_snapshot_id = "fog-final-snapshot-#{suffix}"
 
   tests('success') do
 
     tests("#create_db_instance").formats(AWS::RDS::Formats::CREATE_DB_INSTANCE) do
+      default_params = rds_default_server_params
+
       result = Fog::AWS[:rds].create_db_instance(@db_instance_id,
-                                                 'AllocatedStorage' => 5,
-                                                 'DBInstanceClass' => 'db.m1.small',
-                                                 'Engine' => 'mysql',
-                                                 'EngineVersion' => '5.1.50',
-                                                 'MasterUsername' => 'foguser',
-                                                 'BackupRetentionPeriod' => 1,
-                                                 'MasterUserPassword' => 'fogpassword').body
+                                                 'AllocatedStorage'      => default_params.fetch(:allocated_storage),
+                                                 'DBInstanceClass'       => default_params.fetch(:flavor_id),
+                                                 'Engine'                => default_params.fetch(:engine),
+                                                 'EngineVersion'         => default_params.fetch(:version),
+                                                 'MasterUsername'        => default_params.fetch(:master_username),
+                                                 'BackupRetentionPeriod' => default_params.fetch(:backup_retention_period),
+                                                 'MasterUserPassword'    => default_params.fetch(:password)).body
 
       instance = result['CreateDBInstanceResult']['DBInstance']
       returns('creating') { instance['DBInstanceStatus'] }

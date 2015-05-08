@@ -47,7 +47,8 @@ module Fog
               'PreferredBackupWindow', 'PreferredMaintenanceWindow',
               'AvailabilityZone', 'MasterUsername', 'DBName', 'LicenseModel',
               'DBSubnetGroupName', 'StorageType', 'KmsKeyId', 'TdeCredentialArn',
-              'SecondaryAvailabilityZone', 'DbiResourceId'
+              'SecondaryAvailabilityZone', 'DbiResourceId', 'CACertificateIdentifier',
+              'CharacterSetName', 'DbiResourceId', 'LicenseModel', 'KmsKeyId'
               @db_instance[name] = value
             when 'MultiAZ', 'AutoMinorVersionUpgrade', 'PubliclyAccessible', 'StorageEncrypted'
               @db_instance[name] = (value == 'true')
@@ -61,14 +62,14 @@ module Fog
               if @in_db_parameter_groups
                 @db_parameter_group[name] = value
               end
-            when 'BackupRetentionPeriod'
+            when 'BackupRetentionPeriod', 'Iops', 'AllocatedStorage'
               if @in_pending_modified_values
                 @pending_modified_values[name] = value.to_i
               else
                 @db_instance[name] = value.to_i
               end
             when 'DBInstanceClass', 'EngineVersion', 'MasterUserPassword',
-                'MultiAZ', 'Iops', 'AllocatedStorage'
+                'MultiAZ'
               if @in_pending_modified_values
                 @pending_modified_values[name] = value
               else

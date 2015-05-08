@@ -8,20 +8,24 @@ module Fog
         attribute :auto_minor_version_upgrade,   :aliases => 'AutoMinorVersionUpgrade'
         attribute :availability_zone,            :aliases => 'AvailabilityZone'
         attribute :backup_retention_period,      :aliases => 'BackupRetentionPeriod', :type => :integer
+        attribute :ca_certificate_id,            :aliases => 'CACertificateIdentifier'
+        attribute :character_set_name,           :aliases => 'CharacterSetName'
         attribute :created_at,                   :aliases => 'InstanceCreateTime', :type => :time
         attribute :db_name,                      :aliases => 'DBName'
         attribute :db_parameter_groups,          :aliases => 'DBParameterGroups'
         attribute :db_security_groups,           :aliases => 'DBSecurityGroups', :type => :array
         attribute :db_subnet_group_name,         :aliases => 'DBSubnetGroupName'
+        attribute :dbi_resource_id,              :aliases => 'DbiResourceId'
         attribute :endpoint,                     :aliases => 'Endpoint'
         attribute :engine,                       :aliases => 'Engine'
         attribute :engine_version,               :aliases => 'EngineVersion'
         attribute :flavor_id,                    :aliases => 'DBInstanceClass'
-        attribute :iops,                         :aliases => 'Iops'
+        attribute :iops,                         :aliases => 'Iops', :type => :integer
+        attribute :kms_key_id,                   :aliases => 'KmsKeyId'
         attribute :last_restorable_time,         :aliases => 'LatestRestorableTime', :type => :time
         attribute :license_model,                :aliases => 'LicenseModel'
         attribute :master_username,              :aliases => 'MasterUsername'
-        attribute :multi_az,                     :aliases => 'MultiAZ'
+        attribute :multi_az,                     :aliases => 'MultiAZ', :type => :boolean
         attribute :pending_modified_values,      :aliases => 'PendingModifiedValues'
         attribute :preferred_backup_window,      :aliases => 'PreferredBackupWindow'
         attribute :preferred_maintenance_window, :aliases => 'PreferredMaintenanceWindow'
@@ -29,7 +33,9 @@ module Fog
         attribute :read_replica_identifiers,     :aliases => 'ReadReplicaDBInstanceIdentifiers', :type => :array
         attribute :read_replica_source,          :aliases => 'ReadReplicaSourceDBInstanceIdentifier'
         attribute :state,                        :aliases => 'DBInstanceStatus'
+        attribute :storage_encrypted,            :aliases => 'StorageEncrypted', :type => :boolean
         attribute :storage_type,                 :aliases => 'StorageType'
+        attribute :tde_credential_arn,           :aliases => 'TdeCredentialArn'
         attribute :vpc_security_groups,          :aliases => 'VpcSecurityGroups', :type => :array
 
         attr_accessor :password, :parameter_group_name, :security_group_names, :port
