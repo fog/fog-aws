@@ -15,13 +15,17 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
     tests("#create_db_instance").formats(AWS::RDS::Formats::CREATE_DB_INSTANCE) do
       default_params = rds_default_server_params
 
+      # creation of replicas requires a > 0 BackupRetentionPeriod value
+      # InvalidDBInstanceState => Automated backups are not enabled for this database instance. To enable automated backups, use ModifyDBInstance to set the backup retention period to a non-zero value. (Fog::AWS::RDS::Error)
+      backup_retention_period = 1
+
       result = Fog::AWS[:rds].create_db_instance(@db_instance_id,
                                                  'AllocatedStorage'      => default_params.fetch(:allocated_storage),
                                                  'DBInstanceClass'       => default_params.fetch(:flavor_id),
                                                  'Engine'                => default_params.fetch(:engine),
                                                  'EngineVersion'         => default_params.fetch(:version),
                                                  'MasterUsername'        => default_params.fetch(:master_username),
-                                                 'BackupRetentionPeriod' => default_params.fetch(:backup_retention_period),
+                                                 'BackupRetentionPeriod' => backup_retention_period,
                                                  'MasterUserPassword'    => default_params.fetch(:password)).body
 
       instance = result['CreateDBInstanceResult']['DBInstance']
@@ -69,7 +73,7 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
     end
 
     tests("#describe_db_snapshots").formats(AWS::RDS::Formats::DESCRIBE_DB_SNAPSHOTS) do
-      body = Fog::AWS[:rds].describe_db_snapshots.body
+      Fog::AWS[:rds].describe_db_snapshots.body
     end
 
     server.wait_for { state == 'available' }

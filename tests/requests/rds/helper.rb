@@ -205,8 +205,7 @@ class AWS
       }
 
       REPLICA_INSTANCE = INSTANCE.merge({
-        'BackupRetentionPeriod' => Fog::Nullable::String,
-        'PreferredBackupWindow' => Fog::Nullable::String,
+        'PreferredBackupWindow'                 => Fog::Nullable::String,
         'ReadReplicaSourceDBInstanceIdentifier' => String
       })
 
