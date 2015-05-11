@@ -86,7 +86,7 @@ module Fog
                  "AutoMinorVersionUpgrade"=> options["AutoMinorVersionUpgrade"].nil? ? true : options["AutoMinorVersionUpgrade"],
                  "Endpoint"=>{},
                  "ReadReplicaDBInstanceIdentifiers"=>[],
-                 "PreferredMaintenanceWindow"=>"mon:04:30-mon:05:00",
+                 "PreferredMaintenanceWindow"=> options["PreferredMaintenanceWindow"] || "mon:04:30-mon:05:00",
                  "Engine"=> options["Engine"],
                  "EngineVersion"=> options["EngineVersion"] || "5.5.12",
                  "PendingModifiedValues"=>{"MasterUserPassword"=>"****"}, # This clears when is available
@@ -104,7 +104,7 @@ module Fog
                           [{"Status"=>"active",
                             "DBSecurityGroupName"=>"default"}],
                  "LicenseModel"=>"general-public-license",
-                 "PreferredBackupWindow"=>"08:00-08:30",
+                 "PreferredBackupWindow"=> options["PreferredBackupWindow"] || "08:00-08:30",
 #                 "ReadReplicaSourceDBInstanceIdentifier" => nil,
 #                 "LatestRestorableTime" => nil,
                  "AvailabilityZone" => options["AvailabilityZone"],
