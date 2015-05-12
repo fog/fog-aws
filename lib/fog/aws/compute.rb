@@ -99,6 +99,7 @@ module Fog
       request :describe_dhcp_options
       request :describe_images
       request :describe_instances
+      request :describe_instance_attribute
       request :describe_internet_gateways
       request :describe_reserved_instances
       request :describe_instance_status
