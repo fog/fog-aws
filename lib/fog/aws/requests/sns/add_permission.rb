@@ -14,7 +14,19 @@ module Fog
 
       class Mock
         def add_permission(options = {})
-          Fog::Mock.not_implemented
+          topic_arn = options.delete('TopicArn')
+          label     = options.delete('Label')
+          actions   = options.select { |k,v| k.match(/^ActionName/) }.values
+          members   = options.select { |k,v| k.match(/^AWSAccountId/) }.values
+
+          self.data[:permissions][topic_arn][label] = {
+            :members => members,
+            :actions => actions,
+          }
+
+          response = Excon::Response.new
+          response.body = {"RequestId" => Fog::AWS::Mock.request_id}
+          response
         end
       end
     end
