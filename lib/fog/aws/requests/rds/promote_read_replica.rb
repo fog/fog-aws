@@ -36,16 +36,17 @@ module Fog
         def promote_read_replica(identifier, backup_retention_period = nil, preferred_backup_window = nil)
           if self.data[:servers][identifier]
             data = {
-                'BackupRetentionPeriod' => backup_retention_period || 1,
-                'PreferredBackupWindow' => preferred_backup_window || '08:00-08:30',
-                'DBInstanceIdentifier' => identifier
+              'BackupRetentionPeriod' => backup_retention_period || 1,
+              'PreferredBackupWindow' => preferred_backup_window || '08:00-08:30',
+              'DBInstanceIdentifier' => identifier,
             }
-            self.data[:servers][identifier].merge(data)
+
+            db_instance = self.data[:servers][identifier].merge(data)
 
             response = Excon::Response.new
             response.body = {
-                "ResponseMetadata" => { "RequestId" => Fog::AWS::Mock.request_id },
-                "PromoteReadReplicaResult" => { "DBInstance" => data}
+              "ResponseMetadata"         => { "RequestId"  => Fog::AWS::Mock.request_id },
+              "PromoteReadReplicaResult" => { "DBInstance" => db_instance }
             }
             response.status = 200
             response

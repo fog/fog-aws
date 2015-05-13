@@ -36,6 +36,8 @@ module Fog
             'AllocatedStorage'                      => source['AllocatedStorage'],
             'AutoMinorVersionUpgrade'               => options.key?('AutoMinorVersionUpgrade') ? options['AutoMinorVersionUpgrade'] : source['AutoMinorVersionUpgrade'],
             'AvailabilityZone'                      => options['AvailabilityZone'],
+            'BackupRetentionPeriod'                 => options['BackupRetentionPeriod'] || 0,
+            'CACertificateIdentifier'               => "rds-ca-2015",
             'DBInstanceClass'                       => options['DBInstanceClass'] || 'db.m1.small',
             'DBInstanceIdentifier'                  => instance_identifier,
             'DBInstanceStatus'                      => 'creating',
@@ -54,8 +56,11 @@ module Fog
             'PendingModifiedValues'                 => {},
             'PreferredBackupWindow'                 => '08:00-08:30',
             'PreferredMaintenanceWindow'            => "mon:04:30-mon:05:00",
+            'PubliclyAccessible'                    => !!options["PubliclyAccessible"],
             'ReadReplicaDBInstanceIdentifiers'      => [],
-            'ReadReplicaSourceDBInstanceIdentifier' => source_identifier
+            'ReadReplicaSourceDBInstanceIdentifier' => source_identifier,
+            'StorageType'                           => options['StorageType'] || 'standard',
+            'StorageEncrypted'                      => false,
           }
           self.data[:servers][instance_identifier] = data
           self.data[:servers][source_identifier]['ReadReplicaDBInstanceIdentifiers'] << instance_identifier

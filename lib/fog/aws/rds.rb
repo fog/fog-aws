@@ -197,7 +197,7 @@ module Fog
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
-          @version    = options[:version] || '2013-05-15'
+          @version    = options[:version] || '2014-10-31'
 
           setup_credentials(options)
         end
