@@ -65,7 +65,7 @@ module Fog
               :aws_secret_access_key => SecureRandom.hex(3)
             ).send_message(endpoint, Fog::JSON.encode(
                 "Type"             => "SubscriptionConfirmation",
-                "MessageId"        => SecureRandom.uuid,
+                "MessageId"        => UUID.uuid,
                 "Token"            => token,
                 "TopicArn"         => arn,
                 "Message"          => message,
