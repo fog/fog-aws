@@ -37,7 +37,7 @@ module Fog
         end
 
         def self.reset
-          @data.clear
+          data.clear
         end
 
         attr_reader :account_id
