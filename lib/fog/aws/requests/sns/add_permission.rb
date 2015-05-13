@@ -16,8 +16,8 @@ module Fog
         def add_permission(options = {})
           topic_arn = options.delete('TopicArn')
           label     = options.delete('Label')
-          actions   = options.select { |k,v| k.match(/^ActionName/) }.values
-          members   = options.select { |k,v| k.match(/^AWSAccountId/) }.values
+          actions   = Hash[options.select { |k,v| k.match(/^ActionName/) }].values
+          members   = Hash[options.select { |k,v| k.match(/^AWSAccountId/) }].values
 
           self.data[:permissions][topic_arn][label] = {
             :members => members,
