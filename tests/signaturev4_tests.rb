@@ -58,7 +58,7 @@ Shindo.tests('AWS | signaturev4', ['aws']) do
 
   tests('get with repeated / ') do
     returns(@signer.sign({:query => {}, :headers => {'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '//'}, @now)) do
-      'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=date;host, Signature=b27ccfbfa7df52a200ff74193ca6e32d4b48b8856fab7ebf1c595d0670a7e470'
+      'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=date;host, Signature=ed90a993076c9d2289f0942851cefcca04936604d925e4e3d627a046d308efbe'
     end
   end
 
@@ -70,7 +70,7 @@ Shindo.tests('AWS | signaturev4', ['aws']) do
 
   tests('get with repeated trailing / ') do
     returns(@signer.sign({:query => {}, :headers => {'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '//foo//'}, @now)) do
-      'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=date;host, Signature=b00392262853cfe3201e47ccf945601079e9b8a7f51ee4c3d9ee4f187aa9bf19'
+      'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=date;host, Signature=bed02f23a9182c784fe39dc70f6181f1e50865f2772623c2b245c22bb04ad82c'
     end
   end
 
