@@ -1,75 +1,48 @@
 Shindo.tests('AWS::IAM | user requests', ['aws']) do
 
-  Fog::AWS[:iam].create_group('fog_user_tests')
-
-  tests('success') do
-
-    @user_format = {
-      'User' => {
-        'Arn'        => String,
-        'Path'       => String,
-        'UserId'     => String,
-        'UserName'   => String,
-        'CreateDate' => Time
-      },
-      'RequestId' => String
-    }
-
-    tests("#create_user('fog_user')").formats(@user_format) do
-      Fog::AWS[:iam].create_user('fog_user').body
-    end
-
-    @users_format = {
-      'Users' => [{
-        'Arn'        => String,
-        'Path'       => String,
-        'UserId'     => String,
-        'UserName'   => String,
-        'CreateDate' => Time
-      }],
-      'IsTruncated' => Fog::Boolean,
-      'RequestId'   => String
-    }
-
-    tests("#list_users").formats(@users_format) do
-      Fog::AWS[:iam].list_users.body
-    end
-
-    tests("#get_user").formats(@user_format) do
-      Fog::AWS[:iam].get_user('fog_user').body
-    end
-
-    tests("#add_user_to_group('fog_user_tests', 'fog_user')").formats(AWS::IAM::Formats::BASIC) do
-      Fog::AWS[:iam].add_user_to_group('fog_user_tests', 'fog_user').body
-    end
-
-    @groups_format = {
-      'GroupsForUser' => [{
-        'Arn'       => String,
-        'GroupId'   => String,
-        'GroupName' => String,
-        'Path'      => String
-      }],
-      'IsTruncated' => Fog::Boolean,
-      'RequestId'   => String
-    }
-
-    tests("#list_groups_for_user('fog_user')").formats(@groups_format) do
-      Fog::AWS[:iam].list_groups_for_user('fog_user').body
-    end
-
-    tests("#remove_user_from_group('fog_user_tests', 'fog_user')").formats(AWS::IAM::Formats::BASIC) do
-      Fog::AWS[:iam].remove_user_from_group('fog_user_tests', 'fog_user').body
-    end
-
-    tests("#delete_user('fog_user')").formats(AWS::IAM::Formats::BASIC) do
-      Fog::AWS[:iam].delete_user('fog_user').body
-    end
-
+  begin
+    Fog::AWS[:iam].delete_group('fog_user_tests')
+  rescue Fog::AWS::IAM::NotFound
   end
 
-  tests('failure') do
-    test('failing conditions')
+  begin
+    Fog::AWS[:iam].delete_user('fog_user').body
+  rescue Fog::AWS::IAM::NotFound
+  end
+
+  Fog::AWS[:iam].create_group('fog_user_tests')
+
+
+  tests("#create_user('fog_user')").data_matches_schema(AWS::IAM::Formats::CREATE_USER) do
+    Fog::AWS[:iam].create_user('fog_user').body
+  end
+
+  tests("#list_users").data_matches_schema(AWS::IAM::Formats::LIST_USER) do
+    Fog::AWS[:iam].list_users.body
+  end
+
+  tests("#get_user('fog_user')").data_matches_schema(AWS::IAM::Formats::GET_USER) do
+    Fog::AWS[:iam].get_user('fog_user').body
+  end
+
+  tests("#get_user").data_matches_schema(AWS::IAM::Formats::GET_CURRENT_USER) do
+    Fog::AWS[:iam].get_user.body
+  end
+
+  tests("#add_user_to_group('fog_user_tests', 'fog_user')").data_matches_schema(AWS::IAM::Formats::BASIC) do
+    Fog::AWS[:iam].add_user_to_group('fog_user_tests', 'fog_user').body
+  end
+
+  tests("#list_groups_for_user('fog_user')").data_matches_schema(AWS::IAM::Formats::GROUPS) do
+    Fog::AWS[:iam].list_groups_for_user('fog_user').body
+  end
+
+  tests("#remove_user_from_group('fog_user_tests', 'fog_user')").data_matches_schema(AWS::IAM::Formats::BASIC) do
+    Fog::AWS[:iam].remove_user_from_group('fog_user_tests', 'fog_user').body
+  end
+
+  tests("#delete_user('fog_user')").data_matches_schema(AWS::IAM::Formats::BASIC) do
+    Fog::AWS[:iam].delete_user('fog_user').body
   end
 
   Fog::AWS[:iam].delete_group('fog_user_tests')

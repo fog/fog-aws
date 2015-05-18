@@ -23,7 +23,7 @@ ACtzLycIhlMTmDr0xBeIBx3lpgw2K0+4oefMS8Z17eeZPeNodxnz56juJm81BZwt
 DF3qnnPyArLFx0HLB7wQdm9xYVIqQuLO+V6GRuOd+uSX//aDLDZhwbERf35hoyto
 Jfk4gX/qwuRFNy0vjQeTzdvhB1igG/w=
 -----END CERTIFICATE-----
-}
+    }
     # The public key for SERVER_CERT. Generated using the command:
     # openssl x509 -inform pem -in server-public.crt -pubkey -noout > server.pubkey
     SERVER_CERT_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0CR76sovjdmpWRmEaf8XaG+nGe7czhpdLKkau2b16VtSjkPctxPL5U4vaMxQUboLPr+9oL+9fSYN31VzDD4hyaeGoeI5fhnGeqk71kq5uHONBOQUMbZbBQ8PVd9Sdk+y9JJ6E5fC+GhLL5I+y2DK7syBzyymq1Wi6rPp1XXF7AQIDAQAB"
@@ -43,7 +43,7 @@ c0AQtoYBTJePxiYyd8i32ypkkK83ar+sFoxKO9jYwD1IkZax2xZ0aoTdMindQPR7
 Yjs+QiLmOHcbPqX+GHcCQERsSn0RjzKmKirDntseMB59BB/cEN32+gMDVsZuCfb+
 fOy2ZavFl13afnhbh2/AjKeDhnb19x/uXjF7JCUtwpA=
 -----END RSA PRIVATE KEY-----
-}
+    }
 
     # openssl pkcs8 -nocrypt -topk8 -in SERVER_CERT_PRIVATE_KEY.key -outform pem
     SERVER_CERT_PRIVATE_KEY_PKCS8 = %{-----BEGIN PRIVATE KEY-----
@@ -62,7 +62,7 @@ v6wWjEo72NjAPUiRlrHbFnRqhN0yKd1A9HtiOz5CIuY4dxs+pf4YdwJARGxKfRGP
 MqYqKsOe2x4wHn0EH9wQ3fb6AwNWxm4J9v587LZlq8WXXdp+eFuHb8CMp4OGdvX3
 H+5eMXskJS3CkA==
 -----END PRIVATE KEY-----
-}
+    }
 
     SERVER_CERT_PRIVATE_KEY_MISMATCHED = %{-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAyITMqYJMzkPMcaC+x0W2hnZVW99RXzLR8RYyD3xo2AotdJKx
@@ -91,12 +91,46 @@ cxyt9QKBgF4bFLw1Iw2RBngQxIzoDbElEqme20FUyGGzyFQtxVwmwNr4OY5UzJzX
 7G6diyzGrvRX81Yw616ppKJUJVr/zRc13K+eRXXKtNpGkf35B+1NDDjjWZpIHqgx
 Xb9WSr07saxZQbxBPQyTlb0Q9Tu2djAq2/o/nYD1/50/fXUTuWMB
 -----END RSA PRIVATE KEY-----
-}
+    }
 
     module Formats
       BASIC = {
         'RequestId' => String
       }
+
+      USER = {
+        'Arn'        => String,
+        'Path'       => String,
+        'UserId'     => String,
+        'UserName'   => String,
+      }
+
+      CREATE_USER = BASIC.merge('User' => USER)
+
+      GET_USER = BASIC.merge('User' => USER.merge('CreateDate' => Time))
+
+      GET_CURRENT_USER = BASIC.merge(
+        'User' => {
+          'Arn'        => String,
+          'UserId'     => String,
+          'CreateDate' => Time
+        }
+      )
+
+      LIST_USER = BASIC.merge(
+        'Users' => [USER.merge('CreateDate' => Time)],
+        'IsTruncated' => Fog::Boolean
+      )
+
+      GROUPS = BASIC.merge(
+        'GroupsForUser' => [{
+          'Arn'       => String,
+          'GroupId'   => String,
+          'GroupName' => String,
+          'Path'      => String
+        }],
+        'IsTruncated' => Fog::Boolean
+      )
     end
   end
 end
