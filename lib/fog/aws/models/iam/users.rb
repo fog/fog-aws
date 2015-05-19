@@ -16,6 +16,10 @@ module Fog
           load(data['Users']) # data is an array of attribute hashes
         end
 
+        def current
+          new(service.get_user.body['User'])
+        end
+
         def get(identity)
           data = service.get_user(identity).body['User']
           new(data) # data is an attribute hash
