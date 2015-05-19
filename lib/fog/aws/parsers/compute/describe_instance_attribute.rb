@@ -118,9 +118,7 @@ module Fog
               when 'item'
                 @response["blockDeviceMapping"] << @block_device_mapping
                 @block_device_mapping = {}
-              when 'deviceName'
-                @block_device_mapping['deviceName'] = value
-              when 'volumeId', 'status'
+              when 'volumeId', 'status', 'deviceName'
                 @block_device_mapping[name] = value
               when 'attachTime'
                 @block_device_mapping['attachTime'] = Time.parse(value)
