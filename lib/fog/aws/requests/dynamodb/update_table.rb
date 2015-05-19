@@ -27,7 +27,7 @@ module Fog
         #       * 'TableName'<~String> - name of table
         #       * 'TableStatus'<~String> - status of table
         def update_table(table_name, provisioned_throughput, global_indexes=nil)
-          if global_indexes == nil
+          if global_indexes != nil
            body = {
             'GlobalSecondaryIndexUpdates' => global_indexes,
             'ProvisionedThroughput' => provisioned_throughput,
