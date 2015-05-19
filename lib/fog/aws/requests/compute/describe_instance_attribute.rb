@@ -53,7 +53,33 @@ module Fog
 
       class Mock
         def describe_instance_attribute(instance_id, attribute)
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          if instance = self.data[:instances].values.find{ |i| i['instanceId'] == instance_id }
+            response.status = 200
+            response.body = {
+              'requestId' => Fog::AWS::Mock.request_id,
+              'instanceId'     => instance_id
+            }
+            case attribute
+            when 'kernel'
+              response.body[attribute] = instance["kernelId"]
+            when 'ramdisk'
+              response.body[attribute] = instance["ramdiskId"]
+            when 'disableApiTermination'
+              response.body[attribute] = false
+            when 'instanceInitiatedShutdownBehavior'
+              response.body['instanceInitiatedShutdownBehavior'] = 'stop'
+            when 'sourceDestCheck'
+              response.body[attribute] = true
+            when 'sriovNetSupport'
+              response.body[attribute] = 'simple'
+            else
+              response.body[attribute] = instance[attribute]
+            end
+          response
+          else
+            raise Fog::Compute::AWS::NotFound.new("The Instance '#{instance_id}' does not exist")
+          end
         end
       end
     end

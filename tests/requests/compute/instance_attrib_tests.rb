@@ -40,8 +40,9 @@ Shindo.tests('Fog::Compute[:aws] | describe_instance_attribute request', ['aws']
 
     @instance_id = nil
     @ami = 'ami-79c0ae10'
-
-    # Create a keypair for decrypting the password
+    if Fog.mocking?
+      @instance_attribute_format["groupSet"] = Fog::Nullable::Array
+    end
     key_name = 'fog-test-key'
     @key = Fog::Compute[:aws].key_pairs.create(:name => key_name)
     instance_type = "t1.micro"
@@ -49,16 +50,26 @@ Shindo.tests('Fog::Compute[:aws] | describe_instance_attribute request', ['aws']
     vpc = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/16')
     subnet = Fog::Compute[:aws].subnets.create('vpc_id' => vpc.id, 'cidr_block' => '10.0.10.0/16', "availability_zone" => @az)
     security_groups = Fog::Compute[:aws].security_groups.all
-    security_group = security_groups.select { |group| group.vpc_id == vpc.id }
-    security_group_ids = security_group.collect { |group| group.group_id }
     @launch_config = {
       :image_id => @ami,
       :flavor_id => instance_type,
       :key_name => key_name,
-      :block_device_mapping => [{"DeviceName" => "/dev/sdp1", "VirtualName" => nil, "Ebs.VolumeSize" => 15}],
-      :security_group_ids => security_group_ids,
-      :subnet_id => subnet.subnet_id
+      :subnet_id => subnet.subnet_id,
+      :disable_api_termination => false
     }
+    if !Fog.mocking?
+      security_group = security_groups.select { |group| group.vpc_id == vpc.id }
+      security_group_ids = security_group.collect { |group| group.group_id }
+      @launch_config[:security_group_ids] = security_group_ids
+      block_device_mapping = [{"DeviceName" => "/dev/sdp1", "VirtualName" => nil, "Ebs.VolumeSize" => 15}]
+      @launch_config[:block_device_mapping] = block_device_mapping
+    else
+      security_group_ids = [nil]
+      block_device_mapping = [{"DeviceName" => "/dev/sda1", "VirtualName" => nil, "Ebs.VolumeSize" => 15},{"DeviceName" => "/dev/sdp1", "VirtualName" => nil, "Ebs.VolumeSize" => 15}]
+      @launch_config[:block_device_mapping] = block_device_mapping
+    end
+
+
 
     server = Fog::Compute[:aws].servers.create(@launch_config)
     server.wait_for { ready? }
@@ -75,6 +86,7 @@ Shindo.tests('Fog::Compute[:aws] | describe_instance_attribute request', ['aws']
         key = attrib
       end
       describe_instance_attribute_format[key] = @instance_attribute_format[key]
+
       tests("#describe_instance_attribute('#{@instance_id}', #{attrib})").formats(describe_instance_attribute_format,false) do
         Fog::Compute[:aws].describe_instance_attribute(@instance_id, attrib).body
       end
@@ -82,14 +94,9 @@ Shindo.tests('Fog::Compute[:aws] | describe_instance_attribute request', ['aws']
         Fog::Compute[:aws].describe_instance_attribute(@instance_id, attrib).body['instanceId']
       end
     end
-    # Tests for instance type attribute
+
     tests("#describe_instance_attribute(#{@instance_id}, 'instanceType')").returns(instance_type) do
       Fog::Compute[:aws].describe_instance_attribute(@instance_id, 'instanceType').body["instanceType"]
-    end
-
-    # Tests for disableApiTermination attribute
-    tests("#modify_instance_attribute('#{@instance_id}', {'DisableApiTermination.Value' => false})").formats(AWS::Compute::Formats::BASIC) do
-      Fog::Compute[:aws].modify_instance_attribute(@instance_id, {'DisableApiTermination.Value' => false}).body
     end
 
     tests("#describe_instance_attribute(#{@instance_id}, 'disableApiTermination')").returns(false) do
@@ -125,14 +132,16 @@ Shindo.tests('Fog::Compute[:aws] | describe_instance_attribute request', ['aws']
       Fog::Compute[:aws].describe_instance_attribute(@instance_id, 'ebsOptimized').body["ebsOptimized"]
     end
 
-    @key.destroy
-    server.destroy
-    until server.state == "terminated"
-      sleep 5 #Wait for the server to be terminated
-      server.reload
+    if !Fog.mocking?
+      @key.destroy
+      server.destroy
+      until server.state == "terminated"
+        sleep 5 #Wait for the server to be terminated
+        server.reload
+      end
+      subnet.destroy
+      vpc.destroy
     end
-    subnet.destroy
-    vpc.destroy
 
   end
 
