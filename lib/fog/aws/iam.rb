@@ -182,7 +182,7 @@ module Fog
         end
 
         def current_user
-          self.data[:users][@aws_access_key_id]
+          self.data[:users]["root"]
         end
       end
 
