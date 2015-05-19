@@ -6,32 +6,30 @@ module Fog
       class Policies < Fog::Collection
         model Fog::AWS::IAM::Policy
 
-        def initialize(attributes = {})
-          @username = attributes[:username]
-          raise ArgumentError.new("Can't get a policy's user without a username") unless @username
-          super
-        end
+        attribute :username
 
         def all
+          requires :username
           # AWS method get_user_policy only returns an array of policy names, this is kind of useless,
           # that's why it has to loop through the list to get the details of each element. I don't like it because it makes this method slow
-          policy_names = service.list_user_policies(@username).body['PolicyNames'] # it returns an array
-          policies = []
-          policy_names.each do |policy_name|
-            policies << service.get_user_policy(policy_name,@username).body['Policy']
+          policy_names = service.list_user_policies(self.username).body['PolicyNames'] # it returns an array
+          policies = policy_names.map do |policy_name|
+            service.get_user_policy(policy_name, self.username).body['Policy']
           end
           load(policies) # data is an array of attribute hashes
         end
 
         def get(identity)
-          data = service.get_user_policy(identity,@username).body['Policy']
+          requires :username
+
+          data = service.get_user_policy(identity, self.username).body['Policy']
           new(data) # data is an attribute hash
         rescue Fog::AWS::IAM::NotFound
           nil
         end
 
         def new(attributes = {})
-          super({ :username => @username }.merge!(attributes))
+          super({ :username => self.username }.merge!(attributes))
         end
       end
     end
