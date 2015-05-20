@@ -12,7 +12,6 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
 
   Fog::AWS[:iam].create_group('fog_user_tests')
 
-
   tests("#create_user('fog_user')").data_matches_schema(AWS::IAM::Formats::CREATE_USER) do
     Fog::AWS[:iam].create_user('fog_user').body
   end
@@ -26,7 +25,15 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
   end
 
   tests("#get_user").data_matches_schema(AWS::IAM::Formats::GET_CURRENT_USER) do
-    Fog::AWS[:iam].get_user.body
+    body = Fog::AWS[:iam].get_user.body
+
+    if Fog.mocking?
+      tests("correct root arn").returns(true) {
+        body["User"]["Arn"].end_with?(":root")
+      }
+    end
+
+    body
   end
 
   tests("#add_user_to_group('fog_user_tests', 'fog_user')").data_matches_schema(AWS::IAM::Formats::BASIC) do
