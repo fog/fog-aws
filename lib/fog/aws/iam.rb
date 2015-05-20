@@ -162,8 +162,9 @@ module Fog
         end
 
         def initialize(options={})
-          @use_iam_profile = options[:use_iam_profile]
+          @use_iam_profile           = options[:use_iam_profile]
           @aws_credentials_expire_at = Time::now + 20
+
           setup_credentials(options)
         end
 
@@ -173,10 +174,15 @@ module Fog
 
         def reset_data
           self.class.data.delete(@aws_access_key_id)
+          current_user
         end
 
         def setup_credentials(options)
           @aws_access_key_id = options[:aws_access_key_id]
+        end
+
+        def current_user
+          self.data[:users]["root"]
         end
       end
 
@@ -201,11 +207,11 @@ module Fog
         # ==== Returns
         # * IAM object with connection to AWS.
         def initialize(options={})
+          @use_iam_profile    = options[:use_iam_profile]
+          @connection_options = options[:connection_options] || {}
+          @instrumentor       = options[:instrumentor]
+          @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.iam'
 
-          @use_iam_profile = options[:use_iam_profile]
-          @connection_options     = options[:connection_options] || {}
-          @instrumentor           = options[:instrumentor]
-          @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.iam'
           @host       = options[:host]        || 'iam.amazonaws.com'
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
@@ -215,7 +221,6 @@ module Fog
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
 
           setup_credentials(options)
-
         end
 
         def reload
@@ -225,14 +230,14 @@ module Fog
         private
 
         def setup_credentials(options)
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
-          @aws_session_token      = options[:aws_session_token]
+          @aws_access_key_id         = options[:aws_access_key_id]
+          @aws_secret_access_key     = options[:aws_secret_access_key]
+          @aws_session_token         = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
           #global services that have no region are signed with the us-east-1 region
           #the only exception is GovCloud, which requires the region to be explicitly specified as us-gov-west-1
-          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region,'iam')
+          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 'iam')
         end
 
         def request(params)

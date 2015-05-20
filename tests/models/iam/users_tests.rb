@@ -38,6 +38,10 @@ Shindo.tests("Fog::Compute[:iam] | users", ['aws','iam']) do
     @iam.users.get(@user_one_name).id == @user_one_name
   end
 
+  tests('#current').succeeds do
+    @iam.users.current
+  end
+
   tests('#get',"returns nil if the user doesn't exists").succeeds do
     @iam.users.get('non-exists') == nil
   end

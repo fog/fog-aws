@@ -23,31 +23,55 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_Getuser.html
         #
-        def get_user(username, options = {})
-          request({
-            'Action'    => 'GetUser',
-            'UserName'  => username,
-            :parser     => Fog::Parsers::AWS::IAM::GetUser.new
-          }.merge!(options))
+        def get_user(username = nil, options = {})
+          params = {
+            'Action' => 'GetUser',
+            :parser  => Fog::Parsers::AWS::IAM::GetUser.new
+          }
+
+          if username
+            params.merge!('UserName' => username)
+          end
+
+          request(params.merge(options))
         end
       end
 
       class Mock
-        def get_user(user, options = {})
-          raise Fog::AWS::IAM::NotFound.new(
-            "The user with name #{user} cannot be found."
-          ) unless self.data[:users].key?(user)
-          Excon::Response.new.tap do |response|
-            response.body = {'User' =>  {
-                                          'UserId'     => data[:users][user][:user_id],
-                                          'Path'       => data[:users][user][:path],
-                                          'UserName'   => user,
-                                          'Arn'        => (data[:users][user][:arn]).strip,
-                                          'CreateDate' => data[:users][user][:created_at]
-                                        },
-                             'RequestId'   => Fog::AWS::Mock.request_id }
-            response.status = 200
+        def get_user(username = nil, options = {})
+          response  = Excon::Response.new
+          user_body = nil
+
+          if username.nil? # show current user
+            user = self.current_user
+
+            user_body = {
+              'UserId'     => user[:user_id],
+              'Arn'        => user[:arn].strip,
+              'CreateDate' => user[:created_at]
+            }
+
+          elsif !self.data[:users].key?(username)
+            raise Fog::AWS::IAM::NotFound.new("The user with name #{username} cannot be found.")
+          else
+            user = self.data[:users][username]
+
+            user_body = {
+              'UserId'     => user[:user_id],
+              'Path'       => user[:path],
+              'UserName'   => username,
+              'Arn'        => user[:arn].strip,
+              'CreateDate' => user[:created_at]
+            }
           end
+
+          response.status = 200
+          response.body = {
+            'User'      => user_body,
+            'RequestId' => Fog::AWS::Mock.request_id
+          }
+
+          response
         end
       end
     end
