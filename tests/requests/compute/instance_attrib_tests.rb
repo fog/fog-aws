@@ -38,11 +38,13 @@ Shindo.tests('Fog::Compute[:aws] | describe_instance_attribute request', ['aws']
 
   tests('success') do
 
-    @instance_id = nil
-    @ami = 'ami-79c0ae10'
+    # In mocking the groupSet attribute is returned as nil
     if Fog.mocking?
       @instance_attribute_format["groupSet"] = Fog::Nullable::Array
     end
+    # Setting up the environment
+    @instance_id = nil
+    @ami = 'ami-79c0ae10'
     key_name = 'fog-test-key'
     @key = Fog::Compute[:aws].key_pairs.create(:name => key_name)
     instance_type = "t1.micro"
@@ -65,6 +67,7 @@ Shindo.tests('Fog::Compute[:aws] | describe_instance_attribute request', ['aws']
       @launch_config[:block_device_mapping] = block_device_mapping
     else
       security_group_ids = [nil]
+      # In mocking the first device provided in block_device_mapping is set as the root device. There is no root device by default. So setting the root device here so that the tests for rootDeviceName and blockDeviceMapping attribute get passed
       block_device_mapping = [{"DeviceName" => "/dev/sda1", "VirtualName" => nil, "Ebs.VolumeSize" => 15},{"DeviceName" => "/dev/sdp1", "VirtualName" => nil, "Ebs.VolumeSize" => 15}]
       @launch_config[:block_device_mapping] = block_device_mapping
     end
@@ -75,8 +78,11 @@ Shindo.tests('Fog::Compute[:aws] | describe_instance_attribute request', ['aws']
     server.wait_for { ready? }
     server.reload
     @instance_id = server.id
-
+    ################
+    # BEGIN TESTS  #
+    ################
     @instance_attributes.each do |attrib|
+      # Creating format schema for each attribute
       describe_instance_attribute_format = @instance_attribute_common_format.clone
       if attrib == "kernel"
         key = "kernelId"
@@ -86,52 +92,58 @@ Shindo.tests('Fog::Compute[:aws] | describe_instance_attribute request', ['aws']
         key = attrib
       end
       describe_instance_attribute_format[key] = @instance_attribute_format[key]
-
+      # Running format check
       tests("#describe_instance_attribute('#{@instance_id}', #{attrib})").formats(describe_instance_attribute_format,false) do
         Fog::Compute[:aws].describe_instance_attribute(@instance_id, attrib).body
       end
+      # Running test to see proper instance Id is get in each response
       tests("#describe_instance_attribute('#{@instance_id}', #{attrib})").returns(@instance_id) do
         Fog::Compute[:aws].describe_instance_attribute(@instance_id, attrib).body['instanceId']
       end
     end
 
+    # Test for instanceType attribute
     tests("#describe_instance_attribute(#{@instance_id}, 'instanceType')").returns(instance_type) do
       Fog::Compute[:aws].describe_instance_attribute(@instance_id, 'instanceType').body["instanceType"]
     end
-
+    # Test for disableApiTermination attribute
     tests("#describe_instance_attribute(#{@instance_id}, 'disableApiTermination')").returns(false) do
       Fog::Compute[:aws].describe_instance_attribute(@instance_id, 'disableApiTermination').body["disableApiTermination"]
     end
-
+    # Test for instanceInitiatedShutdownBehavior attribute
     tests("#describe_instance_attribute(#{@instance_id}, 'instanceInitiatedShutdownBehavior')").returns('stop') do
       Fog::Compute[:aws].describe_instance_attribute(@instance_id, 'instanceInitiatedShutdownBehavior').body["instanceInitiatedShutdownBehavior"]
     end
-
+    # Test for rootDeviceName attribute
     tests("#describe_instance_attribute(#{@instance_id}, 'rootDeviceName')").returns('/dev/sda1') do
       Fog::Compute[:aws].describe_instance_attribute(@instance_id, 'rootDeviceName').body["rootDeviceName"]
     end
-
+    # Test to see there are two devices for blockDeviceMapping attribute
     tests("#describe_instance_attribute(#{@instance_id}, 'blockDeviceMapping')").returns(2) do
       Fog::Compute[:aws].describe_instance_attribute(@instance_id, 'blockDeviceMapping').body["blockDeviceMapping"].count
     end
-
+    # Test to check the device name /dev/sdp1 passed in block_device_mapping is returned correctly
     tests("#describe_instance_attribute(#{@instance_id}, 'blockDeviceMapping')").returns("/dev/sdp1") do
       Fog::Compute[:aws].describe_instance_attribute(@instance_id, 'blockDeviceMapping').body["blockDeviceMapping"].last["deviceName"]
     end
-
+    # Test for groupSet attribute
     tests("#describe_instance_attribute(#{@instance_id}, 'groupSet')").returns(security_group_ids) do
       group_set = Fog::Compute[:aws].describe_instance_attribute(@instance_id, 'groupSet').body["groupSet"]
       group_set.collect { |g| g["groupId"]}
     end
-
+    # Test for sourceDestCheck attribute (This attribute is set only for VPC instances. So created the instance in a VPC during setup process)
     tests("#describe_instance_attribute(#{@instance_id}, 'sourceDestCheck')").returns(true) do
       Fog::Compute[:aws].describe_instance_attribute(@instance_id, 'sourceDestCheck').body["sourceDestCheck"]
     end
-
+    # Test for ebsOptimized attribute
     tests("#describe_instance_attribute(#{@instance_id}, 'ebsOptimized')").returns(false) do
       Fog::Compute[:aws].describe_instance_attribute(@instance_id, 'ebsOptimized').body["ebsOptimized"]
     end
+    ###############
+    # END OF TEST #
+    ###############
 
+    # Tear down
     if !Fog.mocking?
       @key.destroy
       server.destroy
