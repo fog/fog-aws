@@ -182,6 +182,11 @@ module Fog
         end
 
         def current_user
+          unless self.data[:users].key?("root")
+            root = self.data[:users]["root"] # sets the hash
+            root[:arn].gsub!("user/", "")    # root user doesn't have "user/" key prefix
+          end
+
           self.data[:users]["root"]
         end
       end
