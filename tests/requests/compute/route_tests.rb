@@ -49,7 +49,7 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
   @internet_gateway_id = Fog::Compute[:aws].create_internet_gateway.body['internetGatewaySet'].first['internetGatewayId']
   @alt_internet_gateway_id = Fog::Compute[:aws].create_internet_gateway.body['internetGatewaySet'].first['internetGatewayId']
   @network_interface_id = @network_interface['networkInterface']['networkInterfaceId']
-  key_name = 'fog-test-key'
+  key_name = uniq_id('fog-test-key')
   key = Fog::Compute[:aws].key_pairs.create(:name => key_name)
   @cidr_block = '10.0.10.0/24'
   @destination_cidr_block = '10.0.10.0/23'
@@ -83,7 +83,7 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
       Fog::Compute[:aws].create_route(@route_table_id, @destination_cidr_block, @internet_gateway_id, nil).body
     end
 
-    instance = Fog::Compute[:aws].servers.create(:image_id => @ami, :flavor_id => 't1.micro', :key_name => 'fog-test-key', :subnet_id => @subnet_id)
+    instance = Fog::Compute[:aws].servers.create(:image_id => @ami, :flavor_id => 't1.micro', :key_name => key_name, :subnet_id => @subnet_id)
     instance.wait_for { state.eql? "running" }
     tests("#create_route('#{@route_table_id}', '10.0.10.0/22', 'nil', '#{instance.id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].create_route(@route_table_id, '10.0.10.0/22', nil, instance.id).body
@@ -103,7 +103,7 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
       Fog::Compute[:aws].replace_route(@route_table_id, @destination_cidr_block, {'gatewayId' => @alt_internet_gateway_id}).body
     end
 
-    instance = Fog::Compute[:aws].servers.create(:image_id => @ami, :flavor_id => 't1.micro', :key_name => 'fog-test-key', :subnet_id => @subnet_id)
+    instance = Fog::Compute[:aws].servers.create(:image_id => @ami, :flavor_id => 't1.micro', :key_name => key_name, :subnet_id => @subnet_id)
     instance.wait_for { state.eql? "running" }
     tests("#replace_route('#{@route_table_id}', '10.0.10.0/22', {'instanceId' => '#{instance.id}'})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].replace_route(@route_table_id, '10.0.10.0/22', {'instanceId' => instance.id}).body
@@ -162,7 +162,7 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
     @route_table_id = Fog::Compute[:aws].create_route_table(vpc.id).body['routeTable'].first['routeTableId']
     @association_id = Fog::Compute[:aws].associate_route_table(@route_table_id, @subnet_id).body['associationId']
     Fog::Compute[:aws].create_route(@route_table_id, @destination_cidr_block, @internet_gateway_id, nil)
-    instance = Fog::Compute[:aws].servers.create(:image_id => @ami, :flavor_id => 't1.micro', :key_name => 'fog-test-key', :subnet_id => @subnet_id)
+    instance = Fog::Compute[:aws].servers.create(:image_id => @ami, :flavor_id => 't1.micro', :key_name => key_name, :subnet_id => @subnet_id)
     instance.wait_for { state.eql? "running" }
 
     # Tests create_route_table
