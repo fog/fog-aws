@@ -13,10 +13,10 @@ module Fog
             when 'Policies'
               @stack << name
             when 'Policy'
-              @role =fresh_policy
+              @policy = fresh_policy
             when 'member'
               if @stack.last == 'Policies'
-                @role = fresh_policy
+                @policy = fresh_policy
               end
             end
             super

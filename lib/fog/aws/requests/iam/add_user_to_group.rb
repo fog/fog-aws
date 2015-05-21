@@ -30,22 +30,21 @@ module Fog
 
       class Mock
         def add_user_to_group(group_name, user_name)
-          if data[:groups].key? group_name
-            if data[:users].key? user_name
-
-              unless data[:groups][group_name][:members].include?(user_name)
-                data[:groups][group_name][:members] << user_name
-              end
-
-              Excon::Response.new.tap do |response|
-                response.status = 200
-                response.body = { 'RequestId' => Fog::AWS::Mock.request_id }
-              end
-            else
-              raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.")
-            end
-          else
+          unless data[:groups].key?(group_name)
             raise Fog::AWS::IAM::NotFound.new("The group with name #{group_name} cannot be found.")
+          end
+
+          unless data[:users].key?(user_name)
+            raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.")
+          end
+
+          unless data[:groups][group_name][:members].include?(user_name)
+            data[:groups][group_name][:members] << user_name
+          end
+
+          Excon::Response.new.tap do |response|
+            response.status = 200
+            response.body = { 'RequestId' => Fog::AWS::Mock.request_id }
           end
         end
       end

@@ -20,10 +20,10 @@ module Fog
         #
         def attach_group_policy(group_name, policy_arn)
           request(
-            'Action'          => 'AttachGroupPolicy',
-            'GroupName'       => group_name,
-            'PolicyArn'      => policy_arn,
-            :parser           => Fog::Parsers::AWS::IAM::Basic.new
+            'Action'    => 'AttachGroupPolicy',
+            'GroupName' => group_name,
+            'PolicyArn' => policy_arn,
+            :parser     => Fog::Parsers::AWS::IAM::Basic.new
           )
         end
       end

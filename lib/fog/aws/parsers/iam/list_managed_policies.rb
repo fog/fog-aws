@@ -1,8 +1,9 @@
+require 'fog/aws/parsers/iam/policy_parser'
+
 module Fog
   module Parsers
     module AWS
       module IAM
-        require 'fog/aws/parsers/iam/policy_parser'
         class ListManagedPolicies < Fog::Parsers::AWS::IAM::PolicyParser
           def reset
             super

@@ -6,12 +6,19 @@ module Fog
         attribute :username, :aliases => 'UserName'
         attribute :document, :aliases => 'PolicyDocument'
 
+        attr_accessor :group_name
+
         def save
           requires :id
-          requires :username
+          requires_one :username, :group_name
           requires :document
 
-          data = service.put_user_policy(username, id, document).body
+          data = if username
+                   service.put_user_policy(username, id, document).body
+                 else
+                   service.put_group_policy(group_name, id, document).body
+                 end
+
           merge_attributes(data)
           true
         end

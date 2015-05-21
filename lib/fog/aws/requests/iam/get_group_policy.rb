@@ -22,10 +22,10 @@ module Fog
         #
         def get_group_policy(policy_name, group_name)
           request({
-            'Action'      => 'GetGroupPolicy',
-            'PolicyName'  => policy_name,
-            'GroupName'    => group_name,
-            :parser       => Fog::Parsers::AWS::IAM::GetGroupPolicy.new
+            'Action'     => 'GetGroupPolicy',
+            'PolicyName' => policy_name,
+            'GroupName'  => group_name,
+            :parser      => Fog::Parsers::AWS::IAM::GetGroupPolicy.new
           })
         end
       end
