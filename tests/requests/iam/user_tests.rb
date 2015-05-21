@@ -1,32 +1,34 @@
 Shindo.tests('AWS::IAM | user requests', ['aws']) do
+  service = Fog::AWS[:iam]
 
   begin
-    Fog::AWS[:iam].delete_group('fog_user_tests')
+    service.delete_group('fog_user_tests')
   rescue Fog::AWS::IAM::NotFound
   end
 
   begin
-    Fog::AWS[:iam].delete_user('fog_user').body
+    service.delete_user('fog_user').body
   rescue Fog::AWS::IAM::NotFound
   end
 
-  Fog::AWS[:iam].create_group('fog_user_tests')
+  username = 'fog_user'
 
-  tests("#create_user('fog_user')").data_matches_schema(AWS::IAM::Formats::CREATE_USER) do
-    Fog::AWS[:iam].create_user('fog_user').body
+  service.create_group('fog_user_tests')
+
+  tests("#create_user('#{username}')").data_matches_schema(AWS::IAM::Formats::CREATE_USER) do
+    service.create_user(username).body
   end
 
   tests("#list_users").data_matches_schema(AWS::IAM::Formats::LIST_USER) do
-    Fog::AWS[:iam].list_users.body
+    service.list_users.body
   end
 
-  tests("#get_user('fog_user')").data_matches_schema(AWS::IAM::Formats::GET_USER) do
-    Fog::AWS[:iam].get_user('fog_user').body
+  tests("#get_user('#{username}')").data_matches_schema(AWS::IAM::Formats::GET_USER) do
+    service.get_user(username).body
   end
 
   tests("#get_user").data_matches_schema(AWS::IAM::Formats::GET_CURRENT_USER) do
     body = Fog::AWS[:iam].get_user.body
-
     if Fog.mocking?
       tests("correct root arn").returns(true) {
         body["User"]["Arn"].end_with?(":root")
@@ -36,22 +38,41 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
     body
   end
 
-  tests("#add_user_to_group('fog_user_tests', 'fog_user')").data_matches_schema(AWS::IAM::Formats::BASIC) do
-    Fog::AWS[:iam].add_user_to_group('fog_user_tests', 'fog_user').body
+  tests("#create_login_profile") do
+    service.create_login_profile(username, SecureRandom.base64(10))
   end
 
-  tests("#list_groups_for_user('fog_user')").data_matches_schema(AWS::IAM::Formats::GROUPS) do
-    Fog::AWS[:iam].list_groups_for_user('fog_user').body
+  tests("#get_login_profile") do
+    service.get_login_profile(username)
   end
 
-  tests("#remove_user_from_group('fog_user_tests', 'fog_user')").data_matches_schema(AWS::IAM::Formats::BASIC) do
-    Fog::AWS[:iam].remove_user_from_group('fog_user_tests', 'fog_user').body
+  tests("#update_login_profile") do
+    # avoids Fog::AWS::IAM::Error: EntityTemporarilyUnmodifiable => Login Profile for User instance cannot be modified while login profile is being created.
+    if Fog.mocking?
+      service.update_login_profile(username, SecureRandom.base64(10))
+    end
   end
 
-  tests("#delete_user('fog_user')").data_matches_schema(AWS::IAM::Formats::BASIC) do
-    Fog::AWS[:iam].delete_user('fog_user').body
+  tests("#delete_login_profile") do
+    service.delete_login_profile(username)
   end
 
-  Fog::AWS[:iam].delete_group('fog_user_tests')
+  tests("#add_user_to_group('fog_user_tests', '#{username}')").data_matches_schema(AWS::IAM::Formats::BASIC) do
+    service.add_user_to_group('fog_user_tests', username).body
+  end
+
+  tests("#list_groups_for_user('#{username}')").data_matches_schema(AWS::IAM::Formats::GROUPS) do
+    service.list_groups_for_user(username).body
+  end
+
+  tests("#remove_user_from_group('fog_user_tests', '#{username}')").data_matches_schema(AWS::IAM::Formats::BASIC) do
+    service.remove_user_from_group('fog_user_tests', username).body
+  end
+
+  tests("#delete_user('#{username}')").data_matches_schema(AWS::IAM::Formats::BASIC) do
+    service.delete_user(username).body
+  end
+
+  service.delete_group('fog_user_tests')
 
 end

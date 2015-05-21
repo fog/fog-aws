@@ -32,6 +32,28 @@ module Fog
           service.policies(:username => id)
         end
 
+        def password=(password)
+          requires :identity
+
+          has_password = !!self.password_created_at
+
+          if has_password && password.nil?
+            service.delete_login_profile(self.identity)
+          elsif has_password
+            service.update_login_profile(self.identity, password)
+          elsif !password.nil?
+            service.create_login_profile(self.identity, password)
+          end
+        end
+
+        def password_created_at
+          requires :identity
+
+          service.get_login_profile(self.identity).body["LoginProfile"]["CreateDate"]
+        rescue Fog::AWS::IAM::NotFound
+          nil
+        end
+
         def save
           requires :id
           data = service.create_user(id, path || '/').body['User']
