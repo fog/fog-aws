@@ -156,6 +156,13 @@ Shindo.tests('AWS | signaturev4', ['aws']) do
     end
   end
 
+  # should return the same result as 'get with repeated trailing / '
+  tests('get-slashes-dot') do
+    returns(@signer.sign({:query => {}, :headers => {'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '/.//foo//'}, @now)) do
+      'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/host/aws4_request, SignedHeaders=date;host, Signature=bed02f23a9182c784fe39dc70f6181f1e50865f2772623c2b245c22bb04ad82c'
+    end
+  end
+
   tests('get signature as components') do
     returns(@signer.signature_parameters({:query => {'a' => 'foo', 'b' => 'foo'}, :headers => {'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '/'}, @now)) do
       {
