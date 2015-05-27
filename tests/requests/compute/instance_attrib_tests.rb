@@ -45,7 +45,7 @@ Shindo.tests('Fog::Compute[:aws] | describe_instance_attribute request', ['aws']
     # Setting up the environment
     @instance_id = nil
     @ami = 'ami-79c0ae10'
-    key_name = 'fog-test-key'
+    key_name = uniq_id('fog-test-key')
     @key = Fog::Compute[:aws].key_pairs.create(:name => key_name)
     instance_type = "t1.micro"
     @az = "us-east-1a"

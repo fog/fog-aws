@@ -172,7 +172,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     end
 
     # Create a keypair for decrypting the password
-    key_name = 'fog-test-key'
+    key_name = uniq_id('fog-test-key')
     key = Fog::Compute[:aws].key_pairs.create(:name => key_name)
 
     tests("#run_instances").formats(@run_instances_format) do

@@ -85,14 +85,16 @@ module Fog
       request :upload_signing_certificate
 
       model_path 'fog/aws/models/iam'
-      model       :user
-      collection  :users
-      model       :policy
-      collection  :policies
       model       :access_key
       collection  :access_keys
+      model       :group
+      collection  :groups
+      model       :policy
+      collection  :policies
       model       :role
       collection  :roles
+      model       :user
+      collection  :users
 
       class Mock
         def self.data
@@ -182,6 +184,11 @@ module Fog
         end
 
         def current_user
+          unless self.data[:users].key?("root")
+            root = self.data[:users]["root"] # sets the hash
+            root[:arn].gsub!("user/", "")    # root user doesn't have "user/" key prefix
+          end
+
           self.data[:users]["root"]
         end
       end
