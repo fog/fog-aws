@@ -1,0 +1,54 @@
+Shindo.tests("Fog::Compute[:iam] | managed_policies", ['aws','iam']) do
+
+  iam = Fog::AWS[:iam]
+
+  tests('#all').succeeds do
+    iam.managed_policies.size == 100
+  end
+
+  tests('#each').succeeds do
+    policies = []
+
+    iam.managed_policies.each { |policy| policies << policy }
+
+    policies.size > 100
+  end
+
+  policy = iam.managed_policies.get("arn:aws:iam::aws:policy/IAMReadOnlyAccess")
+
+  tests("users") do
+    user = iam.users.create(:id => uniq_id("fog-test-user"))
+
+    tests("#attach").succeeds do
+      user.attach(policy)
+
+      user.attached_policies.map(&:identity) == [policy.identity]
+    end
+
+    tests("#detach").succeeds do
+      user.detach(policy)
+
+      user.attached_policies.map(&:identity) == []
+    end
+
+    user.destroy
+  end
+
+  tests("groups") do
+    group = iam.groups.create(:name => uniq_id("fog-test-group"))
+
+    tests("#attach").succeeds do
+      group.attach(policy)
+
+      group.attached_policies.map(&:identity) == [policy.identity]
+    end
+
+    tests("#detach").succeeds do
+      group.detach(policy)
+
+      group.attached_policies.map(&:identity) == []
+    end
+
+    group.destroy
+  end
+end

@@ -23,10 +23,41 @@ module Fog
           merge_attributes(:users => self.users + [user])
         end
 
-        def attach(policy_arn)
+        def attach(policy_or_arn)
           requires :name
 
-          service.attach_group_policy(self.name, policy_arn)
+          arn = if policy_or_arn.respond_to?(:arn)
+                  policy_or_arn.arn
+                else
+                  policy_or_arn
+                end
+
+          service.attach_group_policy(self.name, arn)
+        end
+
+        def attached_policies
+          requires :name
+
+          service.managed_policies(:group_name => self.name)
+        end
+
+        def destroy
+          requires :name
+
+          service.delete_group(self.name)
+          true
+        end
+
+        def detach(policy_or_arn)
+          requires :name
+
+          arn = if policy_or_arn.respond_to?(:arn)
+                  policy_or_arn.arn
+                else
+                  policy_or_arn
+                end
+
+          service.detach_group_policy(self.name, arn)
         end
 
         def save
