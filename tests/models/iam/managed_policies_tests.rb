@@ -16,6 +16,19 @@ Shindo.tests("Fog::Compute[:iam] | managed_policies", ['aws','iam']) do
 
   policy = iam.managed_policies.get("arn:aws:iam::aws:policy/IAMReadOnlyAccess")
 
+  tests("#document").succeeds do
+    policy.document == {
+      "Version"   => "2012-10-17",
+      "Statement" => [
+        {
+          "Effect"   => "Allow",
+          "Action"   => [ "iam:GenerateCredentialReport", "iam:Get*", "iam:List*" ],
+          "Resource" => "*"
+        }
+      ]
+    }
+  end
+
   tests("users") do
     user = iam.users.create(:id => uniq_id("fog-test-user"))
 

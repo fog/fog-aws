@@ -25,6 +25,13 @@ module Fog
 
           service.attach_user_policy(username, self.arn)
         end
+
+        def document
+          requires :arn, :default_version
+
+          service.get_policy_version(self.arn, self.default_version).
+            body['PolicyVersion']['Document']
+        end
       end
     end
   end

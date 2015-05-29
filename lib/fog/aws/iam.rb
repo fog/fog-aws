@@ -50,6 +50,7 @@ module Fog
       request :get_instance_profile
       request :get_login_profile
       request :get_policy
+      request :get_policy_version
       request :get_role
       request :get_role_policy
       request :get_server_certificate
@@ -121,7 +122,12 @@ module Fog
                 :user_name     => 'Bob'
               }],
               :markers => Hash.new { |mhash, mkey| mhash[mkey] = [] },
-              :managed_policies => Fog::AWS::IAM::Mock.default_policies.inject({}) { |r,p| r.merge(p['Arn'] => p) },
+              :managed_policies => Fog::AWS::IAM::Mock.default_policies.inject({}) { |r,p|
+                r.merge(p['Arn'] => p)
+              },
+              :managed_policy_versions => Fog::AWS::IAM::Mock.default_policy_versions.inject({}) { |r,(arn,pv)|
+                r.merge(arn => {pv["VersionId"] => pv})
+              },
               :users => Hash.new do |uhash, ukey|
                 uhash[ukey] = {
                   :access_keys       => [],
