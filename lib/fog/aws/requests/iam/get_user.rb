@@ -51,6 +51,13 @@ module Fog
               'CreateDate' => user[:created_at]
             }
 
+            unless @current_user_name == "root"
+              user_body.merge!(
+                'Path'     => user[:path],
+                'UserName' => @current_user_name
+              )
+            end
+
           elsif !self.data[:users].key?(username)
             raise Fog::AWS::IAM::NotFound.new("The user with name #{username} cannot be found.")
           else

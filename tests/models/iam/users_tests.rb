@@ -56,6 +56,26 @@ Shindo.tests("Fog::Compute[:iam] | users", ['aws','iam']) do
     user.access_keys.empty?
   end
 
+  # test that users create in mock and be signed in via access key and share data
+  if Fog.mocking?
+    tests("mocking access key usage") do
+      access_key = user.access_keys.create
+
+      user_client = Fog::AWS::IAM.new(
+        :aws_access_key_id     => access_key.identity,
+        :aws_secret_access_key => access_key.secret_access_key
+      )
+
+      tests("sets correct data").succeeds do
+        user_client.users.size > 1
+      end
+
+      tests("set current user name").succeeds do
+        user_client.current_user_name == user.identity
+      end
+    end
+  end
+
   tests('#password=nil', 'without a password').succeeds do
     user.password = nil
     user.password_created_at.nil?

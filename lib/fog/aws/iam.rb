@@ -176,6 +176,8 @@ module Fog
           Fog::Mock.random_hex(16)
         end
 
+        attr_reader :current_user_name
+
         def initialize(options={})
           @use_iam_profile           = options[:use_iam_profile]
           @aws_credentials_expire_at = Time::now + 20
@@ -184,7 +186,7 @@ module Fog
         end
 
         def data
-          self.class.data[@aws_access_key_id]
+          self.class.data[@root_access_key_id]
         end
 
         def account_id
@@ -192,12 +194,24 @@ module Fog
         end
 
         def reset_data
-          self.class.data.delete(@aws_access_key_id)
+          self.class.data.delete(@root_access_key_id)
           current_user
         end
 
         def setup_credentials(options)
           @aws_access_key_id = options[:aws_access_key_id]
+          existing_user = nil
+
+          @root_access_key_id, _ = self.class.data.find { |_, d|
+            d[:users].find { |_, user|
+              existing_user = user[:access_keys].find { |key|
+                key["AccessKeyId"] == @aws_access_key_id
+              }
+            }
+          }
+
+          @root_access_key_id ||= @aws_access_key_id
+          @current_user_name = existing_user ? existing_user["UserName"] : "root"
         end
 
         def current_user
@@ -206,7 +220,7 @@ module Fog
             root[:arn].gsub!("user/", "")    # root user doesn't have "user/" key prefix
           end
 
-          self.data[:users]["root"]
+          self.data[:users][self.current_user_name]
         end
       end
 
