@@ -1,19 +1,16 @@
 require 'fog/aws/models/iam/group'
+require 'fog/aws/iam/paged_collection'
 
 module Fog
   module AWS
     class IAM
-      class Groups < Fog::Collection
+      class Groups < Fog::AWS::IAM::PagedCollection
 
-        attribute :truncated, :aliases => 'IsTruncated', :type => :boolean
-        attribute :marker,    :aliases => 'Marker'
         attribute :username
 
         model Fog::AWS::IAM::Group
 
         def all(options = {})
-          merge_attributes(options)
-
           data, records = if self.username
                             response = service.list_groups_for_user(self.username, options)
                             [response.body, response.body['GroupsForUser']]
@@ -35,23 +32,6 @@ module Fog
           new(group.merge(:users => users))
         rescue Fog::AWS::IAM::NotFound
           nil
-        end
-
-        def each
-          if !block_given?
-            self
-          else
-            subset = dup.all
-
-            subset.each { |f| yield f }
-
-            while subset.truncated
-              subset = subset.all('Marker' => subset.marker, 'MaxItems' => 1000)
-              subset.each { |f| yield f }
-            end
-
-            self
-          end
         end
       end
     end

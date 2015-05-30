@@ -15,6 +15,36 @@ module Fog
           service.access_keys(:username => id)
         end
 
+        def attach(policy_or_arn)
+          requires :identity
+
+          arn = if policy_or_arn.respond_to?(:arn)
+                  policy_or_arn.arn
+                else
+                  policy_or_arn
+                end
+
+          service.attach_user_policy(self.identity, arn)
+        end
+
+        def detach(policy_or_arn)
+          requires :identity
+
+          arn = if policy_or_arn.respond_to?(:arn)
+                  policy_or_arn.arn
+                else
+                  policy_or_arn
+                end
+
+          service.detach_user_policy(self.identity, arn)
+        end
+
+        def attached_policies
+          requires :identity
+
+          service.managed_policies(:username => self.identity)
+        end
+
         def destroy
           requires :id
 
@@ -23,13 +53,15 @@ module Fog
         end
 
         def groups
+          requires :identity
+
           service.groups(:username => self.identity)
         end
 
         def policies
-          requires :id
+          requires :identity
 
-          service.policies(:username => id)
+          service.policies(:username => self.identity)
         end
 
         def password=(password)

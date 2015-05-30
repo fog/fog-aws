@@ -4,47 +4,40 @@ module Fog
       class Real
         require 'fog/aws/parsers/iam/list_managed_policies'
 
-        # Lists managed policies
+        # Attaches a managed policy to a group
         #
         # ==== Parameters
-        # * options <~Hash>: options that filter the result set
-        #   * Marker <~String>
-        #   * MaxItems <~Integer>
-        #   * OnlyAttached <~Boolean>
-        #   * PathPrefix <~String>
-        #   * Scope <~String>
+        # * group_name<~String>: name of the group
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'RequestId'<~String> - Id of the request
-        #     * 'IsTruncated'<~Boolean>
-        #     * 'Marker'<~String>
-        #     * 'Policies'<~Array>:
-        #       * Arn
-        #       * AttachmentCount
-        #       * CreateDate
-        #       * DefaultVersionId
-        #       * Description
-        #       * IsAttachable
-        #       * Path
-        #       * PolicyId
-        #       * PolicyName
-        #       * UpdateDate
-        # ==== See Also
-        # http://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicies.html
+        #     * AttachedPolicies
+        #       * 'PolicyArn'<~String> - The Amazon Resource Name (ARN). ARNs are unique identifiers for AWS resources.
+        #       * 'PolicName'<~String> - The friendly name of the attached policy.
         #
-        def list_policies(options={})
+        # ==== See Also
+        # http://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachGroupPolicy.html
+        #
+        def list_attached_group_policies(group_name, options={})
           request({
-            'Action'          => 'ListPolicies',
-            :parser           => Fog::Parsers::AWS::IAM::ListManagedPolicies.new
+            'Action'   => 'ListAttachedGroupPolicies',
+            'GroupName' => group_name,
+            :parser    => Fog::Parsers::AWS::IAM::ListManagedPolicies.new
           }.merge(options))
         end
       end
 
       class Mock
-        def list_policies(options={})
+        def list_attached_group_policies(group_name, options={})
+          unless self.data[:groups].key?(group_name)
+            raise Fog::AWS::IAM::NotFound.new("The group with name #{group_name} cannot be found.")
+          end
+
           limit  = options['MaxItems']
           marker = options['Marker']
+          group   = self.data[:groups][group_name]
 
           if limit
             if limit > 1_000
@@ -61,7 +54,11 @@ module Fog
           data_set = if marker
                        self.data[:markers][marker] || []
                      else
-                       self.data[:managed_policies].values
+                       group[:attached_policies].map { |arn|
+                         self.data[:managed_policies].fetch(arn)
+                       }.map { |mp|
+                         { "PolicyName" => mp.fetch("PolicyName"), "PolicyArn" => mp.fetch("Arn") }
+                       }
                      end
 
           data = data_set.slice!(0, limit || 100)

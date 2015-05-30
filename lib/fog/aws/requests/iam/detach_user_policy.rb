@@ -27,6 +27,32 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def detach_user_policy(user_name, policy_arn)
+          if policy_arn.nil?
+            raise Fog::AWS::IAM::ValidationError, "1 validation error detected: Value null at 'policyArn' failed to satisfy constraint: Member must not be null"
+          end
+
+          managed_policy = self.data[:managed_policies][policy_arn]
+
+          unless managed_policy
+            raise Fog::AWS::IAM::NotFound, "Policy #{policy_arn} does not exist."
+          end
+
+          unless self.data[:users].key?(user_name)
+            raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.")
+          end
+
+          user = self.data[:users][user_name]
+          user[:attached_policies].delete(policy_arn)
+
+          Excon::Response.new.tap { |response|
+            response.status = 200
+            response.body = { "RequestId" => Fog::AWS::Mock.request_id  }
+          }
+        end
+      end
     end
   end
 end

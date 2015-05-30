@@ -38,16 +38,17 @@ module Fog
             if data[:users].key? user
               access_keys_data = data[:users][user][:access_keys]
             else
-              raise Fog::AWS::IAM::NotFound.new('The user with name #{user_name} cannot be found.')
+              raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.")
             end
           else
             access_keys_data = data[:access_keys]
           end
 
-          key = { 'SecretAccessKey' => Fog::Mock.random_base64(40),
-                  'Status' => 'Active',
-                  'AccessKeyId' => Fog::AWS::Mock.key_id(20),
-                }
+          key = {
+            'SecretAccessKey' => Fog::Mock.random_base64(40),
+            'Status'          => 'Active',
+            'AccessKeyId'     => Fog::AWS::Mock.key_id(20),
+          }
           if user
             key["UserName"] = user
           end
