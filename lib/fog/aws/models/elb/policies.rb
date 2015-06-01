@@ -1,23 +1,33 @@
 require 'fog/aws/models/elb/policy'
+
 module Fog
   module AWS
     class ELB
       class Policies < Fog::Collection
+
+        attribute :load_balancer_id
+
         model Fog::AWS::ELB::Policy
 
-        attr_accessor :data, :load_balancer
+        def all(options={})
+          merge_attributes(options)
 
-        def all
-          load(munged_data)
+          requires :load_balancer_id
+
+          data = service.describe_load_balancer_policies(self.load_balancer_id).
+            body["DescribeLoadBalancerPoliciesResult"]["PolicyDescriptions"]
+
+          load(munge(data))
         end
 
         def get(id)
-          all.find{|policy| id == policy.id}
+          all.find { |policy| id == policy.id }
         end
 
         private
-        def munged_data
-          data.reduce([]){|m,e|
+
+        def munge(data)
+          data.reduce([]) { |m,e|
             policy_attribute_descriptions = e["PolicyAttributeDescriptions"]
 
             policy = {

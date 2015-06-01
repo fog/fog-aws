@@ -13,7 +13,6 @@ module Fog
 
         def save
           requires :id, :load_balancer
-          service_method = nil
           args = [load_balancer.id, id]
 
           if cookie_stickiness
@@ -45,12 +44,8 @@ module Fog
           reload
         end
 
-        def reload
-          load_balancer.reload
-        end
-
         def load_balancer
-          collection.load_balancer
+          service.load_balancers.new(identity: collection.load_balancer_id)
         end
       end
     end

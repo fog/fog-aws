@@ -143,23 +143,22 @@ module Fog
         end
 
         def listeners
-          Fog::AWS::ELB::Listeners.new({
-            :data => attributes['ListenerDescriptions'],
-            :service => service,
+          Fog::AWS::ELB::Listeners.new(
+            :data          => attributes['ListenerDescriptions'],
+            :service       => service,
             :load_balancer => self
-          })
+          )
         end
 
         def policies
-          Fog::AWS::ELB::Policies.new({
-            :data => policy_descriptions,
-            :service => service,
-            :load_balancer => self
-          })
+          requires :id
+
+          service.policies(:load_balancer_id => self.identity)
         end
 
         def policy_descriptions
           requires :id
+
           @policy_descriptions ||= service.describe_load_balancer_policies(id).body["DescribeLoadBalancerPoliciesResult"]["PolicyDescriptions"]
         end
 
@@ -202,7 +201,7 @@ module Fog
           service.remove_tags(id, tag_keys)
           tags
         end
-        
+
 
         def save
           requires :id
