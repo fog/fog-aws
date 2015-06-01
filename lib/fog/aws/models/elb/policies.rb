@@ -24,6 +24,10 @@ module Fog
           all.find { |policy| id == policy.id }
         end
 
+        def new(attributes={})
+          super(self.attributes.merge(attributes))
+        end
+
         private
 
         def munge(data)
