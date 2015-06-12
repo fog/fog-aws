@@ -473,6 +473,56 @@ module Fog
           :disk                    => 48000,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 24
+        },
+        {
+          :id                      => "m4.large",
+          :name                    => "M4 Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 8192,
+          :disk                    => 0,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m4.xlarge",
+          :name                    => "M4 Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 16384,
+          :disk                    => 0,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m4.2xlarge",
+          :name                    => "M4 Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 31232,
+          :disk                    => 0,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m4.4xlarge",
+          :name                    => "M4 Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 62464,
+          :disk                    => 0,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m4.10xlarge",
+          :name                    => "M4 Ten Extra Large",
+          :bits                    => 64,
+          :cores                   => 40,
+          :ram                     => 163840,
+          :disk                    => 0,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
         }
       ]
 
