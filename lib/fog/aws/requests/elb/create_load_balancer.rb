@@ -74,9 +74,22 @@ module Fog
           dns_name = Fog::AWS::ELB::Mock.dns_name(lb_name, @region)
 
           availability_zones = [*availability_zones].compact
-          region = availability_zones.empty? ? "us-east-1" : availability_zones.first.gsub(/[a-z]$/, '')
-          supported_platforms = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:account_attributes].find { |h| h["attributeName"] == "supported-platforms" }["values"]
           subnet_ids = options[:subnet_ids] || []
+          region = if availability_zones.any?
+                     availability_zones.first.gsub(/[a-z]$/, '')
+                   elsif subnet_ids.any?
+                     # using Hash here for Rubt 1.8.7 support.
+                     Hash[
+                       Fog::Compute::AWS::Mock.data.select do |_, region_data|
+                         region_data[@aws_access_key_id][:subnets].any? do |region_subnets|
+                           subnet_ids.include? region_subnets['subnetId']
+                         end
+                       end
+                     ].keys[0]
+                   else
+                     'us-east-1'
+                   end
+          supported_platforms = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:account_attributes].find { |h| h["attributeName"] == "supported-platforms" }["values"]
           subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select {|e| subnet_ids.include?(e["subnetId"]) }
 
           # http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/default-vpc.html

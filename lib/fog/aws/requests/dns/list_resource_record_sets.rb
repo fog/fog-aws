@@ -59,6 +59,22 @@ module Fog
       end
 
       class Mock
+        def list_all_records(record, zone, name)
+          [].tap do |tmp_records|
+            tmp_records.push(record) if !record[:name].nil? && ( name.nil? || record[:name].gsub(zone[:name],"") >= name)
+            record.each do |key,subr|
+              if subr.is_a?(Hash) && key.is_a?(String) &&
+                key.start_with?(Fog::DNS::AWS::Mock::SET_PREFIX)
+                if name.nil?
+                  tmp_records.append(subr)
+                else
+                  tmp_records.append(subr) if !subr[:name].nil? && subr[:name].gsub(zone[:name],"") >= name
+                end
+              end
+            end
+          end
+        end
+
         def list_resource_record_sets(zone_id, options = {})
           maxitems = [options[:max_items]||100,100].min
 
@@ -76,13 +92,23 @@ module Fog
 
           records ||= []
 
+          tmp_records = []
+          if options[:name]
+            name = options[:name].gsub(zone[:name],"")
+
+            records.each do |r|
+              tmp_records += list_all_records(r, zone, name)
+            end
+          else
+            records.each do |r|
+              tmp_records += list_all_records(r, zone, nil)
+            end
+          end
+          records = tmp_records
+
           # sort for pagination
           records.sort! { |a,b| a[:name].gsub(zone[:name],"") <=> b[:name].gsub(zone[:name],"") }
 
-          if options[:name]
-            name = options[:name].gsub(zone[:name],"")
-            records = records.select{|r| r[:name].gsub(zone[:name],"") >= name }
-          end
 
           next_record  = records[maxitems]
           records      = records[0, maxitems]
@@ -106,7 +132,9 @@ module Fog
               {
                 'ResourceRecords' => r[:resource_records],
                 'Name' => r[:name],
-                'Type' => r[:type]
+                'Type' => r[:type],
+                'SetIdentifier' => r[:set_identifier],
+                'Weight' => r[:weight]
               }.merge(record)
             end,
             'MaxItems' => maxitems,

@@ -27,27 +27,29 @@ module Fog
 
       class Mock
         def allocate_address(domain = 'standard')
-          domain = domain == 'vpc' ? 'vpc' : 'standard'
-          response = Excon::Response.new
-          if describe_addresses.body['addressesSet'].size < self.data[:limits][:addresses]
-            response.status = 200
-            public_ip = Fog::AWS::Mock.ip_address
-            data = {
-              'instanceId' => nil,
-              'publicIp'   => public_ip,
-              'domain'     => domain
-            }
-            if domain == 'vpc'
-              data['allocationId'] = "eipalloc-#{Fog::Mock.random_hex(8)}"
-            end
-            self.data[:addresses][public_ip] = data
-            response.body = data.reject {|k, v| k == 'instanceId' }.merge('requestId' => Fog::AWS::Mock.request_id)
-            response
-          else
-            response.status = 400
-            response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>AddressLimitExceeded</Code><Message>Too many addresses allocated</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestID></Response>"
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+          unless describe_addresses.body['addressesSet'].size < self.data[:limits][:addresses]
+            raise Fog::Compute::AWS::Error, "AddressLimitExceeded => Too many addresses allocated"
           end
+
+          response = Excon::Response.new
+          response.status = 200
+
+          domain    = domain == 'vpc' ? 'vpc' : 'standard'
+          public_ip = Fog::AWS::Mock.ip_address
+
+          data = {
+            'instanceId' => nil,
+            'publicIp'   => public_ip,
+            'domain'     => domain
+          }
+
+          if domain == 'vpc'
+            data['allocationId'] = "eipalloc-#{Fog::Mock.random_hex(8)}"
+          end
+
+          self.data[:addresses][public_ip] = data
+          response.body = data.reject {|k, v| k == 'instanceId' }.merge('requestId' => Fog::AWS::Mock.request_id)
+          response
         end
       end
     end

@@ -10,7 +10,7 @@ module Fog
       class ValidationError < Fog::AWS::IAM::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent, :instrumentor, :instrumentor_name, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at
+      recognizes :host, :path, :port, :scheme, :persistent, :instrumentor, :instrumentor_name, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :region
 
       request_path 'fog/aws/requests/iam'
       request :add_user_to_group
@@ -43,19 +43,23 @@ module Fog
       request :detach_group_policy
       request :detach_role_policy
       request :detach_user_policy
-      request :get_account_summary
       request :get_account_password_policy
+      request :get_account_summary
       request :get_group
       request :get_group_policy
       request :get_instance_profile
-      request :get_role_policy
       request :get_login_profile
-      request :get_server_certificate
+      request :get_policy
+      request :get_policy_version
       request :get_role
+      request :get_role_policy
+      request :get_server_certificate
       request :get_user
       request :get_user_policy
       request :list_access_keys
       request :list_account_aliases
+      request :list_attached_group_policies
+      request :list_attached_user_policies
       request :list_group_policies
       request :list_groups
       request :list_groups_for_user
@@ -63,8 +67,8 @@ module Fog
       request :list_instance_profiles_for_role
       request :list_mfa_devices
       request :list_policies
-      request :list_roles
       request :list_role_policies
+      request :list_roles
       request :list_server_certificates
       request :list_signing_certificates
       request :list_user_policies
@@ -85,20 +89,28 @@ module Fog
       request :upload_signing_certificate
 
       model_path 'fog/aws/models/iam'
-      model       :user
-      collection  :users
-      model       :policy
-      collection  :policies
       model       :access_key
       collection  :access_keys
+      model       :group
+      collection  :groups
+      model       :managed_policy
+      collection  :managed_policies
+      model       :policy
+      collection  :policies
       model       :role
       collection  :roles
+      model       :user
+      collection  :users
+
+      require 'fog/aws/iam/default_policies'
 
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
+            owner_id = Fog::AWS::Mock.owner_id
+
             hash[key] = {
-              :owner_id => Fog::AWS::Mock.owner_id,
+              :owner_id => owner_id,
               :server_certificates => {},
               :access_keys => [{
                 "Status" => "Active",
@@ -109,29 +121,38 @@ module Fog
                 :serial_number => 'R1234',
                 :user_name     => 'Bob'
               }],
+              :markers => Hash.new { |mhash, mkey| mhash[mkey] = [] },
+              :managed_policies => Fog::AWS::IAM::Mock.default_policies.inject({}) { |r,p|
+                r.merge(p['Arn'] => p)
+              },
+              :managed_policy_versions => Fog::AWS::IAM::Mock.default_policy_versions.inject({}) { |r,(arn,pv)|
+                r.merge(arn => {pv["VersionId"] => pv})
+              },
               :users => Hash.new do |uhash, ukey|
                 uhash[ukey] = {
-                  :user_id     => Fog::AWS::Mock.key_id,
-                  :path        => '/',
-                  :arn         => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:user/#{ukey}",
-                  :access_keys => [],
-                  :created_at  => Time.now,
-                  :policies    => {}
+                  :access_keys       => [],
+                  :arn               => "arn:aws:iam::#{owner_id}:user/#{ukey}",
+                  :attached_policies => [],
+                  :created_at        => Time.now,
+                  :path              => '/',
+                  :policies          => {},
+                  :user_id           => Fog::AWS::Mock.key_id
                 }
               end,
               :groups => Hash.new do |ghash, gkey|
                 ghash[gkey] = {
-                  :group_id   => Fog::AWS::Mock.key_id,
-                  :arn        => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:group/#{gkey}",
-                  :members    => [],
-                  :created_at  => Time.now,
-                  :policies    => {}
+                  :arn               => "arn:aws:iam::#{owner_id}:group/#{gkey}",
+                  :attached_policies => [],
+                  :created_at        => Time.now,
+                  :group_id          => Fog::AWS::Mock.key_id,
+                  :members           => [],
+                  :policies          => {}
                 }
               end,
               :roles => Hash.new do |rhash, rkey|
                 rhash[rkey] = {
                   :role_id                     => Fog::AWS::Mock.key_id,
-                  :arn                         => "arn:aws:iam:#{Fog::AWS::Mock.owner_id}:role/#{rkey}",
+                  :arn                         => "arn:aws:iam:#{owner_id}:role/#{rkey}",
                   :create_date                 => Time.now,
                   :assume_role_policy_document => {
                     "Version" => "2012-10-17",
@@ -161,22 +182,51 @@ module Fog
           Fog::Mock.random_hex(16)
         end
 
+        attr_reader :current_user_name
+
         def initialize(options={})
-          @use_iam_profile = options[:use_iam_profile]
+          @use_iam_profile           = options[:use_iam_profile]
           @aws_credentials_expire_at = Time::now + 20
+
           setup_credentials(options)
         end
 
         def data
-          self.class.data[@aws_access_key_id]
+          self.class.data[@root_access_key_id]
+        end
+
+        def account_id
+          self.data[:owner_id]
         end
 
         def reset_data
-          self.class.data.delete(@aws_access_key_id)
+          self.class.data.delete(@root_access_key_id)
+          current_user
         end
 
         def setup_credentials(options)
           @aws_access_key_id = options[:aws_access_key_id]
+          existing_user = nil
+
+          @root_access_key_id, _ = self.class.data.find { |_, d|
+            d[:users].find { |_, user|
+              existing_user = user[:access_keys].find { |key|
+                key["AccessKeyId"] == @aws_access_key_id
+              }
+            }
+          }
+
+          @root_access_key_id ||= @aws_access_key_id
+          @current_user_name = existing_user ? existing_user["UserName"] : "root"
+        end
+
+        def current_user
+          unless self.data[:users].key?("root")
+            root = self.data[:users]["root"] # sets the hash
+            root[:arn].gsub!("user/", "")    # root user doesn't have "user/" key prefix
+          end
+
+          self.data[:users][self.current_user_name]
         end
       end
 
@@ -201,20 +251,20 @@ module Fog
         # ==== Returns
         # * IAM object with connection to AWS.
         def initialize(options={})
+          @use_iam_profile    = options[:use_iam_profile]
+          @connection_options = options[:connection_options] || {}
+          @instrumentor       = options[:instrumentor]
+          @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.iam'
 
-          @use_iam_profile = options[:use_iam_profile]
-          @connection_options     = options[:connection_options] || {}
-          @instrumentor           = options[:instrumentor]
-          @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.iam'
           @host       = options[:host]        || 'iam.amazonaws.com'
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
+          @region     = options[:region]      || "us-east-1"
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
 
           setup_credentials(options)
-
         end
 
         def reload
@@ -224,13 +274,14 @@ module Fog
         private
 
         def setup_credentials(options)
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
-          @aws_session_token      = options[:aws_session_token]
+          @aws_access_key_id         = options[:aws_access_key_id]
+          @aws_secret_access_key     = options[:aws_secret_access_key]
+          @aws_session_token         = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
           #global services that have no region are signed with the us-east-1 region
-          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key,'us-east-1','iam')
+          #the only exception is GovCloud, which requires the region to be explicitly specified as us-gov-west-1
+          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 'iam')
         end
 
         def request(params)

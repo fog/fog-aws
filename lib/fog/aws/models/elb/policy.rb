@@ -8,13 +8,13 @@ module Fog
         attribute :expiration, :aliases => 'CookieExpirationPeriod'
         attribute :type_name
         attribute :policy_attributes
+        attribute :load_balancer_id
 
         attr_accessor :cookie_stickiness # Either :app or :lb
 
         def save
-          requires :id, :load_balancer
-          service_method = nil
-          args = [load_balancer.id, id]
+          requires :id, :load_balancer_id
+          args = [load_balancer_id, id]
 
           if cookie_stickiness
             case cookie_stickiness
@@ -40,17 +40,16 @@ module Fog
         end
 
         def destroy
-          requires :id, :load_balancer
-          service.delete_load_balancer_policy(load_balancer.id, id)
+          requires :identity, :load_balancer_id
+
+          service.delete_load_balancer_policy(self.load_balancer_id, self.identity)
           reload
         end
 
-        def reload
-          load_balancer.reload
-        end
-
         def load_balancer
-          collection.load_balancer
+          requires :load_balancer_id
+
+          service.load_balancers.new(:identity => self.load_balancer_id)
         end
       end
     end

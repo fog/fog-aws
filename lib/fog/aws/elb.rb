@@ -96,7 +96,6 @@ module Fog
           @aws_secret_access_key = options[:aws_secret_access_key]
 
           @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key,@region,'elasticloadbalancing')
-
         end
 
         def data

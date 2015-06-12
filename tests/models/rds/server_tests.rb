@@ -13,22 +13,25 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
       snapshot = nil
 
       tests('#create').succeeds do
-        snapshot = @instance.snapshots.create(:id => 'fog-test-snapshot')
+        snapshot = @instance.snapshots.create(:id => uniq_id('fog-snapshot-test'))
       end
 
       snapshot.wait_for { ready?}
 
       @instance.wait_for { ready? }
 
-      returns(true) { @instance.snapshots.map{|s| s.id}.include?(snapshot.id) }
+      returns(true) { @instance.snapshots.map{ |s| s.id }.include?(snapshot.id) }
       snapshot.destroy
     end
 
     tests("#modify").succeeds do
       pending if Fog.mocking?
 
+      engine  = rds_default_server_params.fetch(:engine)
+      version = rds_default_server_params.fetch(:version).match(/\d+\.\d+/).to_s
+
       orig_parameter_group = @instance.db_parameter_groups.first['DBParameterGroupName']
-      parameter_group = Fog::AWS[:rds].parameter_groups.create(:id => uniq_id, :family => 'mysql5.5', :description => 'fog-test')
+      parameter_group = Fog::AWS[:rds].parameter_groups.create(:id => uniq_id, :family => "#{engine}#{version}", :description => 'fog-test')
 
       orig_security_groups = @instance.db_security_groups.map{|h| h['DBSecurityGroupName']}
       security_group = Fog::AWS[:rds].security_groups.create(:id => uniq_id, :description => 'fog-test')
@@ -94,7 +97,7 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
     end
 
     test("Destroying with a final snapshot") do
-      final_snapshot_id = 'fog-test-snapshot'
+      final_snapshot_id = uniq_id('fog-test-snapshot')
 
       @instance_with_final_snapshot.wait_for { ready? }
       @instance_with_final_snapshot.destroy(final_snapshot_id)

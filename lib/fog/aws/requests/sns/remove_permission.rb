@@ -14,7 +14,14 @@ module Fog
 
       class Mock
         def remove_permission(options = {})
-          Fog::Mock.not_implemented
+          topic_arn = options['TopicArn']
+          label     = options['Label']
+
+          self.data[:permissions][topic_arn].delete(label)
+
+          response = Excon::Response.new
+          response.body = {"RequestId" => Fog::AWS::Mock.request_id}
+          response
         end
       end
     end

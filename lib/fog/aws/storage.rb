@@ -139,6 +139,8 @@ module Fog
         end
 
         def signed_url(params, expires)
+          refresh_credentials_if_expired
+
           #convert expires from a point in time to a delta to now
           expires = expires.to_i
           if @signature_version == 4
@@ -314,6 +316,7 @@ module Fog
 
       class Mock
         include Utils
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
 
         def self.acls(type)
           case type
@@ -559,10 +562,10 @@ module Fog
               params[:headers]['x-amz-content-sha256'] = 'STREAMING-AWS4-HMAC-SHA256-PAYLOAD'
               params[:headers]['x-amz-decoded-content-length'] = params[:headers].delete 'Content-Length'
 
-              if params[:headers]['Content-Encoding']
-                encoding = "aws-chunked, #{params[:headers]['Content-Encoding']}"
+              if params[:headers]['Content-Encoding'] && params[:headers]['Content-Encoding'].to_s.length > 0
+                encoding = "aws-chunked,#{params[:headers]['Content-Encoding']}"
               else
-                encoding = "aws-chunked, identity"
+                encoding = "aws-chunked"
               end
 
               params[:headers]['Content-Encoding']  = encoding

@@ -25,7 +25,7 @@ module Fog
         # @param PreferredBackupWindow [String] The daily time range during which automated backups are created if automated backups are enabled
         # @param PreferredMaintenanceWindow [String] The weekly time range (in UTC) during which system maintenance can occur, which may result in an outage
         # @param DBSubnetGroupName [String] The name, if any, of the VPC subnet for this RDS instance
-        # @param PubliclyAcccesible [Boolean] Whether an RDS instance inside of the VPC subnet should have a public-facing endpoint
+        # @param PubliclyAccessible [Boolean] Whether an RDS instance inside of the VPC subnet should have a public-facing endpoint
         # @param VpcSecurityGroups [Array] A list of VPC Security Groups to authorize on this DB instance
         # @param StorageType [string] Specifies storage type to be associated with the DB Instance.  Valid values: standard | gp2 | io1
         #
@@ -43,9 +43,9 @@ module Fog
           end
 
           request({
-            'Action'  => 'CreateDBInstance',
+            'Action'               => 'CreateDBInstance',
             'DBInstanceIdentifier' => db_name,
-            :parser   => Fog::Parsers::AWS::RDS::CreateDBInstance.new,
+            :parser                => Fog::Parsers::AWS::RDS::CreateDBInstance.new,
           }.merge(options))
         end
       end
@@ -78,41 +78,36 @@ module Fog
             end
           end
 
-          data =
-              {
-                 "DBInstanceIdentifier"=> db_name,
-                 "DBName" => options["DBName"],
-                 "InstanceCreateTime" => nil,
-                 "AutoMinorVersionUpgrade"=>true,
-                 "Endpoint"=>{},
-                 "ReadReplicaDBInstanceIdentifiers"=>[],
-                 "PreferredMaintenanceWindow"=>"mon:04:30-mon:05:00",
-                 "Engine"=> options["Engine"],
-                 "EngineVersion"=> options["EngineVersion"] || "5.5.12",
-                 "PendingModifiedValues"=>{"MasterUserPassword"=>"****"}, # This clears when is available
-                 "MultiAZ"=> !!options['MultiAZ'],
-                 "MasterUsername"=> options["MasterUsername"],
-                 "DBInstanceClass"=> options["DBInstanceClass"],
-                 "DBInstanceStatus"=>"creating",
-                 "BackupRetentionPeriod"=> options["BackupRetentionPeriod"] || 1,
-                 "AllocatedStorage"=> options["AllocatedStorage"],
-                 "Iops" => options["Iops"],
-                 "DBParameterGroups"=> # I think groups should be in the self.data method
-                          [{"DBParameterGroupName"=>"default.mysql5.5",
-                            "ParameterApplyStatus"=>"in-sync"}],
-                 "DBSecurityGroups"=>
-                          [{"Status"=>"active",
-                            "DBSecurityGroupName"=>"default"}],
-                 "LicenseModel"=>"general-public-license",
-                 "PreferredBackupWindow"=>"08:00-08:30",
-#                 "ReadReplicaSourceDBInstanceIdentifier" => nil,
-#                 "LatestRestorableTime" => nil,
-                 "AvailabilityZone" => options["AvailabilityZone"],
-                 "DBSubnetGroupName" => options["DBSubnetGroupName"],
-                 "PubliclyAccessible" => options["PubliclyAccessible"],
-                 "VpcSecurityGroups" => options["VpcSecurityGroups"],
-                 "StorageType" => options["StorageType"],
-             }
+          data = {
+            "AllocatedStorage"                 => options["AllocatedStorage"],
+            "AutoMinorVersionUpgrade"          => options["AutoMinorVersionUpgrade"].nil? ? true : options["AutoMinorVersionUpgrade"],
+            "AvailabilityZone"                 => options["AvailabilityZone"],
+            "BackupRetentionPeriod"            => options["BackupRetentionPeriod"] || 1,
+            "CACertificateIdentifier"          => "rds-ca-2015",
+            "DBInstanceClass"                  => options["DBInstanceClass"],
+            "DBInstanceIdentifier"             => db_name,
+            "DBInstanceStatus"                 =>"creating",
+            "DBName"                           => options["DBName"],
+            "DBParameterGroups"                => [{ "DBParameterGroupName" => "default.mysql5.5", "ParameterApplyStatus" => "in-sync" }],
+            "DBSecurityGroups"                 => [{ "Status" => "active", "DBSecurityGroupName" => "default" }],
+            "DBSubnetGroupName"                => options["DBSubnetGroupName"],
+            "Endpoint"                         =>{},
+            "Engine"                           => options["Engine"],
+            "EngineVersion"                    => options["EngineVersion"] || "5.5.12",
+            "InstanceCreateTime"               => nil,
+            "Iops"                             => options["Iops"],
+            "LicenseModel"                     => "general-public-license",
+            "MasterUsername"                   => options["MasterUsername"],
+            "MultiAZ"                          => !!options['MultiAZ'],
+            "PendingModifiedValues"            => { "MasterUserPassword" => "****" }, # This clears when is available
+            "PreferredBackupWindow"            => options["PreferredBackupWindow"] || "08:00-08:30",
+            "PreferredMaintenanceWindow"       => options["PreferredMaintenanceWindow"] || "mon:04:30-mon:05:00",
+            "PubliclyAccessible"               => !!options["PubliclyAccessible"],
+            "ReadReplicaDBInstanceIdentifiers" => [],
+            "StorageEncrypted"                 => false,
+            "StorageType"                      => options["StorageType"] || "standard",
+            "VpcSecurityGroups"                => options["VpcSecurityGroups"],
+          }
 
           self.data[:servers][db_name] = data
           response.body = {

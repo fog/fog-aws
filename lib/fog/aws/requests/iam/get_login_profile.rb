@@ -28,6 +28,33 @@ module Fog
           })
         end
       end
+
+      class Mock
+        def get_login_profile(user_name)
+          unless self.data[:users].key?(user_name)
+            raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.")
+          end
+
+          profile = self.data[:users][user_name][:login_profile]
+
+          unless profile
+            raise Fog::AWS::IAM::NotFound, "Cannot find Login Profile for User #{user_name}"
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+
+          response.body = {
+            "LoginProfile" => {
+              "UserName"   => user_name,
+              "CreateDate" => profile[:created_at]
+            },
+            "RequestId" => Fog::AWS::Mock.request_id
+          }
+
+          response
+        end
+      end
     end
   end
 end

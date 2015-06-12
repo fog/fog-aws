@@ -6,14 +6,14 @@ class AWS
       }
 
       DB_AVAILABILITY_ZONE_OPTION = {
-          'Name' => String,
-          'ProvisionedIopsCapable' => Fog::Boolean
+        'Name' => String,
+        'ProvisionedIopsCapable' => Fog::Boolean
       }
 
       DB_PARAMETER_GROUP = {
-          'DBParameterGroupFamily' => String,
-          'DBParameterGroupName' => String,
-          'Description' => String
+        'DBParameterGroupFamily' => String,
+        'DBParameterGroupName' => String,
+        'Description' => String
       }
       CREATE_DB_PARAMETER_GROUP = {
         'ResponseMetadata' => { 'RequestId' => String },
@@ -32,7 +32,7 @@ class AWS
 
       CREATE_DB_SECURITY_GROUP = BASIC.merge({
         'CreateDBSecurityGroupResult' => {
-        'DBSecurityGroup' => DB_SECURITY_GROUP
+          'DBSecurityGroup' => DB_SECURITY_GROUP
         }
       })
 
@@ -82,20 +82,20 @@ class AWS
       }
 
       ORDERABLE_DB_INSTANCE_OPTION = {
-          'MultiAZCapable' => Fog::Boolean,
-          'Engine' => String,
-          'LicenseModel' => String,
-          'ReadReplicaCapable' => Fog::Boolean,
-          'EngineVersion' => String,
-          'AvailabilityZones' => [DB_AVAILABILITY_ZONE_OPTION],
-          'DBInstanceClass' => String,
-          'Vpc' => Fog::Boolean
+        'MultiAZCapable' => Fog::Boolean,
+        'Engine' => String,
+        'LicenseModel' => String,
+        'ReadReplicaCapable' => Fog::Boolean,
+        'EngineVersion' => String,
+        'AvailabilityZones' => [DB_AVAILABILITY_ZONE_OPTION],
+        'DBInstanceClass' => String,
+        'Vpc' => Fog::Boolean
       }
 
       DESCRIBE_ORDERABLE_DB_INSTANCE_OPTION = BASIC.merge({
-          'DescribeOrderableDBInstanceOptionsResult' => {
-              'OrderableDBInstanceOptions' => [ORDERABLE_DB_INSTANCE_OPTION]
-          }
+        'DescribeOrderableDBInstanceOptionsResult' => {
+          'OrderableDBInstanceOptions' => [ORDERABLE_DB_INSTANCE_OPTION]
+        }
       })
 
       MODIFY_PARAMETER_GROUP = BASIC.merge({
@@ -153,53 +153,59 @@ class AWS
       }
 
       INSTANCE = {
-        'AllocatedStorage' => Integer,
+        'AllocatedStorage'        => Integer,
         'AutoMinorVersionUpgrade' => Fog::Boolean,
-        'AvailabilityZone' => Fog::Nullable::String,
-        'BackupRetentionPeriod' => Integer,
-        'DBInstanceClass' => String,
-        'DBInstanceIdentifier' => String,
-        'DBInstanceStatus' => String,
-        'DBName' => Fog::Nullable::String,
+        'AvailabilityZone'        => Fog::Nullable::String,
+        'BackupRetentionPeriod'   => Integer,
+        'CACertificateIdentifier' => String,
+        'CharacterSetName'        => Fog::Nullable::String,
+        'DbiResourceId'           => Fog::Nullable::String,
+        'DBInstanceClass'         => String,
+        'DBInstanceIdentifier'    => String,
+        'DBInstanceStatus'        => String,
+        'DBName'                  => Fog::Nullable::String,
         'DBParameterGroups' => [{
-            'ParameterApplyStatus' => String,
-            'DBParameterGroupName' => String
-          }],
+          'ParameterApplyStatus' => String,
+          'DBParameterGroupName' => String
+        }],
         'DBSecurityGroups' => [{
-            'Status' => String,
-            'DBSecurityGroupName' => String
-          }],
-        'DBSubnetGroupName' => Fog::Nullable::String,
+          'Status'              => String,
+          'DBSecurityGroupName' => String
+        }],
+        'DBSubnetGroupName'  => Fog::Nullable::String,
         'PubliclyAccessible' => Fog::Boolean,
         'Endpoint' => {
           'Address' => Fog::Nullable::String,
-          'Port' => Fog::Nullable::Integer
+          'Port'    => Fog::Nullable::Integer
         },
-        'Engine' => String,
-        'EngineVersion' => String,
-        'InstanceCreateTime' => Fog::Nullable::Time,
-        'Iops' => Fog::Nullable::Integer,
+        'Engine'               => String,
+        'EngineVersion'        => String,
+        'InstanceCreateTime'   => Fog::Nullable::Time,
+        'Iops'                 => Fog::Nullable::Integer,
+        'KmsKeyId'             => Fog::Nullable::String,
         'LatestRestorableTime' => Fog::Nullable::Time,
-        'LicenseModel' => String,
-        'MasterUsername' => String,
-        'MultiAZ' => Fog::Boolean,
+        'LicenseModel'         => String,
+        'MasterUsername'       => String,
+        'MultiAZ'              => Fog::Boolean,
         'PendingModifiedValues' => {
           'BackupRetentionPeriod' => Fog::Nullable::Integer,
           'DBInstanceClass'       => Fog::Nullable::String,
           'EngineVersion'         => Fog::Nullable::String,
           'MasterUserPassword'    => Fog::Nullable::String,
-          'MultiAZ'               => Fog::Nullable::String,
+          'MultiAZ'               => Fog::Nullable::Boolean,
           'AllocatedStorage'      => Fog::Nullable::Integer,
           'Port'                  => Fog::Nullable::Integer
         },
-        'PreferredBackupWindow' => String,
-        'PreferredMaintenanceWindow' => String,
-        'ReadReplicaDBInstanceIdentifiers' => [Fog::Nullable::String]
+        'PreferredBackupWindow'            => String,
+        'PreferredMaintenanceWindow'       => String,
+        'ReadReplicaDBInstanceIdentifiers' => [Fog::Nullable::String],
+        'StorageType'                      => String,
+        'StorageEncrypted'                 => Fog::Boolean,
+        'TdeCredentialArn'                 => Fog::Nullable::String
       }
 
       REPLICA_INSTANCE = INSTANCE.merge({
-        'BackupRetentionPeriod' => Fog::Nullable::String,
-        'PreferredBackupWindow' => Fog::Nullable::String,
+        'PreferredBackupWindow'                 => Fog::Nullable::String,
         'ReadReplicaSourceDBInstanceIdentifier' => String
       })
 
@@ -242,7 +248,7 @@ class AWS
 
       PROMOTE_READ_REPLICA = BASIC.merge({
         'PromoteReadReplicaResult' => {
-            'DBInstance' => INSTANCE
+          'DBInstance' => INSTANCE
         }
       })
 

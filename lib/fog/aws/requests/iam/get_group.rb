@@ -45,9 +45,9 @@ module Fog
           Excon::Response.new.tap do |response|
             response.body = { 'Group' =>  {
                                              'GroupId'   => data[:groups][group_name][:group_id],
-                                             'Path'     => data[:groups][group_name][:path],
+                                             'Path'      => data[:groups][group_name][:path],
                                              'GroupName' => group_name,
-                                             'Arn'      => (data[:groups][group_name][:arn]).strip
+                                             'Arn'       => (data[:groups][group_name][:arn]).strip
                                           },
                               'Users' => data[:groups][group_name][:members].map { |user| get_user(user).body['User'] },
                               'RequestId'   => Fog::AWS::Mock.request_id }

@@ -42,11 +42,11 @@ module Fog
         #
         def create_role(role_name, assume_role_policy_document, path = '/')
           request(
-            'Action'    => 'CreateRole',
-            'RoleName'  => role_name,
-            'AssumeRolePolicyDocument'      => assume_role_policy_document,
-            'Path'      => path,
-            :parser     => Fog::Parsers::AWS::IAM::SingleRole.new
+            'Action'                   => 'CreateRole',
+            'RoleName'                 => role_name,
+            'AssumeRolePolicyDocument' => assume_role_policy_document,
+            'Path'                     => path,
+            :parser                    => Fog::Parsers::AWS::IAM::SingleRole.new
           )
         end
       end
