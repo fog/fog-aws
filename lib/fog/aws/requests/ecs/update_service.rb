@@ -9,6 +9,7 @@ module Fog
         # ==== Parameters
         # * cluster <~String> - short name or full Amazon Resource Name (ARN) of the cluster that your service is running on.
         # * desiredCount <~Integer> - number of instantiations of the task that you would like to place and keep running in your service.
+        # * service <~String> - name of the service that you want to update.
         # * taskDefinition <~String> - family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition that you want to run in your service.
         # ==== Returns
         # * response<~Excon::Response>:
