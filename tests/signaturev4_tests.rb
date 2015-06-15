@@ -96,5 +96,12 @@ Shindo.tests('AWS | signaturev4', ['aws']) do
     end
   end
 
+  tests("s3 signer does not normalize path") do
+    signer=Fog::AWS::SignatureV4.new('AKIDEXAMPLE', 'wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY', 'us-east-1','s3')
+    returns(signer.sign({:query => {}, :headers => {'Host' => 'host.foo.com', 'Date' => 'Mon, 09 Sep 2011 23:36:00 GMT'}, :method => :get, :path => '//foo/../bar/./'}, @now)) do
+      'AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20110909/us-east-1/s3/aws4_request, SignedHeaders=date;host, Signature=72407ad06b8e5750360f42e8aad9f33a0be363bcfeecdcae0aea58c99709fb4a'
+    end
+  end
+
   Fog::Time.now = ::Time.now
 end
