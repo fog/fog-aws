@@ -52,6 +52,13 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
       data
     end
 
+    tests('#create_vpc').formats(@create_vpcs_format) do
+      data = Fog::Compute[:aws].create_vpc('10.255.254.0/28',
+        {'InstanceTenancy' => 'default'}).body
+      @vpc_id = data['vpcSet'].first['vpcId']
+      data
+    end
+
     tests('#describe_vpcs').formats(@describe_vpcs_format) do
       Fog::Compute[:aws].describe_vpcs.body
     end

@@ -37,7 +37,7 @@ module Fog
       end
 
       class Mock
-        def create_vpc(cidrBlock)
+        def create_vpc(cidrBlock, options = {})
           Excon::Response.new.tap do |response|
             if cidrBlock
               response.status = 200
