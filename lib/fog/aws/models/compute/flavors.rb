@@ -45,6 +45,16 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
+          :id                      => 't2.large',
+          :name                    => 'Micro Instance',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 8192,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
           :id                      => 'm1.small',
           :name                    => 'Small Instance',
           :bits                    => 32,
