@@ -20,6 +20,7 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
       rescue Excon::Errors::BadRequest; end
     end
 
+    # optional keys are commented out
     @list_streams_format = {
       "HasMoreStreams" => Fog::Boolean,
       "StreamNames" => [
@@ -27,7 +28,6 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
       ]
     }
 
-    # optional keys are commented out
     @describe_stream_format = {
       "StreamDescription" => {
         "HasMoreShards" => Fog::Boolean,
@@ -56,6 +56,18 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
       "ShardIterator" => String
     }
 
+    @put_records_format = {
+      "FailedRecordCount" => Integer,
+      "Records" => [
+        {
+          # "ErrorCode" => String,
+          # "ErrorMessage" => String,
+          "SequenceNumber" => String,
+          "ShardId" => String
+        }
+      ]
+    }
+
     tests("#create_stream").returns("") do
       result = Fog::AWS[:kinesis].create_stream("StreamName" => @stream_id).body
       while Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body["StreamDescription"]["StreamStatus"] != "ACTIVE"
@@ -71,6 +83,14 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
 
     tests("#describe_stream").formats(@describe_stream_format) do
       Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body
+    end
+
+    tests("#put_records").formats(@put_records_format, false) do
+      records = [{
+          "Data" => Base64.encode64("foo").chomp!,
+          "PartitionKey" => "foo"
+        }]
+      Fog::AWS[:kinesis].put_records("StreamName" => @stream_id, "Records" => records).body
     end
 
     tests("#get_shard_iterator").formats(@get_shard_iterator_format) do
