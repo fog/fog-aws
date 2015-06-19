@@ -9,6 +9,9 @@ module Fog
       request_path 'fog/aws/requests/kinesis'
 
       request :list_streams
+      request :describe_stream
+      request :create_stream
+      request :delete_stream
 
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
