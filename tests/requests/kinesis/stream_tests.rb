@@ -52,8 +52,17 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
       }
     }
 
+    @get_shard_iterator_format = {
+      "ShardIterator" => String
+    }
+
     tests("#create_stream").returns("") do
-      Fog::AWS[:kinesis].create_stream("StreamName" => @stream_id).body
+      result = Fog::AWS[:kinesis].create_stream("StreamName" => @stream_id).body
+      while Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body["StreamDescription"]["StreamStatus"] != "ACTIVE"
+        sleep 1
+        print '.'
+      end
+      result
     end
 
     tests("#list_streams").formats(@list_streams_format, false) do
@@ -62,6 +71,11 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
 
     tests("#describe_stream").formats(@describe_stream_format) do
       Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body
+    end
+
+    tests("#get_shard_iterator").formats(@get_shard_iterator_format) do
+      first_shard_id = Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body["StreamDescription"]["Shards"].first["ShardId"]
+      Fog::AWS[:kinesis].get_shard_iterator("StreamName" => @stream_id, "ShardId" => first_shard_id, "ShardIteratorType" => "TRIM_HORIZON").body
     end
 
     tests("#delete_stream").returns("") do
