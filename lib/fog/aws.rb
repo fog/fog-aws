@@ -148,16 +148,21 @@ module Fog
 
       headers = headers.merge('Host' => options[:host], 'x-amz-date' => date.to_iso8601_basic)
       headers['x-amz-security-token'] = options[:aws_session_token] if options[:aws_session_token]
+      query = options[:query] || {}
 
-      body = ''
-      for key in params.keys.sort
-        unless (value = params[key]).nil?
-          body << "#{key}=#{escape(value.to_s)}&"
+      if !options[:body]
+        body = ''
+        for key in params.keys.sort
+          unless (value = params[key]).nil?
+            body << "#{key}=#{escape(value.to_s)}&"
+          end
         end
+        body.chop!
+      else
+        body = options[:body]
       end
-      body.chop!
 
-      headers['Authorization'] = options[:signer].sign({:method => options[:method], :headers => headers, :body => body, :query => {}, :path => options[:path]}, date)
+      headers['Authorization'] = options[:signer].sign({:method => options[:method], :headers => headers, :body => body, :query => query, :path => options[:path]}, date)
 
       return body, headers
     end
