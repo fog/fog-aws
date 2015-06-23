@@ -214,5 +214,10 @@ module Fog
       end
       options
     end
+
+    def self.json_response?(response)
+      return false unless response && response.headers
+      response.get_header('Content-Type') =~ %r{application/json}i ? true : false
+    end
   end
 end
