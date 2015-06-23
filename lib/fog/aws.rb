@@ -45,6 +45,7 @@ module Fog
     autoload :Glacier,          File.expand_path('../aws/glacier', __FILE__)
     autoload :IAM,              File.expand_path('../aws/iam', __FILE__)
     autoload :KMS,              File.expand_path('../aws/kms', __FILE__)
+    autoload :Lambda,           File.expand_path('../aws/lambda', __FILE__)
     autoload :RDS,              File.expand_path('../aws/rds', __FILE__)
     autoload :Redshift,         File.expand_path('../aws/redshift', __FILE__)
     autoload :SES,              File.expand_path('../aws/ses', __FILE__)
@@ -70,6 +71,7 @@ module Fog
     service(:glacier,         'Glacier')
     service(:iam,             'IAM')
     service(:kms,             'KMS')
+    service(:lambda,          'Lambda')
     service(:rds,             'RDS')
     service(:redshift,        'Redshift')
     service(:ses,             'SES')
@@ -148,16 +150,21 @@ module Fog
 
       headers = headers.merge('Host' => options[:host], 'x-amz-date' => date.to_iso8601_basic)
       headers['x-amz-security-token'] = options[:aws_session_token] if options[:aws_session_token]
+      query = options[:query] || {}
 
-      body = ''
-      for key in params.keys.sort
-        unless (value = params[key]).nil?
-          body << "#{key}=#{escape(value.to_s)}&"
+      if !options[:body]
+        body = ''
+        for key in params.keys.sort
+          unless (value = params[key]).nil?
+            body << "#{key}=#{escape(value.to_s)}&"
+          end
         end
+        body.chop!
+      else
+        body = options[:body]
       end
-      body.chop!
 
-      headers['Authorization'] = options[:signer].sign({:method => options[:method], :headers => headers, :body => body, :query => {}, :path => options[:path]}, date)
+      headers['Authorization'] = options[:signer].sign({:method => options[:method], :headers => headers, :body => body, :query => query, :path => options[:path]}, date)
 
       return body, headers
     end
@@ -208,6 +215,11 @@ module Fog
         options.delete('GroupName')
       end
       options
+    end
+
+    def self.json_response?(response)
+      return false unless response && response.headers
+      response.get_header('Content-Type') =~ %r{application/json}i ? true : false
     end
   end
 end
