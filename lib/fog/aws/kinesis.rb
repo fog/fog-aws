@@ -14,6 +14,7 @@ module Fog
       request :delete_stream
       request :get_shard_iterator
       request :put_records
+      request :get_records
 
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
