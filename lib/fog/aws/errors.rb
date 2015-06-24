@@ -17,9 +17,9 @@ module Fog
           begin
             full_msg_error = Fog::JSON.decode(error.response.body)
             if (full_msg_error.has_key?('Message') || full_msg_error.has_key?('message')) &&
-              error.response.headers.has_key?('x-amzn-ErrorType')
+                (error.response.headers.has_key?('x-amzn-ErrorType') || full_msg_error.has_key?('__type'))
               matched_error = {
-                :code    => error.response.headers['x-amzn-ErrorType'].split(':').first,
+                :code    => full_msg_error['__type'] || error.response.headers['x-amzn-ErrorType'].split(':').first,
                 :message => full_msg_error['Message'] || full_msg_error['message']
               }
               return matched_error
