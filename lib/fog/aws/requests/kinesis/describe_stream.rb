@@ -23,7 +23,7 @@ module Fog
 
           response = request({
                                :idempotent    => true,
-                               'X-Amz-Target' => 'Kinesis_#{@version}.DescribeStream',
+                               'X-Amz-Target' => "Kinesis_#{@version}.DescribeStream",
                                :body          => body,
                              }.merge(options))
           response.body = Fog::JSON.decode(response.body) unless response.body.nil?

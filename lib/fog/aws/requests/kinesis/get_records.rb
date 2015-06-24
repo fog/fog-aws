@@ -20,8 +20,7 @@ module Fog
           }.reject{ |_,v| v.nil? }
 
           response = request({
-                               :idempotent    => true,
-                               'X-Amz-Target' => 'Kinesis_#{@version}.GetRecords',
+                               'X-Amz-Target' => "Kinesis_#{@version}.GetRecords",
                                :body          => body,
                              }.merge(options))
           response.body = Fog::JSON.decode(response.body) unless response.body.nil?
