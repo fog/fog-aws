@@ -3,6 +3,12 @@ module Fog
     class Kinesis < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
+      class LimitExceeded < Fog::Errors::Error; end
+      class ResourceNotFound < Fog::Errors::Error; end
+      class ExpiredIterator < Fog::Errors::Error; end
+      class InvalidArgument < Fog::Errors::Error; end
+      class ProvisionedThroughputExceeded < Fog::Errors::Error; end
+
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
@@ -57,11 +63,11 @@ module Fog
 
           date = Fog::Time.now
           headers = {
-            'X-Amz-Target' => params['X-Amz-Target'],
-            'Content-Type' => 'application/x-amz-json-1.1',
-            'Host'         => @host,
-            'x-amz-date'   => date.to_iso8601_basic
-          }
+                     'X-Amz-Target' => params['X-Amz-Target'],
+                     'Content-Type' => 'application/x-amz-json-1.1',
+                     'Host'         => @host,
+                     'x-amz-date'   => date.to_iso8601_basic
+                    }
           headers['x-amz-security-token'] = @aws_session_token if @aws_session_token
           body = MultiJson.dump(params[:body])
           headers['Authorization'] = @signer.sign({method: "POST", headers: headers, body: body, query: {}, path: @path}, date)
@@ -77,13 +83,30 @@ module Fog
 
         def _request(body, headers, idempotent, parser)
           @connection.request({
-            :body       => body,
-            :expects    => 200,
-            :headers    => headers,
-            :idempotent => idempotent,
-            :method     => 'POST',
-            :parser     => parser
-          })
+                               :body       => body,
+                               :expects    => 200,
+                               :headers    => headers,
+                               :idempotent => idempotent,
+                               :method     => 'POST',
+                               :parser     => parser
+                              })
+        rescue Excon::Errors::HTTPStatusError => error
+          match = Fog::AWS::Errors.match_error(error)
+          raise if match.empty?
+          raise case match[:code]
+                when 'LimitExceededException'
+                  Fog::AWS::Kinesis::LimitExceeded.slurp(error, match[:message])
+                when 'ResourceNotFoundException'
+                  Fog::AWS::Kinesis::ResourceNotFound.slurp(error, match[:message])
+                when 'ExpiredIteratorException'
+                  Fog::AWS::Kinesis::ExpiredIterator.slurp(error, match[:message])
+                when 'InvalidArgumentException'
+                  Fog::AWS::Kinesis::InvalidArgument.slurp(error, match[:message])
+                when 'ProvisionedThroughputExceededException'
+                  Fog::AWS::Kinesis::ProvisionedThroughputExceeded.slurp(error, match[:message])
+                else
+                  Fog::AWS::Kinesis::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                end
         end
 
       end
