@@ -15,7 +15,8 @@ module Fog
         #
         def list_streams(options={})
           response = request({
-                               'X-Amz-Target' => 'Kinesis_20131202.ListStreams',
+                               :idempotent    => true,
+                               'X-Amz-Target' => 'Kinesis_#{@version}.ListStreams',
                                :body          => {},
                              }.merge(options))
           response.body = Fog::JSON.decode(response.body) unless response.body.nil?

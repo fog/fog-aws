@@ -20,7 +20,7 @@ module Fog
           }.reject{ |_,v| v.nil? }
 
           response = request({
-                               'X-Amz-Target' => 'Kinesis_20131202.CreateStream',
+                               'X-Amz-Target' => 'Kinesis_#{@version}.CreateStream',
                                :body          => body,
                              }.merge(options))
           # response.body = Fog::JSON.decode(response.body) unless response.body.nil?
