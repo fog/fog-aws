@@ -64,11 +64,11 @@ module Fog
 
           date = Fog::Time.now
           headers = {
-                     'X-Amz-Target' => params['X-Amz-Target'],
-                     'Content-Type' => 'application/x-amz-json-1.1',
-                     'Host'         => @host,
-                     'x-amz-date'   => date.to_iso8601_basic
-                    }
+            'X-Amz-Target' => params['X-Amz-Target'],
+            'Content-Type' => 'application/x-amz-json-1.1',
+            'Host'         => @host,
+            'x-amz-date'   => date.to_iso8601_basic
+          }
           headers['x-amz-security-token'] = @aws_session_token if @aws_session_token
           body = MultiJson.dump(params[:body])
           headers['Authorization'] = @signer.sign({method: "POST", headers: headers, body: body, query: {}, path: @path}, date)
@@ -84,12 +84,12 @@ module Fog
 
         def _request(body, headers, idempotent, parser)
           @connection.request({
-                               :body       => body,
-                               :expects    => 200,
-                               :headers    => headers,
-                               :idempotent => idempotent,
-                               :method     => 'POST',
-                               :parser     => parser
+                                :body       => body,
+                                :expects    => 200,
+                                :headers    => headers,
+                                :idempotent => idempotent,
+                                :method     => 'POST',
+                                :parser     => parser
                               })
         rescue Excon::Errors::HTTPStatusError => error
           match = Fog::AWS::Errors.match_error(error)
