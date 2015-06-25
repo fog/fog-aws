@@ -124,13 +124,21 @@ module Fog
 
           idempotent   = params.delete(:idempotent)
           parser       = params.delete(:parser)
-          request_path = "/#{@version}#{params.delete(:path)}"
+          path         = params.delete(:path)
+          request_path = "/#{@version}#{path}"
           query        = params.delete(:query)   || {}
           method       = params.delete(:method)  || 'POST'
           expects      = params.delete(:expects) || 200
           headers      = { 'Content-Type' => 'application/json' }
 
           headers.merge!(params[:headers] || {})
+
+          request_path_to_sign = case path
+          when %r{^/functions/([0-9a-zA-Z\:\-\_]+)(/.+)?$}
+            "/#{@version}/functions/#{Fog::AWS.escape($~[1])}#{$~[2]}"
+          else
+            request_path
+          end
 
           body, headers = AWS.signed_params_v4(
             params,
@@ -140,7 +148,7 @@ module Fog
               :aws_session_token => @aws_session_token,
               :signer            => @signer,
               :host              => @host,
-              :path              => request_path,
+              :path              => request_path_to_sign,
               :port              => @port,
               :query             => query,
               :body              => params[:body]
