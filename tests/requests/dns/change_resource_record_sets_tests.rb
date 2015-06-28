@@ -19,9 +19,9 @@ Shindo.tests('Fog::DNS[:aws] | change_resource_record_sets', ['aws', 'dns']) do
         }]
 
     result = Fog::DNS::AWS.change_resource_record_sets_data('zone_id123', change_batch)
-      .match(%r{<GeoLocation>.*</GeoLocation>})
+    geo = result.match(%r{<GeoLocation>.*</GeoLocation>})
     returns("<GeoLocation><CountryCode>US</CountryCode><SubdivisionCode>AR</SubdivisionCode></GeoLocation>") {
-      result ? result[0] : ''
+      geo ? geo[0] : ''
     }
 
     result
