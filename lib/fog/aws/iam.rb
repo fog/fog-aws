@@ -101,6 +101,8 @@ module Fog
       collection  :roles
       model       :user
       collection  :users
+      model       :server_certificate
+      collection  :server_certificates
 
       require 'fog/aws/iam/default_policies'
 
