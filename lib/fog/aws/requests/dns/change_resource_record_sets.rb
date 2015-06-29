@@ -61,84 +61,7 @@ module Fog
         #     change_resource_record_sets("ABCDEFGHIJKLMN", change_batch_options)
         #
         def change_resource_record_sets(zone_id, change_batch, options = {})
-          # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
-          # that form or just the actual id (which is what this request needs)
-          zone_id = zone_id.sub('/hostedzone/', '')
-
-          optional_tags = ''
-          options.each do |option, value|
-            case option
-            when :comment
-              optional_tags += "<Comment>#{value}</Comment>"
-            end
-          end
-
-          #build XML
-          if change_batch.count > 0
-
-            changes = "<ChangeBatch>#{optional_tags}<Changes>"
-
-            change_batch.each do |change_item|
-              action_tag = %Q{<Action>#{change_item[:action]}</Action>}
-              name_tag   = %Q{<Name>#{change_item[:name]}</Name>}
-              type_tag   = %Q{<Type>#{change_item[:type]}</Type>}
-
-              # TTL must be omitted if using an alias record
-              ttl_tag = ''
-              ttl_tag += %Q{<TTL>#{change_item[:ttl]}</TTL>} unless change_item[:alias_target]
-
-              weight_tag = ''
-              set_identifier_tag = ''
-              region_tag = ''
-              if change_item[:set_identifier]
-                set_identifier_tag += %Q{<SetIdentifier>#{change_item[:set_identifier]}</SetIdentifier>}
-                if change_item[:weight] # Weighted Record
-                  weight_tag += %Q{<Weight>#{change_item[:weight]}</Weight>}
-                elsif change_item[:region] # Latency record
-                  region_tag += %Q{<Region>#{change_item[:region]}</Region>}
-                end
-              end
-
-              failover_tag = if change_item[:failover]
-                %Q{<Failover>#{change_item[:failover]}</Failover>}
-              end
-
-              geolocation_tag = if change_item[:geo_location]
-                %Q{<GeoLocation>#{change_item[:geo_location]}</GeoLocation>}
-              end
-
-              resource_records = change_item[:resource_records] || []
-              resource_record_tags = ''
-              resource_records.each do |record|
-                resource_record_tags += %Q{<ResourceRecord><Value>#{record}</Value></ResourceRecord>}
-              end
-
-              # ResourceRecords must be omitted if using an alias record
-              resource_tag = ''
-              resource_tag += %Q{<ResourceRecords>#{resource_record_tags}</ResourceRecords>} if resource_records.any?
-
-              alias_target_tag = ''
-              if change_item[:alias_target]
-                # Accept either underscore or camel case for hash keys.
-                dns_name = change_item[:alias_target][:dns_name] || change_item[:alias_target][:DNSName]
-                hosted_zone_id = change_item[:alias_target][:hosted_zone_id] || change_item[:alias_target][:HostedZoneId] || AWS.hosted_zone_for_alias_target(dns_name)
-                evaluate_target_health = change_item[:alias_target][:evaluate_target_health] || change_item[:alias_target][:EvaluateTargetHealth] || false
-                evaluate_target_health_xml = !evaluate_target_health.nil? ? %Q{<EvaluateTargetHealth>#{evaluate_target_health}</EvaluateTargetHealth>} : ''
-                alias_target_tag += %Q{<AliasTarget><HostedZoneId>#{hosted_zone_id}</HostedZoneId><DNSName>#{dns_name}</DNSName>#{evaluate_target_health_xml}</AliasTarget>}
-              end
-
-              health_check_id_tag = if change_item[:health_check_id]
-                %Q{<HealthCheckId>#{change_item[:health_check_id]}</HealthCheckId>}
-              end
-
-              change_tags = %Q{<Change>#{action_tag}<ResourceRecordSet>#{name_tag}#{type_tag}#{set_identifier_tag}#{weight_tag}#{region_tag}#{failover_tag}#{geolocation_tag}#{ttl_tag}#{resource_tag}#{alias_target_tag}#{health_check_id_tag}</ResourceRecordSet></Change>}
-              changes += change_tags
-            end
-
-            changes += '</Changes></ChangeBatch>'
-          end
-
-          body = %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/">#{changes}</ChangeResourceRecordSetsRequest>}
+          body = AWS.change_resource_record_sets_data(zone_id, change_batch, options)
           request({
             :body       => body,
             :idempotent => true,
@@ -148,6 +71,89 @@ module Fog
             :path       => "hostedzone/#{zone_id}/rrset"
           })
         end
+      end
+
+      # Returns the xml request for a given changeset
+      def self.change_resource_record_sets_data(zone_id, change_batch, options = {})
+        # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
+        # that form or just the actual id (which is what this request needs)
+        zone_id = zone_id.sub('/hostedzone/', '')
+
+        optional_tags = ''
+        options.each do |option, value|
+          case option
+          when :comment
+            optional_tags += "<Comment>#{value}</Comment>"
+          end
+        end
+
+        #build XML
+        if change_batch.count > 0
+
+          changes = "<ChangeBatch>#{optional_tags}<Changes>"
+
+          change_batch.each do |change_item|
+            action_tag = %Q{<Action>#{change_item[:action]}</Action>}
+            name_tag   = %Q{<Name>#{change_item[:name]}</Name>}
+            type_tag   = %Q{<Type>#{change_item[:type]}</Type>}
+
+            # TTL must be omitted if using an alias record
+            ttl_tag = ''
+            ttl_tag += %Q{<TTL>#{change_item[:ttl]}</TTL>} unless change_item[:alias_target]
+
+            weight_tag = ''
+            set_identifier_tag = ''
+            region_tag = ''
+            if change_item[:set_identifier]
+              set_identifier_tag += %Q{<SetIdentifier>#{change_item[:set_identifier]}</SetIdentifier>}
+              if change_item[:weight] # Weighted Record
+                weight_tag += %Q{<Weight>#{change_item[:weight]}</Weight>}
+              elsif change_item[:region] # Latency record
+                region_tag += %Q{<Region>#{change_item[:region]}</Region>}
+              end
+            end
+
+            failover_tag = if change_item[:failover]
+              %Q{<Failover>#{change_item[:failover]}</Failover>}
+            end
+
+            geolocation_tag = if change_item[:geo_location]
+              xml_geo = change_item[:geo_location].map { |k,v| "<#{k}>#{v}</#{k}>" }.join
+              %Q{<GeoLocation>#{xml_geo}</GeoLocation>}
+            end
+
+            resource_records = change_item[:resource_records] || []
+            resource_record_tags = ''
+            resource_records.each do |record|
+              resource_record_tags += %Q{<ResourceRecord><Value>#{record}</Value></ResourceRecord>}
+            end
+
+            # ResourceRecords must be omitted if using an alias record
+            resource_tag = ''
+            resource_tag += %Q{<ResourceRecords>#{resource_record_tags}</ResourceRecords>} if resource_records.any?
+
+            alias_target_tag = ''
+            if change_item[:alias_target]
+              # Accept either underscore or camel case for hash keys.
+              dns_name = change_item[:alias_target][:dns_name] || change_item[:alias_target][:DNSName]
+              hosted_zone_id = change_item[:alias_target][:hosted_zone_id] || change_item[:alias_target][:HostedZoneId] || AWS.hosted_zone_for_alias_target(dns_name)
+              evaluate_target_health = change_item[:alias_target][:evaluate_target_health] || change_item[:alias_target][:EvaluateTargetHealth] || false
+              evaluate_target_health_xml = !evaluate_target_health.nil? ? %Q{<EvaluateTargetHealth>#{evaluate_target_health}</EvaluateTargetHealth>} : ''
+              alias_target_tag += %Q{<AliasTarget><HostedZoneId>#{hosted_zone_id}</HostedZoneId><DNSName>#{dns_name}</DNSName>#{evaluate_target_health_xml}</AliasTarget>}
+            end
+
+            health_check_id_tag = if change_item[:health_check_id]
+              %Q{<HealthCheckId>#{change_item[:health_check_id]}</HealthCheckId>}
+            end
+
+            change_tags = %Q{<Change>#{action_tag}<ResourceRecordSet>#{name_tag}#{type_tag}#{set_identifier_tag}#{weight_tag}#{region_tag}#{failover_tag}#{geolocation_tag}#{ttl_tag}#{resource_tag}#{alias_target_tag}#{health_check_id_tag}</ResourceRecordSet></Change>}
+            changes += change_tags
+          end
+
+          changes += '</Changes></ChangeBatch>'
+        end
+
+        body = %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/">#{changes}</ChangeResourceRecordSetsRequest>}
       end
 
       class Mock
