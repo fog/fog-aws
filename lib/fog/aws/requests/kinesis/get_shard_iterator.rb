@@ -34,7 +34,18 @@ module Fog
 
       class Mock
         def get_shard_iterator(options={})
-          raise Fog::Mock::NotImplementedError
+          stream_name = options["StreamName"]
+
+          unless stream = data[:kinesis_streams].detect{ |s| s["StreamName"] == stream_name }
+            raise 'unknown stream'
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "ShardIterator" => Fog::JSON.encode(options) # just encode the options that were given, we decode them in get_records
+          }
+          response
         end
       end
     end

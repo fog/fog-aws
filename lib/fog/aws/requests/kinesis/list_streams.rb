@@ -26,7 +26,13 @@ module Fog
 
       class Mock
         def list_streams(options={})
-          raise Fog::Mock::NotImplementedError
+          response = Excon::Response.new
+          response.status = 200
+          response.body =           {
+            "HasMoreStreams" => false,
+            "StreamNames" => []
+          }
+          response
         end
       end
     end

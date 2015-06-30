@@ -27,13 +27,26 @@ module Fog
                                :body          => body,
                              }.merge(options))
           response.body = Fog::JSON.decode(response.body) unless response.body.nil?
+          response.body
           response
         end
       end
 
       class Mock
-        def describe_streams(options={})
-          raise Fog::Mock::NotImplementedError
+        def describe_stream(options={})
+          stream_name = options.delete("StreamName")
+
+          unless stream = data[:kinesis_streams].detect{ |s| s["StreamName"] == stream_name }
+            raise 'unknown stream'
+          end
+
+          # Strip Records key out of shards for response
+          shards = stream["Shards"].reject{ |k,_| k == "Records" }
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = { "StreamDescription" => stream.dup.merge("Shards" => shards) }
+          response
         end
       end
     end

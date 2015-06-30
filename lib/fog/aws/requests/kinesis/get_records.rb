@@ -15,7 +15,7 @@ module Fog
         #
         def get_records(options={})
           body = {
-            "Limit" => options.delete("Limit"),
+            "Limit" => options.delete("Limit") || 1,
             "ShardIterator" => options.delete("ShardIterator")
           }.reject{ |_,v| v.nil? }
 
@@ -30,7 +30,41 @@ module Fog
 
       class Mock
         def get_records(options={})
-          raise Fog::Mock::NotImplementedError
+          shard_iterator = Fog::JSON.decode(options.delete("ShardIterator"))
+          limit = options.delete("Limit") || 1
+          stream_name = shard_iterator["StreamName"]
+          shard_id = shard_iterator["ShardId"]
+          starting_sequence_number = (shard_iterator["StartingSequenceNumber"] || 1).to_i
+
+          unless stream = data[:kinesis_streams].detect{ |s| s["StreamName"] == stream_name }
+            raise 'unknown stream'
+          end
+
+          unless shard = stream["Shards"].detect{ |shard| shard["ShardId"] == shard_id }
+            raise 'unknown shard'
+          end
+
+          records = []
+          shard["Records"].each do |record|
+            next if record["SequenceNumber"].to_i < starting_sequence_number
+            records << record
+            break if records.size == limit
+          end
+
+          shard_iterator["StartingSequenceNumber"] = if records.empty?
+            starting_sequence_number.to_s
+          else
+            (records.last["SequenceNumber"].to_i + 1).to_s
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "MillisBehindLatest"=> 0,
+            "NextShardIterator"=> Fog::JSON.encode(shard_iterator),
+            "Records"=> records
+          }
+          response
         end
       end
     end

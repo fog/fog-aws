@@ -27,8 +27,19 @@ module Fog
       end
 
       class Mock
-        def delete_streams(options={})
-          raise Fog::Mock::NotImplementedError
+        def delete_stream(options={})
+          stream_name = options.delete("StreamName")
+
+          unless stream = data[:kinesis_streams].detect{ |s| s["StreamName"] == stream_name }
+            raise 'unknown stream'
+          end
+
+          data[:kinesis_streams].delete(stream)
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = ""
+          response
         end
       end
     end

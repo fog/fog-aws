@@ -34,7 +34,31 @@ module Fog
 
       class Mock
         def put_records(options={})
-          raise Fog::Mock::NotImplementedError
+          stream_name = options.delete("StreamName")
+          unless stream = data[:kinesis_streams].detect{ |s| s["StreamName"] == stream_name }
+            raise 'unknown stream'
+          end
+
+          records = options.delete("Records")
+          record_results = records.map { |r|
+            sequence_number = next_sequence_number.to_s
+            shard_id = stream["Shards"].sample["ShardId"]
+            shard = stream["Shards"].detect{ |shard| shard["ShardId"] == shard_id }
+            # store the records on the shard(s)
+            shard["Records"] << r.merge("SequenceNumber" => sequence_number)
+            {
+              "SequenceNumber" => sequence_number,
+              "ShardId" => shard_id
+            }
+          }
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "FailedRecordCount" => 0,
+            "Records" => record_results
+          }
+          response
         end
       end
     end
