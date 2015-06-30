@@ -16,6 +16,15 @@ class AWS
         'Marker'      => Fog::Nullable::String,
         'NextMarker'  => Fog::Nullable::String
       }
+      CREATE_MOUNT_TARGET = {
+        'MountTargetId'      => String,
+        'NetworkInterfaceId' => String,
+        'FileSystemId'       => String,
+        'LifeCycleState'     => String,
+        'SubnetId'           => String,
+        'OwnerId'            => String,
+        'IpAddress'          => String
+      }
     end
   end
 end

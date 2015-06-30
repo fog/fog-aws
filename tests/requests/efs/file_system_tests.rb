@@ -48,6 +48,28 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
       result
     end
 
+    tests('#create_mount_target').formats(AWS::EFS::Formats::CREATE_MOUNT_TARGET) do
+      subnet_id = Fog::AWS::Mock.subnet_id
+      params = {
+        'FileSystemId'   => file_system_id,
+        'SubnetId'       => subnet_id,
+        'SecurityGroups' => Fog::AWS::Mock.security_group_id
+      }
+
+      result = efs.create_mount_target(params).body
+      mount_target_id = result['MountTargetId']
+      network_interface_id = result['NetworkInterfaceId']
+
+      returns(true)  { result['FileSystemId'].eql?(file_system_id)          }
+      returns(true)  { result['LifeCycleState'].eql?('creating')            }
+      returns(false) { mount_target_id.match(/^fsmt-[0-9a-f]{8}$/).nil?     }
+      returns(false) { network_interface_id.match(/^eni-[0-9a-f]{8}$/).nil? }
+      returns(true)  { result['OwnerId'].eql?(account_id)                   }
+      returns(true)  { result['SubnetId'].eql?(subnet_id)                   }
+
+      result
+    end
+
     tests('#delete_file_system') do
       params = { 'FileSystemId' => file_system_id }
       result = efs.delete_file_system(params).body

@@ -11,7 +11,7 @@ module Fog
       request :describe_file_systems
       request :delete_file_system
 
-      #request :create_mount_target
+      request :create_mount_target
       #request :describe_mount_targets
       #request :delete_mount_target
 
@@ -27,7 +27,8 @@ module Fog
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
-                :file_systems => {}
+                :file_systems  => {},
+                :mount_targets => {}
               }
             end
           end
