@@ -9,6 +9,18 @@ module Fog
       request_path 'fog/aws/requests/efs'
       request :create_file_system
       request :describe_file_systems
+      request :delete_file_system
+
+      #request :create_mount_target
+      #request :describe_mount_targets
+      #request :delete_mount_target
+
+      #request :describe_mount_target_security_groups
+      #request :modify_mount_target_security_groups
+
+      #request :create_tags
+      #request :describe_tags
+      #request :delete_tags
 
       class Mock
         def self.data
