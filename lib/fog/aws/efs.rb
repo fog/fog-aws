@@ -8,6 +8,7 @@ module Fog
 
       request_path 'fog/aws/requests/efs'
       request :create_file_system
+      request :describe_file_systems
 
       class Mock
         def self.data

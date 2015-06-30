@@ -47,15 +47,15 @@ module Fog
           file_system_id = "fs-#{Fog::Mock.random_hex(8)}"
 
           file_system = {
-            'creationTime'         => now,
-            'creationToken'        => creation_token,
-            'fileSystemId'         => file_system_id,
-            'lifeCycleState'       => 'creating',
-            'numberOfMountTargets' => 0,
-            'ownerId'              => self.account_id,
-            'sizeInBytes'          => {
-              'value'              => 1024,
-              'timestamp'          => now
+            'CreationTime'         => now,
+            'CreationToken'        => creation_token,
+            'FileSystemId'         => file_system_id,
+            'LifeCycleState'       => 'creating',
+            'NumberOfMountTargets' => 0,
+            'OwnerId'              => self.account_id,
+            'SizeInBytes'          => {
+              'Value'              => 1024,
+              'Timestamp'          => now
             }
           }
 
