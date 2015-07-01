@@ -106,6 +106,18 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
       result
     end
 
+    tests('#create_tags') do
+      tags = { 'foo' => 'bar', 'service' => 'wombat', 'version' => '3.1' }
+      params = {
+        'FileSystemId' => file_system_id,
+        'Tags'         => tags
+      }
+      result = efs.create_tags(params)
+      returns(true) { result.body.empty?      }
+      returns(true) { result.status.eql?(204) }
+      result
+    end
+
     tests('#delete_file_system') do
       params = { 'FileSystemId' => file_system_id }
       result = efs.delete_file_system(params).body

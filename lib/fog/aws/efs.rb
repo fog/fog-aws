@@ -18,7 +18,7 @@ module Fog
       #request :describe_mount_target_security_groups
       #request :modify_mount_target_security_groups
 
-      #request :create_tags
+      request :create_tags
       #request :describe_tags
       #request :delete_tags
 
@@ -28,7 +28,8 @@ module Fog
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
                 :file_systems  => {},
-                :mount_targets => {}
+                :mount_targets => {},
+                :tags          => {}
               }
             end
           end
