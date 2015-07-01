@@ -36,7 +36,6 @@ module Fog
             :method  => 'GET',
             :path    => '/file-systems',
             :query   => query,
-            :expects => 200,
             :parser  => Fog::AWS::Parsers::EFS::Base.new
           }.merge(params))
         end

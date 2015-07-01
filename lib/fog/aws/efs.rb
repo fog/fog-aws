@@ -12,7 +12,7 @@ module Fog
       request :delete_file_system
 
       request :create_mount_target
-      #request :describe_mount_targets
+      request :describe_mount_targets
       #request :delete_mount_target
 
       #request :describe_mount_target_security_groups

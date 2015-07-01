@@ -4,8 +4,10 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
   account_id = efs.account_id
   region     = efs.region
 
-  token = nil
-  file_system_id = nil
+  token           = nil
+  file_system_id  = nil
+  mount_target    = nil
+  mount_target_id = nil
 
   tests('success') do
 
@@ -48,6 +50,14 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
       result
     end
 
+    tests('#describe_mount_targets').formats(AWS::EFS::Formats::DESCRIBE_MOUNT_TARGETS) do
+      params = { 'FileSystemId' => file_system_id }
+      result = efs.describe_mount_targets(params).body
+      mount_targets = result['MountTargets']
+      returns(true) { mount_targets.empty? }
+      result
+    end
+
     tests('#create_mount_target').formats(AWS::EFS::Formats::CREATE_MOUNT_TARGET) do
       subnet_id = Fog::AWS::Mock.subnet_id
       params = {
@@ -57,6 +67,7 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
       }
 
       result = efs.create_mount_target(params).body
+      mount_target = result
       mount_target_id = result['MountTargetId']
       network_interface_id = result['NetworkInterfaceId']
 
@@ -66,6 +77,24 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
       returns(false) { network_interface_id.match(/^eni-[0-9a-f]{8}$/).nil? }
       returns(true)  { result['OwnerId'].eql?(account_id)                   }
       returns(true)  { result['SubnetId'].eql?(subnet_id)                   }
+
+      result
+    end
+
+    tests('#describe_mount_targets again').formats(AWS::EFS::Formats::DESCRIBE_MOUNT_TARGETS) do
+      params = { 'FileSystemId' => file_system_id }
+      result = efs.describe_mount_targets(params).body
+      mount_targets = result['MountTargets']
+      mt = mount_targets.first
+
+      returns(false) { mount_targets.empty?                            }
+      returns(true)  { mt['FileSystemId'].eql?(file_system_id)         }
+      returns(true)  { mt['IpAddress'].eql?(mount_target['IpAddress']) }
+      returns(true)  { mt['LifeCycleState'].eql?('available')          }
+      returns(true)  { mt['MountTargetId'].eql?(mount_target_id)       }
+      returns(true)  { mt['NetworkInterfaceId'].eql?(mount_target['NetworkInterfaceId']) }
+      returns(true)  { mt['OwnerId'].eql?(account_id)                  }
+      returns(true)  { mt['SubnetId'].eql?(mount_target['SubnetId'])   }
 
       result
     end

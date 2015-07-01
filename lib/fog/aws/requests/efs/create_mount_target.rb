@@ -72,7 +72,11 @@ module Fog
             'SubnetId'           => subnet_id,
           }
 
-          self.data[:mount_targets][file_system_id] = mount_target
+          file_system = self.data[:file_systems][file_system_id]
+          file_system['NumberOfMountTargets'] += 1
+
+          self.data[:mount_targets][file_system_id] ||= []
+          self.data[:mount_targets][file_system_id] << mount_target
           response.body   = mount_target
           response.status = 200
           response

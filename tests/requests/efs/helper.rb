@@ -25,6 +25,11 @@ class AWS
         'OwnerId'            => String,
         'IpAddress'          => String
       }
+      DESCRIBE_MOUNT_TARGETS = {
+        'MountTargets' => [CREATE_MOUNT_TARGET],
+        'Marker'       => Fog::Nullable::String,
+        'NextMarker'   => Fog::Nullable::String
+      }
     end
   end
 end
