@@ -93,6 +93,10 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
       Fog::AWS[:kinesis].list_streams.body
     end
 
+    tests("#list_streams").returns(true) do
+      Fog::AWS[:kinesis].list_streams.body["StreamNames"].include?(@stream_id)
+    end
+
     tests("#describe_stream").formats(@describe_stream_format) do
       Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body
     end
