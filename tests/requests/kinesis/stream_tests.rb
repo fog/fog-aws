@@ -13,10 +13,10 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
 
     # ensure we start from a clean slate
     if Fog::AWS[:kinesis].list_streams.body["StreamNames"].include?(@stream_id)
-      wait_for_delete.()
+      wait_for_delete.call
       begin
         Fog::AWS[:kinesis].delete_stream("StreamName" => @stream_id)
-        wait_for_delete.()
+        wait_for_delete.call
       rescue Excon::Errors::BadRequest; end
     end
 
