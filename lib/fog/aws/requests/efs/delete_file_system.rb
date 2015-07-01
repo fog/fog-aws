@@ -30,10 +30,9 @@ module Fog
             raise Fog::AWS::EFS::Error, message
           end
 
-          #mount_target_params = { 'FileSystemId' => file_system_id }
-          #result = self.describe_mount_targets(mount_target_params).body
-          #mount_targets = result['MountTargets']
-          mount_targets = []
+          mount_target_params = { 'FileSystemId' => file_system_id }
+          result = self.describe_mount_targets(mount_target_params).body
+          mount_targets = result['MountTargets']
 
           message = 'FileSystemInUse'
           raise Fog::AWS::EFS::Error, message if !mount_targets.empty?

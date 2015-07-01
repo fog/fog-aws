@@ -13,7 +13,7 @@ module Fog
 
       request :create_mount_target
       request :describe_mount_targets
-      #request :delete_mount_target
+      request :delete_mount_target
 
       #request :describe_mount_target_security_groups
       #request :modify_mount_target_security_groups

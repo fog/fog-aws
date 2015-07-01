@@ -99,6 +99,13 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
       result
     end
 
+    tests('#delete_mount_target') do
+      params = { 'MountTargetId' => mount_target_id }
+      result = efs.delete_mount_target(params).body
+      returns(true) { result.empty? }
+      result
+    end
+
     tests('#delete_file_system') do
       params = { 'FileSystemId' => file_system_id }
       result = efs.delete_file_system(params).body
