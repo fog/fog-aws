@@ -71,7 +71,7 @@ module Fog
           }
           headers['x-amz-security-token'] = @aws_session_token if @aws_session_token
           body = MultiJson.dump(params[:body])
-          headers['Authorization'] = @signer.sign({method: "POST", headers: headers, body: body, query: {}, path: @path}, date)
+          headers['Authorization'] = @signer.sign({:method => "POST", :headers => headers, :body => body, :query => {}, :path => @path}, date)
 
           if @instrumentor
             @instrumentor.instrument("#{@instrumentor_name}.request", params) do
