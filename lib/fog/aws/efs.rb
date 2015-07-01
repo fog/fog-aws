@@ -19,7 +19,7 @@ module Fog
       #request :modify_mount_target_security_groups
 
       request :create_tags
-      #request :describe_tags
+      request :describe_tags
       #request :delete_tags
 
       class Mock

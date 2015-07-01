@@ -30,6 +30,16 @@ class AWS
         'Marker'       => Fog::Nullable::String,
         'NextMarker'   => Fog::Nullable::String
       }
+      DESCRIBE_TAGS = {
+        'Tags' => [
+          {
+            'Key'   => String,
+            'Value' => String,
+          }
+        ],
+        'Marker'       => Fog::Nullable::String,
+        'NextMarker'   => Fog::Nullable::String
+      }
     end
   end
 end

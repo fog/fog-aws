@@ -118,6 +118,24 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
       result
     end
 
+    tests('#describe_tags').formats(AWS::EFS::Formats::DESCRIBE_TAGS) do
+      params = { 'FileSystemId' => file_system_id }
+      result = efs.describe_tags(params).body
+      tags = result['Tags']
+
+      returns(false) { tags.empty? }
+      returns(true)  { tags.size > 1 }
+
+      tags.each do |t|
+        returns(true) { t.keys.size.eql?(2) }
+        t.keys.each do |key|
+          returns(true) { key.eql?('Key') || key.eql?('Value') }
+        end
+      end
+
+      result
+    end
+
     tests('#delete_file_system') do
       params = { 'FileSystemId' => file_system_id }
       result = efs.delete_file_system(params).body
