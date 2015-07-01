@@ -30,7 +30,7 @@ module Fog
           response.status = 200
           response.body =           {
             "HasMoreStreams" => false,
-            "StreamNames" => []
+            "StreamNames" => data[:kinesis_streams].map{ |stream| stream["StreamName"] }
           }
           response
         end
