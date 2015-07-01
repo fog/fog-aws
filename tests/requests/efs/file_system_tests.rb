@@ -8,6 +8,7 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
   file_system_id  = nil
   mount_target    = nil
   mount_target_id = nil
+  fs_tags         = { 'foo' => 'bar', 'service' => 'wombat', 'v' => '3.1' }
 
   tests('success') do
 
@@ -107,10 +108,9 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
     end
 
     tests('#create_tags') do
-      tags = { 'foo' => 'bar', 'service' => 'wombat', 'version' => '3.1' }
       params = {
         'FileSystemId' => file_system_id,
-        'Tags'         => tags
+        'Tags'         => fs_tags
       }
       result = efs.create_tags(params)
       returns(true) { result.body.empty?      }
@@ -132,6 +132,28 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
           returns(true) { key.eql?('Key') || key.eql?('Value') }
         end
       end
+
+      result
+    end
+
+    tests('#delete_tags') do
+      params = {
+        'FileSystemId' => file_system_id,
+        'TagKeys'      => fs_tags.keys.shuffle.first
+      }
+      result = efs.delete_tags(params)
+      returns(true)  { result.body.empty? }
+      returns(true)  { result.status.eql?(204) }
+      result
+    end
+
+    tests('#describe_tags again').formats(AWS::EFS::Formats::DESCRIBE_TAGS) do
+      params = { 'FileSystemId' => file_system_id }
+      result = efs.describe_tags(params).body
+      tags = result['Tags']
+
+      returns(false) { tags.empty? }
+      returns(true)  { tags.size < fs_tags.size }
 
       result
     end

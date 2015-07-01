@@ -20,7 +20,7 @@ module Fog
 
       request :create_tags
       request :describe_tags
-      #request :delete_tags
+      request :delete_tags
 
       class Mock
         def self.data
