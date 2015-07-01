@@ -38,6 +38,9 @@ module Fog
           raise Fog::AWS::EFS::Error, message if !mount_targets.empty?
 
           self.data[:file_systems].delete(file_system_id)
+          self.data[:mount_targets].delete(file_system_id)
+          self.data[:tags].delete(file_system_id)
+
           response.body   = ''
           response.status = 204
           response

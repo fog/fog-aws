@@ -21,16 +21,16 @@ module Fog
           query = {}
 
           creation_token = params.delete('CreationToken')
-          query.merge!('CreationToken' => creation_token)
+          query.merge!('CreationToken' => creation_token) if creation_token
 
           file_system_id = params.delete('FileSystemId')
-          query.merge!('FileSystemId' => file_system_id)
+          query.merge!('FileSystemId' => file_system_id) if file_system_id
 
           marker = params.delete('Marker')
-          query.merge!('Marker' => marker)
+          query.merge!('Marker' => marker) if marker
 
           max_items = params.delete('MaxItems')
-          query.merge!('MaxItems' => max_items)
+          query.merge!('MaxItems' => max_items) if max_items
 
           request({
             :method  => 'GET',

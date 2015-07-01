@@ -31,9 +31,12 @@ module Fog
           end
 
           self.data[:mount_targets].each_pair do |fs,mts|
+            num_mts = mts.size
             mts.delete_if { |mt| mt['MountTargetId'].eql?(mount_target_id) }
+            if mts.size < num_mts
+              self.data[:file_systems][fs]['NumberOfMountTargets'] = mts.size
+            end
           end
-          # decrease some how num of mount targets for a filesystem
 
           response.body   = ''
           response.status = 204
