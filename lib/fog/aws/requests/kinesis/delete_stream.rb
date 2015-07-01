@@ -21,7 +21,6 @@ module Fog
                                'X-Amz-Target' => "Kinesis_#{@version}.DeleteStream",
                                :body          => body,
                              }.merge(options))
-          # response.body = Fog::JSON.decode(response.body) unless response.body.nil?
           response
         end
       end
