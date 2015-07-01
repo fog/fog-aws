@@ -68,6 +68,11 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
       ]
     }
 
+    @put_record_format = {
+      "SequenceNumber" => String,
+      "ShardId" => String
+    }
+
     @get_records_format = {
       "MillisBehindLatest" => Integer,
       "NextShardIterator" => String,
@@ -113,6 +118,10 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
                  }
                 ]
       Fog::AWS[:kinesis].put_records("StreamName" => @stream_id, "Records" => records).body
+    end
+
+    tests("#put_record").formats(@put_record_format) do
+      Fog::AWS[:kinesis].put_record("StreamName" => @stream_id, "Data" => Base64.encode64("baz").chomp!, "PartitionKey" => "1").body
     end
 
     tests("#get_shard_iterator").formats(@get_shard_iterator_format) do

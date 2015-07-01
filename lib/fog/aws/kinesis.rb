@@ -20,6 +20,7 @@ module Fog
       request :delete_stream
       request :get_shard_iterator
       request :put_records
+      request :put_record
       request :get_records
 
       class Real
