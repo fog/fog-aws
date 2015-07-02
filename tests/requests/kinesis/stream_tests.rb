@@ -31,7 +31,7 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
     end
   end
 
-  tests("#put_records").formats(AWS::Kinesis::Formats::PUT_RECORDS_FORMAT, false) do
+  tests("#put_records") do
     records = [
       {
         "Data" => Base64.encode64("foo").chomp!,
@@ -42,7 +42,15 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
         "PartitionKey" => "1"
       }
     ]
-    Fog::AWS[:kinesis].put_records("StreamName" => @stream_id, "Records" => records).body
+
+    tests("success").formats(AWS::Kinesis::Formats::PUT_RECORDS_FORMAT, false) do
+      Fog::AWS[:kinesis].put_records("StreamName" => @stream_id, "Records" => records).body
+    end
+
+    tests("ResourceNotFound").raises(Fog::AWS::Kinesis::ResourceNotFound) do
+      Fog::AWS[:kinesis].put_records("StreamName" => @stream_id + "-foo", "Records" => records).body
+    end
+
   end
 
   tests("#put_record").formats(AWS::Kinesis::Formats::PUT_RECORD_FORMAT) do
