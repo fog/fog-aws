@@ -5,7 +5,7 @@ module Fog
         # Gets data records from a shard.
         #
         # ==== Options
-        # * Limit<~Number>: he maximum number of records to return.
+        # * Limit<~Number>: The maximum number of records to return.
         # * ShardIterator<~String>: The position in the shard from which you want to start sequentially reading data records.
         # ==== Returns
         # * response<~Excon::Response>:
@@ -15,7 +15,7 @@ module Fog
         #
         def get_records(options={})
           body = {
-            "Limit" => options.delete("Limit") || 1,
+            "Limit" => options.delete("Limit"),
             "ShardIterator" => options.delete("ShardIterator")
           }.reject{ |_,v| v.nil? }
 
@@ -31,7 +31,7 @@ module Fog
       class Mock
         def get_records(options={})
           shard_iterator = Fog::JSON.decode(options.delete("ShardIterator"))
-          limit = options.delete("Limit") || 1
+          limit = options.delete("Limit") || -1
           stream_name = shard_iterator["StreamName"]
           shard_id = shard_iterator["ShardId"]
           starting_sequence_number = (shard_iterator["StartingSequenceNumber"] || 1).to_i
