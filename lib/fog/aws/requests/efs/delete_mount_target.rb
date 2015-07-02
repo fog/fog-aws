@@ -35,6 +35,7 @@ module Fog
             mts.delete_if { |mt| mt['MountTargetId'].eql?(mount_target_id) }
             if mts.size < num_mts
               self.data[:file_systems][fs]['NumberOfMountTargets'] = mts.size
+              self.data[:security_groups].delete(mount_target_id)
             end
           end
 

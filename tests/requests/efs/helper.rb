@@ -40,6 +40,9 @@ class AWS
         'Marker'       => Fog::Nullable::String,
         'NextMarker'   => Fog::Nullable::String
       }
+      DESCRIBE_MOUNT_TARGET_SECURITY_GROUPS = {
+        'SecurityGroups' => Array
+      }
     end
   end
 end

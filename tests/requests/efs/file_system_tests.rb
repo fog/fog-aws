@@ -8,6 +8,7 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
   file_system_id  = nil
   mount_target    = nil
   mount_target_id = nil
+  mount_target_sg = Fog::AWS::Mock.security_group_id
   fs_tags         = { 'foo' => 'bar', 'service' => 'wombat', 'v' => '3.1' }
 
   tests('success') do
@@ -64,7 +65,7 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
       params = {
         'FileSystemId'   => file_system_id,
         'SubnetId'       => subnet_id,
-        'SecurityGroups' => Fog::AWS::Mock.security_group_id
+        'SecurityGroups' => mount_target_sg
       }
 
       result = efs.create_mount_target(params).body
@@ -108,6 +109,17 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
       returns(true)  { mt['NetworkInterfaceId'].eql?(mount_target['NetworkInterfaceId']) }
       returns(true)  { mt['OwnerId'].eql?(account_id)                  }
       returns(true)  { mt['SubnetId'].eql?(mount_target['SubnetId'])   }
+
+      result
+    end
+
+    tests('#describe_mount_target_security_groups').formats(AWS::EFS::Formats::DESCRIBE_MOUNT_TARGET_SECURITY_GROUPS) do
+      params = { 'MountTargetId' => mount_target_id }
+      result = efs.describe_mount_target_security_groups(params).body
+      security_groups = result['SecurityGroups']
+
+      returns(false) { security_groups.empty?                    }
+      returns(true)  { security_groups.include?(mount_target_sg) }
 
       result
     end

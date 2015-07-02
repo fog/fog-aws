@@ -62,11 +62,12 @@ module Fog
             raise Fog::AWS::EFS::Error, message
           end
 
-          mount_target = {
+          mount_target_id = "fsmt-#{Fog::Mock.random_hex(8)}"
+          mount_target    = {
             'FileSystemId'       => file_system_id,
             'IpAddress'          => ip_address || Fog::AWS::Mock.private_ip_address,
             'LifeCycleState'     => 'creating',
-            'MountTargetId'      => "fsmt-#{Fog::Mock.random_hex(8)}",
+            'MountTargetId'      => mount_target_id,
             'NetworkInterfaceId' => "eni-#{Fog::Mock.random_hex(8)}",
             'OwnerId'            => self.account_id,
             'SubnetId'           => subnet_id,
@@ -77,6 +78,11 @@ module Fog
 
           self.data[:mount_targets][file_system_id] ||= []
           self.data[:mount_targets][file_system_id] << mount_target
+
+          if security_groups
+            self.data[:security_groups][mount_target_id] = Array(security_groups)
+          end
+
           response.body   = mount_target
           response.status = 200
           response
