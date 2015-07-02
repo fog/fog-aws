@@ -41,7 +41,7 @@ module Fog
           end
 
           unless shard = stream["Shards"].detect{ |shard| shard["ShardId"] == shard_id }
-            raise Fog::AWS::Kinesis::ResourceNotFound.new("Could not find shard foo in stream #{stream_name} under account #{@account_id}.")
+            raise Fog::AWS::Kinesis::ResourceNotFound.new("Could not find shard #{shard_id} in stream #{stream_name} under account #{@account_id}.")
           end
 
           records = []

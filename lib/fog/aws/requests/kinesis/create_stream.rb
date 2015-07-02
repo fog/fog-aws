@@ -33,7 +33,7 @@ module Fog
           stream_arn = "arn:aws:kinesis:#{@region}:#{@account_id}:stream/#{stream_name}"
 
           if data[:kinesis_streams].detect{ |s| s["StreamName"] == stream_name }
-            raise 'stream already exists'
+            raise Fog::AWS::Kinesis::ResourceInUse.new("Stream #{stream_name} under account #{@account_id} already exists.")
           end
 
           shards = (0...shard_count).map do |shard|

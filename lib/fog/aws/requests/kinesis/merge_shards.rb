@@ -39,13 +39,11 @@ module Fog
           end
 
           unless shard_to_merge = stream["Shards"].detect{ |shard| shard["ShardId"] == shard_to_merge_id }
-            raise Fog::AWS::Kinesis::ResourceNotFound.new("Could not find shard foo in stream #{stream_name} under account #{@account_id}.")
-
+            raise Fog::AWS::Kinesis::ResourceNotFound.new("Could not find shard #{shard_to_merge_id} in stream #{stream_name} under account #{@account_id}.")
           end
 
           unless adjacent_shard_to_merge = stream["Shards"].detect{ |shard| shard["ShardId"] == adjacent_shard_to_merge_id }
-            raise Fog::AWS::Kinesis::ResourceNotFound.new("Could not find shard foo in stream #{stream_name} under account #{@account_id}.")
-
+            raise Fog::AWS::Kinesis::ResourceNotFound.new("Could not find shard #{adjacent_shard_to_merge_id} in stream #{stream_name} under account #{@account_id}.")
           end
 
           # Close shards (set an EndingSequenceNumber on them)
