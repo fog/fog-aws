@@ -109,8 +109,14 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
       end
     end
 
-    tests("#describe_stream").formats(@describe_stream_format) do
-      Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body
+    tests("#describe_stream") do
+      tests("success").formats(@describe_stream_format) do
+        Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body
+      end
+
+      tests("ResourceNotFound").raises(Fog::AWS::Kinesis::ResourceNotFound) do
+        Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id + "-foo").body
+      end
     end
 
     tests("#put_records").formats(@put_records_format, false) do
