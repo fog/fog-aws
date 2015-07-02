@@ -22,6 +22,11 @@ module Fog
       request :put_records
       request :put_record
       request :get_records
+      request :split_shard
+      # request :merge_shards
+      # request :add_tags_to_stream
+      # request :list_tags_for_stream
+      # request :remove_tags_from_stream
 
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
@@ -114,6 +119,11 @@ module Fog
       end
 
       class Mock
+        def self.mutex
+          @mutex ||= Mutex.new
+        end
+        def mutex; self.class.mutex; end
+
         def self.data
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
@@ -132,7 +142,6 @@ module Fog
           @account_id        = Fog::AWS::Mock.owner_id
           @aws_access_key_id = options[:aws_access_key_id]
           @region            = options[:region] || 'us-east-1'
-          @sequence_number   = 0
 
           unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-central-1', 'eu-west-1', 'sa-east-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
@@ -147,10 +156,24 @@ module Fog
           self.class.data[@region].delete(@aws_access_key_id)
         end
 
-        def next_sequence_number
-          @sequence_number += 1
-          @sequence_number
+        def self.next_sequence_number
+          mutex.synchronize do
+            @sequence_number ||= -1
+            @sequence_number += 1
+            @sequence_number.to_s
+          end
         end
+        def next_sequence_number; self.class.next_sequence_number; end
+
+        def self.next_shard_id
+          mutex.synchronize do
+            @shard_id ||= -1
+            @shard_id += 1
+            "shardId-#{@shard_id.to_s.rjust(12, "0")}"
+          end
+        end
+        def next_shard_id; self.class.next_shard_id; end
+
       end
 
     end

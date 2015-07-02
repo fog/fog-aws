@@ -41,7 +41,7 @@ module Fog
             raise 'unknown stream'
           end
 
-          sequence_number = next_sequence_number.to_s
+          sequence_number = next_sequence_number
           data = options.delete("Data")
           partition_key = options.delete("PartitionKey")
 

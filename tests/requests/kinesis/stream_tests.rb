@@ -2,9 +2,9 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
   @stream_id = 'fog-test-stream'
 
   tests('success') do
-    wait_for_delete = lambda {
+    wait_for_status = lambda { |status|
       begin
-        while Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body["StreamDescription"]["StreamStatus"] == "DELETING"
+        while Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body["StreamDescription"]["StreamStatus"] != status
           sleep 1
           print '.'
         end
@@ -13,10 +13,10 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
 
     # ensure we start from a clean slate
     if Fog::AWS[:kinesis].list_streams.body["StreamNames"].include?(@stream_id)
-      wait_for_delete.call
+      wait_for_status.call("ACTIVE")
       begin
         Fog::AWS[:kinesis].delete_stream("StreamName" => @stream_id)
-        wait_for_delete.call
+        wait_for_status.call("ACTIVE")
       rescue Excon::Errors::BadRequest; end
     end
 
@@ -77,21 +77,18 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
       "MillisBehindLatest" => Integer,
       "NextShardIterator" => String,
       "Records" => [
-                  {
-                    "Data" => String,
-                    "PartitionKey" => String,
-                    "SequenceNumber" => String
-                  }
-                 ]
-      }
+        {
+          "Data" => String,
+          "PartitionKey" => String,
+          "SequenceNumber" => String
+        }
+      ]
+    }
 
     tests("#create_stream").returns("") do
-      result = Fog::AWS[:kinesis].create_stream("StreamName" => @stream_id).body
-      while Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body["StreamDescription"]["StreamStatus"] != "ACTIVE"
-        sleep 1
-        print '.'
+      Fog::AWS[:kinesis].create_stream("StreamName" => @stream_id).body.tap do
+        wait_for_status.call("ACTIVE")
       end
-      result
     end
 
     tests("#list_streams").formats(@list_streams_format, false) do
@@ -108,15 +105,15 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
 
     tests("#put_records").formats(@put_records_format, false) do
       records = [
-                 {
-                   "Data" => Base64.encode64("foo").chomp!,
-                   "PartitionKey" => "1"
-                 },
-                 {
-                   "Data" => Base64.encode64("bar").chomp!,
-                   "PartitionKey" => "1"
-                 }
-                ]
+        {
+          "Data" => Base64.encode64("foo").chomp!,
+          "PartitionKey" => "1"
+        },
+        {
+          "Data" => Base64.encode64("bar").chomp!,
+          "PartitionKey" => "1"
+        }
+      ]
       Fog::AWS[:kinesis].put_records("StreamName" => @stream_id, "Records" => records).body
     end
 
@@ -148,6 +145,39 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
         shard_iterator = response["NextShardIterator"]
       end
       data
+    end
+
+    tests("#split_shard").formats("") do
+      shard = Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body["StreamDescription"]["Shards"].first
+      shard_id = shard["ShardId"]
+      ending_hash_key = shard["HashKeyRange"]["EndingHashKey"]
+      new_starting_hash_key = (ending_hash_key.to_i / 2).to_s
+
+      result = Fog::AWS[:kinesis].split_shard("StreamName" => @stream_id, "ShardToSplit" => shard_id, "NewStartingHashKey" => new_starting_hash_key).body
+
+      wait_for_status.call("ACTIVE")
+      shards = Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body["StreamDescription"]["Shards"]
+      parent_shard = shards.detect{ |shard| shard["ShardId"] == shard_id }
+      child_shards = shards.select{ |shard| shard["ParentShardId"] == shard_id }.sort_by{ |shard| shard["ShardId"] }
+
+      returns(3) { shards.size }
+      returns(2) { child_shards.size }
+      # parent is closed
+      returns(false) { parent_shard["SequenceNumberRange"]["EndingSequenceNumber"].nil? }
+
+      # ensure new ranges are what we expect (mostly for testing the mock)
+      returns([
+                {
+                  "StartingHashKey" => "0",
+                  "EndingHashKey" => (new_starting_hash_key.to_i - 1).to_s
+                },
+                {
+                  "StartingHashKey" => new_starting_hash_key,
+                  "EndingHashKey" => ending_hash_key
+                }
+              ]) { child_shards.map{ |shard| shard["HashKeyRange"] } }
+
+      result
     end
 
     tests("#delete_stream").returns("") do

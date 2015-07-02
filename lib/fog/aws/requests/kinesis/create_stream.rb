@@ -44,9 +44,9 @@ module Fog
                 "StartingHashKey"=>"0"
               },
               "SequenceNumberRange"=>{
-                "StartingSequenceNumber"=> next_sequence_number.to_s
+                "StartingSequenceNumber"=> next_sequence_number
               },
-              "ShardId"=>"shardId-#{shard.to_s.rjust(12, "0")}",
+              "ShardId"=>next_shard_id,
               "Records" => []
             }
           end
