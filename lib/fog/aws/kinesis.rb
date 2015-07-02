@@ -3,7 +3,9 @@ module Fog
     class Kinesis < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
+      class ExpiredIterator < Fog::Errors::Error; end
       class LimitExceeded < Fog::Errors::Error; end
+      class ResourceInUse < Fog::Errors::Error; end
       class ResourceNotFound < Fog::Errors::Error; end
       class ExpiredIterator < Fog::Errors::Error; end
       class InvalidArgument < Fog::Errors::Error; end
@@ -101,8 +103,12 @@ module Fog
           match = Fog::AWS::Errors.match_error(error)
           raise if match.empty?
           raise case match[:code]
+                when 'ExpiredIteratorException'
+                  Fog::AWS::Kinesis::ExpiredIterator.slurp(error, match[:message])
                 when 'LimitExceededException'
                   Fog::AWS::Kinesis::LimitExceeded.slurp(error, match[:message])
+                when 'ResourceInUseException'
+                  Fog::AWS::Kinesis::ResourceInUse.slurp(error, match[:message])
                 when 'ResourceNotFoundException'
                   Fog::AWS::Kinesis::ResourceNotFound.slurp(error, match[:message])
                 when 'ExpiredIteratorException'
