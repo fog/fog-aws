@@ -33,9 +33,6 @@ module Fog
           shard_count = options.delete("ShardCount") || 1
           stream_arn = "arn:aws:kinesis:#{@region}:#{@account_id}:stream/#{stream_name}"
 
-          response = Excon::Response.new
-          response.status = 200
-
           if data[:kinesis_streams].detect{ |s| s["StreamName"] == stream_name }
             raise 'stream already exists'
           end
@@ -62,6 +59,8 @@ module Fog
               "Shards" => shards,
             }]
 
+          response = Excon::Response.new
+          response.status = 200
           response.body = ""
           response
         end
