@@ -33,6 +33,7 @@ module Fog
           response
         end
       end
+
       class Mock
         def put_record(options={})
           stream_name = options.delete("StreamName")
