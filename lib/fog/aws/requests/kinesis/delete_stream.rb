@@ -17,11 +17,10 @@ module Fog
             "StreamName" => options.delete("StreamName")
           }.reject{ |_,v| v.nil? }
 
-          response = request({
-                               'X-Amz-Target' => "Kinesis_#{@version}.DeleteStream",
-                               :body          => body,
-                             }.merge(options))
-          response
+          request({
+                    'X-Amz-Target' => "Kinesis_#{@version}.DeleteStream",
+                    :body          => body,
+                  }.merge(options))
         end
       end
 
