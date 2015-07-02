@@ -26,7 +26,7 @@ module Fog
       request :merge_shards
       request :add_tags_to_stream
       request :list_tags_for_stream
-      # request :remove_tags_from_stream
+      request :remove_tags_from_stream
 
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods

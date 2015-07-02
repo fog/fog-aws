@@ -227,6 +227,15 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
       end
     end
 
+    tests("#remove_tags_from_stream").returns("") do
+      Fog::AWS[:kinesis].remove_tags_from_stream("StreamName" => @stream_id, "TagKeys" => %w[b]).body.tap do
+        returns({"a" => "1"}) {
+          body = Fog::AWS[:kinesis].list_tags_for_stream("StreamName" => @stream_id).body
+          body["Tags"].inject({}){ |m, tag| m.merge(tag["Key"] => tag["Value"]) }
+        }
+      end
+    end
+
     tests("#delete_stream").returns("") do
       Fog::AWS[:kinesis].delete_stream("StreamName" => @stream_id).body
     end
