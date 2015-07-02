@@ -85,6 +85,16 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
       ]
     }
 
+    @list_tags_for_stream_format = {
+      "HasMoreTags" => Fog::Boolean,
+      "Tags" => [
+        {
+          "Key" => String,
+          "Value" => String
+        }
+      ]
+    }
+
     tests("#create_stream").returns("") do
       Fog::AWS[:kinesis].create_stream("StreamName" => @stream_id).body.tap do
         wait_for_status.call("ACTIVE")
@@ -207,6 +217,14 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
 
     tests("#add_tags_to_stream").returns("") do
       Fog::AWS[:kinesis].add_tags_to_stream("StreamName" => @stream_id, "Tags" => {"a" => "1", "b" => "2"}).body
+    end
+
+    tests("#list_tags_for_stream").formats(@list_tags_for_stream_format) do
+      Fog::AWS[:kinesis].list_tags_for_stream("StreamName" => @stream_id).body.tap do |body|
+        returns({"a" => "1", "b" => "2"}) {
+          body["Tags"].inject({}){ |m, tag| m.merge(tag["Key"] => tag["Value"]) }
+        }
+      end
     end
 
     tests("#delete_stream").returns("") do

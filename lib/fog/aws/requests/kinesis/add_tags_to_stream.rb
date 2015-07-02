@@ -6,7 +6,7 @@ module Fog
         #
         # ==== Options
         # * StreamName<~String>: The name of the stream.
-        # * Tags<~Hash>: The name of the stream.
+        # * Tags<~Hash>: The set of key-value pairs to use to create the tags.
         # ==== Returns
         # * response<~Excon::Response>:
         #
@@ -16,7 +16,7 @@ module Fog
         def add_tags_to_stream(options={})
           body = {
             "StreamName" => options.delete("StreamName"),
-            "Tags" => Fog::JSON.encode(options.delete("Tags"))
+            "Tags" => options.delete("Tags")
           }.reject{ |_,v| v.nil? }
 
           request({
