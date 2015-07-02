@@ -92,11 +92,11 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
     end
 
     tests("#list_streams").formats(@list_streams_format, false) do
-      Fog::AWS[:kinesis].list_streams.body
-    end
-
-    tests("#list_streams").returns(true) do
-      Fog::AWS[:kinesis].list_streams.body["StreamNames"].include?(@stream_id)
+      Fog::AWS[:kinesis].list_streams.body.tap do
+        returns(true) {
+          Fog::AWS[:kinesis].list_streams.body["StreamNames"].include?(@stream_id)
+        }
+      end
     end
 
     tests("#describe_stream").formats(@describe_stream_format) do
@@ -147,7 +147,7 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
       data
     end
 
-    tests("#split_shard").formats("") do
+    tests("#split_shard").returns("") do
       shard = Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body["StreamDescription"]["Shards"].first
       shard_id = shard["ShardId"]
       ending_hash_key = shard["HashKeyRange"]["EndingHashKey"]
@@ -176,6 +176,31 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
                   "EndingHashKey" => ending_hash_key
                 }
               ]) { child_shards.map{ |shard| shard["HashKeyRange"] } }
+
+      result
+    end
+
+    tests("#merge_shards").returns("") do
+      shards = Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body["StreamDescription"]["Shards"]
+      child_shard_ids = shards.reject{ |shard| shard["SequenceNumberRange"].has_key?("EndingSequenceNumber") }.map{ |shard| shard["ShardId"] }.sort
+      result = Fog::AWS[:kinesis].merge_shards("StreamName" => @stream_id, "ShardToMerge" => child_shard_ids[0], "AdjacentShardToMerge" => child_shard_ids[1]).body
+
+      wait_for_status.call("ACTIVE")
+      shards = Fog::AWS[:kinesis].describe_stream("StreamName" => @stream_id).body["StreamDescription"]["Shards"]
+      parent_shards = shards.select{ |shard| child_shard_ids.include?(shard["ShardId"]) }
+      child_shard = shards.detect{ |shard|
+        shard["ParentShardId"] == child_shard_ids[0] &&
+        shard["AdjacentParentShardId"] == child_shard_ids[1]
+      }
+
+      returns(2) { parent_shards.size }
+      returns(false) { child_shard.nil? }
+      returns({
+                "EndingHashKey" => "340282366920938463463374607431768211455",
+                "StartingHashKey" => "0"
+              }) {
+        child_shard["HashKeyRange"]
+      }
 
       result
     end

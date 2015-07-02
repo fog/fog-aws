@@ -23,7 +23,7 @@ module Fog
       request :put_record
       request :get_records
       request :split_shard
-      # request :merge_shards
+      request :merge_shards
       # request :add_tags_to_stream
       # request :list_tags_for_stream
       # request :remove_tags_from_stream

@@ -35,6 +35,10 @@ module Fog
           shard_id = options.delete("ShardToSplit")
           stream = data[:kinesis_streams].detect{ |s| s["StreamName"] == stream_name }
 
+          unless stream = data[:kinesis_streams].detect{ |s| s["StreamName"] == stream_name }
+            raise 'unknown stream'
+          end
+
           unless shard = stream["Shards"].detect{ |shard| shard["ShardId"] == shard_id }
             raise 'unknown shard'
           end
@@ -75,7 +79,6 @@ module Fog
           response.status = 200
           response.body = ""
           response
-
         end
       end
     end
