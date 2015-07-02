@@ -14,19 +14,19 @@ module Fog
 
       request_path 'fog/aws/requests/kinesis'
 
-      request :list_streams
-      request :describe_stream
+      request :add_tags_to_stream
       request :create_stream
       request :delete_stream
-      request :get_shard_iterator
-      request :put_records
-      request :put_record
+      request :describe_stream
       request :get_records
-      request :split_shard
-      request :merge_shards
-      request :add_tags_to_stream
+      request :get_shard_iterator
+      request :list_streams
       request :list_tags_for_stream
+      request :merge_shards
+      request :put_record
+      request :put_records
       request :remove_tags_from_stream
+      request :split_shard
 
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
