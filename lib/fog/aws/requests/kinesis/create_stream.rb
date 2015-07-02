@@ -56,6 +56,7 @@ module Fog
               "StreamName" => stream_name,
               "StreamStatus" => "ACTIVE",
               "Shards" => shards,
+              "Tags" => {}
             }]
 
           response = Excon::Response.new

@@ -205,6 +205,10 @@ Shindo.tests('AWS::Kinesis | stream requests', ['aws', 'kinesis']) do
       result
     end
 
+    tests("#add_tags_to_stream").returns("") do
+      Fog::AWS[:kinesis].add_tags_to_stream("StreamName" => @stream_id, "Tags" => {"a" => "1", "b" => "2"}).body
+    end
+
     tests("#delete_stream").returns("") do
       Fog::AWS[:kinesis].delete_stream("StreamName" => @stream_id).body
     end
