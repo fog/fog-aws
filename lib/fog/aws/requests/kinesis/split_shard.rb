@@ -35,11 +35,11 @@ module Fog
           stream = data[:kinesis_streams].detect{ |s| s["StreamName"] == stream_name }
 
           unless stream = data[:kinesis_streams].detect{ |s| s["StreamName"] == stream_name }
-            raise 'unknown stream'
+            raise Fog::AWS::Kinesis::ResourceNotFound.new("Stream #{stream_name} under account #{@account_id} not found.")
           end
 
           unless shard = stream["Shards"].detect{ |shard| shard["ShardId"] == shard_id }
-            raise 'unknown shard'
+            raise Fog::AWS::Kinesis::ResourceNotFound.new("Could not find shard foo in stream #{stream_name} under account #{@account_id}.")
           end
 
           # Close original shard (set an EndingSequenceNumber on it)

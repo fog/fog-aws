@@ -32,7 +32,7 @@ module Fog
           tags = options.delete("TagKeys")
 
           unless stream = data[:kinesis_streams].detect{ |s| s["StreamName"] == stream_name }
-            raise 'unknown stream'
+            raise Fog::AWS::Kinesis::ResourceNotFound.new("Stream #{stream_name} under account #{@account_id} not found.")
           end
 
           stream["Tags"] = stream["Tags"].delete_if { |k,_| tags.include?(k) }

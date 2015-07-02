@@ -37,7 +37,8 @@ module Fog
           stream_name = options["StreamName"]
 
           unless stream = data[:kinesis_streams].detect{ |s| s["StreamName"] == stream_name }
-            raise 'unknown stream'
+            raise Fog::AWS::Kinesis::ResourceNotFound.new("Stream #{stream_name} under account #{@account_id} not found.")
+
           end
 
           response = Excon::Response.new
