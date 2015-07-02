@@ -2,6 +2,20 @@ module Fog
   module AWS
     class Kinesis
       class Real
+        # Writes a single data record from a producer into an Amazon Kinesis stream.
+        #
+        # ==== Options
+        # * Data<~Blob>: The data blob to put into the record, which is base64-encoded when the blob is serialized.
+        # * ExplicitHashKey<~String>: The hash value used to determine explicitly the shard that the data record is assigned to by overriding the partition key hash.
+        # * PartitionKey<~String>: Determines which shard in the stream the data record is assigned to.
+        # * SequenceNumberForOrdering<~String>: Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key.
+        # * StreamName<~String>: The stream name associated with the request.
+        # ==== Returns
+        # * response<~Excon::Response>:
+        #
+        # ==== See Also
+        # https://docs.aws.amazon.com/kinesis/latest/APIReference/API_PutRecord.html
+        #
         def put_record(options={})
           body = {
             "Data" => options.delete("Data"),
