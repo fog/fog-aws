@@ -76,9 +76,11 @@ module Fog
               file_systems << fs
             end
             if fs.empty?
-              fs = self.data[:file_systems].select do |fsid,fsdata|
-                fsdata['CreationToken'].eql?(creation_token)
-              end
+              fs = Hash[
+                self.data[:file_systems].select do |fsid,fsdata|
+                  fsdata['CreationToken'].eql?(creation_token)
+                end
+              ]
               file_systems = file_systems + fs.values
             end
           end
