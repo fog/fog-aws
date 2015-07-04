@@ -16,7 +16,7 @@ module Fog
       request :delete_mount_target
 
       request :describe_mount_target_security_groups
-      #request :modify_mount_target_security_groups
+      request :modify_mount_target_security_groups
 
       request :create_tags
       request :describe_tags

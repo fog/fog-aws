@@ -9,6 +9,7 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
   mount_target    = nil
   mount_target_id = nil
   mount_target_sg = Fog::AWS::Mock.security_group_id
+  another_mount_target_sg = Fog::AWS::Mock.security_group_id
   fs_tags         = { 'foo' => 'bar', 'service' => 'wombat', 'v' => '3.1' }
 
   tests('success') do
@@ -120,6 +121,30 @@ Shindo.tests('AWS::EFS | file system requests', ['aws', 'efs']) do
 
       returns(false) { security_groups.empty?                    }
       returns(true)  { security_groups.include?(mount_target_sg) }
+
+      result
+    end
+
+    tests('#modify_mount_target_security_groups') do
+      params = {
+        'MountTargetId'  => mount_target_id,
+        'SecurityGroups' => another_mount_target_sg
+      }
+      result = efs.modify_mount_target_security_groups(params)
+
+      returns(true) { result.body.empty?      }
+      returns(true) { result.status.eql?(204) }
+
+      result
+    end
+
+    tests('#describe_mount_target_security_groups again').formats(AWS::EFS::Formats::DESCRIBE_MOUNT_TARGET_SECURITY_GROUPS) do
+      params = { 'MountTargetId' => mount_target_id }
+      result = efs.describe_mount_target_security_groups(params).body
+      security_groups = result['SecurityGroups']
+
+      returns(false) { security_groups.empty?                            }
+      returns(true)  { security_groups.include?(another_mount_target_sg) }
 
       result
     end
