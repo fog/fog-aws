@@ -23,6 +23,7 @@ module Fog
         #         * 'instanceId'<~String> - The ID of a NAT instance in your VPC.
         #         * 'instanceOwnerId'<~String> - The owner of the instance.
         #         * 'networkInterfaceId'<~String> - The network interface ID.
+        #         * 'vpcPeeringConnectionId'<~String> - The peering connection ID.
         #         * 'state'<~String> - The state of the route. The blackhole state indicates that the route's target isn't available.
         #         * 'origin'<~String> - Describes how the route was created.
         #       * 'associationSet'<~Array>:
