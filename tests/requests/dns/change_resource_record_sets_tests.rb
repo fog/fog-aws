@@ -19,9 +19,13 @@ Shindo.tests('Fog::DNS[:aws] | change_resource_record_sets', ['aws', 'dns']) do
         }]
 
     result = Fog::DNS::AWS.change_resource_record_sets_data('zone_id123', change_batch)
-    geo = result.match(%r{<GeoLocation>.*</GeoLocation>})
-    returns("<GeoLocation><CountryCode>US</CountryCode><SubdivisionCode>AR</SubdivisionCode></GeoLocation>") {
-      geo ? geo[0] : ''
+    doc = Nokogiri::XML(result)
+
+    returns(%w[US AR]) {
+      [
+        doc.css("GeoLocation CountryCode").text,
+        doc.css("GeoLocation SubdivisionCode").text
+      ]
     }
 
     result

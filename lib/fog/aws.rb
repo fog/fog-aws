@@ -44,6 +44,7 @@ module Fog
     autoload :Federation,       File.expand_path('../aws/federation', __FILE__)
     autoload :Glacier,          File.expand_path('../aws/glacier', __FILE__)
     autoload :IAM,              File.expand_path('../aws/iam', __FILE__)
+    autoload :Kinesis,          File.expand_path('../aws/kinesis', __FILE__)
     autoload :KMS,              File.expand_path('../aws/kms', __FILE__)
     autoload :Lambda,           File.expand_path('../aws/lambda', __FILE__)
     autoload :RDS,              File.expand_path('../aws/rds', __FILE__)
@@ -70,6 +71,7 @@ module Fog
     service(:federation,      'Federation')
     service(:glacier,         'Glacier')
     service(:iam,             'IAM')
+    service(:kinesis,         'Kinesis')
     service(:kms,             'KMS')
     service(:lambda,          'Lambda')
     service(:rds,             'RDS')
@@ -219,7 +221,7 @@ module Fog
 
     def self.json_response?(response)
       return false unless response && response.headers
-      response.get_header('Content-Type') =~ %r{application/json}i ? true : false
+      response.get_header('Content-Type') =~ %r{application/.*json.*}i ? true : false
     end
   end
 end
