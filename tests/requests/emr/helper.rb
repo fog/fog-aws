@@ -157,7 +157,6 @@ class AWS
             }],
             'MasterInstanceType' => String,
             'SlaveInstanceType' => String,
-            'InstanceGroups' => Array,
             'TerminationProtected' => String,
             'HadoopVersion' => String
           }
