@@ -7,6 +7,7 @@ Shindo.tests('Fog::DNS[:aws] | change_resource_record_sets', ['aws', 'dns']) do
       zone_id == Fog::DNS::AWS.elb_hosted_zone_mapping['eu-west-1']
     end
   end
+
   tests("#change_resource_record_sets_data formats geolocation properly") do
     change_batch = [{
         :action=>"CREATE",
@@ -18,9 +19,11 @@ Shindo.tests('Fog::DNS[:aws] | change_resource_record_sets', ['aws', 'dns']) do
         :geo_location=>{"CountryCode"=>"US", "SubdivisionCode"=>"AR"},
         }]
 
-    result = Fog::DNS::AWS.change_resource_record_sets_data('zone_id123', change_batch)
+    version = '2013-04-01'
+    result = Fog::DNS::AWS.change_resource_record_sets_data('zone_id123', change_batch, version)
     doc = Nokogiri::XML(result)
 
+    returns("https://route53.amazonaws.com/doc/#{version}/") { doc.namespaces['xmlns'] }
     returns(%w[US AR]) {
       [
         doc.css("GeoLocation CountryCode").text,
