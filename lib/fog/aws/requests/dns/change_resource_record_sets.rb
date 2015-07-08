@@ -61,7 +61,7 @@ module Fog
         #     change_resource_record_sets("ABCDEFGHIJKLMN", change_batch_options)
         #
         def change_resource_record_sets(zone_id, change_batch, options = {})
-          body = AWS.change_resource_record_sets_data(zone_id, change_batch, options)
+          body = change_resource_record_sets_data(zone_id, change_batch, @version, options)
           request({
             :body       => body,
             :idempotent => true,
@@ -74,7 +74,7 @@ module Fog
       end
 
       # Returns the xml request for a given changeset
-      def self.change_resource_record_sets_data(zone_id, change_batch, options = {})
+      def self.change_resource_record_sets_data(zone_id, change_batch, version, options = {})
         # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
         # that form or just the actual id (which is what this request needs)
         zone_id = zone_id.sub('/hostedzone/', '')
@@ -153,7 +153,7 @@ module Fog
           changes += '</Changes></ChangeBatch>'
         end
 
-        body = %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/">#{changes}</ChangeResourceRecordSetsRequest>}
+        %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/#{version}/">#{changes}</ChangeResourceRecordSetsRequest>}
       end
 
       class Mock
