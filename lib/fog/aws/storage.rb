@@ -559,16 +559,12 @@ module Fog
             params[:headers]['x-amz-date'] = date.to_iso8601_basic
             if params[:body].respond_to?(:read)
               # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
+              # We ignore the bit about setting the content-encoding to aws-chunked because
+              # this can cause s3 to serve files with a blank content encoding which causes problems with some CDNs
+              # AWS have confirmed that s3 can infer that the content-encoding is aws-chunked from the x-amz-content-sha256 header
+              #
               params[:headers]['x-amz-content-sha256'] = 'STREAMING-AWS4-HMAC-SHA256-PAYLOAD'
               params[:headers]['x-amz-decoded-content-length'] = params[:headers].delete 'Content-Length'
-
-              if params[:headers]['Content-Encoding'] && params[:headers]['Content-Encoding'].to_s.length > 0
-                encoding = "aws-chunked,#{params[:headers]['Content-Encoding']}"
-              else
-                encoding = "aws-chunked"
-              end
-
-              params[:headers]['Content-Encoding']  = encoding
             else
               params[:headers]['x-amz-content-sha256'] ||= Digest::SHA256.hexdigest(params[:body] || '')
             end
