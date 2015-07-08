@@ -97,7 +97,6 @@ if Fog.mock?
     :vsphere_username                 => 'apiuser',
     :vsphere_password                 => 'apipassword',
     :vsphere_expected_pubkey_hash     => 'abcdef1234567890',
-    :libvirt_uri                      => 'qemu:///system',
     :libvirt_username                 => 'root',
     :libvirt_password                 => 'password',
     :cloudsigma_username              => 'csuname',
