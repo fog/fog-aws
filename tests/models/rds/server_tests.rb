@@ -2,8 +2,14 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
   model_tests(Fog::AWS[:rds].servers, rds_default_server_params) do
     # We'll need this later; create it early to avoid waiting
     @instance_with_final_snapshot = Fog::AWS[:rds].servers.create(rds_default_server_params.merge(:id => uniq_id("fog-snapshot-test"), :backup_retention_period => 1))
+    @instance_with_encrypted_storage = Fog::AWS[:rds].servers.create(rds_default_server_params.merge(:storage_encrypted => true))
 
     @instance.wait_for(20*60) { ready? }
+    @instance_with_encrypted_storage.wait_for(20*60) { ready? }
+
+    tests("#storage_encrypted") do
+      returns(true) { @instance_with_encrypted_storage.storage_encrypted }
+    end
 
     test('#read_replica_identifiers is []') do
       returns([]) { @instance.read_replica_identifiers }
