@@ -104,7 +104,7 @@ module Fog
             "PreferredMaintenanceWindow"       => options["PreferredMaintenanceWindow"] || "mon:04:30-mon:05:00",
             "PubliclyAccessible"               => !!options["PubliclyAccessible"],
             "ReadReplicaDBInstanceIdentifiers" => [],
-            "StorageEncrypted"                 => false,
+            "StorageEncrypted"                 => options["StorageEncrypted"],
             "StorageType"                      => options["StorageType"] || "standard",
             "VpcSecurityGroups"                => options["VpcSecurityGroups"],
           }
