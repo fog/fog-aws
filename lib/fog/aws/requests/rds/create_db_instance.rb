@@ -65,7 +65,7 @@ module Fog
           end
 
           # These are the required parameters according to the API
-          required_params = %w{AllocatedStorage DBInstanceClass Engine MasterUserPassword MasterUsername }
+          required_params = %w{AllocatedStorage DBInstanceClass Engine MasterUsername }
           required_params.each do |key|
             unless options.key?(key) and options[key] and !options[key].to_s.empty?
               #response.status = 400
