@@ -45,7 +45,7 @@ module Fog
             'InstanceCreateTime'   => Time.now
           }
           # Copy attributes from server
-          %w(Engine EngineVersion AvailabilityZone AllocatedStorage Iops MasterUsername InstanceCreateTime).each do |key|
+          %w(Engine EngineVersion AvailabilityZone AllocatedStorage StorageType Iops MasterUsername InstanceCreateTime).each do |key|
             snapshot_data[key] = server_data[key]
           end
           snapshot_data['Port'] = server_data['Endpoint']['Port']

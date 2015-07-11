@@ -6,7 +6,7 @@ module Fog
 
         class RestoreDBInstanceFromDBSnapshot < Fog::Parsers::AWS::RDS::DbParser
           def reset
-            @response = { 'RestoreDBInstanceFromDBSnapshot' => {}, 'ResponseMetadata' => {} }
+            @response = { 'RestoreDBInstanceFromDBSnapshotResult' => {}, 'ResponseMetadata' => {} }
             super
           end
 
@@ -17,7 +17,7 @@ module Fog
           def end_element(name)
             case name
             when 'DBInstance'
-              @response['RestoreDBInstanceFromDBSnapshot']['DBInstance'] = @db_instance
+              @response['RestoreDBInstanceFromDBSnapshotResult']['DBInstance'] = @db_instance
               @db_instance = fresh_instance
             when 'RequestId'
               @response['ResponseMetadata'][name] = value

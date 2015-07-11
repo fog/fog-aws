@@ -17,6 +17,10 @@ module Fog
         rescue Fog::AWS::RDS::NotFound
           nil
         end
+
+        def restore(options)
+          create(options)
+        end
       end
     end
   end
