@@ -38,7 +38,7 @@ module Fog
         attribute :tde_credential_arn,           :aliases => 'TdeCredentialArn'
         attribute :vpc_security_groups,          :aliases => 'VpcSecurityGroups', :type => :array
 
-        attr_accessor :password, :parameter_group_name, :security_group_names, :port
+        attr_accessor :password, :parameter_group_name, :security_group_names, :port, :source_snapshot_id
 
         def create_read_replica(replica_id, options={})
           options[:security_group_names] ||= options['DBSecurityGroups']
@@ -104,16 +104,22 @@ module Fog
         end
 
         def save
-          requires :engine
-          requires :allocated_storage
-          requires :master_username
-          requires :password
+          if source_snapshot_id
+            requires :id
+            data = service.restore_db_instance_from_db_snapshot(source_snapshot_id, id, attributes_to_params)
+            merge_attributes(data.body['RestoreDBInstanceFromDBSnapshotResult']['DBInstance'])
+          else
+            requires :engine
+            requires :allocated_storage
+            requires :master_username
+            requires :password
 
-          self.flavor_id ||= 'db.m1.small'
+            self.flavor_id ||= 'db.m1.small'
 
-          data = service.create_db_instance(id, attributes_to_params)
-          merge_attributes(data.body['CreateDBInstanceResult']['DBInstance'])
-          true
+            data = service.create_db_instance(id, attributes_to_params)
+            merge_attributes(data.body['CreateDBInstanceResult']['DBInstance'])
+            true
+          end
         end
 
         # Converts attributes to a parameter hash suitable for requests

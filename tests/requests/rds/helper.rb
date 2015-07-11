@@ -311,6 +311,12 @@ class AWS
           'DBEngineVersions' => [DB_ENGINE_VERSION]
         }
       )
+
+      RESTORE_DB_INSTANCE_FROM_DB_SNAPSHOT = BASIC.merge({
+        'RestoreDBInstanceFromDBSnapshotResult' => {
+          'DBInstance' => INSTANCE
+        }
+      })
     end
   end
 end
