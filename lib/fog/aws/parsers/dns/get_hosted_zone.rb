@@ -8,6 +8,8 @@ module Fog
             @name_servers = []
             @response = {}
             @section = :hosted_zone
+            @vpcs = []
+            @vpc = {}
           end
 
           def end_element(name)
@@ -31,6 +33,15 @@ module Fog
               when 'NameServers'
                 @response['NameServers'] = @name_servers
                 @name_servers = {}
+              when 'VPCId', 'VPCRegion'
+                @vpc[name] = value
+              when 'VPC'
+                @vpcs << @vpc
+                @vpc = {}
+              when 'VPCs'
+                @response['HostedZone']['VPCs'] = @vpcs
+                @vpcs = {}
+                @section = :vpcs
               end
             end
           end
