@@ -12,6 +12,8 @@ module Fog
         #   * caller_ref<~String> - unique string that identifies the request & allows failed
         #                           calls to be retried without the risk of executing the operation twice
         #   * comment<~String> -
+        #   * vpc_id<~String> - specify both a VPC's ID and its region to create a private zone for that VPC
+        #   * vpc_region<~String> - specify both a VPC's ID and its region to create a private zone for that VPC
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -40,6 +42,9 @@ module Fog
           if options[:comment]
             optional_tags += "<HostedZoneConfig><Comment>#{options[:comment]}</Comment></HostedZoneConfig>"
           end
+          if options[:vpc_id] and options[:vpc_region]
+            optional_tags += "<VPC><VPCId>#{options[:vpc_id]}</VPCId><VPCRegion>#{options[:vpc_region]}</VPCRegion></VPC>"
+          end
 
           request({
             :body    => %Q{<?xml version="1.0" encoding="UTF-8"?><CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/"><Name>#{name}</Name>#{optional_tags}</CreateHostedZoneRequest>},
@@ -49,33 +54,6 @@ module Fog
             :path    => "hostedzone"
           })
         end
-      end
-      
-      def create_hosted_zone_private(name, vpc, options = {})
-        optional_tags = ''
-        if options[:caller_ref]
-          optional_tags += "<CallerReference>#{options[:caller_ref]}</CallerReference>"
-        else
-          #make sure we have a unique call reference
-          caller_ref = "ref-#{rand(1000000).to_s}"
-          optional_tags += "<CallerReference>#{caller_ref}</CallerReference>"
-        end
-        if options[:comment]
-          optional_tags += "<HostedZoneConfig><Comment>#{options[:comment]}</Comment></HostedZoneConfig>"
-        end
-        if vpc[:VPCId] and vpc[:VPCRegion]
-          optional_tags += "<VPC><VPCId>#{vpc[:VPCId]}</VPCId><VPCRegion>#{vpc[:VPCRegion]}</VPCRegion></VPC>"
-        else
-          raise "Must specify VPCId and VPCRegion for private zone."
-        end
-
-        request({
-          :body    => %Q{<?xml version="1.0" encoding="UTF-8"?><CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/"><Name>#{name}</Name>#{optional_tags}</CreateHostedZoneRequest>},
-          :parser  => Fog::Parsers::DNS::AWS::CreateHostedZone.new,
-          :expects => 201,
-          :method  => 'POST',
-          :path    => "hostedzone"
-        })
       end
 
       class Mock
