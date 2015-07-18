@@ -12,6 +12,8 @@ module Fog
         #   * caller_ref<~String> - unique string that identifies the request & allows failed
         #                           calls to be retried without the risk of executing the operation twice
         #   * comment<~String> -
+        #   * vpc_id<~String> - specify both a VPC's ID and its region to create a private zone for that VPC
+        #   * vpc_region<~String> - specify both a VPC's ID and its region to create a private zone for that VPC
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -39,6 +41,9 @@ module Fog
           end
           if options[:comment]
             optional_tags += "<HostedZoneConfig><Comment>#{options[:comment]}</Comment></HostedZoneConfig>"
+          end
+          if options[:vpc_id] and options[:vpc_region]
+            optional_tags += "<VPC><VPCId>#{options[:vpc_id]}</VPCId><VPCRegion>#{options[:vpc_region]}</VPCRegion></VPC>"
           end
 
           request({

@@ -8,6 +8,8 @@ module Fog
             @name_servers = []
             @response = {}
             @section = :hosted_zone
+            @vpcs = []
+            @vpc = {}
           end
 
           def end_element(name)
@@ -15,7 +17,7 @@ module Fog
               case name
               when 'Id'
                 @hosted_zone[name]= value.sub('/hostedzone/', '')
-              when 'Name', 'CallerReference', 'Comment'
+              when 'Name', 'CallerReference', 'Comment', 'PrivateZone', 'Config', 'ResourceRecordSetCount'
                 @hosted_zone[name]= value
               when 'HostedZone'
                 @response['HostedZone'] = @hosted_zone
@@ -31,6 +33,15 @@ module Fog
               when 'NameServers'
                 @response['NameServers'] = @name_servers
                 @name_servers = {}
+              when 'VPCId', 'VPCRegion'
+                @vpc[name] = value
+              when 'VPC'
+                @vpcs << @vpc
+                @vpc = {}
+              when 'VPCs'
+                @response['HostedZone']['VPCs'] = @vpcs
+                @vpcs = {}
+                @section = :vpcs
               end
             end
           end

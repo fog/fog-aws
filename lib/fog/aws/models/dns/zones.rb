@@ -10,8 +10,8 @@ module Fog
         model Fog::DNS::AWS::Zone
 
         def all(options = {})
-          options[:marker]   ||= marker
-          options[:maxitems] ||= max_items
+          options[:marker]   ||= marker unless marker.nil?
+          options[:maxitems] ||= max_items unless max_items.nil?
           data = service.list_hosted_zones(options).body['HostedZones']
           load(data)
         end
