@@ -5,10 +5,11 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
   # serveral minutes for deleted servers to disappear
   suffix = rand(65536).to_s(16)
 
-  @db_instance_id       = "fog-test-#{suffix}"
-  @db_replica_id        = "fog-replica-#{suffix}"
-  @db_snapshot_id       = "fog-snapshot-#{suffix}"
-  @db_final_snapshot_id = "fog-final-snapshot-#{suffix}"
+  @db_instance_id         = "fog-test-#{suffix}"
+  @db_replica_id          = "fog-replica-#{suffix}"
+  @db_snapshot_id         = "fog-snapshot-#{suffix}"
+  @db_final_snapshot_id   = "fog-final-snapshot-#{suffix}"
+  @db_instance_restore_id = "fog-test-#{suffix}"
 
   tests('success') do
 
@@ -107,6 +108,13 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
         returns('creating') { Fog::AWS[:rds].describe_db_snapshots(:snapshot_id => @db_final_snapshot_id).body['DescribeDBSnapshotsResult']['DBSnapshots'].first['Status'] }
       end
       body
+    end
+
+    tests("#restore_db_instance_from_db_snapshot").formats(AWS::RDS::Formats::RESTORE_DB_INSTANCE_FROM_DB_SNAPSHOT) do
+      result = Fog::AWS[:rds].restore_db_instance_from_db_snapshot(@db_final_snapshot_id, @db_instance_restore_id).body
+      instance = result['RestoreDBInstanceFromDBSnapshotResult']['DBInstance']
+      returns('creating') { instance['DBInstanceStatus'] }
+      result
     end
 
     tests("#delete_db_snapshot").formats(AWS::RDS::Formats::DELETE_DB_SNAPSHOT) do
