@@ -27,6 +27,14 @@ Shindo.tests('AWS::AutoScaling | auto_scaling_tests', ['aws', 'auto_scaling']) d
       Fog::AWS[:auto_scaling].create_auto_scaling_group(@asg_name, zones, @lc_name, max_size, min_size).body
     end
 
+    tests("#attach_load_balancers").formats(AWS::AutoScaling::Formats::BASIC) do
+      Fog::AWS[:auto_scaling].attach_load_balancers(@asg_name, 'LoadBalancerNames' => 'elb-test-fog').body
+    end
+
+    tests("#detach_load_balancers").formats(AWS::AutoScaling::Formats::BASIC) do
+      Fog::AWS[:auto_scaling].detach_load_balancers(@asg_name, 'LoadBalancerNames' => 'elb-test-fog').body
+    end
+
     tests("#describe_auto_scaling_groups").formats(AWS::AutoScaling::Formats::DESCRIBE_AUTO_SCALING_GROUPS) do
       Fog::AWS[:auto_scaling].describe_auto_scaling_groups().body
     end

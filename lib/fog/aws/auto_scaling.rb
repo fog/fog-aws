@@ -11,6 +11,7 @@ module Fog
       recognizes :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/auto_scaling'
+      request :attach_load_balancers
       request :create_auto_scaling_group
       request :create_launch_configuration
       request :create_or_update_tags
@@ -33,6 +34,7 @@ module Fog
       request :describe_scheduled_actions
       request :describe_tags
       request :describe_termination_policy_types
+      request :detach_load_balancers
       request :disable_metrics_collection
       request :enable_metrics_collection
       request :execute_policy
