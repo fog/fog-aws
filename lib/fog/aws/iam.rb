@@ -26,6 +26,8 @@ module Fog
       request :create_policy
       request :create_role
       request :create_user
+      request :create_virtual_mfa_device
+      request :deactivate_mfa_device
       request :delete_access_key
       request :delete_account_password_policy
       request :delete_account_alias
@@ -33,6 +35,7 @@ module Fog
       request :delete_group_policy
       request :delete_instance_profile
       request :delete_login_profile
+      request :delete_virtual_mfa_device
       request :delete_policy
       request :delete_role
       request :delete_role_policy
@@ -43,6 +46,7 @@ module Fog
       request :detach_group_policy
       request :detach_role_policy
       request :detach_user_policy
+      request :enable_mfa_device
       request :get_account_password_policy
       request :get_account_summary
       request :get_group
@@ -73,6 +77,7 @@ module Fog
       request :list_signing_certificates
       request :list_user_policies
       request :list_users
+      request :list_virtual_mfa_devices
       request :put_group_policy
       request :put_role_policy
       request :put_user_policy
