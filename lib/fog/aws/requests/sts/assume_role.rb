@@ -26,17 +26,18 @@ module Fog
         # http://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
         #
 
-        def assume_role(role_session_name, role_arn, external_id=nil, policy=nil, duration=3600)
+        def assume_role(role_arn, role_session_name, serial_number, token_code, duration=3600, external_id = nil, policy = nil)
           request({
-            'Action'          => 'AssumeRole',
-            'RoleSessionName' => role_session_name,
-            'RoleArn'         => role_arn,
-            'Policy'          => policy && Fog::JSON.encode(policy),
-            'DurationSeconds' => duration,
-            'ExternalId'      => external_id,
-            :idempotent       => true,
-            :parser           => Fog::Parsers::AWS::STS::AssumeRole.new
-          })
+              'Action' => 'AssumeRole',
+              'RoleArn' => role_arn,
+              'RoleSessionName' => role_session_name,
+              'ExternalId' => external_id,
+              'Policy' => policy,
+              'SerialNumber' => serial_number,
+              'TokenCode' => token_code,
+              'DurationSeconds' => duration,
+              :parser => Fog::Parsers::AWS::STS::AssumeRole.new
+            })
         end
       end
     end
