@@ -87,8 +87,11 @@ module Fog
 
         def promote_read_replica
           requires :id
+
           service.promote_read_replica(id)
         end
+
+        alias promote promote_read_replica
 
         def modify(immediately, options)
           options[:security_group_names] ||= options['DBSecurityGroups']

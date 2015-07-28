@@ -87,8 +87,9 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
     @instance.wait_for { state == 'rebooting' }
     @instance.wait_for { ready? }
 
-    tests('#create_read_replica').succeeds do
+    replica = nil
 
+    tests('#create_read_replica').succeeds do
       replica = @instance_with_final_snapshot.create_read_replica(uniq_id('fog-replica'))
       @instance_with_final_snapshot.reload
       returns([replica.id]) { @instance_with_final_snapshot.read_replica_identifiers }
@@ -98,9 +99,20 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
 
       # FinalDBSnapshotIdentifier can not be specified when deleting a replica instance
       raises(Fog::AWS::RDS::Error) { replica.destroy("foobar") }
-
-      replica.destroy
     end
+
+    tests('#promote_read_replica').succeeds do
+      replica.promote
+      replica.wait_for { state != "modifying" }
+
+      replica.read_replica_source == nil
+    end
+
+    tests('#promote_read_replica', 'master').raises(Fog::AWS::RDS::Error) {
+      @instance_with_final_snapshot.promote
+    }
+
+    replica && replica.destroy
 
     test("Destroying with a final snapshot") do
       final_snapshot_id = uniq_id('fog-test-snapshot')

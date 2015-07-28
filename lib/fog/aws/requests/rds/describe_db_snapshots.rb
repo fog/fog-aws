@@ -35,11 +35,12 @@ module Fog
           response = Excon::Response.new
           snapshots = self.data[:snapshots].values
           if opts[:identifier]
-            snapshots = snapshots.select{|snapshot| snapshot['DBInstanceIdentifier'] == opts[:identifier]}
+            snapshots = snapshots.select { |snapshot| snapshot['DBInstanceIdentifier'] == opts[:identifier] }
+
           end
 
           if opts[:snapshot_id]
-            snapshots = snapshots.select{|snapshot| snapshot['DBSnapshotIdentifier'] == opts[:snapshot_id]}
+            snapshots = snapshots.select { |snapshot| snapshot['DBSnapshotIdentifier'] == opts[:snapshot_id] }
             raise Fog::AWS::RDS::NotFound.new("DBSnapshot #{opts[:snapshot_id]} not found") if snapshots.empty?
           end
 
