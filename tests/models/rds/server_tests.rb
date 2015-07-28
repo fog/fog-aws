@@ -102,8 +102,7 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
     end
 
     tests('#promote_read_replica').succeeds do
-      replica.promote
-      replica.wait_for { state != "modifying" }
+      replica.promote.wait_for { state != "modifying" }
 
       replica.read_replica_source == nil
     end
