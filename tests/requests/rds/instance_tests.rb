@@ -111,11 +111,15 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
     end
 
     tests("#restore_db_instance_from_db_snapshot").formats(AWS::RDS::Formats::RESTORE_DB_INSTANCE_FROM_DB_SNAPSHOT) do
+      snapshot = Fog::AWS[:rds].snapshots.get(@db_final_snapshot_id)
+      snapshot.wait_for { state == 'available' }
       result = Fog::AWS[:rds].restore_db_instance_from_db_snapshot(@db_final_snapshot_id, @db_instance_restore_id).body
       instance = result['RestoreDBInstanceFromDBSnapshotResult']['DBInstance']
       returns('creating') { instance['DBInstanceStatus'] }
       result
     end
+    restore_server = Fog::AWS[:rds].servers.get(@db_instance_restore_id)
+    restore_server.wait_for { state == 'available' }
 
     tests("#delete_db_snapshot").formats(AWS::RDS::Formats::DELETE_DB_SNAPSHOT) do
       Fog::AWS[:rds].snapshots.get(@db_snapshot_id).wait_for { ready? }

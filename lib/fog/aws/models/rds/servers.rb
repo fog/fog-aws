@@ -18,8 +18,8 @@ module Fog
           nil
         end
 
-        def restore(snapshot_id, db_name, options={})
-          create(options.merge('source_snapshot_id' => snapshot_id, 'id' => db_name))
+        def restore(options)
+          create(options)
         end
       end
     end
