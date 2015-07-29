@@ -38,7 +38,7 @@ module Fog
         attribute :tde_credential_arn,           :aliases => 'TdeCredentialArn'
         attribute :vpc_security_groups,          :aliases => 'VpcSecurityGroups', :type => :array
 
-        attr_accessor :password, :parameter_group_name, :security_group_names, :port, :source_snapshot_id
+        attr_accessor :password, :parameter_group_name, :security_group_names, :port, :source_snapshot_id, :use_latest_restorable_time, :restore_time, :source_db_name
 
         def create_read_replica(replica_id, options={})
           options[:security_group_names] ||= options['DBSecurityGroups']
@@ -108,6 +108,9 @@ module Fog
             requires :id
             data = service.restore_db_instance_from_db_snapshot(source_snapshot_id, id, attributes_to_params)
             merge_attributes(data.body['RestoreDBInstanceFromDBSnapshotResult']['DBInstance'])
+          elsif use_latest_restorable_time || restore_time
+            data = service.restore_db_instance_to_point_in_time(source_db_name, id, attributes_to_params.merge("UseLatestRestorableTime" => use_latest_restorable_time, "RestoreTime" => restore_time))
+            merge_attributes(data.body['RestoreDBInstanceToPointInTimeResult']['DBInstance'])
           else
             requires :engine
             requires :allocated_storage

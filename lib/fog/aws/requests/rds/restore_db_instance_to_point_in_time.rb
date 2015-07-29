@@ -28,10 +28,14 @@ module Fog
             raise Fog::AWS::RDS::IdentifierTaken.new("DBInstanceAlreadyExists #{response.body.to_s}")
           end
 
+          if !!opts["MultiAZ"] && !!opts["AvailabilityZone"]
+            raise Fog::AWS::RDS::InvalidParameterCombination.new('Requesting a specific availability zone is not valid for Multi-AZ instances.')
+          end
+
           data = {
             "AllocatedStorage"                 => opts['AllocatedStorage'] || 100,
             "AutoMinorVersionUpgrade"          => opts['AutoMinorVersionUpgrade'].nil? ? true : opts['AutoMinorVersionUpgrade'],
-            "AvailabilityZone"                 => opts['AvailabilityZone'] || 'us-east-1a',
+            "AvailabilityZone"                 => opts['AvailabilityZone'],
             "BackupRetentionPeriod"            => opts['BackupRetentionPeriod'] || 1,
             "CACertificateIdentifier"          => 'rds-ca-2015',
             "DBInstanceClass"                  => opts['DBInstanceClass'] || 'db.m3.medium',
