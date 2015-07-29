@@ -44,9 +44,21 @@ module Fog
           activities = Fog::AWS::AutoScaling::Activities.new(:service => service, :filters => {'AutoScalingGroupName' => id})
         end
 
+        def attach_load_balancers(*load_balancer_names)
+          requires :id
+          service.attach_load_balancers(id, 'LoadBalancerNames' => load_balancer_names)
+          reload
+        end
+
         def configuration
           requires :launch_configuration_name
           service.configurations.get(launch_configuration_name)
+        end
+
+        def detach_load_balancers(*load_balancer_names)
+          requires :id
+          service.detach_load_balancers(id, 'LoadBalancerNames' => load_balancer_names)
+          reload
         end
 
         def disable_metrics_collection(metrics = {})
