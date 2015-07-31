@@ -606,7 +606,7 @@ module Fog
           Fog::Logger.warning("fog: followed redirect to #{host}, connecting to the matching region will be more performant")
           original_region, original_signer = @region, @signer
           @region = @new_region || case new_params[:host]
-          when 's3.amazonaws.com', 's3-external-1.amazonaws.com'
+          when /s3.amazonaws.com/, /s3-external-1.amazonaws.com/
             DEFAULT_REGION
           else
             %r{s3[\.\-]([^\.]*).amazonaws.com}.match(new_params[:host]).captures.first
