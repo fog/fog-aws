@@ -36,7 +36,7 @@ module Fog
                 QueueConfiguration do
                   Id    queue['Id']
                   Queue queue['Queue']
-                  Event topic['Event']
+                  Event queue['Event']
                 end
               end
               notification.fetch('CloudFunctions', []).each do |func|
