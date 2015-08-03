@@ -78,6 +78,10 @@ module Fog
             end
           end
 
+          if !!options["MultiAZ"] && !!options["AvailabilityZone"]
+            raise Fog::AWS::RDS::InvalidParameterCombination.new('Requesting a specific availability zone is not valid for Multi-AZ instances.')
+          end
+
           data = {
             "AllocatedStorage"                 => options["AllocatedStorage"],
             "AutoMinorVersionUpgrade"          => options["AutoMinorVersionUpgrade"].nil? ? true : options["AutoMinorVersionUpgrade"],
@@ -98,7 +102,7 @@ module Fog
             "Iops"                             => options["Iops"],
             "LicenseModel"                     => "general-public-license",
             "MasterUsername"                   => options["MasterUsername"],
-            "MultiAZ"                          => !!options['MultiAZ'],
+            "MultiAZ"                          => !!options["MultiAZ"],
             "PendingModifiedValues"            => { "MasterUserPassword" => "****" }, # This clears when is available
             "PreferredBackupWindow"            => options["PreferredBackupWindow"] || "08:00-08:30",
             "PreferredMaintenanceWindow"       => options["PreferredMaintenanceWindow"] || "mon:04:30-mon:05:00",
