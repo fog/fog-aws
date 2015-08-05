@@ -44,13 +44,13 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :instrumentor, :instrumentor_name, :aws_signature_version
 
-      secrets    :aws_secret_access_key, :hmac
+      secrets :aws_secret_access_key, :hmac
 
       model_path 'fog/aws/models/storage'
-      collection  :directories
-      model       :directory
-      collection  :files
-      model       :file
+      collection :directories
+      model :directory
+      collection :files
+      model :file
 
       request_path 'fog/aws/requests/storage'
       request :abort_multipart_upload
@@ -203,15 +203,15 @@ module Fog
 
         def region_to_host(region=nil)
           case region.to_s
-          when DEFAULT_REGION, ''
-            's3.amazonaws.com'
-          else
-            "s3-#{region}.amazonaws.com"
+            when DEFAULT_REGION, ''
+              's3.amazonaws.com'
+            else
+              "s3-#{region}.amazonaws.com"
           end
         end
 
         def object_to_path(object_name=nil)
-          '/' + escape(object_name.to_s).gsub('%2F','/')
+          '/' + escape(object_name.to_s).gsub('%2F', '/')
         end
 
         def bucket_to_path(bucket_name, path=nil)
@@ -229,14 +229,14 @@ module Fog
         #
         # Should yield the same result when called f*f
         def request_params(params)
-          headers  = params[:headers] || {}
+          headers = params[:headers] || {}
 
           if params[:scheme]
             scheme = params[:scheme]
-            port   = params[:port] || DEFAULT_SCHEME_PORT[scheme]
+            port = params[:port] || DEFAULT_SCHEME_PORT[scheme]
           else
             scheme = @scheme
-            port   = @port
+            port = @port
           end
           if DEFAULT_SCHEME_PORT[scheme] == port
             port = nil
@@ -244,14 +244,14 @@ module Fog
 
           if params[:region]
             region = params[:region]
-            host   = params[:host] || region_to_host(region)
+            host = params[:host] || region_to_host(region)
           else
-            region = @region       || DEFAULT_REGION
-            host   = params[:host] || @host || region_to_host(region)
+            region = @region || DEFAULT_REGION
+            host = params[:host] || @host || region_to_host(region)
           end
 
-          path     = params[:path] || object_to_path(params[:object_name])
-          path     = '/' + path if path[0..0] != '/'
+          path = params[:path] || object_to_path(params[:object_name])
+          path = '/' + path if path[0..0] != '/'
 
           if params[:bucket_name]
             bucket_name = params[:bucket_name]
@@ -270,21 +270,21 @@ module Fog
                 end
               end
 
-              if path_style
+              if path_style and path != "/#{bucket_name}/"
                 path = bucket_to_path bucket_name, path
-              else
+              elsif !path_style
                 host = [bucket_name, host].join('.')
               end
             end
           end
 
           ret = params.merge({
-            :scheme       => scheme,
-            :host         => host,
-            :port         => port,
-            :path         => path,
-            :headers      => headers
-          })
+              :scheme => scheme,
+              :host => host,
+              :port => port,
+              :path => path,
+              :headers => headers
+            })
 
           #
           ret.delete(:path_style)
@@ -305,12 +305,12 @@ module Fog
           end.join('&')
 
           URI::Generic.build({
-            :scheme => params[:scheme],
-            :host   => params[:host],
-            :port   => params[:port],
-            :path   => params[:path],
-            :query  => query,
-          }).to_s
+              :scheme => params[:scheme],
+              :host => params[:host],
+              :port => params[:port],
+              :path => params[:path],
+              :query => query,
+            }).to_s
         end
       end
 
@@ -320,62 +320,62 @@ module Fog
 
         def self.acls(type)
           case type
-          when 'private'
-            {
-              "AccessControlList" => [
-                {
-                  "Permission" => "FULL_CONTROL",
-                  "Grantee" => {"DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"}
-                }
-              ],
-              "Owner" => {"DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"}
-            }
-          when 'public-read'
-            {
-              "AccessControlList" => [
-                {
-                  "Permission" => "FULL_CONTROL",
-                  "Grantee" => {"DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"}
-                },
-                {
-                  "Permission" => "READ",
-                  "Grantee" => {"URI" => "http://acs.amazonaws.com/groups/global/AllUsers"}
-                }
-              ],
-              "Owner" => {"DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"}
-            }
-          when 'public-read-write'
-            {
-              "AccessControlList" => [
-                {
-                  "Permission" => "FULL_CONTROL",
-                  "Grantee" => {"DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"}
-                },
-                {
-                  "Permission" => "READ",
-                  "Grantee" => {"URI" => "http://acs.amazonaws.com/groups/global/AllUsers"}
-                },
-                {
-                  "Permission" => "WRITE",
-                  "Grantee" => {"URI" => "http://acs.amazonaws.com/groups/global/AllUsers"}
-                }
-              ],
-              "Owner" => {"DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"}
-            }
-          when 'authenticated-read'
-            {
-              "AccessControlList" => [
-                {
-                  "Permission" => "FULL_CONTROL",
-                  "Grantee" => {"DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"}
-                },
-                {
-                  "Permission" => "READ",
-                  "Grantee" => {"URI" => "http://acs.amazonaws.com/groups/global/AuthenticatedUsers"}
-                }
-              ],
-              "Owner" => {"DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"}
-            }
+            when 'private'
+              {
+                "AccessControlList" => [
+                  {
+                    "Permission" => "FULL_CONTROL",
+                    "Grantee" => { "DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0" }
+                  }
+                ],
+                "Owner" => { "DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0" }
+              }
+            when 'public-read'
+              {
+                "AccessControlList" => [
+                  {
+                    "Permission" => "FULL_CONTROL",
+                    "Grantee" => { "DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0" }
+                  },
+                  {
+                    "Permission" => "READ",
+                    "Grantee" => { "URI" => "http://acs.amazonaws.com/groups/global/AllUsers" }
+                  }
+                ],
+                "Owner" => { "DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0" }
+              }
+            when 'public-read-write'
+              {
+                "AccessControlList" => [
+                  {
+                    "Permission" => "FULL_CONTROL",
+                    "Grantee" => { "DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0" }
+                  },
+                  {
+                    "Permission" => "READ",
+                    "Grantee" => { "URI" => "http://acs.amazonaws.com/groups/global/AllUsers" }
+                  },
+                  {
+                    "Permission" => "WRITE",
+                    "Grantee" => { "URI" => "http://acs.amazonaws.com/groups/global/AllUsers" }
+                  }
+                ],
+                "Owner" => { "DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0" }
+              }
+            when 'authenticated-read'
+              {
+                "AccessControlList" => [
+                  {
+                    "Permission" => "FULL_CONTROL",
+                    "Grantee" => { "DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0" }
+                  },
+                  {
+                    "Permission" => "READ",
+                    "Grantee" => { "URI" => "http://acs.amazonaws.com/groups/global/AuthenticatedUsers" }
+                  }
+                ],
+                "Owner" => { "DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0" }
+              }
           end
         end
 
@@ -414,9 +414,9 @@ module Fog
             @scheme = endpoint.scheme
             @port = endpoint.port
           else
-            @host       = options[:host]        || region_to_host(@region)
-            @scheme     = options[:scheme]      || DEFAULT_SCHEME
-            @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
+            @host = options[:host] || region_to_host(@region)
+            @scheme = options[:scheme] || DEFAULT_SCHEME
+            @port = options[:port] || DEFAULT_SCHEME_PORT[@scheme]
           end
 
 
@@ -437,10 +437,10 @@ module Fog
         def setup_credentials(options)
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
-          @aws_session_token     = options[:aws_session_token]
+          @aws_session_token = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region, 's3')
+          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 's3')
         end
 
         def signature_v2(params, expires)
@@ -473,13 +473,13 @@ module Fog
         def initialize(options={})
 
           @use_iam_profile = options[:use_iam_profile]
-          @instrumentor       = options[:instrumentor]
-          @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.storage'
-          @connection_options     = options[:connection_options] || {}
+          @instrumentor = options[:instrumentor]
+          @instrumentor_name = options[:instrumentor_name] || 'fog.aws.storage'
+          @connection_options = options[:connection_options] || {}
           @persistent = options.fetch(:persistent, false)
           @signature_version = options.fetch(:aws_signature_version, 4)
           validate_signature_version!
-          @path_style = options[:path_style]  || false
+          @path_style = options[:path_style] || false
 
           @region = options[:region] || DEFAULT_REGION
 
@@ -489,9 +489,9 @@ module Fog
             @scheme = endpoint.scheme
             @port = endpoint.port
           else
-            @host       = options[:host]        || region_to_host(@region)
-            @scheme     = options[:scheme]      || DEFAULT_SCHEME
-            @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
+            @host = options[:host] || region_to_host(@region)
+            @scheme = options[:scheme] || DEFAULT_SCHEME
+            @port = options[:port] || DEFAULT_SCHEME_PORT[@scheme]
           end
 
           setup_credentials(options)
@@ -505,13 +505,13 @@ module Fog
 
 
         def setup_credentials(options)
-          @aws_access_key_id     = options[:aws_access_key_id]
+          @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
-          @aws_session_token     = options[:aws_session_token]
+          @aws_session_token = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
           if @signature_version == 4
-            @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region, 's3')
+            @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 's3')
           elsif @signature_version == 2
             @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
           end
@@ -550,8 +550,8 @@ module Fog
 
           params = request_params(params)
           scheme = params.delete(:scheme)
-          host   = params.delete(:host)
-          port   = params.delete(:port) || DEFAULT_SCHEME_PORT[scheme]
+          host = params.delete(:host)
+          port = params.delete(:port) || DEFAULT_SCHEME_PORT[scheme]
           params[:headers]['Host'] = host
 
 
@@ -568,7 +568,7 @@ module Fog
                 encoding = "aws-chunked"
               end
 
-              params[:headers]['Content-Encoding']  = encoding
+              params[:headers]['Content-Encoding'] = encoding
             else
               params[:headers]['x-amz-content-sha256'] ||= Digest::SHA256.hexdigest(params[:body] || '')
             end
@@ -588,7 +588,7 @@ module Fog
               _request(scheme, host, port, params, original_params, &block)
             end
           else
-              _request(scheme, host, port, params, original_params, &block)
+            _request(scheme, host, port, params, original_params, &block)
           end
         end
 
@@ -599,22 +599,33 @@ module Fog
           new_params = {}
           if headers.has_key?('Location')
             new_params[:host] = URI.parse(headers['Location']).host
+            @new_region =
+              case new_params[:host]
+                when 's3.amazonaws.com', 's3-external-1.amazonaws.com'
+                  DEFAULT_REGION
+                else
+                  %r{s3[\.\-]([^\.]*).amazonaws.com}.match(new_params[:host]).captures.first
+              end
           else
             body = error.response.is_a?(Hash) ? error.response[:body] : error.response.body
             # some errors provide info indirectly
-            new_params[:bucket_name] =  %r{<Bucket>([^<]*)</Bucket>}.match(body).captures.first
-            new_params[:host] = %r{<Endpoint>([^<]*)</Endpoint>}.match(body).captures.first
+            new_params[:bucket_name] = %r{<Bucket>([^<]*)</Bucket>}.match(body).captures.first
+            # new_params[:host] = %r{<Endpoint>([^<]*)</Endpoint>}.match(body).captures.first
             # some errors provide it directly
-            @new_region = %r{<Region>([^<]*)</Region>}.match(body) ? Regexp.last_match.captures.first : nil
+            @new_region =
+              if %r{<Region>([^<]*)</Region>}.match(body)
+                Regexp.last_match.captures.first
+              elsif headers.has_key?('x-amz-bucket-region')
+                headers['x-amz-bucket-region']
+              else
+                Fog::Logger.warning("fog: following redirect to #{host}, could not determine region")
+              end
           end
           Fog::Logger.warning("fog: followed redirect to #{host}, connecting to the matching region will be more performant")
           original_region, original_signer = @region, @signer
-          @region = @new_region || case new_params[:host]
-          when 's3.amazonaws.com', 's3-external-1.amazonaws.com'
-            DEFAULT_REGION
-          else
-            %r{s3[\.\-]([^\.]*).amazonaws.com}.match(new_params[:host]).captures.first
-          end
+          @region = @new_region
+          new_params[:region] = @new_region
+
           if @signature_version == 4
             @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 's3')
             original_params[:headers].delete('Authorization')
@@ -628,6 +639,7 @@ module Fog
 
         class S3Streamer
           attr_accessor :body, :signature, :signer, :finished, :date, :initial_signature
+
           def initialize(body, signature, signer, date)
             self.body = body
             self.date = date
@@ -674,11 +686,11 @@ module Fog
             string_to_sign = <<-DATA
 AWS4-HMAC-SHA256-PAYLOAD
 #{date.to_iso8601_basic}
-#{signer.credential_scope(date)}
-#{previous_signature}
-#{Digest::SHA256.hexdigest('')}
-#{Digest::SHA256.hexdigest(data)}
-DATA
+            #{signer.credential_scope(date)}
+            #{previous_signature}
+            #{Digest::SHA256.hexdigest('')}
+            #{Digest::SHA256.hexdigest(data)}
+            DATA
             hmac = signer.derived_hmac(date)
             hmac.sign(string_to_sign.strip).unpack('H*').first
           end
@@ -688,12 +700,12 @@ DATA
           headers = params[:headers] || {}
 
           string_to_sign =
-<<-DATA
+            <<-DATA
 #{params[:method].to_s.upcase}
-#{headers['Content-MD5']}
-#{headers['Content-Type']}
-#{expires}
-DATA
+          #{headers['Content-MD5']}
+          #{headers['Content-Type']}
+          #{expires}
+          DATA
 
           amz_headers, canonical_amz_headers = {}, ''
           for key, value in headers
@@ -701,7 +713,7 @@ DATA
               amz_headers[key] = value
             end
           end
-          amz_headers = amz_headers.sort {|x, y| x[0] <=> y[0]}
+          amz_headers = amz_headers.sort { |x, y| x[0] <=> y[0] }
           for key, value in amz_headers
             canonical_amz_headers << "#{key}:#{value}\n"
           end
@@ -740,7 +752,7 @@ DATA
         end
 
         def stringify_query_keys(params)
-          params[:query] = Hash[params[:query].map { |k,v| [k.to_s, v] }] if params[:query]
+          params[:query] = Hash[params[:query].map { |k, v| [k.to_s, v] }] if params[:query]
         end
       end
     end
