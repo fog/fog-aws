@@ -87,19 +87,24 @@ module Fog
               end
             end
 
+            if options['KmsKeyId'] && !options['Encrypted']
+              raise Fog::Compute::AWS::Error.new("InvalidParameterDependency => The parameter KmsKeyId requires the parameter Encrypted to be set.")
+            end
+
             response.status = 200
             volume_id = Fog::AWS::Mock.volume_id
             data = {
-              'availabilityZone'  => availability_zone,
-              'attachmentSet'     => [],
-              'createTime'        => Time.now,
-              'iops'              => options['Iops'],
-              'encrypted'         => options['Encrypted'] || false,
-              'size'              => size,
-              'snapshotId'        => options['SnapshotId'],
-              'status'            => 'creating',
-              'volumeId'          => volume_id,
-              'volumeType'        => options['VolumeType'] || 'standard'
+              'availabilityZone' => availability_zone,
+              'attachmentSet'    => [],
+              'createTime'       => Time.now,
+              'iops'             => options['Iops'],
+              'encrypted'        => options['Encrypted'] || false,
+              'size'             => size,
+              'snapshotId'       => options['SnapshotId'],
+              'kmsKeyId'         => options['KmsKeyId'] || nil, # @todo validate
+              'status'           => 'creating',
+              'volumeId'         => volume_id,
+              'volumeType'       => options['VolumeType'] || 'standard'
             }
             self.data[:volumes][volume_id] = data
             response.body = {

@@ -5,7 +5,7 @@ module Fog
         class CreateVolume < Fog::Parsers::Base
           def end_element(name)
             case name
-            when 'availabilityZone', 'requestId', 'snapshotId', 'status', 'volumeId', 'volumeType'
+            when 'availabilityZone', 'requestId', 'snapshotId', 'status', 'volumeId', 'volumeType', 'kmsKeyId'
               @response[name] = value
             when 'createTime'
               @response[name] = Time.parse(value)
