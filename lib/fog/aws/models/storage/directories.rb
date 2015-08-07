@@ -18,7 +18,8 @@ module Fog
             :max_keys   => 'max-keys',
             :prefix     => 'prefix'
           })
-          data = service.get_bucket(key, options).body
+          region = self.select{|d| d.key == key}.first.try(:location)
+          data = service.get_bucket(key, options.merge(:region => region)).body
           directory = new(:key => data['Name'], :is_persisted => true)
           options = {}
           for k, v in data

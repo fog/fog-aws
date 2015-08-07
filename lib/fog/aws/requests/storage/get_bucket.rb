@@ -43,6 +43,7 @@ module Fog
           request({
             :expects  => 200,
             :headers  => {},
+            :region => options[:region],
             :bucket_name => bucket_name,
             :idempotent => true,
             :method   => 'GET',
