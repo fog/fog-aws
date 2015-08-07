@@ -4,6 +4,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       class IdentifierTaken < Fog::Errors::Error; end
+      class InvalidParameterCombination < Fog::Errors::Error; end
 
       class AuthorizationAlreadyExists < Fog::Errors::Error; end
 
