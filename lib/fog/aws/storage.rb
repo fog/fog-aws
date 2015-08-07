@@ -290,7 +290,7 @@ module Fog
           ret.delete(:path_style)
           ret.delete(:bucket_name)
           ret.delete(:object_name)
-          ret.delete(:region)
+          # ret.delete(:region)
 
           ret
         end
@@ -572,8 +572,16 @@ module Fog
             else
               params[:headers]['x-amz-content-sha256'] ||= Digest::SHA256.hexdigest(params[:body] || '')
             end
-            signature_components = @signer.signature_components(params, date, params[:headers]['x-amz-content-sha256'])
-            params[:headers]['Authorization'] = @signer.components_to_header(signature_components)
+
+            _signer =
+              if params[:region]
+                Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, params[:region], 's3')
+              else
+                @signer
+              end
+
+            signature_components = _signer.signature_components(params, date, params[:headers]['x-amz-content-sha256'])
+            params[:headers]['Authorization'] = _signer.components_to_header(signature_components)
 
             if params[:body].respond_to?(:read)
               body = params.delete :body
@@ -623,11 +631,10 @@ module Fog
           end
           Fog::Logger.warning("fog: followed redirect to #{host}, connecting to the matching region will be more performant")
           original_region, original_signer = @region, @signer
-          @region = @new_region
           new_params[:region] = @new_region
 
           if @signature_version == 4
-            @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 's3')
+            @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @new_region, 's3')
             original_params[:headers].delete('Authorization')
           end
           response = request(original_params.merge(new_params), &block)

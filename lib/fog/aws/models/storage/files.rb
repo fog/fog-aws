@@ -58,7 +58,7 @@ module Fog
 
         def get(key, options = {}, &block)
           requires :directory
-          data = service.get_object(directory.key, key, options, &block)
+          data = service.get_object(directory.key, key, options.merge(:region => directory.location), &block)
           normalize_headers(data)
           file_data = data.headers.merge({
             :body => data.body,
