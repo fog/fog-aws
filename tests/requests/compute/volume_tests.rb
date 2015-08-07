@@ -1,25 +1,25 @@
 Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
 
   @volume_format = {
-    'availabilityZone'  => String,
-    'createTime'        => Time,
-    'encrypted'         => Fog::Boolean,
-    'iops'              => Fog::Nullable::Integer,
-    'requestId'         => String,
-    'size'              => Integer,
-    'snapshotId'        => Fog::Nullable::String,
-    'status'            => String,
-    'volumeId'          => String,
-    'volumeType'        => String
+    'availabilityZone' => String,
+    'createTime'       => Time,
+    'encrypted'        => Fog::Boolean,
+    'iops'             => Fog::Nullable::Integer,
+    'requestId'        => String,
+    'size'             => Integer,
+    'snapshotId'       => Fog::Nullable::String,
+    'status'           => String,
+    'volumeId'         => String,
+    'volumeType'       => String
   }
 
   @volume_attachment_format = {
-    'attachTime'          => Time,
-    'device'              => String,
-    'instanceId'          => String,
-    'requestId'           => String,
-    'status'              => String,
-    'volumeId'            => String
+    'attachTime' => Time,
+    'device'     => String,
+    'instanceId' => String,
+    'requestId'  => String,
+    'status'     => String,
+    'volumeId'   => String
   }
 
   @volume_status_format = {
@@ -52,17 +52,18 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
 
   @volumes_format = {
     'volumeSet' => [{
-      'availabilityZone'  => String,
-      'attachmentSet'     => Array,
-      'createTime'        => Time,
-      'encrypted'         => Fog::Boolean,
-      'iops'              => Fog::Nullable::Integer,
-      'size'              => Integer,
-      'snapshotId'        => Fog::Nullable::String,
-      'status'            => String,
-      'tagSet'            => Hash,
-      'volumeId'          => String,
-      'volumeType'        => String
+      'availabilityZone' => String,
+      'attachmentSet'    => Array,
+      'createTime'       => Time,
+      'encrypted'        => Fog::Boolean,
+      'iops'             => Fog::Nullable::Integer,
+      'size'             => Integer,
+      'snapshotId'       => Fog::Nullable::String,
+      'kmsKeyId'         => Fog::Nullable::String,
+      'status'           => String,
+      'tagSet'           => Hash,
+      'volumeId'         => String,
+      'volumeType'       => String
     }],
     'requestId' => String
   }
@@ -83,7 +84,11 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
 
     tests('#create_volume from snapshot').formats(@volume_format) do
       volume = Fog::Compute[:aws].volumes.create(:availability_zone => 'us-east-1d', :size => 1)
+      volume.wait_for { ready? }
+
       snapshot = Fog::Compute[:aws].create_snapshot(volume.identity).body
+      Fog::Compute[:aws].snapshots.new(snapshot).wait_for { ready? }
+
       data = Fog::Compute[:aws].create_volume(@server.availability_zone, nil, 'SnapshotId' => snapshot['snapshotId']).body
       @volume_id = data['volumeId']
       data
@@ -99,9 +104,21 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
 
     Fog::Compute[:aws].delete_volume(@volume_id)
 
+    tests('#create_volume with encryption').returns(true) do
+      volume = Fog::Compute[:aws].volumes.create(:availability_zone => 'us-east-1d', :size => 1, :encrypted => true)
+      @volume_id = volume.id
+      volume.reload.encrypted
+    end
+
+    Fog::Compute[:aws].delete_volume(@volume_id)
+
     tests('#create_volume from snapshot with size').formats(@volume_format) do
       volume = Fog::Compute[:aws].volumes.create(:availability_zone => 'us-east-1d', :size => 1)
+      volume.wait_for { ready? }
+
       snapshot = Fog::Compute[:aws].create_snapshot(volume.identity).body
+      Fog::Compute[:aws].snapshots.new(snapshot).wait_for { ready? }
+
       data = Fog::Compute[:aws].create_volume(@server.availability_zone, 1, 'SnapshotId' => snapshot['snapshotId']).body
       @volume_id = data['volumeId']
       data

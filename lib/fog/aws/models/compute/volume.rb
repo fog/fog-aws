@@ -9,10 +9,11 @@ module Fog
         attribute :created_at,            :aliases => 'createTime'
         attribute :delete_on_termination, :aliases => 'deleteOnTermination'
         attribute :device
+        attribute :encrypted
+        attribute :key_id,                :aliases => ['KmsKeyId', 'kmsKeyId']
         attribute :iops
         attribute :server_id,             :aliases => 'instanceId'
         attribute :size
-        attribute :encrypted
         attribute :snapshot_id,           :aliases => 'snapshotId'
         attribute :state,                 :aliases => 'status'
         attribute :tags,                  :aliases => 'tagSet'
@@ -44,9 +45,8 @@ module Fog
             requires :iops
           end
 
-          data = service.create_volume(availability_zone, size, 'SnapshotId' => snapshot_id, 'VolumeType' => type, 'Iops' => iops, 'Encrypted' => encrypted).body
-          new_attributes = data.reject {|key,value| key == 'requestId'}
-          merge_attributes(new_attributes)
+          data = service.create_volume(availability_zone, size, create_params).body
+          merge_attributes(data)
 
           if tags = self.tags
             # expect eventual consistency
@@ -117,6 +117,16 @@ module Fog
             service.detach_volume(id, 'Force' => force)
             reload
           end
+        end
+
+        def create_params
+          {
+            'Encrypted'  => encrypted,
+            'KmsKeyId'   => key_id,
+            'Iops'       => iops,
+            'SnapshotId' => snapshot_id,
+            'VolumeType' => type
+          }
         end
       end
     end
