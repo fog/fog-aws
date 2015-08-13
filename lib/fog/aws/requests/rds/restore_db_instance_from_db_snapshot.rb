@@ -44,7 +44,7 @@ module Fog
             end
 
           data = {
-            "AllocatedStorage"                 => options['AllocatedStorage'] || snapshot['AllocatedStorage'],
+            "AllocatedStorage"                 => snapshot['AllocatedStorage'],
             "AutoMinorVersionUpgrade"          => options['AutoMinorVersionUpgrade'].nil? ? true : options['AutoMinorVersionUpgrade'],
             "AvailabilityZone"                 => options['AvailabilityZone'],
             "BackupRetentionPeriod"            => options['BackupRetentionPeriod'] || 1,
