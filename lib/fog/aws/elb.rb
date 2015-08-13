@@ -80,6 +80,8 @@ module Fog
           @data = nil
         end
 
+        attr_reader :region
+
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
 
@@ -144,8 +146,9 @@ module Fog
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
 
           setup_credentials(options)
-
         end
+
+        attr_reader :region
 
         def reload
           @connection.reset
@@ -154,12 +157,12 @@ module Fog
         private
 
         def setup_credentials(options={})
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
-          @aws_session_token      = options[:aws_session_token]
+          @aws_access_key_id         = options[:aws_access_key_id]
+          @aws_secret_access_key     = options[:aws_secret_access_key]
+          @aws_session_token         = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key,@region,'elasticloadbalancing')
+          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 'elasticloadbalancing')
         end
 
         def request(params)
