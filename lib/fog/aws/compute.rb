@@ -185,7 +185,6 @@ module Fog
         }
 
         include Fog::AWS::CredentialFetcher::ConnectionMethods
-        include Fog::AWS::RegionMethods
 
         def self.data
           @data ||= Hash.new do |hash, region|
@@ -315,7 +314,7 @@ module Fog
             @port       = options[:port]        || 443
             @scheme     = options[:scheme]      || 'https'
           end
-          validate_aws_region(@host, @region)
+          Fog::AWS.validate_region!(@region, @host)
         end
 
         def region_data
@@ -429,7 +428,6 @@ module Fog
 
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
-        include Fog::AWS::RegionMethods
         # Initialize connection to EC2
         #
         # ==== Notes
@@ -478,7 +476,7 @@ module Fog
             @scheme     = options[:scheme]      || 'https'
           end
 
-          validate_aws_region(@host, @region)
+          Fog::AWS.validate_region!(@region, @host)
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
