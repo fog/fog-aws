@@ -30,14 +30,9 @@ module Fog
             raise Fog::AWS::RDS::NotFound.new("DBSnapshotNotFound #{response.body.to_s}")
           end
 
-          availability_zone =
-            if !options['MultiAZ'].nil? && multi_az = options['MultiAZ']
-              # can only set availability_zone if multi_az is true
-              options['AvailabilityZone'] || snapshot['AvailabilityZone']
-            else
-              multi_az = false
-              'us-east-1a'
-            end
+          if !!options["MultiAZ"] && !!options["AvailabilityZone"]
+            raise Fog::AWS::RDS::InvalidParameterCombination.new('Requesting a specific availability zone is not valid for Multi-AZ instances.')
+          end
 
           option_group_membership =
             if option_group_name = options['OptionGroupName']
@@ -51,7 +46,7 @@ module Fog
           data = {
             "AllocatedStorage"                 => options['AllocatedStorage'] || snapshot['AllocatedStorage'],
             "AutoMinorVersionUpgrade"          => options['AutoMinorVersionUpgrade'].nil? ? true : options['AutoMinorVersionUpgrade'],
-            "AvailabilityZone"                 => availability_zone,
+            "AvailabilityZone"                 => options['AvailabilityZone'],
             "BackupRetentionPeriod"            => options['BackupRetentionPeriod'] || 1,
             "CACertificateIdentifier"          => 'rds-ca-2015',
             "DBInstanceClass"                  => options['DBInstanceClass'] || 'db.m3.medium',
@@ -67,7 +62,7 @@ module Fog
             "Iops"                             => options['Iops'],
             "LicenseModel"                     => options['LicenseModel'] || snapshot['LicenseModel'] || 'general-public-license',
             "MasterUsername"                   => options['MasterUsername'] || snapshot['MasterUsername'],
-            "MultiAZ"                          => !!multi_az,
+            "MultiAZ"                          => options['MultiAZ'],
             "OptiongroupMemberships"           => option_group_membership,
             "PendingModifiedValues"            => { 'MasterUserPassword' => '****' }, # This clears when is available
             "PreferredBackupWindow"            => '08:00-08:30',
