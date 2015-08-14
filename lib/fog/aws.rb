@@ -27,7 +27,6 @@ module Fog
     autoload :CredentialFetcher, File.expand_path('../aws/credential_fetcher', __FILE__)
     autoload :Errors, File.expand_path('../aws/errors', __FILE__)
     autoload :Mock, File.expand_path('../aws/mock', __FILE__)
-    autoload :RegionMethods, File.expand_path('../aws/region_methods', __FILE__)
     autoload :SignatureV4, File.expand_path('../aws/signaturev4', __FILE__)
 
     # Services
@@ -103,18 +102,18 @@ module Fog
 
     def self.serialize_keys(key, value, options = {})
       case value
-        when Hash
-          value.each do | k, v |
-            options.merge!(serialize_keys("#{key}.#{k}", v))
-          end
-          return options
-        when Array
-          value.each_with_index do | it, idx |
-            options.merge!(serialize_keys("#{key}.member.#{(idx + 1)}", it))
-          end
-          return options
-        else
-          return {key => value}
+      when Hash
+        value.each do | k, v |
+          options.merge!(serialize_keys("#{key}.#{k}", v))
+        end
+        return options
+      when Array
+        value.each_with_index do | it, idx |
+          options.merge!(serialize_keys("#{key}.member.#{(idx + 1)}", it))
+        end
+        return options
+      else
+        return {key => value}
       end
     end
 
@@ -173,16 +172,16 @@ module Fog
 
     def self.signed_params(params, options = {})
       params.merge!({
-                        'AWSAccessKeyId'    => options[:aws_access_key_id],
-                        'SignatureMethod'   => 'HmacSHA256',
-                        'SignatureVersion'  => '2',
-                        'Timestamp'         => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
-                        'Version'           => options[:version]
-                    })
+        'AWSAccessKeyId'    => options[:aws_access_key_id],
+        'SignatureMethod'   => 'HmacSHA256',
+        'SignatureVersion'  => '2',
+        'Timestamp'         => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        'Version'           => options[:version]
+      })
 
       params.merge!({
-                        'SecurityToken'     => options[:aws_session_token]
-                    }) if options[:aws_session_token]
+        'SecurityToken'     => options[:aws_session_token]
+      }) if options[:aws_session_token]
 
       body = ''
       for key in params.keys.sort
@@ -222,6 +221,16 @@ module Fog
     def self.json_response?(response)
       return false unless response && response.headers
       response.get_header('Content-Type') =~ %r{application/.*json.*}i ? true : false
+    end
+
+    def self.regions
+      @regions ||= ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-central-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1', 'cn-north-1']
+    end
+
+    def self.validate_region!(region, host=nil)
+      if (!host || host.end_with?('.amazonaws.com')) && !regions.include?(region)
+        raise ArgumentError, "Unknown region: #{region.inspect}"
+      end
     end
   end
 end

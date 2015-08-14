@@ -147,7 +147,7 @@ module Fog
               :body       => body,
               :expects    => 200,
               :idempotent => idempotent,
-              :headers    =>  headers, 
+              :headers    =>  headers,
               :method     => 'POST',
               :parser     => parser
             })
@@ -253,9 +253,7 @@ module Fog
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-central-1', 'eu-west-1', 'sa-east-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
-            raise ArgumentError, "Unknown region: #{@region.inspect}"
-          end
+          Fog::AWS.validate_region!(@region)
         end
 
         def region_data
