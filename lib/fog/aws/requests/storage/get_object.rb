@@ -48,6 +48,8 @@ module Fog
             params[:headers]['If-Unmodified-Since'] = Fog::Time.at(options['If-Unmodified-Since'].to_i).to_date_header
           end
 
+          params[:region] = options[:region] if options.has_key?(:region)
+
           if block_given?
             params[:response_block] = Proc.new
           end
