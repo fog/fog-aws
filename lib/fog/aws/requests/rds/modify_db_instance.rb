@@ -46,10 +46,11 @@ module Fog
       end
 
       class Mock
-        def modify_db_instance(db_name, apply_immediately, options={})
+        def modify_db_instance(db_name, apply_immediately, _options={})
+          options = _options
           response = Excon::Response.new
-          if self.data[:servers][db_name]
-            if self.data[:servers][db_name]["DBInstanceStatus"] != "available"
+          if server = self.data[:servers][db_name]
+            if server["DBInstanceStatus"] != "available"
               raise Fog::AWS::RDS::NotFound.new("DBInstance #{db_name} not available for modification")
             else
               self.data[:modify_time] = Time.now
@@ -61,6 +62,17 @@ module Fog
               #else
               #  modified_server = server["PendingModifiedValues"].merge!(options) # it appends
               #end
+
+              db_security_group_names = options.delete("DBSecurityGroups")
+              if db_security_group_names && db_security_group_names.any?
+                db_security_groups =
+                  db_security_group_names.inject([]) do |r, security_group_name|
+                  r << {"Status" => "active", "DBSecurityGroupName" => security_group_name }
+                end
+
+                options.merge!("DBSecurityGroups" => db_security_groups)
+              end
+
               self.data[:servers][db_name]["PendingModifiedValues"].merge!(options) # it appends
               self.data[:servers][db_name]["DBInstanceStatus"] = "modifying"
               response.status = 200
