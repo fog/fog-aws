@@ -86,7 +86,7 @@ module Fog
 
               options.merge!(
                 "DBSecurityGroups"  => db_security_groups,
-                "VpcSecurityGroups" => vpc_security_groups,
+                "VpcSecurityGroups" => vpc_security_groups
               )
 
               self.data[:servers][db_name]["PendingModifiedValues"].merge!(options) # it appends
