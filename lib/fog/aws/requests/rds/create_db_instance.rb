@@ -82,6 +82,32 @@ module Fog
             raise Fog::AWS::RDS::InvalidParameterCombination.new('Requesting a specific availability zone is not valid for Multi-AZ instances.')
           end
 
+          db_security_group_names = Array(options.delete("DBSecurityGroups"))
+
+          rds_security_groups = self.data[:security_groups].values
+
+          db_security_groups = db_security_group_names.map do |group_name|
+            unless rds_security_groups.find { |sg| sg["DBSecurityGroupName"] == group_name }
+              raise Fog::AWS::RDS::Error.new("InvalidParameterValue => Invalid security group , groupId= , groupName=#{group_name}")
+            end
+
+            {"Status" => "active", "DBSecurityGroupName" => group_name }
+          end
+
+          if db_security_groups.empty?
+            db_security_groups << { "Status" => "active", "DBSecurityGroupName" => "default" }
+          end
+
+          ec2_security_groups = Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id][:security_groups].values
+
+          vpc_security_groups = Array(options.delete("VpcSecurityGroups")).map do |group_id|
+            unless ec2_security_groups.find { |sg| sg["groupId"] == group_id }
+              raise Fog::AWS::RDS::Error.new("InvalidParameterValue => Invalid security group , groupId=#{group_id} , groupName=")
+            end
+
+            {"Status" => "active", "VpcSecurityGroupId" => group_id }
+          end
+
           data = {
             "AllocatedStorage"                 => options["AllocatedStorage"],
             "AutoMinorVersionUpgrade"          => options["AutoMinorVersionUpgrade"].nil? ? true : options["AutoMinorVersionUpgrade"],
@@ -93,7 +119,7 @@ module Fog
             "DBInstanceStatus"                 =>"creating",
             "DBName"                           => options["DBName"],
             "DBParameterGroups"                => [{ "DBParameterGroupName" => "default.mysql5.5", "ParameterApplyStatus" => "in-sync" }],
-            "DBSecurityGroups"                 => [{ "Status" => "active", "DBSecurityGroupName" => "default" }],
+            "DBSecurityGroups"                 => db_security_groups,
             "DBSubnetGroupName"                => options["DBSubnetGroupName"],
             "Endpoint"                         =>{},
             "Engine"                           => options["Engine"],
@@ -110,7 +136,7 @@ module Fog
             "ReadReplicaDBInstanceIdentifiers" => [],
             "StorageEncrypted"                 => options["StorageEncrypted"] || false,
             "StorageType"                      => options["StorageType"] || "standard",
-            "VpcSecurityGroups"                => options["VpcSecurityGroups"],
+            "VpcSecurityGroups"                => vpc_security_groups,
           }
 
           self.data[:servers][db_name] = data
