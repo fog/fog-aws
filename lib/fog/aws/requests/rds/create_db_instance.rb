@@ -82,9 +82,12 @@ module Fog
             raise Fog::AWS::RDS::InvalidParameterCombination.new('Requesting a specific availability zone is not valid for Multi-AZ instances.')
           end
 
-          db_security_group_names = Array(options.delete("DBSecurityGroups"))
+          ec2 = Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id]
 
-          rds_security_groups = self.data[:security_groups].values
+          db_security_group_names = Array(options.delete("DBSecurityGroups"))
+          rds_security_groups     = self.data[:security_groups].values
+          ec2_security_groups     = ec2[:security_groups].values
+          vpc                     = !ec2[:account_attributes].find { |h| "supported-platforms" == h["attributeName"] }["values"].include?("EC2")
 
           db_security_groups = db_security_group_names.map do |group_name|
             unless rds_security_groups.find { |sg| sg["DBSecurityGroupName"] == group_name }
@@ -94,11 +97,9 @@ module Fog
             {"Status" => "active", "DBSecurityGroupName" => group_name }
           end
 
-          if db_security_groups.empty?
+          if !vpc && db_security_groups.empty?
             db_security_groups << { "Status" => "active", "DBSecurityGroupName" => "default" }
           end
-
-          ec2_security_groups = Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id][:security_groups].values
 
           vpc_security_groups = Array(options.delete("VpcSecurityGroups")).map do |group_id|
             unless ec2_security_groups.find { |sg| sg["groupId"] == group_id }
