@@ -61,6 +61,7 @@ module Fog
             'ReadReplicaSourceDBInstanceIdentifier' => source_identifier,
             'StorageType'                           => options['StorageType'] || 'standard',
             'StorageEncrypted'                      => false,
+            'VpcSecurityGroups'                     => source['VpcSecurityGroups'],
           }
           self.data[:servers][instance_identifier] = data
           self.data[:servers][source_identifier]['ReadReplicaDBInstanceIdentifiers'] << instance_identifier
