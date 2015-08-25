@@ -56,6 +56,18 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       end
     end
 
+    tests('put existing bucket - default region - preserves files') do
+      Fog::Storage[:aws].put_bucket(@aws_bucket_name)
+      test_key = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'test', :key => 'test/key')
+      Fog::Storage[:aws].put_bucket(@aws_bucket_name)
+
+      tests(".body['Contents'].first['Key']").returns('test/key') do
+        Fog::Storage[:aws].get_bucket(@aws_bucket_name).body['Contents'].first['Key']
+      end
+
+      test_key.destroy
+    end
+
     tests("#get_service").formats(@service_format) do
       Fog::Storage[:aws].get_service.body
     end
