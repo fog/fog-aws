@@ -1,5 +1,17 @@
 # Change Log
 
+## [v0.7.6](https://github.com/fog/fog-aws/tree/v0.7.6) (2015-08-26)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v0.7.5...v0.7.6)
+
+**Closed issues:**
+
+- mock directories.create destroys existing directory [\#172](https://github.com/fog/fog-aws/issues/172)
+
+**Merged pull requests:**
+
+- Add GovCloud region name to validation set. [\#175](https://github.com/fog/fog-aws/pull/175) ([triplepoint](https://github.com/triplepoint))
+- Mocked put\_bucket no longer clobbers existing bucket [\#174](https://github.com/fog/fog-aws/pull/174) ([jgr](https://github.com/jgr))
+
 ## [v0.7.5](https://github.com/fog/fog-aws/tree/v0.7.5) (2015-08-24)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.7.4...v0.7.5)
 
