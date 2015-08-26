@@ -67,7 +67,7 @@ module Fog
 
               rds_security_groups = self.data[:security_groups].values
 
-              db_security_groups = db_security_group_names.map do |r, group_name|
+              db_security_groups = db_security_group_names.inject([]) do |r, group_name|
                 unless rds_security_groups.find { |sg| sg["DBSecurityGroupName"] == group_name }
                   raise Fog::AWS::RDS::Error.new("InvalidParameterValue => Invalid security group , groupId= , groupName=#{group_name}")
                 end
@@ -76,12 +76,12 @@ module Fog
 
               ec2_security_groups = Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id][:security_groups].values
 
-              vpc_security_groups = Array(options.delete("VpcSecurityGroups")).map do |group_id|
+              vpc_security_groups = Array(options.delete("VpcSecurityGroups")).inject([]) do |r, group_id|
                 unless ec2_security_groups.find { |sg| sg["groupId"] == group_id }
                   raise Fog::AWS::RDS::Error.new("InvalidParameterValue => Invalid security group , groupId=#{group_id} , groupName=")
                 end
 
-                {"Status" => "active", "VpcSecurityGroupId" => group_id }
+                r << {"Status" => "active", "VpcSecurityGroupId" => group_id }
               end
 
               options.merge!(
