@@ -13,7 +13,9 @@ module Fog
           to_a.each(*args, &block)
         end
 
-        def each
+        def each(options={})
+          limit = options[:limit] || 100
+
           if !block_given?
             self
           else
@@ -23,7 +25,7 @@ module Fog
 
             while subset.truncated
               subset.
-                all(:marker => subset.marker, :limit => 1000).
+                all(:marker => subset.marker, :limit => limit).
                 each_entry { |f| yield f }
             end
 

@@ -52,6 +52,16 @@ Shindo.tests("Fog::Compute[:iam] | roles", ['aws','iam']) do
     @iam.roles.get(@role_one_name).destroy
   end
 
+  tests('#all', 'limit 1').succeeds do
+    1 == @iam.roles.all(:limit => 1).size
+  end
+
+  tests('#all', 'each_entry').succeeds do
+    roles = []; @iam.roles.each(:limit => 1) { |r| roles << r }
+
+    3 == roles.size
+  end
+
   tests('#destroy','clean up remaining roles').succeeds do
     @iam.roles.get(@role_two_name).destroy
     @iam.roles.get(@role_three_name).destroy

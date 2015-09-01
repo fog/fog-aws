@@ -7,13 +7,16 @@ module Fog
 
         model Fog::AWS::IAM::Role
 
-        def all
-          load(service.list_roles.body['Roles'])
+        def all(options={})
+          body = service.list_roles(page_params(options)).body
+
+          merge_attributes(body)
+          load(body["Roles"])
         end
 
         def get(identity)
           new(service.get_role(identity).body["Role"])
-        rescue Excon::Errors::NotFound, Fog::AWS::IAM::NotFound # ignore not found error
+        rescue Excon::Errors::NotFound, Fog::AWS::IAM::NotFound
           nil
         end
 
