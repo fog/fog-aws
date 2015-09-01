@@ -1,14 +1,12 @@
 Shindo.tests("Fog::Compute[:iam] | roles", ['aws','iam']) do
 
-  pending if Fog.mocking?
-
   @iam = Fog::AWS[:iam]
   @role_one_name = 'fake_role_one'
   @role_two_name = 'fake_role_two'
 
   @role_three_name = 'fake_role_three'
   @role_three_path = '/path/to/fake_role_three/'
-  @role_four_name = 'fake_role_four'
+  @role_four_name  = 'fake_role_four'
 
   tests('#create').succeeds do
     @role_one = @iam.roles.create(:rolename => @role_one_name)
@@ -37,7 +35,7 @@ Shindo.tests("Fog::Compute[:iam] | roles", ['aws','iam']) do
   end
 
   tests('#get',"returns nil if the role doesn't exists").succeeds do
-    @iam.roles.get('non-exists') == nil
+    @iam.roles.get('blah').nil?
   end
 
   tests('#create', 'assigns path').succeeds do
