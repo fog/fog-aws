@@ -115,10 +115,10 @@ module Fog
                   response.body = body
                 else
                   data = StringIO.new(body)
-                  remaining = data.length
+                  remaining = total_bytes = data.length
                   while remaining > 0
                     chunk = data.read([remaining, Excon::CHUNK_SIZE].min)
-                    block.call(chunk)
+                    block.call(chunk, remaining, total_bytes)
                     remaining -= Excon::CHUNK_SIZE
                   end
                 end
