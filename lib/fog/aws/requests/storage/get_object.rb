@@ -48,15 +48,17 @@ module Fog
             params[:headers]['If-Unmodified-Since'] = Fog::Time.at(options['If-Unmodified-Since'].to_i).to_date_header
           end
 
+          idempotent = true
           if block_given?
             params[:response_block] = Proc.new
+            idempotent = false
           end
 
           request(params.merge!({
             :expects  => [ 200, 206 ],
             :bucket_name => bucket_name,
             :object_name => object_name,
-            :idempotent => true,
+            :idempotent => idempotent,
             :method   => 'GET',
           }))
         end
