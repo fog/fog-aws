@@ -60,6 +60,17 @@ Shindo.tests("Fog::Compute[:aws] | monitor", ['aws']) do
       @instance.associate_public_ip == false
     end
 
+    test('#stop') do
+      @instance.stop
+      @instance.wait_for { state == "stopped" }
+      @instance.state == "stopped"
+    end
+
+    test("#start") do
+      @instance.start
+      @instance.wait_for { ready? }
+      @instance.state == "running"
+    end
   end
 
   @instance.destroy

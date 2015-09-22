@@ -42,6 +42,7 @@ module Fog
             response.status = 200
 
             response.body = {
+              'requestId'    => Fog::AWS::Mock.request_id,
               'instancesSet' => instance_set.reduce([]) do |ia, instance|
                                   instance['classicLinkSecurityGroups'] = nil
                                   instance['classicLinkVpcId'] = nil

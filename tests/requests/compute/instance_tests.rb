@@ -81,7 +81,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'timestamp'    => Time
   }
 
-  @terminate_instances_format = {
+  @instance_state_change_format = {
     'instancesSet'  => [{
       'currentState' => {'code' => Integer, 'name' => String},
       'instanceId'    => String,
@@ -161,6 +161,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       'eventsSet'        => [Fog::Nullable::Hash],
     }]
   }
+
   tests('success') do
 
     @instance_id = nil
@@ -246,7 +247,15 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       Fog::Compute[:aws].reboot_instances(@instance_id).body
     end
 
-    tests("#terminate_instances('#{@instance_id}')").formats(@terminate_instances_format) do
+    tests("#stop_instances('#{@instance_id}')").formats(@instance_state_change_format) do
+      Fog::Compute[:aws].stop_instances(@instance_id).body
+    end
+
+    tests("#start_instances('#{@instance_id}')").formats(@instance_state_change_format) do
+      Fog::Compute[:aws].start_instances(@instance_id).body
+    end
+
+    tests("#terminate_instances('#{@instance_id}')").formats(@instance_state_change_format) do
       Fog::Compute[:aws].terminate_instances(@instance_id).body
     end
 

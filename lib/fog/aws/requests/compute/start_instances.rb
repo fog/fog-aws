@@ -41,6 +41,7 @@ module Fog
             response.status = 200
 
             response.body = {
+              'requestId'    => Fog::AWS::Mock.request_id,
               'instancesSet' => instance_set.reduce([]) do |ia, instance|
                                   ia << {'currentState' => { 'code' => 0, 'name' => 'pending' },
                                          'previousState' => instance['instanceState'],

@@ -199,7 +199,7 @@ module Fog
             when 'rebooting'
               instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
             when 'stopping'
-              instance['instanceState'] = { 'code' => 0, 'name' => 'stopping' }
+              instance['instanceState'] = { 'code' => 0, 'name' => 'stopped' }
               instance['stateReason'] = { 'code' => 0 }
             when 'shutting-down'
               if Time.now - self.data[:deleted_at][instance['instanceId']] >= Fog::Mock.delay * 2
