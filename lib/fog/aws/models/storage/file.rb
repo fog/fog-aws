@@ -20,7 +20,7 @@ module Fog
         attribute :last_modified,       :aliases => ['Last-Modified', 'LastModified']
         attribute :metadata
         attribute :owner,               :aliases => 'Owner'
-        attribute :storage_class,       :aliases => ['x-amz-storage-class', 'StorageClass']
+        attribute :storage_class,       :aliases => ['x-amz-storage-class', 'X-Amz-Storage-Class', 'StorageClass']
         attribute :encryption,          :aliases => 'x-amz-server-side-encryption'
         attribute :encryption_key,      :aliases => 'x-amz-server-side-encryption-customer-key'
         attribute :version,             :aliases => 'x-amz-version-id'
