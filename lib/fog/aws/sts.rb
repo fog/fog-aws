@@ -74,12 +74,12 @@ module Fog
         def initialize(options={})
 
           @use_iam_profile = options[:use_iam_profile]
+          @region     = options[:region]      || 'us-east-1'
           setup_credentials(options)
           @instrumentor       = options[:instrumentor]
           @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.sts'
           @connection_options     = options[:connection_options] || {}
 
-          @region     = options[:region]      || 'us-east-1'
           @host       = options[:host]        || "sts.#{@region}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
