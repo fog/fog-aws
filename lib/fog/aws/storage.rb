@@ -205,6 +205,8 @@ module Fog
           case region.to_s
           when DEFAULT_REGION, ''
             's3.amazonaws.com'
+          when 'cn-north-1'
+            's3.cn-north-1.amazonaws.com.cn'
           else
             "s3-#{region}.amazonaws.com"
           end
