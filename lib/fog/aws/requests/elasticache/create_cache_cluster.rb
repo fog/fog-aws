@@ -72,6 +72,7 @@ module Fog
             'CacheClusterStatus'  => 'available',
             'CacheNodes'          => create_cache_nodes(id.strip, options[:num_nodes]),
             'CacheSecurityGroups' => [],
+            'SecurityGroups'  => [],
             'CacheParameterGroup' => { 'CacheParameterGroupName' =>
                 options[:parameter_group_name] || 'default.memcached1.4' },
             'CacheSubnetGroupName' => options[:cache_subnet_group_name],
