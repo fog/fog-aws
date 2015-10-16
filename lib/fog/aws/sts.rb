@@ -7,7 +7,7 @@ module Fog
       class ValidationError < Fog::AWS::STS::Error; end
       class AwsAccessKeysMissing < Fog::AWS::STS::Error; end
 
-      recognizes :aws_access_key_id, :aws_secret_access_key, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
+      recognizes :region, :aws_access_key_id, :aws_secret_access_key, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/sts'
       request :get_federation_token
@@ -74,12 +74,13 @@ module Fog
         def initialize(options={})
 
           @use_iam_profile = options[:use_iam_profile]
+          @region     = options[:region]      || 'us-east-1'
           setup_credentials(options)
           @instrumentor       = options[:instrumentor]
           @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.sts'
           @connection_options     = options[:connection_options] || {}
 
-          @host       = options[:host]        || 'sts.amazonaws.com'
+          @host       = options[:host]        || "sts.#{@region}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
@@ -100,7 +101,7 @@ module Fog
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
           if (@aws_access_key_id && @aws_secret_access_key)
-            @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, 'us-east-1', 'sts')
+            @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 'sts')
           end
         end
 
