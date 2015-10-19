@@ -15,17 +15,26 @@ module Fog
               'CacheSecurityGroups' => [],
               'CacheNodes' => [],
               'CacheParameterGroup' => {},
-              'ConfigurationEndpoint' => {}
+              'ConfigurationEndpoint' => {},
+              'SecurityGroups' => []
             }
           end
 
           def start_element(name, attrs = [])
             super
             case name
-            when 'CacheSecurityGroup'; then @security_group = {}
+            when 'CacheSecurityGroup'; then @cache_security_group = {}
             when 'CacheNode'; then @cache_node = {}
             when 'PendingModifiedValues'; then @pending_values = {}
             when 'ConfigurationEndpoint'; then @configuration_endpoint = {} 
+            when 'SecurityGroups'
+              @in_security_groups = true
+              @security_group_members = []
+            when 'member'
+              if @in_security_groups
+                @in_security_group_member = true
+                @security_group_member = {}
+              end
             end
           end
 
@@ -50,11 +59,17 @@ module Fog
             when 'CacheClusterCreateTime'
               @cache_cluster[name] = DateTime.parse(value)
             when 'CacheSecurityGroup'
-              @cache_cluster["#{name}s"] << @security_group unless @security_group.empty?
+              @cache_cluster["#{name}s"] << @cache_security_group unless @cache_security_group.empty?
             when 'ConfigurationEndpoint'
               @cache_cluster['ConfigurationEndpoint'] = @configuration_endpoint
-            when 'CacheSecurityGroupName', 'Status', 'CacheSubnetGroupName'
+            when 'CacheSecurityGroupName', 'CacheSubnetGroupName'
               @cache_cluster[name] = value
+            when 'Status'
+              if @in_security_group_member
+                @security_group_member[name] = value
+              else
+                @cache_cluster[name] = value
+              end
             when 'CacheNode'
               @cache_cluster["#{name}s"] << @cache_node unless @cache_node.empty?
               @cache_node = nil
@@ -78,6 +93,16 @@ module Fog
               end
             when 'CacheNodeIdsToReboots', 'CacheParameterGroupName', 'ParameterApplyStatus'
               @cache_cluster['CacheParameterGroup'][name] = value
+            when 'SecurityGroups'
+              @in_security_groups = false
+              @cache_cluster['SecurityGroups'] = @security_group_members
+            when 'SecurityGroupId'
+              @security_group_member[name] = value if @in_security_group_member
+            when 'member'
+              if @in_security_groups
+                @in_security_group_member = false
+                @security_group_members << @security_group_member
+              end
             else
               super
             end
