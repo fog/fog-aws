@@ -18,6 +18,10 @@ module Fog
         # @option options x-amz-acl [String] Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
         # @option options x-amz-storage-class [String] Default is 'STANDARD', set to 'REDUCED_REDUNDANCY' for non-critical, reproducable data
         # @option options x-amz-meta-#{name} Headers to be returned with object, note total size of request without body must be less than 8 KB. Each name, value pair must conform to US-ASCII.
+        # @option options encryption [String] Sets HTTP header for server-side encryption. Set to 'AES256' for SSE-S3 and SSE-C. Set to 'aws:kms' for SSE-KMS
+        # @option options encryption_key [String] Encryption customer key for SSE-C
+        # @option options x-amz-server-side-encryption-aws-kms-key-id [String] KMS key ID of the encryption key for SSE-KMS
+        # @option options x-amz-server-side-encryption-context [String] Encryption context for SSE-KMS
         #
         # @return [Excon::Response] response:
         #   * headers [Hash]:
