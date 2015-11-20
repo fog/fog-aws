@@ -26,15 +26,23 @@ module Fog
         #         * 'WriteCapacityUnits'<~Integer> - write capacity for table, in 5..10000
         #       * 'TableName'<~String> - name of table
         #       * 'TableStatus'<~String> - status of table
-        def update_table(table_name, provisioned_throughput)
-          body = {
+        def update_table(table_name, provisioned_throughput, global_indexes=nil)
+          if global_indexes != nil
+           body = {
+            'GlobalSecondaryIndexUpdates' => global_indexes,
             'ProvisionedThroughput' => provisioned_throughput,
             'TableName'             => table_name
-          }
+           }
+          else
+           body = {
+            'ProvisionedThroughput' => provisioned_throughput,
+            'TableName'             => table_name
+           }
+          end
 
           request(
             :body       => Fog::JSON.encode(body),
-            :headers    => {'x-amz-target' => 'DynamoDB_20111205.UpdateTable'},
+            :headers    => {'x-amz-target' => 'DynamoDB_20120810.UpdateTable'},
             :idempotent => true
           )
         end
