@@ -64,7 +64,8 @@ DATA
           elsif self.region != 'us-east-1'
             response.status = 409
             msg = "Your region '#{self.region}' does not match the default region 'us-east-1'"
-            raise(Excon::Errors.status_error({:expects => "StatusCode: #{200} : Warning! #{msg}"}, response))
+            Fog.warning msg
+            raise(Excon::Errors.status_error({:expects => 201}, response))
           end
           response
         end
