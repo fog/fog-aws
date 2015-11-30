@@ -646,6 +646,7 @@ module Fog
           #we must also reset the signature
           def rewind
             self.signature = initial_signature
+            self.finished = false
             body.rewind
           end
 
