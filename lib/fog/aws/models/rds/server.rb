@@ -131,8 +131,8 @@ module Fog
             'DBSubnetGroupName'             => db_subnet_group_name,
             'Engine'                        => engine,
             'EngineVersion'                 => engine_version,
-            'StorageEncrypted'              => storage_encrypted,
             'Iops'                          => iops,
+            'KmsKeyId'                      => kms_key_id,
             'LicenseModel'                  => license_model,
             'MasterUserPassword'            => password || attributes['MasterUserPassword'],
             'MasterUsername'                => master_username,
@@ -141,6 +141,7 @@ module Fog
             'PreferredBackupWindow'         => preferred_backup_window,
             'PreferredMaintenanceWindow'    => preferred_maintenance_window,
             'PubliclyAccessible'            => publicly_accessible,
+            'StorageEncrypted'              => storage_encrypted,
             'StorageType'                   => storage_type,
             'VpcSecurityGroups'             => vpc_security_groups,
           }
