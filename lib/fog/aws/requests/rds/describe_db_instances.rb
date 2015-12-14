@@ -64,6 +64,10 @@ module Fog
               when "modifying"
                 # TODO there are some fields that only applied after rebooting
                 if Time.now - self.data[:modify_time] >= Fog::Mock.delay
+                  if new_id = server["PendingModifiedValues"] && server["PendingModifiedValues"]["DBInstanceIdentifier"]
+                    self.data[:servers][new_id] = self.data[:servers].delete(server["DBInstanceIdentifier"])
+                  end
+
                   server.merge!(server["PendingModifiedValues"])
                   server["PendingModifiedValues"] = {}
                   server["DBInstanceStatus"] = 'available'

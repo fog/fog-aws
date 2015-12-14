@@ -64,9 +64,20 @@ module Fog
 
       request :describe_engine_default_parameters
 
+      request :describe_db_clusters
+      request :describe_db_cluster_snapshots
+      request :create_db_cluster
+      request :create_db_cluster_snapshot
+      request :delete_db_cluster
+      request :delete_db_cluster_snapshot
+
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
+
+      model       :cluster
+      collection  :clusters
+      collection  :cluster_snapshots
 
       model       :snapshot
       collection  :snapshots
@@ -97,6 +108,8 @@ module Fog
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
+                :clusters            => {},
+                :cluster_snapshots   => {},
                 :servers             => {},
                 :security_groups     => {},
                 :subnet_groups       => {},

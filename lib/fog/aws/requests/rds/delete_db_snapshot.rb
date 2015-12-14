@@ -26,8 +26,9 @@ module Fog
           # TODO: raise error if snapshot isn't 'available'
           response = Excon::Response.new
           snapshot_data = self.data[:snapshots].delete(name)
+          snapshot_data = self.data[:cluster_snapshots].delete(name) unless snapshot_data
 
-          raise Fog::AWS::RDS::NotFound.new("DBSnapshtoNotFound => #{name} not found") unless snapshot_data
+          raise Fog::AWS::RDS::NotFound.new("DBSnapshotNotFound => #{name} not found") unless snapshot_data
 
           response.status = 200
           response.body = {

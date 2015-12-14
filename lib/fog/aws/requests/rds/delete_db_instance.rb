@@ -37,9 +37,18 @@ module Fog
           unless skip_snapshot
             if server_set["ReadReplicaSourceDBInstanceIdentifier"]
               raise Fog::AWS::RDS::Error.new("InvalidParameterCombination => FinalDBSnapshotIdentifier can not be specified when deleting a replica instance")
+            elsif server_set["DBClusterIdentifier"]
+              raise Fog::AWS::RDS::Error.new("InvalidParameterCombination => FinalDBSnapshotIdentifier can not be specified when deleting a cluster instance")
             else
               create_db_snapshot(identifier, snapshot_identifier)
             end
+          end
+
+          cluster = self.data[:clusters].values.detect { |c| c["DBClusterMembers"].any? { |m| m["DBInstanceIdentifier"] == identifier } }
+
+          if cluster
+            cluster["DBClusterMembers"].delete_if { |v| v["DBInstanceIdentifier"] == identifier }
+            self.data[:clusters][cluster["DBClusterIdentifier"]] = cluster
           end
 
           self.data[:servers].delete(identifier)
