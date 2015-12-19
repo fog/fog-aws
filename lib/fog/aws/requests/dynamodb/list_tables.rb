@@ -14,10 +14,13 @@ module Fog
         #   * body<~Hash>:
         #     * 'LastEvaluatedTableName'<~String> - last table name, for pagination
         #     * 'TableNames'<~Array> - table names
+        #
+        # See DynamoDB Documentation: http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ListTables.html
+        #
         def list_tables(options = {})
           request(
             :body       => Fog::JSON.encode(options),
-            :headers    => {'x-amz-target' => 'DynamoDB_20111205.ListTables'},
+            :headers    => {'x-amz-target' => 'DynamoDB_20120810.ListTables'},
             :idempotent => true
           )
         end

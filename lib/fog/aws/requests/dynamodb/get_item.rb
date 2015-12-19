@@ -7,12 +7,11 @@ module Fog
         # ==== Parameters
         # * 'table_name'<~String> - name of table for item
         # * 'key'<~Hash>:
-        #   * 'HashKeyElement'<~Hash>: info for primary key
-        #     * 'AttributeType'<~String> - type of attribute
-        #     * 'AttributeName'<~String> - name of attribute
-        #   * 'RangeKeyElement'<~Hash>: optional, info for range key
-        #     * 'AttributeType'<~String> - type of attribute
-        #     * 'AttributeName'<~String> - name of attribute
+        #     {
+        #       "ForumName": {
+        #         "S": "Amazon DynamoDB"
+        #       }
+        #     }
         # * 'options'<~Hash>:
         #   * 'AttributesToGet'<~Array>: list of array names to return, defaults to returning all
         #   * 'ConsistentRead'<~Boolean>: whether to wait for updates, defaults to false
@@ -23,6 +22,9 @@ module Fog
         #     * 'ConsumedCapacityUnits'<~Float> - Capacity units used in read
         #     * 'Item':<~Hash>:
         #       * 'AttributeName'<~Hash>: in form of {"type":value}
+        #
+        # See DynamoDB Documentation: http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html
+        #
         def get_item(table_name, key, options = {})
           body = {
             'Key'               => key,
@@ -31,7 +33,7 @@ module Fog
 
           request(
             :body       => Fog::JSON.encode(body),
-            :headers    => {'x-amz-target' => 'DynamoDB_20111205.GetItem'},
+            :headers    => {'x-amz-target' => 'DynamoDB_20120810.GetItem'},
             :idempotent => true
           )
         end

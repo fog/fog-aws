@@ -91,10 +91,10 @@ Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
       'LastEvaluatedKey'      => NilClass
     }
 
-    tests("#query('#{@table_name}', {'S' => 'key'}").formats(@query_format) do
+    tests("#query('#{@table_name}')").formats(@query_format) do
       pending if Fog.mocking?
       pending # requires a table with range key
-      Fog::AWS[:dynamodb].query(@table_name, {'S' => 'key'}).body
+      Fog::AWS[:dynamodb].query(@table_name).body
     end
 
     @scan_format = @query_format.merge('ScannedCount' => Integer)

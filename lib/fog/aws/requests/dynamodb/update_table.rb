@@ -14,18 +14,17 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'Table'<~Hash>
-        #       * 'KeySchema'<~Hash> - schema for table
-        #         * 'HashKeyElement'<~Hash>: info for primary key
+        #       * 'KeySchema'<~Array> - schema for table
         #           * 'AttributeName'<~String> - name of attribute
-        #           * 'AttributeType'<~String> - type of attribute, in %w{N NS S SS} for number, number set, string, string set
-        #         * 'RangeKeyElement'<~Hash>: optional, info for range key
-        #           * 'AttributeName'<~String> - name of attribute
-        #           * 'AttributeType'<~String> - type of attribute, in %w{N NS S SS} for number, number set, string, string set
+        #           * 'KeyType'<~String> - type of attribute, in %w{N NS S SS} for number, number set, string, string set
         #       * 'ProvisionedThroughput'<~Hash>:
         #         * 'ReadCapacityUnits'<~Integer> - read capacity for table, in 5..10000
         #         * 'WriteCapacityUnits'<~Integer> - write capacity for table, in 5..10000
         #       * 'TableName'<~String> - name of table
         #       * 'TableStatus'<~String> - status of table
+        #
+        # See DynamoDB Documentation: http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html
+        #
         def update_table(table_name, provisioned_throughput)
           body = {
             'ProvisionedThroughput' => provisioned_throughput,
@@ -34,7 +33,7 @@ module Fog
 
           request(
             :body       => Fog::JSON.encode(body),
-            :headers    => {'x-amz-target' => 'DynamoDB_20111205.UpdateTable'},
+            :headers    => {'x-amz-target' => 'DynamoDB_20120810.UpdateTable'},
             :idempotent => true
           )
         end
