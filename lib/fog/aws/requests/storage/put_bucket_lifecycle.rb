@@ -10,11 +10,11 @@ module Fog
         #     * ID [String] Unique identifier for the rule
         #     * Prefix [String] Prefix identifying one or more objects to which the rule applies
         #     * Enabled [Boolean] if rule is currently being applied
-        #     * Expiration [Hash] Container for the object expiration rule.
+        #     * [NonCurrentVersion]Expiration [Hash] Container for the object expiration rule.
         #       * Days [Integer] lifetime, in days, of the objects that are subject to the rule
         #       * Date [Date] Indicates when the specific rule take effect.
         #         The date value must conform to the ISO 8601 format. The time is always midnight UTC.
-        #     * Transition [Hash] Container for the transition rule that describes when objects transition
+        #     * [NonCurrentVersion]Transition [Hash] Container for the transition rule that describes when objects transition
         #       to the Glacier storage class
         #       * Days [Integer] lifetime, in days, of the objects that are subject to the rule
         #       * Date [Date] Indicates when the specific rule take effect.
@@ -43,6 +43,19 @@ module Fog
                         Expiration { Date rule['Expiration']['Date'].is_a?(Time) ? rule['Expiration']['Date'].utc.iso8601 : Time.parse(rule['Expiration']['Date']).utc.iso8601 }
                       end
                     end
+                    if rule['NonCurrentVersionExpiration']
+                      if rule['NonCurrentVersoinExpiration']['Days']
+                        NonCurrentVersoinExpiration { Days rule['NonCurrentVersoinExpiration']['Days'] }
+                      elsif rule['NonCurrentVersoinExpiration']['Date']
+                        NonCurrentVersoinExpiration {
+                          if Date rule['NonCurrentVersoinExpiration']['Date'].is_a?(Time)
+                            rule['NonCurrentVersoinExpiration']['Date'].utc.iso8601
+                          else
+                            Time.parse(rule['NonCurrentVersoinExpiration']['Date']).utc.iso8601
+                          end
+                        }
+                      end
+                    end
                     if rule['Transition']
                       Transition {
                         if rule['Transition']['Days']
@@ -51,6 +64,16 @@ module Fog
                           Date rule['Transition']['Date'].is_a?(Time) ? time.utc.iso8601 : Time.parse(time).utc.iso8601
                         end
                         StorageClass rule['Transition']['StorageClass'].nil? ? 'GLACIER' : rule['Transition']['StorageClass']
+                      }
+                    end
+                    if rule['NonCurrentVersionTransition']
+                      NonCurrentVersionTransition {
+                        if rule['NonCurrentVersionTransition']['Days']
+                          Days rule['NonCurrentVersionTransition']['Days']
+                        elsif rule['NonCurrentVersionTransition']['Date']
+                          Date rule['NonCurrentVersionTransition']['Date'].is_a?(Time) ? time.utc.iso8601 : Time.parse(time).utc.iso8601
+                        end
+                        StorageClass rule['NonCurrentVersionTransition']['StorageClass'].nil? ? 'GLACIER' : rule['NonCurrentVersionTransition']['StorageClass']
                       }
                     end
                   end
