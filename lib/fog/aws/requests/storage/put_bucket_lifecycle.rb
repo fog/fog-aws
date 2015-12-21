@@ -33,7 +33,7 @@ module Fog
                   ID rule['ID']
                   Prefix rule['Prefix']
                   Status rule['Enabled'] ? 'Enabled' : 'Disabled'
-                  unless (rule['Expiration'] or rule['Transition'])
+                  unless (rule['Expiration'] or rule['Transition'] or rule['NonCurrentVersionExpiration'] or rule['NonCurrentVersionTransition'])
                     Expiration { Days rule['Days'] }
                   else
                     if rule['Expiration']
@@ -44,14 +44,14 @@ module Fog
                       end
                     end
                     if rule['NonCurrentVersionExpiration']
-                      if rule['NonCurrentVersoinExpiration']['Days']
-                        NonCurrentVersoinExpiration { Days rule['NonCurrentVersoinExpiration']['Days'] }
-                      elsif rule['NonCurrentVersoinExpiration']['Date']
+                      if rule['NonCurrentVersionExpiration']['Days']
+                        NonCurrentVersoinExpiration { Days rule['NonCurrentVersionExpiration']['Days'] }
+                      elsif rule['NonCurrentVersionExpiration']['Date']
                         NonCurrentVersoinExpiration {
-                          if Date rule['NonCurrentVersoinExpiration']['Date'].is_a?(Time)
-                            rule['NonCurrentVersoinExpiration']['Date'].utc.iso8601
+                          if Date rule['NonCurrentVersionExpiration']['Date'].is_a?(Time)
+                            rule['NonCurrentVersionExpiration']['Date'].utc.iso8601
                           else
-                            Time.parse(rule['NonCurrentVersoinExpiration']['Date']).utc.iso8601
+                            Time.parse(rule['NonCurrentVersionExpiration']['Date']).utc.iso8601
                           end
                         }
                       end
