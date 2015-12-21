@@ -277,7 +277,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
         Fog::Storage[:aws].put_bucket_lifecycle(@aws_bucket_name, lifecycle)
         Fog::Storage[:aws].get_bucket_lifecycle(@aws_bucket_name).body
       end
-      lifecycle = {'Rules' => [{'ID' => 'test rule', 'Prefix' => '/prefix', 'Enabled' => true, 'NonCurrentVersionExpiration' => {'Days' => 42}, 'NonCurrentVersionTransition' => {'Days' => 6, 'StorageClass'=>'GLACIER'}}]}
+      lifecycle = {'Rules' => [{'ID' => 'test rule', 'Prefix' => '/prefix', 'Enabled' => true, 'NoncurrentVersionExpiration' => {'NoncurrentDays' => 42}, 'NoncurrentVersionTransition' => {'NoncurrentDays' => 6, 'StorageClass'=>'GLACIER'}}]}
       tests('versioned transition').returns(lifecycle) do
         Fog::Storage[:aws].put_bucket_lifecycle(@aws_bucket_name, lifecycle)
         Fog::Storage[:aws].get_bucket_lifecycle(@aws_bucket_name).body
