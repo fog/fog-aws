@@ -55,7 +55,7 @@ module Fog
                 @transition['StorageClass'] = value
               when 'Date'
                 @transition[name] = value
-              when 'NoncurrentDays'
+              when 'Days'
                 @transition[name] = value.to_i
               when 'Transition'
                 @rule['Transition'] = @transition
@@ -68,7 +68,7 @@ module Fog
                 @version_transition['StorageClass'] = value
               when 'Date'
                 @version_transition[name] = value
-              when 'Days'
+              when 'NoncurrentDays'
                 @version_transition[name] = value.to_i
               when 'NoncurrentVersionTransition'
                 @rule['NoncurrentVersionTransition'] = @transition
