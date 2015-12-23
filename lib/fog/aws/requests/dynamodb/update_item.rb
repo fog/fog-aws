@@ -2,6 +2,7 @@ module Fog
   module AWS
     class DynamoDB
       class Real
+        class DeprecatedAttributeUpdates < Exception; end
         # Update DynamoDB item
         #
         # ==== Parameters
@@ -24,10 +25,17 @@ module Fog
         #
         # See DynamoDB Documentation: http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateItem.html
         #
-        def update_item(table_name, key, options = {})
+        def update_item(table_name, key, options = {}, deprecated_attribute_updates = nil)
+          if deprecated_attribute_updates
+            raise DeprecatedAttributeUpdates, "The `20111205` DynamoDB API is deprecated. You need to use `ExpressionAttributeValues` instead of `AttributeUpdates`."
+            attribute_updates = options
+            options = deprecated_attribute_updates
+          end
+
           body = {
             'Key'               => key,
-            'TableName'         => table_name
+            'TableName'         => table_name,
+            'AttributeUpdates'  => attribute_updates,
           }.merge(options)
 
           request(

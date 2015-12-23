@@ -26,14 +26,22 @@ module Fog
         #
         # See DynamoDB Documentation: http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html
         #
-        def query(table_name, options = {})
+        def query(table_name, options = {}, hash_key_deprecated = nil)
+          if hash_key_deprecated || (options.keys.length == 1 && [:S, :N, :B].include?(options.keys.first.to_sym))
+            Fog::Logger.deprecation("The `20111205` API version is deprecated. You need to use `KeyConditionExpression` instead of `HashKey`.")
+            apiVersion = '20111205'
+            hash_key = options
+            options = hash_key_deprecated
+          end
+
           body = {
-            'TableName'     => table_name
+            'TableName'     => table_name,
+            'HashKeyValue'  => hash_key
           }.merge(options)
 
           request(
             :body     => Fog::JSON.encode(body),
-            :headers  => {'x-amz-target' => 'DynamoDB_20120810.Query'}
+            :headers  => {'x-amz-target' => "DynamoDB_#{apiVersion || '20120810'}.Query"}
           )
         end
       end
