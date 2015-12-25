@@ -8,11 +8,9 @@ module Fog
         # * 'table_name'<~String> - name of table for item
         # * 'key'<~Hash>:
         #   * 'HashKeyElement'<~Hash>: info for primary key
-        #     * 'AttributeName'<~String> - name of attribute
-        #     * 'AttributeType'<~String> - type of attribute
+        #     * 'AttributeValue'<~Hash> - formated as {type => value}
         #   * 'RangeKeyElement'<~Hash>: optional, info for range key
-        #     * 'AttributeName'<~String> - name of attribute
-        #     * 'AttributeType'<~String> - type of attribute
+        #     * 'AttributeValue'<~Hash> - formated as {type => value}
         # * 'options'<~Hash>:
         #   * 'Expected'<~Hash>: data to check against
         #     * 'AttributeName'<~String> - name of attribute
