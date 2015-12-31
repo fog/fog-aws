@@ -9,6 +9,10 @@ Shindo.tests("Storage[:aws] | directory", ["aws"]) do
       @instance.public_url
     end
 
+    tests('#location').returns('us-east-1') do # == Fog::AWS::Storage::DEFAULT_REGION
+      @instance.location
+    end
+
     @instance.acl = 'public-read'
     @instance.save
 
