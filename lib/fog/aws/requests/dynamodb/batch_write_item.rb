@@ -7,16 +7,18 @@ module Fog
           batch_write_item(request_items)
         end
 
-        #request_items has form:
-        #{"table_name"=>
+        # request_items has form:
+        #
+        # {"table_name"=>
         #  [{"PutRequest"=>
         #    {"Item"=>
-        #      {"hash_key"=>{"N"=>"99"},
-        #       "range_key"=>{"N"=>"99"},
-        #       "attribute"=>{"S"=>"hi"}
-        #       }}}, ... ]}
-        # For more information:
-        # http://docs.amazonwebservices.com/amazondynamodb/latest/developerguide/API_BatchWriteItems.html
+        #       {"hi" => {"N" => 99}}
+        #    }
+        #  }]
+        # }
+        #
+        # See DynamoDB Documentation: http://docs.amazonwebservices.com/amazondynamodb/latest/developerguide/API_BatchWriteItems.html
+        #
         def batch_write_item(request_items)
           body = {
             'RequestItems' => request_items
@@ -24,7 +26,7 @@ module Fog
 
           request(
             :body       => Fog::JSON.encode(body),
-            :headers    => {'x-amz-target' => 'DynamoDB_20111205.BatchWriteItem'}
+            :headers    => {'x-amz-target' => 'DynamoDB_20120810.BatchWriteItem'}
           )
         end
       end
