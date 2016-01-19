@@ -12,7 +12,7 @@ Shindo.tests("AWS::RDS | servers", ['aws', 'rds']) do
     instance.destroy
 
     db_name = uniq_id('fog-db-name')
-    @restore_instance = Fog::AWS[:rds].servers.restore(snapshot_id, db_name, {'master_username' => instance.master_username, 'flavor_id' => 'db.m3.medium'})
+    @restore_instance = Fog::AWS[:rds].servers.restore('master_username' => instance.master_username, 'flavor_id' => 'db.m3.medium', 'source_snapshot_id' => snapshot_id, 'id' => uniq_id('restored-instance'))
   end
 
   if Fog.mocking? && @restore_instance.respond_to?(:ready?)
