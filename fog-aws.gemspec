@@ -28,4 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'fog-json',  '~> 1.0'
   spec.add_dependency 'fog-xml',   '~> 0.1'
   spec.add_dependency 'ipaddress', '~> 0.8'
+  spec.add_dependency 'mime-types'
 end
