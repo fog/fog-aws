@@ -42,7 +42,34 @@ module Fog
 
       class Mock
         def modify_db_parameter_group(group_name, parameters)
-          Fog::Mock.not_implemented
+          group = self.data[:parameter_groups][group_name]
+
+          unless group
+            raise Fog::AWS::RDS::NotFound.new("Parameter group not found")
+          end
+
+          parameters.each do |p|
+            p.merge!(
+              "Source"        => "user",
+              "IsModifiable"  => true,
+              "Description"   => "some string",
+              "DataType"      => "string",
+              "AllowedValues" => p["ParameterValue"],
+              "ApplyType"     => "dynamic"
+            )
+          end
+
+          group[:parameters] = parameters
+
+          self.data[:parameter_groups][group_name] = group
+
+          response = Excon::Response.new
+          response.body = {
+            "ResponseMetadata"             => {"RequestId"            => Fog::AWS::Mock.request_id},
+            "ModifyDBParameterGroupResult" => {"DBParameterGroupName" => group_name}
+          }
+          response.status = 200
+          response
         end
       end
     end

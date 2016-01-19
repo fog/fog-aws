@@ -62,6 +62,8 @@ module Fog
       request :create_event_subscription
       request :delete_event_subscription
 
+      request :describe_engine_default_parameters
+
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
@@ -100,6 +102,18 @@ module Fog
                 :subnet_groups       => {},
                 :snapshots           => {},
                 :event_subscriptions => {},
+                :default_parameters  => {
+                  "mysql5.5" => [
+                    {
+                      "DataType"      => "integer",
+                      "Source"        => "engine-default",
+                      "Description"   => "Intended for use with master-to-master replication, and can be used to control the operation of AUTO_INCREMENT columns",
+                      "ApplyType"     => "dynamic",
+                      "AllowedValues" => "1-65535",
+                      "ParameterName" => "auto_increment_increment"
+                    }
+                  ],
+                },
                 :db_engine_versions  => [
                   {
                     'Engine'                     => "mysql",

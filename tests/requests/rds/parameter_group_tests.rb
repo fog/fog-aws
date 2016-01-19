@@ -21,7 +21,7 @@ Shindo.tests('AWS::RDS | parameter group requests', ['aws', 'rds']) do
       body
     end
 
-    tests("#describe_db_parameter_groups('fog-group)").formats(AWS::RDS::Formats::DESCRIBE_DB_PARAMETER_GROUP) do
+    tests("#describe_db_parameter_groups('fog-group')").formats(AWS::RDS::Formats::DESCRIBE_DB_PARAMETER_GROUP) do
 
       body = Fog::AWS[:rds].describe_db_parameter_groups('fog-group').body
 

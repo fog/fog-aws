@@ -34,7 +34,21 @@ module Fog
 
       class Mock
         def describe_db_parameters(name, opts={})
-          Fog::Mock.not_implemented
+          group = self.data[:parameter_groups][name]
+
+          unless group
+            raise Fog::AWS::RDS::NotFound.new("parameter group does not exist")
+          end
+
+          parameters = group[:parameters]
+
+          response = Excon::Response.new
+          response.body = {
+            "ResponseMetadata"           => { "RequestId"  => Fog::AWS::Mock.request_id },
+            "DescribeDBParametersResult" => { "Parameters" => parameters }
+          }
+          response.status = 200
+          response
         end
       end
     end
