@@ -29,6 +29,12 @@ module Fog
           end
           load(result) # data is an array of attribute hashes
         end
+
+        def defaults(family)
+          data = service.describe_engine_default_parameters(family).body['DescribeEngineDefaultParametersResult']['Parameters']
+
+          load(data)
+        end
       end
     end
   end

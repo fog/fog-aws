@@ -84,6 +84,16 @@ module Fog
 
           ec2 = Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id]
 
+          db_parameter_groups     = if pg_name = options.delete("DBParameterGroupName")
+                                      group = self.data[:parameter_groups][pg_name]
+                                      if group
+                                        [{"DBParameterGroupName" => pg_name, "ParameterApplyStatus" => "in-sync" }]
+                                      else
+                                        raise Fog::AWS::RDS::NotFound.new("Parameter group does not exist")
+                                      end
+                                    else
+                                      [{ "DBParameterGroupName" => "default.mysql5.5", "ParameterApplyStatus" => "in-sync" }]
+                                    end
           db_security_group_names = Array(options.delete("DBSecurityGroups"))
           rds_security_groups     = self.data[:security_groups].values
           ec2_security_groups     = ec2[:security_groups].values
@@ -119,7 +129,7 @@ module Fog
             "DBInstanceIdentifier"             => db_name,
             "DBInstanceStatus"                 =>"creating",
             "DBName"                           => options["DBName"],
-            "DBParameterGroups"                => [{ "DBParameterGroupName" => "default.mysql5.5", "ParameterApplyStatus" => "in-sync" }],
+            "DBParameterGroups"                => db_parameter_groups,
             "DBSecurityGroups"                 => db_security_groups,
             "DBSubnetGroupName"                => options["DBSubnetGroupName"],
             "Endpoint"                         =>{},
