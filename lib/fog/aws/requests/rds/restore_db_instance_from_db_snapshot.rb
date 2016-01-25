@@ -62,7 +62,7 @@ module Fog
             "Iops"                             => options['Iops'],
             "LicenseModel"                     => options['LicenseModel'] || snapshot['LicenseModel'] || 'general-public-license',
             "MasterUsername"                   => options['MasterUsername'] || snapshot['MasterUsername'],
-            "MultiAZ"                          => options['MultiAZ'],
+            "MultiAZ"                          => !!options['MultiAZ'],
             "OptiongroupMemberships"           => option_group_membership,
             "PendingModifiedValues"            => { 'MasterUserPassword' => '****' }, # This clears when is available
             "PreferredBackupWindow"            => '08:00-08:30',

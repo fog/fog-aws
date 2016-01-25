@@ -3,18 +3,6 @@ module Fog
     class AWS < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
-      require 'fog/aws/requests/dns/change_resource_record_sets'
-      require 'fog/aws/requests/dns/create_health_check'
-      require 'fog/aws/requests/dns/create_hosted_zone'
-      require 'fog/aws/requests/dns/delete_health_check'
-      require 'fog/aws/requests/dns/delete_hosted_zone'
-      require 'fog/aws/requests/dns/get_change'
-      require 'fog/aws/requests/dns/get_health_check'
-      require 'fog/aws/requests/dns/get_hosted_zone'
-      require 'fog/aws/requests/dns/list_health_checks'
-      require 'fog/aws/requests/dns/list_hosted_zones'
-      require 'fog/aws/requests/dns/list_resource_record_sets'
-
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :host, :path, :port, :scheme, :version, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
