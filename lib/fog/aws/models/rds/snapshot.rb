@@ -12,6 +12,7 @@ module Fog
         attribute  :state, :aliases => 'Status'
         attribute  :port, :aliases => 'Port', :type => :integer
         attribute  :allocated_storage, :aliases => 'AllocatedStorage', :type => :integer
+        attribute  :storage_type, :aliases => 'StorageType', :type => :string
         attribute  :iops, :aliases => 'Iops', :type => :integer
         attribute  :availability_zone, :aliases => 'AvailabilityZone'
         attribute  :type, :aliases => 'SnapshotType'

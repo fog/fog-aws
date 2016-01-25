@@ -6,6 +6,7 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
 
     @instance.wait_for(20*60) { ready? }
     @instance_with_encrypted_storage.wait_for(20*60) { ready? }
+    @final_snapshot_id = uniq_id('fog-test-snapshot')
 
     tests("#storage_encrypted") do
       returns(true) { @instance_with_encrypted_storage.storage_encrypted }
@@ -114,12 +115,11 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
     replica && replica.destroy
 
     test("Destroying with a final snapshot") do
-      final_snapshot_id = uniq_id('fog-test-snapshot')
 
       @instance_with_final_snapshot.wait_for { ready? }
-      @instance_with_final_snapshot.destroy(final_snapshot_id)
+      @instance_with_final_snapshot.destroy(@final_snapshot_id)
       returns(true, "Final snapshot created") do
-        @final_snapshot = Fog::AWS[:rds].snapshots.get(final_snapshot_id)
+        @final_snapshot = Fog::AWS[:rds].snapshots.get(@final_snapshot_id)
         !@final_snapshot.nil?
       end
 
