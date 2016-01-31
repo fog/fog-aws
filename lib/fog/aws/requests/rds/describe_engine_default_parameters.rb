@@ -20,7 +20,7 @@ module Fog
           response.status = 200
           response.body   = {
             "ResponseMetadata"                      => { "RequestId"  => Fog::AWS::Mock.request_id },
-            "DescribeEngineDefaultParametersResult" => { "Parameters" => self.data[:default_parameters][family]}
+            "DescribeEngineDefaultParametersResult" => { "Parameters" => self.data[:default_parameters]}
           }
           response
         end
