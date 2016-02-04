@@ -7,8 +7,27 @@ module Fog
         identity :name, :aliases => 'Name'
         attribute :include_global, :aliases => 'IncludeGlobalServiceEvents', :type => :boolean
         attribute :s3_bucket_name, :aliases => 'S3BucketName'
-        attribute :s3_key_prefix, :aliases => 'S3KeyPrefix'
+        attribute :s3_key_prefix,  :aliases => 'S3KeyPrefix'
         attribute :sns_topic_name, :aliases => 'SnsTopicName'
+        # "CloudWatchLogsLogGroupArn"
+        attribute :cloud_watch_logs_log_group_arn, :aliases => 'CloudWatchLogsLogGroupArn'
+        # "CloudWatchLogsRoleArn"
+        attribute :cloud_watch_logs_role_arn, :aliases => 'CloudWatchLogsRoleArn'
+        # "HomeRegion"
+        attribute :home_region, :aliases => 'HomeRegion'
+        # "IncludeGlobalServiceEvents"
+        # "IsMultiRegionTrail"
+        attribute :is_multi_region_trail, :aliases => 'IsMultiRegionTrail', :type => :boolean
+        # "KmsKeyId"
+        attribute :kms_key_id, :aliases => 'KmsKeyId'
+        # "LogFileValidationEnabled"
+        attribute :log_file_validation_enabled, :aliases => 'LogFileValidationEnabled', :type => :boolean
+        # "Name"
+        # "S3BucketName"
+        # "S3KeyPrefix"
+        # "SnsTopicName"
+        # "TrailARN"
+        attribute :trail_arn, :aliases => 'TrailARN'
 
         def initialize(attributes={})
           super
