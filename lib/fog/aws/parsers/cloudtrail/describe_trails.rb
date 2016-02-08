@@ -3,14 +3,26 @@ module Fog
     module CloudTrail
       module AWS
         class DescribeTrails < Fog::Parsers::Base
+
           def reset
-            @trail = {}
+            @trail    = {}
             @response = { 'trailList' => [] }
           end
 
           def end_element(name)
             case name
-              when 'CloudWatchLogsLogGroupArn', 'CloudWatchLogsRoleArn', 'IncludeGlobalServiceEvents', 'Name', 'S3BucketName', 'S3KeyPrefix', 'SnsTopicName'
+              when 'Name',
+                  'IncludeGlobalServiceEvents',
+                  'S3BucketName',
+                  'S3KeyPrefix',
+                  'SnsTopicName',
+                  'CloudWatchLogsLogGroupArn',
+                  'CloudWatchLogsRoleArn',
+                  'HomeRegion',
+                  'IsMultiRegionTrail',
+                  'KmsKeyId',
+                  'LogFileValidationEnabled',
+                  'TrailARN'
                 @trail[name] = value
               when 'member'
                 @response['trailList'] << @trail
