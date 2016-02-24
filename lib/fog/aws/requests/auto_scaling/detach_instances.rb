@@ -22,7 +22,7 @@ module Fog
         #
 
         ExpectedOptions[:asg_name] = %w[AutoScalingGroupName]
-        ExpectedOptions[:instance_ids] = %w[AutoScalingGroupName]
+        ExpectedOptions[:instance_ids] = %w[InstanceIds]
 
         def detach_instances(auto_scaling_group_name, options = {})
 

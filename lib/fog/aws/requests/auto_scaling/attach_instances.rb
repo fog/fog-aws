@@ -19,6 +19,7 @@ module Fog
         # http://docs.aws.amazon.com/cli/latest/reference/autoscaling/attach-instances.html
 
         ExpectedOptions[:asg_name] = %w[AutoScalingGroupName]
+        ExpectedOptions[:instance_ids] = %w[InstanceIds]
 
         def attach_instances(auto_scaling_group_name, options = {})
 
@@ -36,7 +37,7 @@ module Fog
 
       class Mock
         def attach_instances(auto_scaling_group_name, options = {})
-          unexpected_options = options.keys - ExpectedOptions[:asg_name]
+          unexpected_options = options.keys - ExpectedOptions[:asg_name] - ExpectedOptions[:instance_ids]
 
           unless unexpected_options.empty?
             raise Fog::AWS::AutoScaling::ValidationError.new("Options #{unexpected_options.join(',')} should not be included in request")
