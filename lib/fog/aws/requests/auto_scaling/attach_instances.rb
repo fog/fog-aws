@@ -16,7 +16,7 @@ module Fog
         #
         # ==== See Also
         #
-        # http://docs.aws.amazon.com/cli/latest/reference/autoscaling/attach-instances.html
+        # http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_AttachInstances.html
 
         ExpectedOptions[:asg_name] = %w[AutoScalingGroupName]
         ExpectedOptions[:instance_ids] = %w[InstanceIds]

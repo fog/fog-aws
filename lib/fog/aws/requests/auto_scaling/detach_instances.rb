@@ -18,8 +18,8 @@ module Fog
         # 'shouldDecrementDesiredCapacity'<~Boolean> - decrement the asg capacity or not (it will boot another if an instance id detached)
         #
         # ==== See Also
-        # http://docs.aws.amazon.com/AutoScaling/latest/DeveloperGuide/detach-instance-asg.html
         #
+        # http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_DetachInstances.html
 
         ExpectedOptions[:asg_name] = %w[AutoScalingGroupName]
         ExpectedOptions[:instance_ids] = %w[InstanceIds]
