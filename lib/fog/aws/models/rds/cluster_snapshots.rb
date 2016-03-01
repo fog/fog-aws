@@ -37,7 +37,7 @@ module Fog
 
         def create(params={})
           if cluster
-            super(params.merge(cluster_id: cluster.id))
+            super(params.merge(:cluster_id => cluster.id))
           else
             super(params)
           end
