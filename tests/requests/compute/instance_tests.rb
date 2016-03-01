@@ -229,7 +229,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
               "App"   => "test1",
           },
           :image_id => 'ami-3d7e2e54',
-          :flavor_id =>  't1.micro',
+          :flavor_id =>  't1.micro'
       )
       svr2 = Fog::Compute[:aws].servers.create(
           :availability_zone => 'eu-west-1b',
@@ -240,10 +240,9 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
               "App"   => "test2",
           },
           :image_id => 'ami-3d7e2e54',
-          :flavor_id =>  't1.micro',
+          :flavor_id =>  't1.micro'
       )
 
-      filters = {'tag:App' => ['test1', 'test2']}
       body = Fog::Compute[:aws].describe_instances('tag:App' => ['test1', 'test2']).body
       tests("returns 2 hosts").returns(2) { body['reservationSet'].size }
       svr1.destroy
