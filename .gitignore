@@ -13,3 +13,4 @@
 *.a
 mkmf.log
 tests/.fog
+gemfiles/Gemfile-edge.lock
