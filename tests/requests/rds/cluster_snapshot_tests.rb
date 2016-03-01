@@ -1,7 +1,8 @@
 Shindo.tests('AWS::RDS | cluster snapshot requests', ['aws', 'rds']) do
-  @cluster_id  = uniq_id("fog-test")
-  @snapshot_id = uniq_id("cluster-db-snapshot")
-  @cluster     = Fog::AWS[:rds].clusters.create(rds_default_cluster_params.merge(id: @cluster_id))
+  @cluster_id     = uniq_id("fog-test")
+  @snapshot_id    = uniq_id("cluster-db-snapshot")
+  @cluster        = Fog::AWS[:rds].clusters.create(rds_default_cluster_params.merge(id: @cluster_id))
+  @snapshot_count = Fog::AWS[:rds].describe_db_cluster_snapshots.body['DescribeDBClusterSnapshotsResult']['DBClusterSnapshots'].count
 
   tests("success") do
     tests("#create_db_cluster_snapshot").formats(AWS::RDS::Formats::CREATE_DB_CLUSTER_SNAPSHOT) do
@@ -23,7 +24,7 @@ Shindo.tests('AWS::RDS | cluster snapshot requests', ['aws', 'rds']) do
     tests("#describe_db_cluster_snapshots").formats(AWS::RDS::Formats::DESCRIBE_DB_CLUSTER_SNAPSHOTS) do
       result    = Fog::AWS[:rds].describe_db_cluster_snapshots.body
       snapshots = result['DescribeDBClusterSnapshotsResult']['DBClusterSnapshots']
-      returns(2) { snapshots.count }
+      returns(@snapshot_count + 2) { snapshots.count }
 
       single_result = Fog::AWS[:rds].describe_db_cluster_snapshots(snapshot_id: second_snapshot['DBClusterSnapshotIdentifier']).body['DescribeDBClusterSnapshotsResult']['DBClusterSnapshots']
       returns([second_snapshot['DBClusterSnapshotIdentifier']]) { single_result.map { |s| s['DBClusterSnapshotIdentifier'] } }
@@ -34,7 +35,7 @@ Shindo.tests('AWS::RDS | cluster snapshot requests', ['aws', 'rds']) do
     tests("delete_db_cluster_snapshot").formats(AWS::RDS::Formats::DELETE_DB_CLUSTER_SNAPSHOT) do
       result = Fog::AWS[:rds].delete_db_cluster_snapshot(@snapshot_id).body
 
-      returns([]) { Fog::AWS[:rds].describe_db_cluster_snapshots(snapshot_id: @snapshot_id).body['DescribeDBClusterSnapshotsResult']['DBClusterSnapshots'] }
+      raises(Fog::AWS::RDS::NotFound) { Fog::AWS[:rds].describe_db_cluster_snapshots(snapshot_id: @snapshot_id) }
 
       result
     end
