@@ -4,6 +4,16 @@ module Fog
       class Real
         require 'fog/aws/parsers/rds/delete_db_cluster_snapshot'
 
+        # delete a db cluster snapshot
+        # http://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DeleteDBClusterSnapshot.html
+        #
+        # ==== Parameters ====
+        # * DBClusterSnapshotIdentifier<~String> - The identifier of the DB cluster snapshot to delete
+        #
+        # ==== Returns ====
+        # * response<~Excon::Response>:
+        #   * body<~Hash>:
+
         def delete_db_cluster_snapshot(name)
           request(
             'Action'                      => 'DeleteDBClusterSnapshot',

@@ -4,6 +4,18 @@ module Fog
       class Real
         require 'fog/aws/parsers/rds/create_db_cluster_snapshot'
 
+        # create a snapshot of a db cluster
+        # http://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBClusterSnapshot.html
+        #
+        # ==== Parameters ====
+        # * DBClusterIdentifier<~String> - The identifier of the DB cluster to create a snapshot for
+        # * DBClusterSnapshotIdentifier<~String> - The identifier of the DB cluster snapshot
+        # * Tags<~Array> - The tags to be assigned to the DB cluster snapshot
+        #
+        # ==== Returns ====
+        # * response<~Excon::Response>:
+        #   * body<~Hash>:
+
         def create_db_cluster_snapshot(identifier, name)
           request(
             'Action'                      => 'CreateDBClusterSnapshot',

@@ -4,6 +4,35 @@ module Fog
       class Real
         require 'fog/aws/parsers/rds/create_db_cluster'
 
+        # Create a db cluster
+        #
+        # @see http://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBCluster.html
+        #
+        # ==== Parameters ====
+        # * AvailabilityZones<~Array> - A list of EC2 Availability Zones that instances in the DB cluster can be created in
+        # * BackupRetentionPeriod<~String> - The number of days for which automated backups are retained
+        # * CharacterSetName<~String> - A value that indicates that the DB cluster should be associated with the specified CharacterSet
+        # * DatabaseName<~String> - The name for your database of up to 8 alpha-numeric characters. If you do not provide a name, Amazon RDS will not create a database in the DB cluster you are creating
+        # * DBClusterIdentifier<~String> - The DB cluster identifier. This parameter is stored as a lowercase string
+        # * DBClusterParameterGroupName<~String> - The name of the DB cluster parameter group to associate with this DB cluster
+        # * DBSubnetGroupName<~String> - A DB subnet group to associate with this DB cluster
+        # * Engine<~String> - The name of the database engine to be used for this DB cluster
+        # * EngineVersion<~String> - The version number of the database engine to use
+        # * KmsKeyId<~String> - The KMS key identifier for an encrypted DB cluster
+        # * MasterUsername<~String> - The name of the master user for the client DB cluster
+        # * MasterUserPassword<~String> - The password for the master database user
+        # * OptionGroupName<~String> - A value that indicates that the DB cluster should be associated with the specified option group
+        # * Port<~Integer> - The port number on which the instances in the DB cluster accept connections
+        # * PreferredBackupWindow<~String> - The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter
+        # * PreferredMaintenanceWindow<~String> - The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC)
+        # * StorageEncrypted<~Boolean> - Specifies whether the DB cluster is encrypted
+        # * Tags<~Array> - A list of tags
+        # * VpcSecurityGroups<~Array> - A list of EC2 VPC security groups to associate with this DB cluster
+        #
+        # ==== Returns ====
+        # * response<~Excon::Response>:
+        #   * body<~Hash>:
+
         def create_db_cluster(cluster_name, options={})
           if security_groups = options.delete('VpcSecurityGroups')
             options.merge!(Fog::AWS.indexed_param('VpcSecurityGroupIds.member.%d', [*security_groups]))

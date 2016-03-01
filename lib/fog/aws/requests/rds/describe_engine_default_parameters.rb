@@ -4,6 +4,16 @@ module Fog
       class Real
         require 'fog/aws/parsers/rds/describe_engine_default_parameters'
 
+        # Returns the default engine and system parameter information for the specified database engine
+        # http://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeEngineDefaultParameters.html
+        #
+        # ==== Parameters ====
+        # * DBParameterGroupFamily<~String> - The name of the DB parameter group family
+        #
+        # ==== Returns ====
+        # * response<~Excon::Response>:
+        #   * body<~Hash>:
+
         def describe_engine_default_parameters(family, opts={})
           request({
             'Action'                 => 'DescribeEngineDefaultParameters',

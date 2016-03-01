@@ -4,6 +4,15 @@ module Fog
       class Real
         require 'fog/aws/parsers/rds/describe_db_clusters'
 
+        # Describe all or specified db clusters
+        # http://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusters.html
+        #
+        # ==== Parameters ====
+        # * DBClusterIdentifier<~String> - The user-supplied DB cluster identifier
+        #
+        # ==== Returns ====
+        # * response<~Excon::Response>:
+        #   * body<~Hash>:
         def describe_db_clusters(identifier=nil, opts={})
           params = {}
           params['DBClusterIdentifier'] = identifier         if identifier

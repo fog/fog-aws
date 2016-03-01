@@ -4,6 +4,18 @@ module Fog
       class Real
         require 'fog/aws/parsers/rds/describe_db_cluster_snapshots'
 
+        # Describe all or specified db cluster snapshots
+        # http://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusterSnapshots.html
+        #
+        # ==== Parameters ====
+        # * DBClusterIdentifier<~String> - A DB cluster identifier to retrieve the list of DB cluster snapshots for
+        # * DBClusterSnapshotIdentifier<~String> - A specific DB cluster snapshot identifier to describe
+        # * SnapshotType<~String> - The type of DB cluster snapshots that will be returned. Values can be automated or manual
+        #
+        # ==== Returns ====
+        # * response<~Excon::Response>:
+        #   * body<~Hash>:
+
         def describe_db_cluster_snapshots(opts={})
           params                                = {}
           params['SnapshotType']                = opts[:type]        if opts[:type]
