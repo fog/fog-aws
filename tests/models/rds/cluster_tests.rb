@@ -21,7 +21,7 @@ Shindo.tests("AWS::RDS | cluster", ["aws", "rds"]) do
       returns([]) { @instance.snapshots }
 
       snapshot_id = uniq_id("manual-snapshot")
-      snapshot = @instance.snapshots.create(id: snapshot_id)
+      snapshot = @instance.snapshots.create(:id => snapshot_id)
       returns(snapshot_id) { snapshot.id }
       snapshot.wait_for { ready? }
       returns([snapshot.id]) { @instance.snapshots.map(&:id) }
