@@ -8,7 +8,7 @@ Shindo.tests("AWS::RDS | cluster", ["aws", "rds"]) do
       returns([]) { @instance.servers }
     end
 
-    @server = Fog::AWS[:rds].servers.create(rds_default_server_params.reject { |k,v| [:allocated_storage, :master_username, :password, :backup_retention_period].include?(k) }.merge(engine: "aurora", cluster_id: @instance.id, flavor_id: "db.r3.large"))
+    @server = Fog::AWS[:rds].servers.create(rds_default_server_params.reject { |k,v| [:allocated_storage, :master_username, :password, :backup_retention_period].include?(k) }.merge(:engine => "aurora", :cluster_id => @instance.id, :flavor_id => "db.r3.large"))
     @server.wait_for(20*60) { ready? }
 
     tests("#servers") do

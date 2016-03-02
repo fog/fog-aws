@@ -10,7 +10,7 @@ Shindo.tests('AWS::RDS | cluster requests', ['aws', 'rds']) do
       result = Fog::AWS[:rds].create_db_cluster(@cluster_id,
                                                 'Engine'             => 'aurora',
                                                 'MasterUsername'     => "fog-#{suffix}",
-                                                'MasterUserPassword' => "fog-#{suffix}",
+                                                'MasterUserPassword' => "fog-#{suffix}"
                                                ).body
 
       cluster = result['CreateDBClusterResult']['DBCluster']
