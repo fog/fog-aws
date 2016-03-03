@@ -47,7 +47,7 @@ module Fog
 
       class Mock
         def modify_db_instance(db_name, apply_immediately, _options={})
-          options = _options
+          options = _options.dup
           response = Excon::Response.new
           if server = self.data[:servers][db_name]
             if server["DBInstanceStatus"] != "available"
@@ -64,6 +64,7 @@ module Fog
               #end
               if options["NewDBInstanceIdentifier"]
                 options["DBInstanceIdentifier"] = options.delete("NewDBInstanceIdentifier")
+                options["Endpoint"]             = {"Port" => server["Endpoint"]["Port"], "Address"=> Fog::AWS::Mock.rds_address(options["DBInstanceIdentifier"],region)}
               end
 
               rds_security_groups = self.data[:security_groups].values

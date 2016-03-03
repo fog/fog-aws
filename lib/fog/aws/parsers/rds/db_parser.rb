@@ -48,7 +48,8 @@ module Fog
               'AvailabilityZone', 'MasterUsername', 'DBName', 'LicenseModel',
               'DBSubnetGroupName', 'StorageType', 'KmsKeyId', 'TdeCredentialArn',
               'SecondaryAvailabilityZone', 'DbiResourceId', 'CACertificateIdentifier',
-              'CharacterSetName', 'DbiResourceId', 'LicenseModel', 'KmsKeyId'
+              'CharacterSetName', 'DbiResourceId', 'LicenseModel', 'KmsKeyId',
+              'DBClusterIdentifier'
               @db_instance[name] = value
             when 'MultiAZ', 'AutoMinorVersionUpgrade', 'PubliclyAccessible', 'StorageEncrypted'
               @db_instance[name] = (value == 'true')
