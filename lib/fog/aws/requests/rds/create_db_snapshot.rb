@@ -26,7 +26,7 @@ module Fog
         def create_db_snapshot(identifier, name)
           response = Excon::Response.new
           if data[:snapshots][name]
-            raise Fog::AWS::RDS::IndentifierTaken.new
+            raise Fog::AWS::RDS::IdentifierTaken.new
           end
 
           server_data = data[:servers][identifier]
