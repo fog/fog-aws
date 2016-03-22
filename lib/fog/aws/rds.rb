@@ -294,7 +294,7 @@ module Fog
             end
           else
             raise case match[:code]
-                  when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound', 'SubscriptionNotFound'
+                  when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound', 'SubscriptionNotFound', 'DBClusterNotFoundFault'
                     Fog::AWS::RDS::NotFound.slurp(error, match[:message])
                   when 'DBParameterGroupAlreadyExists'
                     Fog::AWS::RDS::IdentifierTaken.slurp(error, match[:message])
