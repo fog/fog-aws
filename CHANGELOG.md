@@ -1,5 +1,16 @@
 # Change Log
 
+## [v0.9.2](https://github.com/fog/fog-aws/tree/v0.9.2) (2016-03-23)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v0.9.1...v0.9.2)
+
+**Closed issues:**
+
+- CHANGELOG.md is out of date [\#235](https://github.com/fog/fog-aws/issues/235)
+
+**Merged pull requests:**
+
+- Aurora [\#238](https://github.com/fog/fog-aws/pull/238) ([ehowe](https://github.com/ehowe))
+
 ## [v0.9.1](https://github.com/fog/fog-aws/tree/v0.9.1) (2016-03-04)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.8.2...v0.9.1)
 
