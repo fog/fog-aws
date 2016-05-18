@@ -6,8 +6,7 @@ module Fog
       module ServiceMethods
         def fetch_credentials(options)
           if options[:use_iam_profile] && Fog.mocking?
-            mock_iam = {:use_iam_profile => true, :aws_access_key_id => "mock-iam-role", :aws_secret_access_key => "mock-iam-role"}
-            return options.merge(mock_iam)
+            Fog::Compute::AWS::Mock.data[:iam_role_based_creds]
           end
           if options[:use_iam_profile]
             begin

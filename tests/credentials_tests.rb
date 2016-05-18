@@ -1,7 +1,7 @@
 Shindo.tests('AWS | credentials', ['aws']) do
   old_mock_value = Excon.defaults[:mock]
   Excon.stubs.clear
-
+  Fog.mock!
   begin
     Excon.defaults[:mock] = true
     default_credentials = Fog::Compute::AWS.fetch_credentials({})
@@ -15,6 +15,7 @@ Shindo.tests('AWS | credentials', ['aws']) do
       'Expiration' => expires_at.xmlschema
     }
 
+    Fog::Compute::AWS::Mock.data[:iam_role_based_creds] = credentials
     Excon.stub({:method => :get, :path => "/latest/meta-data/iam/security-credentials/arole"}, {:status => 200, :body => Fog::JSON.encode(credentials)})
 
     tests("#fetch_credentials") do
