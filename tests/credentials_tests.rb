@@ -1,5 +1,6 @@
 Shindo.tests('AWS | credentials', ['aws']) do
   old_mock_value = Excon.defaults[:mock]
+  fog_was_mocked = Fog.mocking?
   Excon.stubs.clear
   Fog.mock!
   begin
@@ -52,5 +53,6 @@ Shindo.tests('AWS | credentials', ['aws']) do
   ensure
     Excon.stubs.clear
     Excon.defaults[:mock] = old_mock_value
+    Fog.unmock! if !fog_was_mocked
   end
 end
