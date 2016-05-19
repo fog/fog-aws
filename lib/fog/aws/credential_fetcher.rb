@@ -5,6 +5,9 @@ module Fog
       INSTANCE_METADATA_PATH = "/latest/meta-data/iam/security-credentials/"
       module ServiceMethods
         def fetch_credentials(options)
+          if options[:use_iam_profile] && Fog.mocking?
+            Fog::Compute::AWS::Mock.data[:iam_role_based_creds]
+          end
           if options[:use_iam_profile]
             begin
               connection = options[:connection] || Excon.new(INSTANCE_METADATA_HOST)
