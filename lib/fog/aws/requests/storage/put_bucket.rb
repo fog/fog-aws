@@ -63,7 +63,8 @@ DATA
             self.data[:buckets][bucket_name] = bucket
           elsif self.region != 'us-east-1'
             response.status = 409
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            Fog::Logger.warning "Your region '#{self.region}' does not match the default region 'us-east-1'"
+            raise(Excon::Errors.status_error({:expects => 201}, response))
           end
           response
         end
