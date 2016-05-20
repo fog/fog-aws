@@ -26,7 +26,7 @@ module Fog
         def create_db_snapshot(identifier, name)
           response = Excon::Response.new
           if data[:snapshots][name]
-            raise Fog::AWS::RDS::IndentifierTaken.new
+            raise Fog::AWS::RDS::IdentifierTaken.new
           end
 
           server_data = data[:servers][identifier]
@@ -45,7 +45,7 @@ module Fog
             'InstanceCreateTime'   => Time.now
           }
           # Copy attributes from server
-          %w(Engine EngineVersion AvailabilityZone AllocatedStorage Iops MasterUsername InstanceCreateTime).each do |key|
+          %w(Engine EngineVersion AvailabilityZone AllocatedStorage Iops MasterUsername InstanceCreateTime StorageType).each do |key|
             snapshot_data[key] = server_data[key]
           end
           snapshot_data['Port'] = server_data['Endpoint']['Port']

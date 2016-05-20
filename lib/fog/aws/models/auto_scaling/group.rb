@@ -61,6 +61,18 @@ module Fog
           reload
         end
 
+        def detach_instances(*instance_ids)
+          requires :id
+          service.detach_instances(id, 'InstanceIds' => instance_ids)
+          reload
+        end
+
+        def attach_instances(*instance_ids)
+          requires :id
+          service.attach_instances(id, 'InstanceIds' => instance_ids)
+          reload
+        end
+
         def disable_metrics_collection(metrics = {})
           requires :id
           service.disable_metrics_collection(id, 'Metrics' => metrics)

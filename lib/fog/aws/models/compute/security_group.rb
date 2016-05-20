@@ -83,8 +83,8 @@ module Fog
           requires_one :name, :group_id
 
           ip_permission = {
-            'FromPort'   => range.min,
-            'ToPort'     => range.max,
+            'FromPort'   => range.begin,
+            'ToPort'     => range.end,
             'IpProtocol' => options[:ip_protocol] || 'tcp'
           }
 
@@ -197,8 +197,8 @@ module Fog
           requires_one :name, :group_id
 
           ip_permission = {
-            'FromPort'   => range.min,
-            'ToPort'     => range.max,
+            'FromPort'   => range.begin,
+            'ToPort'     => range.end,
             'IpProtocol' => options[:ip_protocol] || 'tcp'
           }
 

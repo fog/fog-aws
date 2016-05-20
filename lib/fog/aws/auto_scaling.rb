@@ -35,6 +35,8 @@ module Fog
       request :describe_tags
       request :describe_termination_policy_types
       request :detach_load_balancers
+      request :detach_instances
+      request :attach_instances
       request :disable_metrics_collection
       request :enable_metrics_collection
       request :execute_policy

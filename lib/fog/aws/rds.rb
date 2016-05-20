@@ -62,9 +62,22 @@ module Fog
       request :create_event_subscription
       request :delete_event_subscription
 
+      request :describe_engine_default_parameters
+
+      request :describe_db_clusters
+      request :describe_db_cluster_snapshots
+      request :create_db_cluster
+      request :create_db_cluster_snapshot
+      request :delete_db_cluster
+      request :delete_db_cluster_snapshot
+
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
+
+      model       :cluster
+      collection  :clusters
+      collection  :cluster_snapshots
 
       model       :snapshot
       collection  :snapshots
@@ -95,11 +108,23 @@ module Fog
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
+                :clusters            => {},
+                :cluster_snapshots   => {},
                 :servers             => {},
                 :security_groups     => {},
                 :subnet_groups       => {},
                 :snapshots           => {},
                 :event_subscriptions => {},
+                :default_parameters  => [
+                  {
+                    "DataType"      => "integer",
+                    "Source"        => "engine-default",
+                    "Description"   => "Intended for use with master-to-master replication, and can be used to control the operation of AUTO_INCREMENT columns",
+                    "ApplyType"     => "dynamic",
+                    "AllowedValues" => "1-65535",
+                    "ParameterName" => "auto_increment_increment"
+                  }
+                ],
                 :db_engine_versions  => [
                   {
                     'Engine'                     => "mysql",
@@ -269,7 +294,7 @@ module Fog
             end
           else
             raise case match[:code]
-                  when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound', 'SubscriptionNotFound'
+                  when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound', 'SubscriptionNotFound', 'DBClusterNotFoundFault'
                     Fog::AWS::RDS::NotFound.slurp(error, match[:message])
                   when 'DBParameterGroupAlreadyExists'
                     Fog::AWS::RDS::IdentifierTaken.slurp(error, match[:message])

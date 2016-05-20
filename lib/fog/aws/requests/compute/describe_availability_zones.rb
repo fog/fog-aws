@@ -22,7 +22,7 @@ module Fog
         def describe_availability_zones(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_availability_zones with #{filters.class} param is deprecated, use describe_availability_zones('zone-name' => []) instead [light_black](#{caller.first})[/]")
-            filters = {'public-ip' => [*filters]}
+            filters = {'zone-name' => [*filters]}
           end
           params = Fog::AWS.indexed_filters(filters)
           request({
@@ -37,7 +37,7 @@ module Fog
         def describe_availability_zones(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_availability_zones with #{filters.class} param is deprecated, use describe_availability_zones('zone-name' => []) instead [light_black](#{caller.first})[/]")
-            filters = {'public-ip' => [*filters]}
+            filters = {'zone-name' => [*filters]}
           end
 
           response = Excon::Response.new
@@ -68,6 +68,9 @@ module Fog
 
             {"messageSet" => [], "regionName" => "ap-northeast-1", "zoneName" => "ap-northeast-1a", "zoneState" => "available"},
             {"messageSet" => [], "regionName" => "ap-northeast-1", "zoneName" => "ap-northeast-1b", "zoneState" => "available"},
+
+            {"messageSet" => [], "regionName" => "ap-northeast-2", "zoneName" => "ap-northeast-2a", "zoneState" => "available"},
+            {"messageSet" => [], "regionName" => "ap-northeast-2", "zoneName" => "ap-northeast-2b", "zoneState" => "available"},
 
             {"messageSet" => [], "regionName" => "ap-southeast-1", "zoneName" => "ap-southeast-1a", "zoneState" => "available"},
             {"messageSet" => [], "regionName" => "ap-southeast-1", "zoneName" => "ap-southeast-1b", "zoneState" => "available"},

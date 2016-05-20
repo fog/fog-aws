@@ -133,6 +133,20 @@ module Fog
           https_url(params, expires)
         end
 
+        def require_mime_types
+          begin
+            # Use mime/types/columnar if available, for reduced memory usage
+            require 'mime/types/columnar'
+          rescue LoadError
+            begin
+              require 'mime/types'
+            rescue LoadError
+              Fog::Logger.warning("'mime-types' missing, please install and try again.")
+              exit(1)
+            end
+          end
+        end
+
         def request_url(params)
           params = request_params(params)
           params_to_url(params)
@@ -406,6 +420,8 @@ module Fog
         end
 
         def initialize(options={})
+          require_mime_types
+
           @use_iam_profile = options[:use_iam_profile]
 
           @region = options[:region] || DEFAULT_REGION
@@ -473,6 +489,7 @@ module Fog
         # ==== Returns
         # * S3 object with connection to aws.
         def initialize(options={})
+          require_mime_types
 
           @use_iam_profile = options[:use_iam_profile]
           @instrumentor       = options[:instrumentor]
@@ -646,6 +663,7 @@ module Fog
           #we must also reset the signature
           def rewind
             self.signature = initial_signature
+            self.finished = false
             body.rewind
           end
 

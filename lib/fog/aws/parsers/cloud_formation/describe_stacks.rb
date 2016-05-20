@@ -4,9 +4,10 @@ module Fog
       module CloudFormation
         class DescribeStacks < Fog::Parsers::Base
           def reset
-            @stack = { 'Outputs' => [], 'Parameters' => [], 'Capabilities' => [] }
+            @stack = { 'Outputs' => [], 'Parameters' => [], 'Capabilities' => [], 'Tags' => [] }
             @output = {}
             @parameter = {}
+            @tag = {}
             @response = { 'Stacks' => [] }
           end
 
@@ -19,6 +20,8 @@ module Fog
               @in_parameters = true
             when 'Capabilities'
               @in_capabilities = true
+            when 'Tags'
+              @in_tags = true
             end
           end
 
@@ -43,6 +46,16 @@ module Fog
               when 'Parameters'
                 @in_parameters = false
               end
+            elsif @in_tags
+              case name
+              when 'Key', 'Value'
+                @tag[name] = value
+              when 'member'
+                @stack['Tags'] << @tag
+                @tag = {}
+              when 'Tags'
+                @in_tags = false
+              end
             elsif @in_capabilities
               case name
               when 'member'
@@ -54,7 +67,7 @@ module Fog
               case name
               when 'member'
                 @response['Stacks'] << @stack
-                @stack = { 'Outputs' => [], 'Parameters' => [], 'Capabilities' => []}
+                @stack = { 'Outputs' => [], 'Parameters' => [], 'Capabilities' => [], 'Tags' => []}
               when 'RequestId'
                 @response[name] = value
               when 'CreationTime'
