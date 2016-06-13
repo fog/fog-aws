@@ -93,7 +93,7 @@ module Fog
           (data['ResourceRecordSets'] || []).map do |record_data|
             record = new(record_data)
 
-            if (record.name == record_name) &&
+            if (record.name.casecmp(record_name) == 0) &&
                 (record_type.nil? || (record.type == record_type)) &&
                 (record_identifier.nil? || (record.set_identifier == record_identifier))
               record
