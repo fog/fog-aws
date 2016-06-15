@@ -26,7 +26,7 @@ module Fog
             when 'DisplayName', 'ID'
               @object['Owner'][name] = value
             when 'ETag'
-              @object[name] = value.gsub('"', '')
+              @object[name] = value.gsub('"', '') if value != nil
             when 'IsTruncated'
               if value == 'true'
                 @response['IsTruncated'] = true
