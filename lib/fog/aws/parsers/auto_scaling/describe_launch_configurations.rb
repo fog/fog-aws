@@ -58,7 +58,8 @@ module Fog
             when 'Ebs'
               @block_device_mapping[name] = @ebs
               reset_ebs
-
+            when 'EbsOptimized'
+              @launch_configuration[name] = value == 'true'
             when 'Enabled'
               @launch_configuration['InstanceMonitoring'][name] = (value == 'true')
 
