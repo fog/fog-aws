@@ -1,5 +1,28 @@
 # Change Log
 
+## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v0.9.2...HEAD)
+
+**Closed issues:**
+
+- Users list is empty in Fog::AWS::IAM::Groups  [\#256](https://github.com/fog/fog-aws/issues/256)
+- I'd like to configure my Excon read\_timeout and write\_timeout  [\#254](https://github.com/fog/fog-aws/issues/254)
+- Bump fog-core to \>=1.38.0 [\#247](https://github.com/fog/fog-aws/issues/247)
+- no implicit conversion of Array into String in `aws/storage.rb` from `bucket\_name` in params. [\#246](https://github.com/fog/fog-aws/issues/246)
+- \[S3\] Bucket name gets duplicated in case of redirect from AWS [\#242](https://github.com/fog/fog-aws/issues/242)
+- CloudFormation stack tags cause describe\_stacks to break [\#240](https://github.com/fog/fog-aws/issues/240)
+
+**Merged pull requests:**
+
+- Parse EbsOptimized parameter in launch configuration description [\#259](https://github.com/fog/fog-aws/pull/259) ([djudd](https://github.com/djudd))
+- Allow case-insensitive record comparison [\#258](https://github.com/fog/fog-aws/pull/258) ([mpick92](https://github.com/mpick92))
+- Fix for empty ETag values [\#257](https://github.com/fog/fog-aws/pull/257) ([baryshev](https://github.com/baryshev))
+- do not make requests if mocked. [\#252](https://github.com/fog/fog-aws/pull/252) ([shaiguitar](https://github.com/shaiguitar))
+- Parse CloudWatch alarm actions as arrays instead of strings [\#245](https://github.com/fog/fog-aws/pull/245) ([eherot](https://github.com/eherot))
+- Add support for CloudFormation stack tags. [\#241](https://github.com/fog/fog-aws/pull/241) ([jamesremuscat](https://github.com/jamesremuscat))
+- Add log warning message about when not on us-region [\#200](https://github.com/fog/fog-aws/pull/200) ([kitofr](https://github.com/kitofr))
+
 ## [v0.9.2](https://github.com/fog/fog-aws/tree/v0.9.2) (2016-03-23)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.9.1...v0.9.2)
 
