@@ -3,7 +3,13 @@ module Fog
     class AWS
 
       def self.hosted_zone_for_alias_target(dns_name)
-        Hash[elb_hosted_zone_mapping.select { |k, _|
+        hosted_zones = if dns_name.match(/^dualstack\./)
+          elb_dualstack_hosted_zone_mapping
+        else
+          elb_hosted_zone_mapping
+        end
+
+        Hash[hosted_zones.select { |k, _|
           dns_name =~ /\A.+\.#{k}\.elb\.amazonaws\.com\.?\z/
         }].values.last
       end
@@ -19,6 +25,21 @@ module Fog
           "us-east-1"      => "Z3DZXE0Q79N41H",
           "us-west-1"      => "Z1M58G0W56PQJA",
           "us-west-2"      => "Z33MTJ483KN6FU",
+        }
+      end
+
+      # See https://forums.aws.amazon.com/message.jspa?messageID=612414
+      def self.elb_dualstack_hosted_zone_mapping
+        @elb_dualstack_hosted_zone_mapping ||= {
+          "ap-northeast-1" => "Z14GRHDCWA56QT",
+          "ap-southeast-1" => "Z1LMS91P8CMLE5",
+          "ap-southeast-2" => "Z1GM3OXH4ZPM65",
+          "eu-central-1"   => "Z215JYRZR1TBD5",
+          "eu-west-1"      => "Z32O12XQLNTSW2",
+          "sa-east-1"      => "Z2P70J7HTTTPLU",
+          "us-east-1"      => "Z35SXDOTRQ7X7K",
+          "us-west-1"      => "Z368ELLRRE2KJ0",
+          "us-west-2"      => "Z1H1FL5HABSF5",
         }
       end
 
