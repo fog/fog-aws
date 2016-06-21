@@ -55,10 +55,6 @@ module Fog
           self.class.data.delete(@aws_access_key_id)
         end
 
-        def signature(params)
-          "foo"
-        end
-
         def setup_credentials(options={})
           @aws_access_key_id  = options[:aws_access_key_id]
         end
@@ -106,7 +102,7 @@ module Fog
           response = Excon::Response.new
           response.status = status
           response.body = <<EOF
-<ErrorResponse xmlns="http://cloudfront.amazonaws.com/doc/2010-11-01/">
+<ErrorResponse xmlns="http://cloudfront.amazonaws.com/doc/2016-01-13/">
    <Error>
       <Type>Sender</Type>
       <Code>#{code}</Code>
@@ -142,7 +138,6 @@ EOF
         def initialize(options={})
 
           @use_iam_profile = options[:use_iam_profile]
-          setup_credentials(options)
           @instrumentor      = options[:instrumentor]
           @instrumentor_name = options[:instrumentor_name] || 'fog.aws.cdn'
           @connection_options = options[:connection_options] || {}
@@ -151,8 +146,10 @@ EOF
           @persistent = options.fetch(:persistent, true)
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
-          @version    = options[:version]  || '2010-11-01'
+          @version    = options[:version]   || '2016-01-13'
+          @region     = 'us-east-1'
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          setup_credentials(options)
         end
 
         def reload
@@ -166,18 +163,19 @@ EOF
           @aws_secret_access_key = options[:aws_secret_access_key]
           @aws_session_token     = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
-
-          @hmac       = Fog::HMAC.new('sha1', @aws_secret_access_key)
+          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 'cloudfront')
         end
 
         def request(params, &block)
           refresh_credentials_if_expired
-
+          date = Fog::Time.now
+          params[:path] = "/#{@version}#{params[:path]}"
           params[:headers] ||= {}
-          params[:headers]['Date'] = Fog::Time.now.to_date_header
+          params[:headers]['Date'] = date.to_date_header
+          params[:headers]['x-amz-date'] = date.to_iso8601_basic
+          params[:headers]['Host'] = @host
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
-          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
-          params[:path] = "/#{@version}/#{params[:path]}"
+          params[:headers]['Authorization'] = @signer.sign params, date
 
           if @instrumentor
             @instrumentor.instrument("#{@instrumentor_name}.request", params) do
@@ -190,12 +188,6 @@ EOF
 
         def _request(params, &block)
           @connection.request(params, &block)
-        end
-
-        def signature(params)
-          string_to_sign = params[:headers]['Date']
-          signed_string = @hmac.sign(string_to_sign)
-          Base64.encode64(signed_string).chomp!
         end
       end
     end
