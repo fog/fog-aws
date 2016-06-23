@@ -32,7 +32,7 @@ module Fog
 
               now        = Time.now
               message_id = Fog::AWS::Mock.sqs_message_id
-              md5        = Digest::MD5.hexdigest(message)
+              md5        = OpenSSL::Digest::MD5.hexdigest(message)
 
               queue[:messages][message_id] = {
                 'MessageId'  => message_id,

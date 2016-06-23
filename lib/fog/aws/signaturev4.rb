@@ -40,7 +40,7 @@ module Fog
 #{canonical_query_string(params[:query])}
 #{canonical_headers(params[:headers])}
 #{signed_headers(params[:headers])}
-#{body_sha || Digest::SHA256.hexdigest(params[:body] || '')}
+#{body_sha || OpenSSL::Digest::SHA256.hexdigest(params[:body] || '')}
 DATA
         canonical_request.chop!
 
@@ -48,7 +48,7 @@ DATA
 #{ALGORITHM}
 #{date.to_iso8601_basic}
 #{credential_scope(date)}
-#{Digest::SHA256.hexdigest(canonical_request)}
+#{OpenSSL::Digest::SHA256.hexdigest(canonical_request)}
 DATA
 
         string_to_sign.chop!
