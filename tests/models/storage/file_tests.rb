@@ -99,7 +99,7 @@ Shindo.tests("Storage[:aws] | file", ["aws"]) do
       @directory.files.get('multipart-encrypted-upload',
         'x-amz-server-side-encryption-customer-algorithm' => 'AES256',
         'x-amz-server-side-encryption-customer-key' => Base64.encode64(encryption_key).chomp!,
-        'x-amz-server-side-encryption-customer-key-MD5' => Base64.encode64(Digest::MD5.digest(encryption_key.to_s)).chomp!
+        'x-amz-server-side-encryption-customer-key-MD5' => Base64.encode64(OpenSSL::Digest::MD5.digest(encryption_key.to_s)).chomp!
       ).body == "x" * 6*1024**2
     end
 

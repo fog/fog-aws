@@ -22,7 +22,7 @@ module Fog
 
           headers = {
             'Content-Length' => body.bytesize.to_s,
-            'x-amz-content-sha256' => Digest::SHA256.hexdigest(body),
+            'x-amz-content-sha256' => OpenSSL::Digest::SHA256.hexdigest(body),
             'x-amz-sha256-tree-hash' => Fog::AWS::Glacier::TreeHash.digest(body)
           }
           headers['x-amz-archive-description'] = Fog::AWS.escape(options['description']) if options['description']

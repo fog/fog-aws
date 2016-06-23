@@ -289,7 +289,7 @@ module Fog
         end
 
         def part_headers(chunk, options)
-          md5 = Base64.encode64(Digest::MD5.digest(chunk)).strip
+          md5 = Base64.encode64(OpenSSL::Digest::MD5.digest(chunk)).strip
           encryption_keys = encryption_customer_key_headers.keys
           encryption_headers = options.select { |key| encryption_keys.include?(key) }
           { 'Content-MD5' => md5 }.merge(encryption_headers)
@@ -299,7 +299,7 @@ module Fog
           {
             'x-amz-server-side-encryption-customer-algorithm' => encryption,
             'x-amz-server-side-encryption-customer-key' => Base64.encode64(encryption_key.to_s).chomp!,
-            'x-amz-server-side-encryption-customer-key-md5' => Base64.encode64(Digest::MD5.digest(encryption_key.to_s)).chomp!
+            'x-amz-server-side-encryption-customer-key-md5' => Base64.encode64(OpenSSL::Digest::MD5.digest(encryption_key.to_s)).chomp!
           }
         end
       end
