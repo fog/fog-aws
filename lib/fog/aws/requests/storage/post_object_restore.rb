@@ -22,7 +22,7 @@ module Fog
           data = '<RestoreRequest xmlns="http://s3.amazonaws.com/doc/2006-3-01"><Days>' + days.to_s + '</Days></RestoreRequest>'
 
           headers = {}
-          headers['Content-MD5'] = Base64.encode64(Digest::MD5.digest(data)).strip
+          headers['Content-MD5'] = Base64.encode64(OpenSSL::Digest::MD5.digest(data)).strip
           headers['Content-Type'] = 'application/xml'
           headers['Date'] = Fog::Time.now.to_date_header
 

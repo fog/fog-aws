@@ -27,7 +27,7 @@ DATA
           request({
             :body     => data,
             :expects  => 204,
-            :headers  => {'Content-MD5' => Base64.encode64(Digest::MD5.digest(data)).chomp!, 'Content-Type' => 'application/xml'},
+            :headers  => {'Content-MD5' => Base64.encode64(OpenSSL::Digest::MD5.digest(data)).chomp!, 'Content-Type' => 'application/xml'},
             :bucket_name => bucket_name,
             :method   => 'PUT',
             :query    => {'tagging' => nil}
