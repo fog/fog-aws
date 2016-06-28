@@ -1,5 +1,20 @@
 # Change Log
 
+## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v0.9.3...HEAD)
+
+**Closed issues:**
+
+- S3: retry on 503 Service Unavailable [\#265](https://github.com/fog/fog-aws/issues/265)
+- Digest::Base Error [\#261](https://github.com/fog/fog-aws/issues/261)
+
+**Merged pull requests:**
+
+- Updated Region 'Mumbai' ap-south-1  [\#267](https://github.com/fog/fog-aws/pull/267) ([chanakyacool](https://github.com/chanakyacool))
+- Replaces usage of Digest with OpenSSL::Digest  [\#266](https://github.com/fog/fog-aws/pull/266) ([esthervillars](https://github.com/esthervillars))
+- AWS DNS - support newer DNS hosted zone IDs for dualstack ELBs [\#263](https://github.com/fog/fog-aws/pull/263) ([mattheworiordan](https://github.com/mattheworiordan))
+
 ## [v0.9.3](https://github.com/fog/fog-aws/tree/v0.9.3) (2016-06-20)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.9.2...v0.9.3)
 
