@@ -7,6 +7,7 @@ Shindo.tests('AWS | credentials', ['aws']) do
     Excon.defaults[:mock] = true
     default_credentials = Fog::Compute::AWS.fetch_credentials({})
     Excon.stub({:method => :get, :path => "/latest/meta-data/iam/security-credentials/"}, {:status => 200, :body => 'arole'})
+    Excon.stub({:method => :get, :path => "/latest/meta-data/placement/availability-zone/"}, {:status => 200, :body => 'us-west-1a'})
 
     expires_at = Time.at(Time.now.to_i + 500)
     credentials = {
@@ -23,6 +24,7 @@ Shindo.tests('AWS | credentials', ['aws']) do
       returns({:aws_access_key_id => 'dummykey',
                 :aws_secret_access_key => 'dummysecret',
                 :aws_session_token => 'dummytoken',
+                :region => "us-west-1",
                 :aws_credentials_expire_at => expires_at}) { Fog::Compute::AWS.fetch_credentials(:use_iam_profile => true) }
     end
 
