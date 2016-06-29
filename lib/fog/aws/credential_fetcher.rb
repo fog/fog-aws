@@ -1,8 +1,11 @@
 module Fog
   module AWS
     module CredentialFetcher
+
       INSTANCE_METADATA_HOST = "http://169.254.169.254"
       INSTANCE_METADATA_PATH = "/latest/meta-data/iam/security-credentials/"
+      INSTANCE_METADATA_AZ = "/latest/meta-data/placement/availability-zone/"
+
       module ServiceMethods
         def fetch_credentials(options)
           if options[:use_iam_profile] && Fog.mocking?
@@ -13,6 +16,8 @@ module Fog
               connection = options[:connection] || Excon.new(INSTANCE_METADATA_HOST)
               role_name = connection.get(:path => INSTANCE_METADATA_PATH, :expects => 200).body
               role_data = connection.get(:path => INSTANCE_METADATA_PATH+role_name, :expects => 200).body
+              az_data = connection.get(:path => INSTANCE_METADATA_AZ, :expects => 200).body
+              region = az_data[0..-2] # get region from az
 
               session = Fog::JSON.decode(role_data)
               credentials = {}
@@ -20,6 +25,9 @@ module Fog
               credentials[:aws_secret_access_key] = session['SecretAccessKey']
               credentials[:aws_session_token] = session['Token']
               credentials[:aws_credentials_expire_at] = Time.xmlschema session['Expiration']
+
+              # set region by default to the one the instance is in.
+              credentials[:region] = region
               #these indicate the metadata service is unavailable or has no profile setup
               credentials
             rescue Excon::Errors::Error => e
