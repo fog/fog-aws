@@ -52,7 +52,7 @@ module Fog
 
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-northeast-2', 'ap-southeast-1', 'ap-southeast-2', 'eu-central-1', 'eu-west-1', 'sa-east-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
+          unless ['ap-northeast-1', 'ap-northeast-2', 'ap-southeast-1', 'ap-southeast-2', 'eu-central-1', 'eu-west-1', 'sa-east-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-south-1'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
