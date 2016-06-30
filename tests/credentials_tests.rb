@@ -49,6 +49,7 @@ Shindo.tests('AWS | credentials', ['aws']) do
 
     tests("#fetch_credentials when the url 404s") do
       Excon.stub({:method => :get, :path => "/latest/meta-data/iam/security-credentials/"}, {:status => 404, :body => 'not bound'})
+      Excon.stub({:method => :get, :path => "/latest/meta-data/placement/availability-zone/"}, {:status => 400, :body => 'not found'})
       returns(default_credentials) {Fog::Compute::AWS.fetch_credentials(:use_iam_profile => true)}
     end
 
