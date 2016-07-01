@@ -30,7 +30,7 @@ module Fog
               credentials[:region] = region
               #these indicate the metadata service is unavailable or has no profile setup
               credentials
-            rescue Excon::Errors::Error => e
+            rescue Excon::Error => e
               Fog::Logger.warning("Unable to fetch credentials: #{e.message}")
               super
             end
