@@ -24,12 +24,6 @@ Shindo.tests('Fog::Rds[:aws] | db snapshot requests', ['aws']) do
     'snapshotId'  => String
   }
 
-  Fog.mock!
-  Fog.credentials = {
-    :aws_access_key_id                => "aws_access_key_id",
-    :aws_secret_access_key            => "aws_secret_access_key",
-  }
-
   @rds_identity = "test_rds"
   response = Fog::AWS[:rds].create_db_instance(@rds_identity,{
     "DBInstanceClass"=>"db.m3.xlarge",
