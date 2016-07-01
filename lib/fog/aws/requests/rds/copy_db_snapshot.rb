@@ -2,7 +2,7 @@ module Fog
   module AWS
     class RDS
       class Real
-        require 'fog/aws/parsers/rds/create_db_snapshot'
+        require 'fog/aws/parsers/rds/copy_db_snapshot'
 
         # Copy a db snapshot
         #
