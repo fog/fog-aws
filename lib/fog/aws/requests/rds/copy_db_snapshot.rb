@@ -22,7 +22,7 @@ module Fog
             'SourceDBSnapshotIdentifier' => source_db_snapshot_identifier,
             'TargetDBSnapshotIdentifier' => target_db_snapshot_identifier,
             'CopyTags'                   => copy_tags,
-            :parser                      => Fog::Parsers::AWS::RDS::CreateDBSnapshot.new
+            :parser                      => Fog::Parsers::AWS::RDS::CopyDBSnapshot.new
           )
         end
       end
