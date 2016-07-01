@@ -1,0 +1,73 @@
+Shindo.tests('Fog::Rds[:aws] | db snapshot requests', ['aws']) do
+
+  @snapshot_format = {
+    'AllocatedStorage'     => Integer,
+    'AvailabilityZone'     => Fog::Nullable::String,
+    'Engine'               => String,
+    'EngineVersion'        => String,
+    'InstanceCreateTime'   => Time,
+    'DBInstanceIdentifier' => String,
+    'Iops'                 => Fog::Nullable::Integer,
+    'MasterUsername'       => String,
+    'Port'                 => Fog::Nullable::Integer,
+    'Status'               => String,
+    'StorageType'          => String,
+    'SnapshotType'         => String
+  }
+
+  @snapshots_format = {
+    'requestId'   => String
+  }
+
+  @snapshot_copy_result = {
+    'requestId'   => String,
+    'snapshotId'  => String
+  }
+
+  Fog.mock!
+  Fog.credentials = {
+    :aws_access_key_id                => "aws_access_key_id",
+    :aws_secret_access_key            => "aws_secret_access_key",
+  }
+
+  @rds_identity = "test_rds"
+  response = Fog::AWS[:rds].create_db_instance(@rds_identity,{
+    "DBInstanceClass"=>"db.m3.xlarge",
+    "Engine"=>"PostgreSQL",
+    "AllocatedStorage"=>100,
+    "MasterUserPassword"=>"password",
+    "MasterUsername"=>"username"
+  })
+
+  @rds = Fog::AWS[:rds].servers.get(@rds_identity)
+
+  tests('success') do
+     @snapshot_id = "testRdsSnapshot"
+     tests("#create_snapshot(#{@rds.identity})").formats(@snapshot_format) do
+       Fog::AWS[:rds].create_db_snapshot(@rds.identity,@snapshot_id).body["CreateDBSnapshotResult"]["DBSnapshot"]
+     end
+
+     Fog.wait_for { Fog::AWS[:rds].snapshots.get(@snapshot_id) }
+     Fog::AWS[:rds].snapshots.get(@snapshot_id).wait_for { ready? }
+
+     tests("#modify_db_snapshot_attribute").formats(@snapshots_format) do
+       Fog::AWS[:rds].modify_db_snapshot_attribute(@snapshot_id, {"Add.MemberId"=>["389480430104"]}).body
+     end
+
+     tests("#copy_db_snapshot (#{@snapshot_id}, target_snapshot_id)").formats(@snapshot_copy_result) do
+       data = Fog::AWS[:rds].copy_db_snapshot(@snapshot_id, "target_snapshot_id").body
+       pp data.inspect
+       data
+     end
+  end
+  tests('failure') do
+
+    tests("#delete_snapshot('snap-00000000')").raises(Fog::AWS::RDS::NotFound) do
+      Fog::AWS[:rds].delete_db_snapshot(@rds.identity)
+    end
+
+  end
+
+  @rds.destroy
+
+end
