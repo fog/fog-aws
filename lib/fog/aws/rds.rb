@@ -29,6 +29,8 @@ module Fog
       request :describe_db_snapshots
       request :create_db_snapshot
       request :delete_db_snapshot
+      request :modify_db_snapshot_attribute
+      request :copy_db_snapshot
 
       request :create_db_parameter_group
       request :delete_db_parameter_group
