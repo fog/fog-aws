@@ -18,7 +18,7 @@ module Fog
         # ==== See Also
         # http://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicyVersion.html
         #
-        def delete_policy(policy_arn, version_id)
+        def delete_policy_version(policy_arn, version_id)
           request(
             'Action'          => 'DeletePolicyVersion',
             'PolicyArn'       => policy_arn,
@@ -28,7 +28,7 @@ module Fog
         end
         
         class Mock
-          def delete_policy(policy_arn, version_id)
+          def delete_policy_version(policy_arn, version_id)
             Excon::Response.new.tap do |response|
               response.body = { 'RequestId' => Fog::AWS::Mock.request_id }
               response.status = 200

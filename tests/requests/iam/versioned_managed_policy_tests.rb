@@ -4,7 +4,7 @@ Shindo.tests('AWS::IAM | versioned managed policy requests', ['aws']) do
 
   tests('success') do
     @policy = {'Version' => '2012-10-17', "Statement" => [{"Effect" => "Deny", "Action" => "*", "Resource" => "*"}]}
-    @policy_v2 = {'Version' => '2012-10-17', "Statement" => [{"Effect" => "Deny", "Action" => "*", "Resource" => "EC2:*"}]}
+    @policy_v2 = {'Version' => '2012-10-17', "Statement" => [{"Effect" => "Allow", "Action" => "*", "Resource" => "*"}]}
 
     @policy_format = {
       'Arn'        => String,

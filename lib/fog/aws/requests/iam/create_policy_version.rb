@@ -26,7 +26,7 @@ module Fog
         def create_policy_version(policy_arn, policy_document, set_as_default=true)
           request({
             'Action'          => 'CreatePolicyVersion',
-            'PolicyArn'       => policy_name,
+            'PolicyArn'       => policy_arn,
             'PolicyDocument'  => Fog::JSON.encode(policy_document),
             'SetAsDefault'    => set_as_default,
             :parser           => Fog::Parsers::AWS::IAM::PolicyVersion.new

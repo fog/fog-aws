@@ -22,7 +22,7 @@ module Fog
           request({
             'Action'          => 'UpdateAssumeRolePolicy',
             'PolicyDocument'  => Fog::JSON.encode(policy_document),
-            'RoleName'        => policy_name,
+            'RoleName'        => role_name,
             :parser           => Fog::Parsers::AWS::IAM::Basic.new
           }.reject {|_, value| value.nil?})
         end
