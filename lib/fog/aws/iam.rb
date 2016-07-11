@@ -24,6 +24,7 @@ module Fog
       request :create_instance_profile
       request :create_login_profile
       request :create_policy
+      request :create_policy_version
       request :create_role
       request :create_user
       request :delete_access_key
@@ -34,6 +35,7 @@ module Fog
       request :delete_instance_profile
       request :delete_login_profile
       request :delete_policy
+      request :delete_policy_version
       request :delete_role
       request :delete_role_policy
       request :delete_server_certificate
@@ -78,10 +80,12 @@ module Fog
       request :put_user_policy
       request :remove_role_from_instance_profile
       request :remove_user_from_group
+      request :set_default_policy_version
       request :update_access_key
       request :update_group
       request :update_login_profile
       request :update_account_password_policy
+      request :update_assume_role_policy
       request :update_server_certificate
       request :update_signing_certificate
       request :update_user
