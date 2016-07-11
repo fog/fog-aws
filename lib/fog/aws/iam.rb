@@ -61,6 +61,7 @@ module Fog
       request :list_access_keys
       request :list_account_aliases
       request :list_attached_group_policies
+      request :list_attached_role_policies
       request :list_attached_user_policies
       request :list_group_policies
       request :list_groups
@@ -69,6 +70,7 @@ module Fog
       request :list_instance_profiles_for_role
       request :list_mfa_devices
       request :list_policies
+      request :list_policy_versions
       request :list_role_policies
       request :list_roles
       request :list_server_certificates

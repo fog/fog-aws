@@ -32,6 +32,16 @@ Shindo.tests('AWS::IAM | managed policy requests', ['aws']) do
       'IsTruncated' => Fog::Boolean      
     }
 
+    attached_policy_format = {
+        'PolicyArn' => String,
+        'PolicyName' => String
+    }
+
+    list_managed_policies_format = {
+        'RequestId' => String,
+        'AttachedPolicies' => [attached_policy_format]
+    }
+
     tests("#create_policy('fog_policy')").formats(create_policy_format) do
       body = Fog::AWS[:iam].create_policy('fog_policy', @policy, '/fog/').body
       puts body.inspect
@@ -52,13 +62,20 @@ Shindo.tests('AWS::IAM | managed policy requests', ['aws']) do
       Fog::AWS[:iam].attach_user_policy('fog_policy_test_user', @policy_arn).body
     end
 
+    tests("#list_attach_user_policies()").formats(list_managed_policies_format) do
+      Fog::AWS[:iam].list_attached_user_policies('fog_policy_test_user').body
+    end
+
     tests("#detach_user_policy()").formats(AWS::IAM::Formats::BASIC) do
       Fog::AWS[:iam].detach_user_policy('fog_policy_test_user', @policy_arn).body
     end
 
-
     tests("#attach_group_policy()").formats(AWS::IAM::Formats::BASIC) do
       Fog::AWS[:iam].attach_group_policy('fog_policy_test_group', @policy_arn).body
+    end
+
+    tests("#list_attach_group_policies()").formats(fog_policy_test_group) do
+      Fog::AWS[:iam].list_attached_group_policies('fog_policy_test_group').body
     end
 
     tests("#detach_group_policy()").formats(AWS::IAM::Formats::BASIC) do
@@ -67,6 +84,10 @@ Shindo.tests('AWS::IAM | managed policy requests', ['aws']) do
 
     tests("#attach_role_policy()").formats(AWS::IAM::Formats::BASIC) do
       Fog::AWS[:iam].attach_role_policy('fog_policy_test_role', @policy_arn).body
+    end
+
+    tests("#list_attach_role_policies()").formats(fog_policy_test_group) do
+      Fog::AWS[:iam].attach_role_policies('fog_policy_test_role').body
     end
 
     tests("#detach_role_policy()").formats(AWS::IAM::Formats::BASIC) do
