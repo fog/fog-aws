@@ -37,14 +37,14 @@ module Fog
         def copy_db_snapshot(source_db_snapshot_identifier, target_db_snapshot_identifier, copy_tags = false)
           response = Excon::Response.new
           response.status = 200
-          snapshot_id = Fog::AWS::Mock.snapshot_id
-          data = {
-            'snapshotId'  => snapshot_id,
-          }
+          snapshot_id =  Fog::AWS::Mock.snapshot_id
+          data = self.data[:snapshots]["#{source_db_snapshot_identifier}"]
+          data['DBSnapshotIdentifier'] = snapshot_id
           self.data[:snapshots][snapshot_id] = data
           response.body = {
-            'requestId' => Fog::AWS::Mock.request_id
-          }.merge!(data)
+            'requestId' => Fog::AWS::Mock.request_id,
+            'CopyDBSnapshotResult' => {'DBSnapshot' => data.dup}
+          }
           response
         end
       end
