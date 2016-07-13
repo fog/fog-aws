@@ -138,7 +138,7 @@ class AWS
 
       SNAPSHOT = {
         'AllocatedStorage' => Integer,
-        'AvailabilityZone' => String,
+        'AvailabilityZone' => Fog::Nullable::String,
         'DBInstanceIdentifier' => String,
         'DBSnapshotIdentifier' => String,
         'EngineVersion' => String,
@@ -146,10 +146,11 @@ class AWS
         'InstanceCreateTime' => Time,
         'Iops' => Fog::Nullable::Integer,
         'MasterUsername' => String,
-        'Port' => Integer,
+        'Port' => Fog::Nullable::Integer,
         'SnapshotCreateTime' => Fog::Nullable::Time,
         'Status' => String,
-        'SnapshotType' => String
+        'SnapshotType' => String,
+        'StorageType' => String,
       }
 
       INSTANCE = {
