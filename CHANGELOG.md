@@ -1,5 +1,23 @@
 # Change Log
 
+## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v0.9.4...HEAD)
+
+**Closed issues:**
+
+- How to setup private files with CloudFront? [\#275](https://github.com/fog/fog-aws/issues/275)
+- Feature: Custom Managed Policies [\#272](https://github.com/fog/fog-aws/issues/272)
+- Question: which aws-sdk version is used [\#270](https://github.com/fog/fog-aws/issues/270)
+- Support an IAM list\_attached\_role\_policies method [\#191](https://github.com/fog/fog-aws/issues/191)
+
+**Merged pull requests:**
+
+- RDS test fixes [\#276](https://github.com/fog/fog-aws/pull/276) ([MrPrimate](https://github.com/MrPrimate))
+- Expanding IAM support [\#274](https://github.com/fog/fog-aws/pull/274) ([MrPrimate](https://github.com/MrPrimate))
+- Rds snapshot improvements [\#269](https://github.com/fog/fog-aws/pull/269) ([tekken](https://github.com/tekken))
+- add default region to use\_iam\_profile [\#268](https://github.com/fog/fog-aws/pull/268) ([shaiguitar](https://github.com/shaiguitar))
+
 ## [v0.9.4](https://github.com/fog/fog-aws/tree/v0.9.4) (2016-06-28)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.9.3...v0.9.4)
 
