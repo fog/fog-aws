@@ -72,7 +72,7 @@ module Fog
             'BackupRetentionPeriod'      => backup_retention_period,
             'DBClusterIdentifier'        => identity,
             'DBClusterParameterGroup'    => db_cluster_parameter_group,
-            'DBSubnetGroupName'              => db_subnet_group,
+            'DBSubnetGroupName'          => db_subnet_group,
             'Endpoint'                   => endpoint,
             'Engine'                     => engine,
             'EngineVersion'              => engine_version,
