@@ -8,7 +8,7 @@ module Fog
         attribute :backup_retention_period,      :aliases => 'BackupRetentionPeriod',     :type => :integer
         attribute :db_cluster_members,           :aliases => 'DBClusterMembers',          :type => :array
         attribute :db_cluster_parameter_group,   :aliases => 'DBClusterParameterGroup'
-        attribute :db_subnet_group,              :aliases => 'DBSubnetGroup'
+        attribute :db_subnet_group,              :aliases => 'DBSubnetGroupName'
         attribute :endpoint,                     :aliases => 'Endpoint'
         attribute :engine,                       :aliases => 'Engine'
         attribute :engine_version,               :aliases => 'EngineVersion'
@@ -72,7 +72,7 @@ module Fog
             'BackupRetentionPeriod'      => backup_retention_period,
             'DBClusterIdentifier'        => identity,
             'DBClusterParameterGroup'    => db_cluster_parameter_group,
-            'DBSubnetGroup'              => db_subnet_group,
+            'DBSubnetGroupName'          => db_subnet_group,
             'Endpoint'                   => endpoint,
             'Engine'                     => engine,
             'EngineVersion'              => engine_version,
