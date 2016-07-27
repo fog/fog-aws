@@ -28,6 +28,19 @@ Shindo.tests('AWS | credentials', ['aws']) do
                 :aws_credentials_expire_at => expires_at}) { Fog::Compute::AWS.fetch_credentials(:use_iam_profile => true) }
     end
 
+    ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"] = '/v1/credentials?id=task_id'
+    Excon.stub({:method => :get, :path => '/v1/credentials?id=task_id'}, {:status => 200, :body => Fog::JSON.encode(credentials)})
+
+    tests("#fetch_credentials") do
+      returns({:aws_access_key_id => 'dummykey',
+                :aws_secret_access_key => 'dummysecret',
+                :aws_session_token => 'dummytoken',
+                :region => "us-west-1",
+                :aws_credentials_expire_at => expires_at}) { Fog::Compute::AWS.fetch_credentials(:use_iam_profile => true) }
+    end
+
+    ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"] = nil
+
     compute = Fog::Compute::AWS.new(:use_iam_profile => true)
 
     tests("#refresh_credentials_if_expired") do
@@ -54,6 +67,7 @@ Shindo.tests('AWS | credentials', ['aws']) do
     end
 
   ensure
+    ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"] = nil
     Excon.stubs.clear
     Excon.defaults[:mock] = old_mock_value
     Fog.unmock! if !fog_was_mocked
