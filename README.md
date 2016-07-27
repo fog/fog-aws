@@ -1,5 +1,7 @@
 # Fog::Aws
 
+[![Join the chat at https://gitter.im/fog/fog-aws](https://badges.gitter.im/fog/fog-aws.svg)](https://gitter.im/fog/fog-aws?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![Gem Version](https://badge.fury.io/rb/fog-aws.svg)
 [![Build Status](https://travis-ci.org/fog/fog-aws.svg?branch=master)](https://travis-ci.org/fog/fog-aws)
 [![Dependency Status](https://gemnasium.com/fog/fog-aws.svg)](https://gemnasium.com/fog/fog-aws)
