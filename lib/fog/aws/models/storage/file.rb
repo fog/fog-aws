@@ -205,7 +205,7 @@ module Fog
           options['x-amz-storage-class'] = storage_class if storage_class
           options.merge!(encryption_headers)
 
-          if multipart_chunk_size && body.respond_to?(:read)
+          if multipart_chunk_size && get_body_size(body) >= multipart_chunk_size && body.respond_to?(:read)
             data = multipart_save(options)
             merge_attributes(data.body)
           else
