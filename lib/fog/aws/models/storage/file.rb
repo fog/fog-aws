@@ -27,7 +27,11 @@ module Fog
 
         # @note Chunk size to use for multipart uploads.
         #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
-        attr_accessor :multipart_chunk_size
+        attr_reader :multipart_chunk_size
+        def multipart_chunk_size=(mp_chunk_size)
+          raise ArgumentError.new("minimum multipart_chunk_size is 5242880") if mp_chunk_size < 5242880
+          @multipart_chunk_size = mp_chunk_size
+        end
 
         def acl
           requires :directory, :key
