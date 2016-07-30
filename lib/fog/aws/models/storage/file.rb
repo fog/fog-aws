@@ -209,6 +209,9 @@ module Fog
           options['x-amz-storage-class'] = storage_class if storage_class
           options.merge!(encryption_headers)
 
+          # With a single PUT operation you can upload objects up to 5 GB in size. Automatically set MP for larger objects.
+          multipart_chunk_size=5242880 if !multipart_chunk_size && Fog::Storage.get_body_size(body) > 5368709120
+
           if multipart_chunk_size && Fog::Storage.get_body_size(body) >= multipart_chunk_size && body.respond_to?(:read)
             data = multipart_save(options)
             merge_attributes(data.body)
