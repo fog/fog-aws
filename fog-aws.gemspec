@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Module for the 'fog' gem to support Amazon Web Services.}
   spec.description   = %q{This library can be used as a module for `fog` or as standalone provider
                         to use the Amazon Web Services in applications..}
-  spec.homepage      = "http://github.com/fog/fog-aws"
+  spec.homepage      = "https://github.com/fog/fog-aws"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
