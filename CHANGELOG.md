@@ -1,5 +1,17 @@
 # Change Log
 
+## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v0.10.0...HEAD)
+
+**Merged pull requests:**
+
+- GitHub does no longer provide http:// pages [\#284](https://github.com/fog/fog-aws/pull/284) ([amatsuda](https://github.com/amatsuda))
+- Skip multipart if body size is less than chunk.  [\#283](https://github.com/fog/fog-aws/pull/283) ([brettcave](https://github.com/brettcave))
+- ECS container credentials [\#281](https://github.com/fog/fog-aws/pull/281) ([ryansch](https://github.com/ryansch))
+- test\(ci\): fix 1.9 builds with json \>= 2.0 [\#280](https://github.com/fog/fog-aws/pull/280) ([lanej](https://github.com/lanej))
+- Change DBSubnetGroup to DBSubnetGroupName model cluster while creation [\#279](https://github.com/fog/fog-aws/pull/279) ([chanakyacool](https://github.com/chanakyacool))
+
 ## [v0.10.0](https://github.com/fog/fog-aws/tree/v0.10.0) (2016-07-15)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.9.4...v0.10.0)
 
