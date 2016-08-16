@@ -82,21 +82,7 @@ module Fog
         def authorize_port_range(range, options = {})
           requires_one :name, :group_id
 
-          ip_permission = {
-            'FromPort'   => range.begin,
-            'ToPort'     => range.end,
-            'IpProtocol' => options[:ip_protocol] || 'tcp'
-          }
-
-          if options[:group].nil?
-            ip_permission['IpRanges'] = [
-              { 'CidrIp' => options[:cidr_ip] || '0.0.0.0/0' }
-            ]
-          else
-            ip_permission['Groups'] = [
-              group_info(options[:group])
-            ]
-          end
+          ip_permission = fetch_ip_permission(range, options)
 
           service.authorize_security_group_ingress(
             name,
@@ -196,21 +182,7 @@ module Fog
         def revoke_port_range(range, options = {})
           requires_one :name, :group_id
 
-          ip_permission = {
-            'FromPort'   => range.begin,
-            'ToPort'     => range.end,
-            'IpProtocol' => options[:ip_protocol] || 'tcp'
-          }
-
-          if options[:group].nil?
-            ip_permission['IpRanges'] = [
-              { 'CidrIp' => options[:cidr_ip] || '0.0.0.0/0' }
-            ]
-          else
-            ip_permission['Groups'] = [
-              group_info(options[:group])
-            ]
-          end
+          ip_permission = fetch_ip_permission(range, options)
 
           service.revoke_security_group_ingress(
             name,
@@ -313,6 +285,25 @@ module Fog
           end
 
           info
+        end
+
+        def fetch_ip_permission(range, options)
+          ip_permission = {
+            'FromPort'   => range.begin,
+            'ToPort'     => range.end,
+            'IpProtocol' => options[:ip_protocol] || 'tcp'
+          }
+
+          if options[:group].nil?
+            ip_permission['IpRanges'] = [
+              { 'CidrIp' => options[:cidr_ip] || '0.0.0.0/0' }
+            ]
+          else
+            ip_permission['Groups'] = [
+              group_info(options[:group])
+            ]
+          end
+          ip_permission
         end
       end
     end
