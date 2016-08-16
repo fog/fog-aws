@@ -84,7 +84,23 @@ module Fog
 
           ip_permission = fetch_ip_permission(range, options)
 
+          if options[:direction].nil? || options[:direction] == 'ingress'
+            authorize_port_range_ingress group_id, ip_permission
+          elsif options[:direction] == 'egress'
+            authorize_port_range_egress group_id, ip_permission
+          end
+        end
+
+        def authorize_port_range_ingress(group_id, ip_permission)
           service.authorize_security_group_ingress(
+            name,
+            'GroupId'       => group_id,
+            'IpPermissions' => [ ip_permission ]
+          )
+        end
+
+        def authorize_port_range_egress(group_id, ip_permission)
+          service.authorize_security_group_egress(
             name,
             'GroupId'       => group_id,
             'IpPermissions' => [ ip_permission ]
