@@ -36,13 +36,13 @@ Shindo.tests("Fog::Compute[:aws] | security_group", ['aws']) do
     end
 
     test("authorize access at a port range (egress rule)") do
-      @group.authorize_port_range(5000..6000, direction: 'egress')
+      @group.authorize_port_range(5000..6000, :direction => 'egress')
       @group.reload
       @group.ip_permissions_egress.size == 1
     end
 
     test("revoke access at a port range (egress rule)") do
-      @group.revoke_port_range(5000..6000, direction: 'egress')
+      @group.revoke_port_range(5000..6000, :direction => 'egress')
       @group.reload
       @group.ip_permissions_egress.empty?
     end
