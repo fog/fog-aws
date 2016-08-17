@@ -35,6 +35,12 @@ Shindo.tests("Fog::Compute[:aws] | security_group", ['aws']) do
       @group.ip_permissions.empty?
     end
 
+    test("authorize access at a port range (egress rule)") do
+      @group.authorize_port_range(5000..6000, direction: 'egress')
+      @group.reload
+      @group.ip_permissions_egress.size == 1
+    end
+
     group_forms = [
       "#{@other_group.owner_id}:#{@other_group.group_id}", # deprecated form
       @other_group.group_id,
