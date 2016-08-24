@@ -34,7 +34,7 @@ module Fog
             when 'Port', 'Engine', 'Status', 'BackupRetentionPeriod', 'EngineVersion', 'Endpoint', 'DBClusterParameterGroup', 'DBClusterIdentifier', 'PreferredBackupWindow', 'PreferredMaintenanceWindow', 'AllocatedStorage', 'MasterUsername'
               @db_cluster[name] = value
             when 'DBSubnetGroup'
-          		@db_cluster['DBSubnetGroupName'] = value
+              @db_cluster['DBSubnetGroupName'] = value
             when 'VpcSecurityGroups'
               @in_vpc_security_groups = false
               @db_cluster['VpcSecurityGroups'] = @vpc_security_groups
