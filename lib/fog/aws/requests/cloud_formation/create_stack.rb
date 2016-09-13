@@ -16,6 +16,9 @@ module Fog
         #   * Parameters [Hash] Hash of providers to supply to template
         #   * TimeoutInMinutes [Integer] Minutes to wait before status is set to CREATE_FAILED
         #   * Capabilities [Array] List of capabilties the stack is granted. Currently CAPABILITY_IAM for allowing the creation of IAM resources
+        #   * StackPolicyBody [String] Structure containing the stack policy body.
+        #   * StackPolicyURL [String] URL of file containing the stack policy.
+        #   * Tags [Array] Key-value pairs to associate with this stack.
         #
         # @return [Excon::Response]:
         #   * body [Hash:
@@ -67,6 +70,12 @@ module Fog
             params['TemplateBody'] = options['TemplateBody']
           elsif options['TemplateURL']
             params['TemplateURL'] = options['TemplateURL']
+          end
+
+          if options['StackPolicyBody']
+            params['StackPolicyBody'] = options['StackPolicyBody']
+          elsif options['StackPolicyURL']
+            params['StackPolicyURL'] = options['StackPolicyURL']
           end
 
           if options['TimeoutInMinutes']

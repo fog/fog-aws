@@ -2,12 +2,10 @@ module Fog
   module Parsers
     module AWS
       module CloudFormation
-        class Basic < Fog::Parsers::Base
+        class EstimateTemplateCost < Fog::Parsers::Base
           def end_element(name)
             case name
-            when 'RequestId'
-              @response[name] = value
-            when 'NextToken'
+            when 'RequestId', 'Url'
               @response[name] = value
             end
           end
