@@ -22,8 +22,10 @@ module Fog
       request :describe_stacks
       request :estimate_template_cost
       request :execute_change_set
+      request :get_stack_policy
       request :get_template
       request :get_template_summary
+      request :set_stack_policy
       request :signal_resource
       request :validate_template
       request :list_change_sets
