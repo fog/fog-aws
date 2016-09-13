@@ -4,7 +4,6 @@ module Fog
       module CloudFormation
         class DescribeChangeSet < Fog::Parsers::Base
           def reset
-            #@change_set = fresh_change_set
             @response = fresh_change_set
             reset_parameter
             reset_change
