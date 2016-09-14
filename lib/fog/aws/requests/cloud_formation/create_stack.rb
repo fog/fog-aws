@@ -12,6 +12,7 @@ module Fog
         #   or (one of the two Template parameters is required)
         #   * TemplateURL [String] URL of file containing the template body.
         #   * DisableRollback [Boolean] Controls rollback on stack creation failure, defaults to false.
+        #   * OnFailure [String] Determines what action will be taken if stack creation fails. This must be one of: DO_NOTHING, ROLLBACK, or DELETE.
         #   * NotificationARNs [Array] List of SNS topics to publish events to.
         #   * Parameters [Hash] Hash of providers to supply to template
         #   * TimeoutInMinutes [Integer] Minutes to wait before status is set to CREATE_FAILED
@@ -33,6 +34,10 @@ module Fog
 
           if options['DisableRollback']
             params['DisableRollback'] = options['DisableRollback']
+          end
+
+          if options['OnFailure']
+            params['OnFailure'] = options['OnFailure']
           end
 
           if options['NotificationARNs']
