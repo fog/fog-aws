@@ -68,6 +68,10 @@ module Fog
           @data = nil
         end
 
+        def reset
+          self.class.reset
+        end
+
         attr_accessor :region
 
         def initialize(options={})

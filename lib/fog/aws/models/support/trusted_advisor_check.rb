@@ -26,7 +26,6 @@ module Fog
 
             if attributes[:flagged_resources]
               map_flagged_resources!
-              attributes[:flagged_resources] = map_resources(attributes[:flagged_resources])
               service.flagged_resources.load(attributes[:flagged_resources])
             else
               nil
@@ -41,7 +40,7 @@ module Fog
 
         def category_specific_summary(lazy=true)
           populate_extended_attributes(lazy) if attributes[:category_specific_summary].nil?
-          attributes[:category_specific_summary]
+          attributes[:category_stecific_summary]
         end
 
         def resources_summary(lazy=true)
