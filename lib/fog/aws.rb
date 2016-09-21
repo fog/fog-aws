@@ -52,6 +52,7 @@ module Fog
     autoload :SNS,              File.expand_path('../aws/sns', __FILE__)
     autoload :SQS,              File.expand_path('../aws/sqs', __FILE__)
     autoload :STS,              File.expand_path('../aws/sts', __FILE__)
+    autoload :Support,          File.expand_path('../aws/support', __FILE__)
     autoload :SimpleDB,         File.expand_path('../aws/simpledb', __FILE__)
 
     service(:auto_scaling,    'AutoScaling')
@@ -81,6 +82,7 @@ module Fog
     service(:sqs,             'SQS')
     service(:storage,         'Storage')
     service(:sts,             'STS')
+    service(:support,         'Support')
 
     def self.indexed_param(key, values)
       params = {}
