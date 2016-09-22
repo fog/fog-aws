@@ -1,5 +1,27 @@
 # Change Log
 
+## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v0.11.0...HEAD)
+
+**Implemented enhancements:**
+
+- Add gestion of egress security group rules [\#290](https://github.com/fog/fog-aws/pull/290) ([KevinLoiseau](https://github.com/KevinLoiseau))
+
+**Closed issues:**
+
+- Fog directory appends local system path with amazon url when i try to give dynamic fog directory [\#295](https://github.com/fog/fog-aws/issues/295)
+- Getting OperationAborted error on file storage operation [\#288](https://github.com/fog/fog-aws/issues/288)
+- AWS Elasticsearch API [\#286](https://github.com/fog/fog-aws/issues/286)
+- Disable chunked encoding [\#285](https://github.com/fog/fog-aws/issues/285)
+
+**Merged pull requests:**
+
+- add support endpoint and models/requests for trusted advisor checks [\#300](https://github.com/fog/fog-aws/pull/300) ([ehowe](https://github.com/ehowe))
+- Add attribute is\_default in vpc [\#299](https://github.com/fog/fog-aws/pull/299) ([zhitongLBN](https://github.com/zhitongLBN))
+- Cloud Formation: additional parameters [\#298](https://github.com/fog/fog-aws/pull/298) ([neillturner](https://github.com/neillturner))
+- Cloud Formation: support for change sets, stack policy and other missing calls.   [\#297](https://github.com/fog/fog-aws/pull/297) ([neillturner](https://github.com/neillturner))
+
 ## [v0.11.0](https://github.com/fog/fog-aws/tree/v0.11.0) (2016-08-04)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.10.0...v0.11.0)
 
