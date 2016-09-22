@@ -20,6 +20,6 @@ Shindo.tests("AWS::Support | trusted_advisor_checks", ["aws", "support"]) do
   end
 
   tests("model#flagged_resources").returns(true) do
-    @model.flagged_resources.first.metadata.keys == @model.metadata
+    @model.flagged_resources.first.metadata.keys.sort == @model.metadata.sort
   end
 end
