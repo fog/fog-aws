@@ -35,6 +35,30 @@ Shindo.tests("Fog::Compute[:aws] | security_group", ['aws']) do
       @group.ip_permissions.empty?
     end
 
+    test("authorize access at a port range (egress rule)") do
+      @group.authorize_port_range(5000..6000, :direction => 'egress')
+      @group.reload
+      ip_permission_egress = @group.ip_permissions_egress.find do |permission|
+        permission['fromPort'] == 5000 &&
+          permission['toPort'] == 6000 &&
+          permission['ipProtocol'] == 'tcp' &&
+          permission['ipRanges'] == [{ 'cidrIp' => '0.0.0.0/0' }]
+      end
+      !ip_permission_egress.nil?
+    end
+
+    test("revoke access at a port range (egress rule)") do
+      @group.revoke_port_range(5000..6000, :direction => 'egress')
+      @group.reload
+      ip_permission_egress = @group.ip_permissions_egress.find do |permission|
+        permission['fromPort'] == 5000 &&
+          permission['toPort'] == 6000 &&
+          permission['ipProtocol'] == 'tcp' &&
+          permission['ipRanges'] == [{ 'cidrIp' => '0.0.0.0/0' }]
+      end
+      ip_permission_egress.nil?
+    end
+
     group_forms = [
       "#{@other_group.owner_id}:#{@other_group.group_id}", # deprecated form
       @other_group.group_id,

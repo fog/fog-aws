@@ -54,6 +54,7 @@ module Fog
       request :attach_classic_link_vpc
       request :attach_internet_gateway
       request :attach_volume
+      request :authorize_security_group_egress
       request :authorize_security_group_ingress
       request :cancel_spot_instance_requests
       request :create_dhcp_options
@@ -150,6 +151,7 @@ module Fog
       request :register_image
       request :request_spot_instances
       request :reset_network_interface_attribute
+      request :revoke_security_group_egress
       request :revoke_security_group_ingress
       request :run_instances
       request :terminate_instances
