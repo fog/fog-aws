@@ -13,6 +13,15 @@ module Fog
         attribute :number_of_mount_targets, :aliases => 'NumberOfMountTargets'
         attribute :size_in_bytes,           :aliases => 'SizeInBytes'
 
+        def ready?
+          state == 'available'
+        end
+
+        def mount_targets
+          requires :identity
+          service.mount_targets(:file_system_id => self.identity).all
+        end
+
         def destroy
           requires :identity
 

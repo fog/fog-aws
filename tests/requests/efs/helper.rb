@@ -16,8 +16,22 @@ class AWS
         }
       }
 
+      MOUNT_TARGET_FORMAT = {
+        "FileSystemId"       => String,
+        "IpAddress"          => String,
+        "LifeCycleState"     => String,
+        "MountTargetId"      => String,
+        "NetworkInterfaceId" => String,
+        "OwnerId"            => String,
+        "SubnetId"           => String
+      }
+
       DESCRIBE_FILE_SYSTEMS_RESULT = {
         "FileSystems" => [FILE_SYSTEM_FORMAT]
+      }
+
+      DESCRIBE_MOUNT_TARGETS_RESULT = {
+        "MountTargets" => [MOUNT_TARGET_FORMAT]
       }
     end
   end

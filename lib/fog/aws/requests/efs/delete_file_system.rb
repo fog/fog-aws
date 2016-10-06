@@ -6,7 +6,7 @@ module Fog
         # http://docs.aws.amazon.com/efs/latest/ug/API_DeleteFileSystem.html
         # ==== Parameters
         # * FileSystemId <~String> - ID of the file system you want to delete.
-        # ==== Response
+        # ==== Returns
         # * response<~Excon::Response>
         #   * body - Empty
         #   * status - 204
@@ -31,7 +31,7 @@ module Fog
           end
 
           if file_system["NumberOfMountTargets"] > 0
-            raise Fog::AWS::EFS::FileSystemInUse.new("file system still has active mount targets")
+            raise Fog::AWS::EFS::FileSystemInUse.new("")
           end
 
           self.data[:file_systems].delete(id)

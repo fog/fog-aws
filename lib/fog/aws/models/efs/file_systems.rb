@@ -12,7 +12,7 @@ module Fog
         end
 
         def get(identity)
-          data = service.describe_file_systems(:id => identity).body
+          data = service.describe_file_systems(:id => identity).body["FileSystems"].first
           new(data)
         rescue Fog::AWS::EFS::NotFound
           nil

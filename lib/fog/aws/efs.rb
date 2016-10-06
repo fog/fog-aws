@@ -4,25 +4,35 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       class FileSystemInUse < Fog::Errors::Error; end
+      class IncorrectFileSystemLifeCycleState < Fog::Errors::Error; end
+      class InvalidSubnet < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :instrumentor, :instrumentor_name
 
       model_path 'fog/aws/models/efs'
       request_path 'fog/aws/requests/efs'
 
       model :file_system
+      model :mount_target
+
       collection :file_systems
+      collection :mount_targets
 
       request :create_file_system
+      request :create_mount_target
       request :delete_file_system
+      request :delete_mount_target
       request :describe_file_systems
+      request :describe_mount_targets
 
       class Mock
         def self.data
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
-                :file_systems => {}
+                :file_systems  => {},
+                :mount_targets => {}
               }
             end
           end
@@ -55,7 +65,7 @@ module Fog
           @instrumentor       = options[:instrumentor]
           @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.efs'
 
-          @region     = 'us-east-1'
+          @region     = options[:region]     || 'us-east-1'
           @host       = options[:host]       || "elasticfilesystem.#{@region}.amazonaws.com"
           @port       = options[:port]       || 443
           @scheme     = options[:scheme]     || "https"
@@ -134,9 +144,16 @@ module Fog
         rescue Excon::Errors::HTTPStatusError => error
           match = Fog::AWS::Errors.match_error(error)
           raise if match.empty?
+          if match[:code] == "IncorrectFileSystemLifeCycleState"
+            raise Fog::AWS::EFS::IncorrectFileSystemLifeCycleState.slurp(error, match[:message])
+          elsif match[:code] == 'FileSystemInUse'
+            raise Fog::AWS::EFS::FileSystemInUse.slurp(error, match[:message])
+          end
           raise case match[:message]
-                when /invalid file system id/i
+                when /invalid ((file system)|(mount target)) id/i
                   Fog::AWS::EFS::NotFound.slurp(error, match[:message])
+                when /invalid subnet id/i
+                  Fog::AWS::EFS::InvalidSubnet.slurp(error, match[:message])
                 else
                   Fog::AWS::EFS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                 end
