@@ -15,7 +15,7 @@ module Fog
           request(
             :path    => "mount-targets/#{id}",
             :method  => "DELETE",
-            :expects => 204,
+            :expects => 204
           )
         end
       end
