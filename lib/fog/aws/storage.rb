@@ -92,6 +92,7 @@ module Fog
       request :list_parts
       request :post_object_hidden_fields
       request :post_object_restore
+      request :put_accelerated_object_url
       request :put_bucket
       request :put_bucket_acl
       request :put_bucket_cors
