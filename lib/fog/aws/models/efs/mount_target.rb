@@ -17,7 +17,6 @@ module Fog
           state == 'available'
         end
 
-
         def destroy
           requires :identity
           service.delete_mount_target(:id => self.identity)
@@ -29,15 +28,20 @@ module Fog
           service.file_systems.get(self.file_system_id)
         end
 
+        def security_groups
+          requires :identity
+          service.describe_mount_target_security_groups(self.identity).body["SecurityGroups"]
+        end
+
         def save
           requires :file_system_id, :subnet_id
           params = {
             :file_system_id => self.file_system_id,
-            :subnet_id      => self.subnet_id,
+            :subnet_id      => self.subnet_id
           }
 
           params.merge!('IpAddress' => self.ip_address) if self.ip_address
-          params.merge!('SecurityGroups' => self.security_groups) if self.security_groups
+          params.merge!('SecurityGroups' => @security_groups) if @security_groups
 
           merge_attributes(service.create_mount_target(params).body)
         end

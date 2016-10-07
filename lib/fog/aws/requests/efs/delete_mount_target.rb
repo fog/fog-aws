@@ -26,7 +26,7 @@ module Fog
           response = Excon::Response.new
 
           unless self.data[:mount_targets][id]
-            raise Fog::AWS::EFS::NotFound.new("invalid file system ID: #{id}")
+            raise Fog::AWS::EFS::NotFound.new("invalid mount target ID: #{id}")
           end
 
           self.data[:mount_targets].delete(id)

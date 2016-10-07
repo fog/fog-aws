@@ -28,18 +28,29 @@ Shindo.tests('AWS::EFS | file systems', ['aws', 'efs']) do
     end
 
     if Fog.mocking?
-      vpc = Fog::Compute[:aws].vpcs.create(cidr_block: "10.0.0.0/16")
-      Fog::Compute[:aws].subnets.create(vpc_id: vpc.id, cidr_block: "10.0.1.0/24")
+      vpc = Fog::Compute[:aws].vpcs.create(:cidr_block => "10.0.0.0/16")
+      Fog::Compute[:aws].subnets.create(
+        :vpc_id     => vpc.id,
+        :cidr_block => "10.0.1.0/24"
+      )
+    else
+      vpc = Fog::Compute[:aws].vpcs.first
     end
 
-    subnet_id = Fog::Compute[:aws].vpcs.first.subnets.first.identity
+    security_group = Fog::Compute[:aws].security_groups.create(
+      :vpc_id      => vpc.id,
+      :name        => "fog#{suffix}",
+      :description => "fog#{suffix}"
+    )
 
-    raises(Fog::AWS::EFS::InvalidSubnet, "invalid subnet ID: foobar") do
-      Fog::AWS[:efs].create_mount_target(:file_system_id => file_system_id, :subnet_id => "foobar")
+    subnet_id = vpc.subnets.first.identity
+
+    raises(Fog::AWS::EFS::InvalidSubnet, "invalid subnet ID: foobar#{suffix}") do
+      Fog::AWS[:efs].create_mount_target(:file_system_id => file_system_id, :subnet_id => "foobar#{suffix}")
     end
 
-    raises(Fog::AWS::EFS::NotFound, "invalid file system ID: foobar") do
-      Fog::AWS[:efs].create_mount_target(:file_system_id => "foobar", :subnet_id => subnet_id)
+    raises(Fog::AWS::EFS::NotFound, "invalid file system ID: foobar#{suffix}") do
+      Fog::AWS[:efs].create_mount_target(:file_system_id => "foobar#{suffix}", :subnet_id => subnet_id)
     end
 
     if Fog.mocking?
@@ -53,8 +64,20 @@ Shindo.tests('AWS::EFS | file systems', ['aws', 'efs']) do
       end
     end
 
+    raises(Fog::AWS::EFS::NotFound, "invalid security group ID: foobar#{suffix}") do
+      Fog::AWS[:efs].create_mount_target(
+        :file_system_id  => file_system_id,
+        :subnet_id       => subnet_id,
+        'SecurityGroups' => ["foobar#{suffix}"]
+      )
+    end
+
     tests("#create_mount_target(file_system_id: #{file_system_id}, subnet_id: #{subnet_id})").formats(AWS::EFS::Formats::MOUNT_TARGET_FORMAT) do
-      Fog::AWS[:efs].create_mount_target(:file_system_id => file_system_id, :subnet_id => subnet_id).body
+      Fog::AWS[:efs].create_mount_target(
+        :file_system_id  => file_system_id,
+        :subnet_id       => subnet_id,
+        'SecurityGroups' => [security_group.group_id]
+      ).body
     end
 
     tests("#describe_mount_targets(file_system_id: #{file_system_id})").formats(AWS::EFS::Formats::DESCRIBE_MOUNT_TARGETS_RESULT) do
@@ -69,6 +92,10 @@ Shindo.tests('AWS::EFS | file systems', ['aws', 'efs']) do
 
     raises(Fog::AWS::EFS::Error, 'file system ID or mount target ID must be specified') do
       Fog::AWS[:efs].describe_mount_targets
+    end
+
+    raises(Fog::AWS::EFS::NotFound, "invalid mount target id: foobar#{suffix}") do
+      Fog::AWS[:efs].delete_mount_target(:id => "foobar#{suffix}")
     end
 
     tests("#delete_mount_target(id: #{mount_target_id})") do
@@ -88,11 +115,17 @@ Shindo.tests('AWS::EFS | file systems', ['aws', 'efs']) do
       Fog::AWS[:efs].data[:file_systems][file_system_id]["NumberOfMountTargets"] = 0
     end
 
+    raises(Fog::AWS::EFS::NotFound, "invalid file system ID: foobar#{suffix}") do
+      Fog::AWS[:efs].delete_file_system(:id => "foobar#{suffix}")
+    end
+
     tests("#delete_file_system") do
       returns(true) do
         result = Fog::AWS[:efs].delete_file_system(:id => file_system_id)
         result.body.empty?
       end
     end
+
+    security_group.destroy
   end
 end

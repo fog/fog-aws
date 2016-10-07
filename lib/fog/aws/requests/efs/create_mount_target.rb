@@ -24,9 +24,10 @@ module Fog
 
       class Mock
         def create_mount_target(options={})
-          response       = Excon::Response.new
-          file_system_id = options[:file_system_id]
-          subnet_id      = options[:subnet_id]
+          response        = Excon::Response.new
+          file_system_id  = options[:file_system_id]
+          subnet_id       = options[:subnet_id]
+          security_groups = options["SecurityGroups"] || []
 
           unless file_system = self.data[:file_systems][file_system_id]
             raise Fog::AWS::EFS::NotFound.new("invalid file system ID: #{file_system_id}")
@@ -41,6 +42,10 @@ module Fog
             raise Fog::AWS::EFS::InvalidSubnet.new("invalid subnet ID: #{subnet_id}")
           end
 
+          security_groups.each do |sg|
+            raise Fog::AWS::EFS::NotFound.new("invalid security group ID: #{sg}") unless Fog::Compute[:aws].data[:security_groups].values.detect { |sgd| sgd["groupId"] == sg }
+          end
+
           id = "fsmt-#{Fog::Mock.random_letters(8)}"
 
           mount_target = {
@@ -53,7 +58,8 @@ module Fog
             'SubnetId'           => subnet.identity,
           }
 
-          self.data[:mount_targets][id] = mount_target
+          self.data[:mount_targets][id]   = mount_target
+          self.data[:security_groups][id] = security_groups
 
           response.body = mount_target
           response

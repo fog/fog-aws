@@ -24,6 +24,7 @@ module Fog
       request :delete_file_system
       request :delete_mount_target
       request :describe_file_systems
+      request :describe_mount_target_security_groups
       request :describe_mount_targets
 
       class Mock
@@ -31,8 +32,9 @@ module Fog
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
-                :file_systems  => {},
-                :mount_targets => {}
+                :file_systems    => {},
+                :mount_targets   => {},
+                :security_groups => {}
               }
             end
           end
@@ -150,7 +152,7 @@ module Fog
             raise Fog::AWS::EFS::FileSystemInUse.slurp(error, match[:message])
           end
           raise case match[:message]
-                when /invalid ((file system)|(mount target)) id/i
+                when /invalid ((file system)|(mount target)|(security group)) id/i
                   Fog::AWS::EFS::NotFound.slurp(error, match[:message])
                 when /invalid subnet id/i
                   Fog::AWS::EFS::InvalidSubnet.slurp(error, match[:message])
