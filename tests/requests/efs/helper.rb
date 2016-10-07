@@ -33,6 +33,10 @@ class AWS
       DESCRIBE_MOUNT_TARGETS_RESULT = {
         "MountTargets" => [MOUNT_TARGET_FORMAT]
       }
+
+      DESCRIBE_MOUNT_TARGET_SECURITY_GROUPS_FORMAT = {
+        "SecurityGroups" => Array
+      }
     end
   end
 end

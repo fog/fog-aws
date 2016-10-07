@@ -2,8 +2,6 @@ module Fog
   module AWS
     class EFS
       class MountTarget < Fog::Model
-        attr_accessor :security_groups
-
         identity :id, :aliases => "MountTargetId"
 
         attribute :file_system_id,       :aliases => "FileSystemId"
@@ -19,7 +17,7 @@ module Fog
 
         def destroy
           requires :identity
-          service.delete_mount_target(:id => self.identity)
+          service.delete_mount_target(self.identity)
           true
         end
 
@@ -29,21 +27,31 @@ module Fog
         end
 
         def security_groups
-          requires :identity
-          service.describe_mount_target_security_groups(self.identity).body["SecurityGroups"]
+          if persisted?
+            requires :identity
+            service.describe_mount_target_security_groups(self.identity).body["SecurityGroups"]
+          else
+            @security_groups || []
+          end
+        end
+
+        def security_groups=(security_groups)
+          if persisted?
+            requires :identity
+            service.modify_mount_target_security_groups(self.identity, security_groups)
+          else
+            @security_groups = security_groups
+          end
+          security_groups
         end
 
         def save
           requires :file_system_id, :subnet_id
-          params = {
-            :file_system_id => self.file_system_id,
-            :subnet_id      => self.subnet_id
-          }
-
+          params = {}
           params.merge!('IpAddress' => self.ip_address) if self.ip_address
           params.merge!('SecurityGroups' => @security_groups) if @security_groups
 
-          merge_attributes(service.create_mount_target(params).body)
+          merge_attributes(service.create_mount_target(self.file_system_id, self.subnet_id, params).body)
         end
       end
     end

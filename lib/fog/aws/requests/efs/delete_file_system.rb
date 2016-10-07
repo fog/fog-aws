@@ -10,22 +10,17 @@ module Fog
         # * response<~Excon::Response>
         #   * body - Empty
         #   * status - 204
-        def delete_file_system(options={})
-          id = options.delete(:id)
+        def delete_file_system(id)
           request({
             :path             => "file-systems/#{id}",
             :method           => 'DELETE',
             :expects          => 204,
-            'CreationToken'   => options[:creation_token],
-            'PerformanceMode' => options[:performance_mode] || 'generalPurpose'
           })
         end
       end
 
       class Mock
-        def delete_file_system(options={})
-          id = options.delete(:id)
-
+        def delete_file_system(id)
           unless file_system = self.data[:file_systems][id]
             raise Fog::AWS::EFS::NotFound.new("invalid file system ID: #{id}")
           end

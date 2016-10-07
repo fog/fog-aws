@@ -10,25 +10,25 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>
         #   * body<~Hash>
-        def create_file_system(options={})
+        def create_file_system(creation_token, options={})
           request({
             :path             => "file-systems",
             :method           => 'POST',
             :expects          => 201,
-            'CreationToken'   => options[:creation_token],
-            'PerformanceMode' => options[:performance_mode] || 'generalPurpose'
+            'CreationToken'   => creation_token,
+            'PerformanceMode' => options[:peformance_mode] || 'generalPurpose'
           })
         end
       end
 
       class Mock
-        def create_file_system(options={})
+        def create_file_system(creation_token, options={})
           response = Excon::Response.new
 
           id = "fs-#{Fog::Mock.random_letters(8)}"
           file_system = {
             "OwnerId"              => Fog::AWS::Mock.owner_id,
-            "CreationToken"        => options[:creation_token],
+            "CreationToken"        => creation_token,
             "PerformanceMode"      => options[:performance_mode] || "generalPurpose",
             "FileSystemId"         => id,
             "CreationTime"         => Time.now.to_i.to_f,

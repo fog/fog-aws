@@ -28,6 +28,11 @@ Shindo.tests("AWS::EFS | mount target", ["aws", "efs"]) do
     tests("#security_groups") do
       returns([security_group.group_id]) { @instance.security_groups }
     end
+
+    tests("#security_groups=") do
+      @instance.security_groups = []
+      returns([]) { @instance.security_groups }
+    end
   end
 
   @file_system.wait_for { number_of_mount_targets == 0 }

@@ -25,19 +25,16 @@ module Fog
         def destroy
           requires :identity
 
-          service.delete_file_system(:id => self.identity)
+          service.delete_file_system(self.identity)
 
           true
         end
 
         def save
-          params = {
-            :creation_token => self.creation_token || Fog::Mock.random_hex(32)
-          }
-
+          params = {}
           params.merge!(:performance_mode => self.performance_mode) if self.performance_mode
 
-          merge_attributes(service.create_file_system(:creation_token => self.creation_token).body)
+          merge_attributes(service.create_file_system(self.creation_token || Fog::Mock.random_hex(32), params).body)
         end
       end
     end

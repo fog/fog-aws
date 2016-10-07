@@ -26,6 +26,7 @@ module Fog
       request :describe_file_systems
       request :describe_mount_target_security_groups
       request :describe_mount_targets
+      request :modify_mount_target_security_groups
 
       class Mock
         def self.data

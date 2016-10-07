@@ -10,8 +10,7 @@ module Fog
         # * response<~Excon::Response>
         #   * body - Empty
         #   * status - 204
-        def delete_mount_target(options={})
-          id = options.delete(:id)
+        def delete_mount_target(id)
           request(
             :path    => "mount-targets/#{id}",
             :method  => "DELETE",
@@ -21,8 +20,7 @@ module Fog
       end
 
       class Mock
-        def delete_mount_target(options={})
-          id       = options.delete(:id)
+        def delete_mount_target(id)
           response = Excon::Response.new
 
           unless self.data[:mount_targets][id]
