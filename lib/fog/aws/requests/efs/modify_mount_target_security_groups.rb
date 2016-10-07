@@ -14,6 +14,10 @@ module Fog
 
       class Mock
         def modify_mount_target_security_groups(id, security_groups)
+          if security_groups.nil? || security_groups.empty?
+            raise Fog::AWS::EFS::Error.new("Must provide at least one security group.")
+          end
+
           response = Excon::Response.new
 
           unless self.data[:mount_targets][id]

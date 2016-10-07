@@ -5,9 +5,11 @@ Shindo.tests("AWS::EFS | mount target", ["aws", "efs"]) do
   if Fog.mocking?
     vpc = Fog::Compute[:aws].vpcs.create(:cidr_block => "10.0.0.0/16")
     subnet = Fog::Compute[:aws].subnets.create(:vpc_id => vpc.id, :cidr_block => "10.0.1.0/24")
+      default_security_group = Fog::Compute[:aws].security_groups.detect { |sg| sg.description == 'default group' }
   else
     vpc = Fog::Compute[:aws].vpcs.first
     subnet = vpc.subnets.first
+    default_security_group = Fog::Compute[:aws].security_groups.detect { |sg| sg.description == 'default VPC security group' }
   end
 
   security_group = Fog::Compute[:aws].security_groups.create(
@@ -19,19 +21,18 @@ Shindo.tests("AWS::EFS | mount target", ["aws", "efs"]) do
   mount_target_params = {
     :file_system_id  => @file_system.identity,
     :subnet_id       => subnet.identity,
-    :security_groups => [security_group.group_id],
   }
 
   model_tests(Fog::AWS[:efs].mount_targets, mount_target_params, true) do
     @instance.wait_for { ready? }
 
     tests("#security_groups") do
-      returns([security_group.group_id]) { @instance.security_groups }
+      returns([default_security_group.group_id]) { @instance.security_groups }
     end
 
     tests("#security_groups=") do
-      @instance.security_groups = []
-      returns([]) { @instance.security_groups }
+      @instance.security_groups = [security_group.group_id]
+      returns([security_group.group_id]) { @instance.security_groups }
     end
   end
 

@@ -85,6 +85,10 @@ Shindo.tests('AWS::EFS | file systems', ['aws', 'efs']) do
       result
     end
 
+    raises(Fog::AWS::EFS::Error, 'Must provide at least one security group.') do
+      Fog::AWS[:efs].modify_mount_target_security_groups(mount_target_id, [])
+    end
+
     tests("#modify_mount_target_security_groups(#{mount_target_id}, [#{security_group.group_id}])") do
       returns(204) do
         Fog::AWS[:efs].modify_mount_target_security_groups(mount_target_id, [security_group.group_id]).status

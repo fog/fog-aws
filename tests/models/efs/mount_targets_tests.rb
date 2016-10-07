@@ -24,5 +24,7 @@ Shindo.tests("AWS::EFS | mount targets", ["aws", "efs"]) do
 
   collection_tests(Fog::AWS[:efs].mount_targets(:file_system_id => @file_system.identity), mount_target_params, true)
 
+  @file_system.wait_for { number_of_mount_targets == 0 }
   @file_system.destroy
+  security_group.destroy
 end
