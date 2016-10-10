@@ -25,7 +25,7 @@ module Fog
           end
 
           security_groups.each do |sg|
-            raise Fog::AWS::EFS::NotFound.new("invalid security group ID: #{sg}") unless Fog::Compute[:aws].data[:security_groups].values.detect { |sgd| sgd["groupId"] == sg }
+            raise Fog::AWS::EFS::NotFound.new("invalid security group ID: #{sg}") unless mock_compute.data[:security_groups].values.detect { |sgd| sgd["groupId"] == sg }
           end
 
           self.data[:security_groups][id] = security_groups

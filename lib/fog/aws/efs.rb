@@ -29,6 +29,8 @@ module Fog
       request :modify_mount_target_security_groups
 
       class Mock
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
+
         def self.data
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
@@ -56,7 +58,13 @@ module Fog
         attr_accessor :region
 
         def initialize(options={})
-          @region = options[:region] || "us-east-1"
+          @region                = options[:region] || "us-east-1"
+          @aws_access_key_id     = options[:aws_access_key_id]
+          @aws_secret_access_key = options[:aws_secret_access_key]
+        end
+
+        def mock_compute
+          @mock_compute ||= Fog::Compute::AWS.new(:aws_access_key_id => @aws_access_key_id, :aws_secret_access_key => @aws_secret_access_key, :region => @region)
         end
       end
 
