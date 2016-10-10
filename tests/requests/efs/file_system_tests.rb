@@ -105,6 +105,10 @@ Shindo.tests('AWS::EFS | file systems', ['aws', 'efs']) do
       Fog::AWS[:efs].describe_mount_targets(:id => mount_target_id).body
     end
 
+    raises(Fog::AWS::EFS::NotFound, 'Mount target does not exist.') do
+      Fog::AWS[:efs].describe_mount_targets(:id => "foobar")
+    end
+
     raises(Fog::AWS::EFS::Error, 'file system ID or mount target ID must be specified') do
       Fog::AWS[:efs].describe_mount_targets
     end

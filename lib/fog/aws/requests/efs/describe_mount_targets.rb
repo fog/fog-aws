@@ -39,7 +39,7 @@ module Fog
                             if mount_target = self.data[:mount_targets][id]
                               [mount_target]
                             else
-                              raise Fog::AWS::EFS::NotFound.new("invalid file system ID: #{id}")
+                              raise Fog::AWS::EFS::NotFound.new("Mount target does not exist.")
                             end
                           elsif file_system_id = options[:file_system_id]
                             self.data[:mount_targets].values.select { |mt| mt["FileSystemId"] == file_system_id }
