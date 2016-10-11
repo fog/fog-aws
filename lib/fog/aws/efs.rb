@@ -159,7 +159,7 @@ module Fog
             raise Fog::AWS::EFS::IncorrectFileSystemLifeCycleState.slurp(error, match[:message])
           elsif match[:code] == 'FileSystemInUse'
             raise Fog::AWS::EFS::FileSystemInUse.slurp(error, match[:message])
-          elsif match[:code] == 'MountTargetNotFound'
+          elsif match[:code].match(/(FileSystem|MountTarget)NotFound/)
             raise Fog::AWS::EFS::NotFound.slurp(error, match[:message])
           end
           raise case match[:message]
