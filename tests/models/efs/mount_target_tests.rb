@@ -5,7 +5,8 @@ Shindo.tests("AWS::EFS | mount target", ["aws", "efs"]) do
   if Fog.mocking?
     vpc = Fog::Compute[:aws].vpcs.create(:cidr_block => "10.0.0.0/16")
     subnet = Fog::Compute[:aws].subnets.create(:vpc_id => vpc.id, :cidr_block => "10.0.1.0/24")
-      default_security_group = Fog::Compute[:aws].security_groups.detect { |sg| sg.description == 'default group' }
+    default_security_group_data = Fog::Compute[:aws].data[:security_groups]['default']
+    default_security_group = Fog::Compute[:aws].security_groups.new(default_security_group_data)
   else
     vpc = Fog::Compute[:aws].vpcs.first
     subnet = vpc.subnets.first
