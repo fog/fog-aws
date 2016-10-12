@@ -95,6 +95,8 @@ Shindo.tests('AWS::EFS | file systems', ['aws', 'efs']) do
       end
     end
 
+    Fog.wait_for { Fog::AWS[:efs].describe_mount_target_security_groups(mount_target_id).body["SecurityGroups"] != [default_security_group.group_id] }
+
     tests("#describe_mount_target_security_groups(#{mount_target_id})").formats(AWS::EFS::Formats::DESCRIBE_MOUNT_TARGET_SECURITY_GROUPS_FORMAT) do
       result = Fog::AWS[:efs].describe_mount_target_security_groups(mount_target_id).body
       returns([security_group.group_id]) { result["SecurityGroups"] }

@@ -25,8 +25,8 @@ module Fog
       class Mock
         def create_mount_target(file_system_id, subnet_id, options={})
           response               = Excon::Response.new
-          default_security_group = mock_compute.security_groups.detect { |sg| sg.description == 'default group' }
-          security_groups        = options["SecurityGroups"] || [default_security_group.group_id]
+          default_security_group = mock_compute.data[:security_groups]['default']
+          security_groups        = options["SecurityGroups"] || [default_security_group['groupId']]
 
           unless file_system = self.data[:file_systems][file_system_id]
             raise Fog::AWS::EFS::NotFound.new("invalid file system ID: #{file_system_id}")
