@@ -21,7 +21,8 @@ module Fog
               'LoadBalancerNames' => [],
               'SuspendedProcesses' => [],
               'Tags' => [],
-              'TerminationPolicies' => []
+              'TerminationPolicies' => [],
+              'TargetGroupARNs' => []
             }
           end
 
@@ -59,6 +60,8 @@ module Fog
               @in_tags = true
             when 'TerminationPolicies'
               @in_termination_policies = true
+            when 'TargetGroupARNs'
+              @in_target_groups = true
             end
           end
 
@@ -83,6 +86,8 @@ module Fog
                 reset_tag
               elsif @in_termination_policies
                 @auto_scaling_group['TerminationPolicies'] << value
+              elsif @in_target_groups
+                @auto_scaling_group['TargetGroupARNs'] << value
               else
                 @results['AutoScalingGroups'] << @auto_scaling_group
                 reset_auto_scaling_group
@@ -147,6 +152,8 @@ module Fog
 
             when 'DescribeAutoScalingGroupsResponse'
               @response['DescribeAutoScalingGroupsResult'] = @results
+            when 'TargetGroupARNs'
+              @in_target_groups = false
             end
           end
         end
