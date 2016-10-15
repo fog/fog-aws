@@ -39,6 +39,22 @@ module Fog
           })
         end
       end
+
+      class Mock
+        def assume_role(role_session_name, role_arn, external_id=nil, policy=nil, duration=3600)
+          Excon::Response.new.tap do |response|
+            response.status = 200
+
+            response.body = {
+              'Arn'             => role_arn,
+              'AccessKeyId'     => Fog::Mock.random_base64(20),
+              'SecretAccessKey' => Fog::Mock.random_base64(40),
+              'SessionToken'    => Fog::Mock.random_base64(580),
+              'Expiration'      => Time.now + duration,
+            }
+          end
+        end
+      end
     end
   end
 end
