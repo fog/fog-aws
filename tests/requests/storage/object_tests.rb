@@ -128,6 +128,10 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object', 'fog_other_object']).body
     end
 
+    tests("#delete_multiple_objects('#{@directory.identity}', 'fØg_öbjèct', UTF-8)").succeeds do
+      Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fØg_öbjèct'])
+    end
+
   end
 
   fognonbucket = uniq_id('fognonbucket')
