@@ -49,9 +49,9 @@ module Fog
             {"messageSet" => [], "regionName" => "us-east-1", "zoneName" => "us-east-1d", "zoneState" => "available"},
             {"messageSet" => [], "regionName" => "us-east-1", "zoneName" => "us-east-1e", "zoneState" => "available"},
 
-            {"messageSet" => [], "regionName" => "us-east-1", "zoneName" => "us-east-2a", "zoneState" => "available"},
-            {"messageSet" => [], "regionName" => "us-east-1", "zoneName" => "us-east-2b", "zoneState" => "available"},
-            {"messageSet" => [], "regionName" => "us-east-1", "zoneName" => "us-east-2c", "zoneState" => "available"},
+            {"messageSet" => [], "regionName" => "us-east-2", "zoneName" => "us-east-2a", "zoneState" => "available"},
+            {"messageSet" => [], "regionName" => "us-east-2", "zoneName" => "us-east-2b", "zoneState" => "available"},
+            {"messageSet" => [], "regionName" => "us-east-2", "zoneName" => "us-east-2c", "zoneState" => "available"},
 
             {"messageSet" => [], "regionName" => "us-west-1", "zoneName" => "us-west-1a", "zoneState" => "available"},
             {"messageSet" => [], "regionName" => "us-west-1", "zoneName" => "us-west-1b", "zoneState" => "available"},
