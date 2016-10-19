@@ -123,6 +123,7 @@ module Fog
             'PlacementGroup'          => nil,
             'SuspendedProcesses'      => [],
             'Tags'                    => [],
+            'TargetGroupARNs'         => [],
             'TerminationPolicies'     => ['Default'],
             'VPCZoneIdentifier'       => nil
           }.merge!(options)
