@@ -51,7 +51,7 @@ module Fog
       request :create_db_subnet_group
       request :describe_db_subnet_groups
       request :delete_db_subnet_group
-      # TODO: :modify_db_subnet_group
+      request :modify_db_subnet_group
 
       request :describe_orderable_db_instance_options
 
