@@ -52,6 +52,7 @@ module Fog
     autoload :SNS,              File.expand_path('../aws/sns', __FILE__)
     autoload :SQS,              File.expand_path('../aws/sqs', __FILE__)
     autoload :STS,              File.expand_path('../aws/sts', __FILE__)
+    autoload :Support,          File.expand_path('../aws/support', __FILE__)
     autoload :SimpleDB,         File.expand_path('../aws/simpledb', __FILE__)
 
     service(:auto_scaling,    'AutoScaling')
@@ -81,6 +82,7 @@ module Fog
     service(:sqs,             'SQS')
     service(:storage,         'Storage')
     service(:sts,             'STS')
+    service(:support,         'Support')
 
     def self.indexed_param(key, values)
       params = {}
@@ -224,7 +226,7 @@ module Fog
     end
 
     def self.regions
-      @regions ||= ['ap-northeast-1', 'ap-northeast-2', 'ap-southeast-1', 'ap-southeast-2', 'eu-central-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1', 'cn-north-1', 'us-gov-west-1', 'ap-south-1']
+      @regions ||= ['ap-northeast-1', 'ap-northeast-2', 'ap-southeast-1', 'ap-southeast-2', 'eu-central-1', 'eu-west-1', 'us-east-1', 'us-east-2', 'us-west-1', 'us-west-2', 'sa-east-1', 'cn-north-1', 'us-gov-west-1', 'ap-south-1']
     end
 
     def self.validate_region!(region, host=nil)

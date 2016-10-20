@@ -23,7 +23,7 @@ module Fog
         #   Auto Scaling group size). A positive increment adds to the current
         #   capacity and a negative value removes from the current capacity.
         # * options<~Hash>:
-        #   * 'CoolDown'<~Integer> - The amount of time, in seconds, after a
+        #   * 'Cooldown'<~Integer> - The amount of time, in seconds, after a
         #     scaling activity completes before any further trigger-related
         #     scaling activities can start
         #

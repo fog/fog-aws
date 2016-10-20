@@ -9,6 +9,7 @@ module Fog
         attribute :dhcp_options_id,  :aliases => 'dhcpOptionsId'
         attribute :tags,             :aliases => 'tagSet'
         attribute :tenancy,          :aliases => 'instanceTenancy'
+        attribute :is_default,       :aliases => 'isDefault'
 
         def initialize(attributes={})
           self.dhcp_options_id ||= "default"
@@ -19,6 +20,11 @@ module Fog
         def ready?
           requires :state
           state == 'available'
+        end
+
+        def is_default?
+          require :is_default
+          is_default
         end
 
         # Removes an existing vpc

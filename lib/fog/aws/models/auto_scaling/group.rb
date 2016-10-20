@@ -21,6 +21,7 @@ module Fog
         attribute :tags,                      :aliases => 'Tags'
         attribute :termination_policies,      :aliases => 'TerminationPolicies'
         attribute :vpc_zone_identifier,       :aliases => 'VPCZoneIdentifier'
+        attribute :target_group_arns,         :aliases => 'TargetGroupARNs'
 
         def initialize(attributes={})
           self.instances = []
@@ -35,6 +36,7 @@ module Fog
           self.suspended_processes = []
           self.tags = {}
           self.termination_policies = ['Default']
+          self.target_group_arns = []
           super
         end
 

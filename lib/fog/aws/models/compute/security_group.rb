@@ -82,23 +82,25 @@ module Fog
         def authorize_port_range(range, options = {})
           requires_one :name, :group_id
 
-          ip_permission = {
-            'FromPort'   => range.begin,
-            'ToPort'     => range.end,
-            'IpProtocol' => options[:ip_protocol] || 'tcp'
-          }
+          ip_permission = fetch_ip_permission(range, options)
 
-          if options[:group].nil?
-            ip_permission['IpRanges'] = [
-              { 'CidrIp' => options[:cidr_ip] || '0.0.0.0/0' }
-            ]
-          else
-            ip_permission['Groups'] = [
-              group_info(options[:group])
-            ]
+          if options[:direction].nil? || options[:direction] == 'ingress'
+            authorize_port_range_ingress group_id, ip_permission
+          elsif options[:direction] == 'egress'
+            authorize_port_range_egress group_id, ip_permission
           end
+        end
 
+        def authorize_port_range_ingress(group_id, ip_permission)
           service.authorize_security_group_ingress(
+            name,
+            'GroupId'       => group_id,
+            'IpPermissions' => [ ip_permission ]
+          )
+        end
+
+        def authorize_port_range_egress(group_id, ip_permission)
+          service.authorize_security_group_egress(
             name,
             'GroupId'       => group_id,
             'IpPermissions' => [ ip_permission ]
@@ -196,23 +198,25 @@ module Fog
         def revoke_port_range(range, options = {})
           requires_one :name, :group_id
 
-          ip_permission = {
-            'FromPort'   => range.begin,
-            'ToPort'     => range.end,
-            'IpProtocol' => options[:ip_protocol] || 'tcp'
-          }
+          ip_permission = fetch_ip_permission(range, options)
 
-          if options[:group].nil?
-            ip_permission['IpRanges'] = [
-              { 'CidrIp' => options[:cidr_ip] || '0.0.0.0/0' }
-            ]
-          else
-            ip_permission['Groups'] = [
-              group_info(options[:group])
-            ]
+          if options[:direction].nil? || options[:direction] == 'ingress'
+            revoke_port_range_ingress group_id, ip_permission
+          elsif options[:direction] == 'egress'
+            revoke_port_range_egress group_id, ip_permission
           end
+        end
 
+        def revoke_port_range_ingress(group_id, ip_permission)
           service.revoke_security_group_ingress(
+            name,
+            'GroupId'       => group_id,
+            'IpPermissions' => [ ip_permission ]
+          )
+        end
+
+        def revoke_port_range_egress(group_id, ip_permission)
+          service.revoke_security_group_egress(
             name,
             'GroupId'       => group_id,
             'IpPermissions' => [ ip_permission ]
@@ -313,6 +317,25 @@ module Fog
           end
 
           info
+        end
+
+        def fetch_ip_permission(range, options)
+          ip_permission = {
+            'FromPort'   => range.begin,
+            'ToPort'     => range.end,
+            'IpProtocol' => options[:ip_protocol] || 'tcp'
+          }
+
+          if options[:group].nil?
+            ip_permission['IpRanges'] = [
+              { 'CidrIp' => options[:cidr_ip] || '0.0.0.0/0' }
+            ]
+          else
+            ip_permission['Groups'] = [
+              group_info(options[:group])
+            ]
+          end
+          ip_permission
         end
       end
     end
