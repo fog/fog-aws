@@ -49,10 +49,12 @@ module Fog
 
             response.body = {
               'Arn'             => "arn:aws:sts::#{account_id}:assumed-role/#{role_session_name}/#{role_session_name}",
+              'AssumedRoleId'   => "#{Fog::Mock.random_base64(21)}:#{role_session_name}",
               'AccessKeyId'     => Fog::Mock.random_base64(20),
               'SecretAccessKey' => Fog::Mock.random_base64(40),
               'SessionToken'    => Fog::Mock.random_base64(580),
               'Expiration'      => (Time.now + duration).utc.iso8601,
+              'RequestId'       => Fog::AWS::Mock.request_id
             }
           end
         end
