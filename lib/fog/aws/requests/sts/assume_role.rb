@@ -43,6 +43,7 @@ module Fog
       class Mock
         def assume_role(role_session_name, role_arn, external_id=nil, policy=nil, duration=3600)
           account_id = /[0-9]{12}/.match(role_arn)
+          request_id = Fog::AWS::Mock.request_id
 
           Excon::Response.new.tap do |response|
             response.status = 200
@@ -54,7 +55,11 @@ module Fog
               'SecretAccessKey' => Fog::Mock.random_base64(40),
               'SessionToken'    => Fog::Mock.random_base64(580),
               'Expiration'      => (Time.now + duration).utc.iso8601,
-              'RequestId'       => Fog::AWS::Mock.request_id
+              'RequestId'       => request_id,
+            }
+
+            response.headers = {
+              'x-amzn-RequestId' => request_id,
             }
           end
         end
