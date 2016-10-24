@@ -39,6 +39,31 @@ module Fog
           })
         end
       end
+
+      class Mock
+        def assume_role(role_session_name, role_arn, external_id=nil, policy=nil, duration=3600)
+          account_id = /[0-9]{12}/.match(role_arn)
+          request_id = Fog::AWS::Mock.request_id
+
+          Excon::Response.new.tap do |response|
+            response.status = 200
+
+            response.body = {
+              'Arn'             => "arn:aws:sts::#{account_id}:assumed-role/#{role_session_name}/#{role_session_name}",
+              'AssumedRoleId'   => "#{Fog::Mock.random_base64(21)}:#{role_session_name}",
+              'AccessKeyId'     => Fog::Mock.random_base64(20),
+              'SecretAccessKey' => Fog::Mock.random_base64(40),
+              'SessionToken'    => Fog::Mock.random_base64(580),
+              'Expiration'      => (Time.now + duration).utc.iso8601,
+              'RequestId'       => request_id,
+            }
+
+            response.headers = {
+              'x-amzn-RequestId' => request_id,
+            }
+          end
+        end
+      end
     end
   end
 end
