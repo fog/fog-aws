@@ -11,6 +11,10 @@ module Fog
         attribute :tenancy,          :aliases => 'instanceTenancy'
         attribute :is_default,       :aliases => 'isDefault'
 
+        def subnets
+          service.subnets(:filters => {'vpcId' => self.identity}).all
+        end
+
         def initialize(attributes={})
           self.dhcp_options_id ||= "default"
           self.tenancy ||= "default"
