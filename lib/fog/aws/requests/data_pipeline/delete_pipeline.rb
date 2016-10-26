@@ -22,7 +22,12 @@ module Fog
 
       class Mock
         def delete_pipeline(id)
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+
+          pipeline = find_pipeline(id)
+          pipeline[:deleted] = true
+
+          true
         end
       end
     end
