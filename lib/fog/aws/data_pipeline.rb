@@ -59,7 +59,7 @@ module Fog
         def stringify_keys(object)
           case object
           when Hash
-            object.each_with_object({}) { |(k, v), a| a[k.to_s] = stringify_keys(v) }
+            object.inject({}) { |h,(k,v)| h[k.to_s] = stringify_keys(v); h }
           when Array
             object.map { |v| stringify_keys(v) }
           else
