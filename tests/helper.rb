@@ -1,6 +1,6 @@
 begin
-  require "codeclimate-test-reporter"
-  CodeClimate::TestReporter.start
+  require 'simplecov'
+  SimpleCov.start
 rescue LoadError => e
   $stderr.puts "not recording test coverage: #{e.inspect}"
 end
