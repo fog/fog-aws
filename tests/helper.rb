@@ -1,6 +1,7 @@
 begin
   require 'simplecov'
   SimpleCov.start
+  SimpleCov.command_name "Shindo"
 rescue LoadError => e
   $stderr.puts "not recording test coverage: #{e.inspect}"
 end
