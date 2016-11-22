@@ -23,6 +23,7 @@ module Fog
         attribute :name
         attribute :virtualization_type,   :aliases => 'virtualizationType'
         attribute :creation_date,         :aliases => 'creationDate'
+        attribute :ena_support,           :aliases => 'enaSupport'
 
         def deregister(delete_snapshot = false)
           service.deregister_image(id)

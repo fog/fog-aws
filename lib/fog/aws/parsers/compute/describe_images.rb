@@ -68,7 +68,7 @@ module Fog
               case name
               when 'architecture', 'description', 'hypervisor', 'imageId', 'imageLocation', 'imageOwnerAlias', 'imageOwnerId', 'imageState', 'imageType', 'kernelId', 'name', 'platform', 'ramdiskId', 'rootDeviceType','rootDeviceName','virtualizationType','creationDate'
                 @image[name] = value
-              when 'isPublic'
+              when 'isPublic' or 'enaSupport'
                 if value == 'true'
                   @image[name] = true
                 else
