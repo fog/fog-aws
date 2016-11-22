@@ -50,3 +50,5 @@ notifications:
 env:
   global:
     secure: LlDKdKSRo3sEjQ55XesbOXhKZ3RrOtqoD1ZL8Wx39K3iVzeEV3Kc8HjDfEvo7R4pOc3BMTNJcputklVEPN0FkWGN7Py+OEtbHj3IZl0MX+KEWNk0gU+4+sgPrL1eXUQyMUSkCrBsKg08rPel4KMYUOXbtnLyUU9PDbBwm4LJYOc=
+after_success:
+  - bundle exec codeclimate-test-reporter
