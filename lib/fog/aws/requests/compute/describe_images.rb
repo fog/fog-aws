@@ -21,6 +21,7 @@ module Fog
         #     * 'imagesSet'<~Array>:
         #       * 'architecture'<~String> - Architecture of the image
         #       * 'blockDeviceMapping'<~Array> - An array of mapped block devices
+        #       * 'creationDate'<~Date> - Creation date of image
         #       * 'description'<~String> - Description of image
         #       * 'imageId'<~String> - Id of the image
         #       * 'imageLocation'<~String> - Location of the image
@@ -92,7 +93,8 @@ module Fog
             'root-device-name'    => 'rootDeviceName',
             'root-device-type'    => 'rootDeviceType',
             'state'               => 'imageState',
-            'virtualization-type' => 'virtualizationType'
+            'virtualization-type' => 'virtualizationType',
+            'creation_date'       => 'creationDate'
           }
 
           image_set = visible_images.values
