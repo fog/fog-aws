@@ -16,6 +16,7 @@ module Fog
         #   * UsePreviousTemplate [Boolean] Reuse the template that is associated with the stack to create the change set.
         #   * NotificationARNs [Array] List of SNS topics to publish events to.
         #   * Parameters [Hash] Hash of providers to supply to template.
+        #   * Capabilities [Array] List of capabilties the stack is granted. Currently CAPABILITY_IAM for allowing the creation of IAM resources.
         #
         # @return [Excon::Response]:
         #   * body [Hash:
@@ -57,6 +58,10 @@ module Fog
             params['TemplateBody'] = options['TemplateBody']
           elsif options['TemplateURL']
             params['TemplateURL'] = options['TemplateURL']
+          end
+
+          if options['Capabilities']
+            params.merge!(Fog::AWS.indexed_param("Capabilities.member", [*options['Capabilities']]))
           end
 
           request({
