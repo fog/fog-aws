@@ -62,7 +62,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'ChangeSetId', 'ChangeSetName', 'Description', 'ExecutionStatus', 'StackId', 'StackName', 'StatusReason'
+            when 'ChangeSetId', 'ChangeSetName', 'Description', 'ExecutionStatus', 'StackId', 'StackName', 'StatusReason', 'Status'
               @response[name] = value
             when 'CreationTime'
               @response[name] = Time.parse(value)
