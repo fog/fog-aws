@@ -55,6 +55,26 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
+          :id                      => 't2.xlarge',
+          :name                    => 'Micro Instance',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 0,
+          :ram                     => 16384,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't2.2xlarge',
+          :name                    => 'Micro Instance',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 0,
+          :ram                     => 32768,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
           :id                      => 'm1.small',
           :name                    => 'Small Instance',
           :bits                    => 32,
@@ -95,7 +115,7 @@ module Fog
           :instance_store_volumes  => 4
         },
         {
-          :id                      =>  'c1.medium',
+          :id                      => 'c1.medium',
           :bits                    => 32,
           :cores                   => 5,
           :disk                    => 350,
@@ -255,7 +275,7 @@ module Fog
           :instance_store_volumes  => 1
         },
         {
-          :id                      =>  'm2.2xlarge',
+          :id                      => 'm2.2xlarge',
           :name                    => 'High Memory Double Extra Large',
           :bits                    => 64,
           :cores                   => 13,
@@ -328,7 +348,7 @@ module Fog
           :id                      => "hi1.4xlarge",
           :name                    => "High I/O Quadruple Extra Large Instance",
           :bits                    => 64,
-          :cores                   =>   35,
+          :cores                   =>  35,
           :disk                    => 2048,
           :ram                     => 61952,
           :ebs_optimized_available => false,
@@ -411,7 +431,7 @@ module Fog
           :cores                   => 2,
           :ram                     => 15616,
           :disk                    => 32,
-          :ebs_optimized_available => true,
+          :ebs_optimized_available => false,
           :instance_store_volumes  => 1
         },
         {
@@ -453,6 +473,66 @@ module Fog
           :disk                    => 640,
           :ebs_optimized_available => false,
           :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "r4.large",
+          :name                    => "R4 Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 15616,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r4.xlarge",
+          :name                    => "R4 Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 31232,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r4.2xlarge",
+          :name                    => "R4 Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 62464,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r4.4xlarge",
+          :name                    => "R4 Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 124928,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r4.8xlarge",
+          :name                    => "R4 Eight Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 249856,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r4.16xlarge",
+          :name                    => "R4 Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 499712,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
         },
         {
           :id                      => "d2.xlarge",
