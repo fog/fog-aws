@@ -190,6 +190,7 @@ module Fog
 
           params = request_params(params)
           params[:headers][:host] = params[:host]
+          params[:headers][:host] += ":#{params[:port]}" if params.fetch(:port, nil)
 
           signature_query_params = @signer.signature_parameters(params, now, "UNSIGNED-PAYLOAD")
           params[:query] = (params[:query] || {}).merge(signature_query_params)
