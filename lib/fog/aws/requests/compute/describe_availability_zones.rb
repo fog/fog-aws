@@ -84,6 +84,9 @@ module Fog
 
             {"messageSet" => [], "regionName" => "ap-south-1", "zoneName" => "ap-south-1a", "zoneState" => "available"},
             {"messageSet" => [], "regionName" => "ap-south-1", "zoneName" => "ap-south-1b", "zoneState" => "available"},
+
+            {"messageSet" => [], "regionName" => "ca-central-1", "zoneName" => "ca-central-1a", "zoneState" => "available"},
+            {"messageSet" => [], "regionName" => "ca-central-1", "zoneName" => "ca-central-1b", "zoneState" => "available"},
           ]
 
           availability_zone_info = all_zones.select { |zoneinfo| zoneinfo["regionName"] == @region }
