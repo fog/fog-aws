@@ -23,14 +23,17 @@ module Fog
             :body => Fog::JSON.encode(params),
             :headers => { 'X-Amz-Target' => 'DataPipeline.QueryObjects' },
           })
-
-          Fog::JSON.decode(response.body)
         end
       end
 
       class Mock
         def query_objects(id, sphere, options={})
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+
+          find_pipeline(id)
+
+          response.body = {"hasMoreResults" => false, "ids" => ["Default"]}
+          response
         end
       end
     end
