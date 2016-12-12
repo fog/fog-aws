@@ -1,5 +1,15 @@
 # Change Log
 
+## [v1.0.0](https://github.com/fog/fog-aws/tree/v1.0.0) (2016-12-12)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v0.13.0...v1.0.0)
+
+**Merged pull requests:**
+
+- fix host header with another port on s3 [\#327](https://github.com/fog/fog-aws/pull/327) ([rodrigoapereira](https://github.com/rodrigoapereira))
+- Add new t2.xlarge, t2.2xlarge and r4 class instances. [\#326](https://github.com/fog/fog-aws/pull/326) ([rogersd](https://github.com/rogersd))
+- Fix the bug that can't create fifo queue in SQS. [\#323](https://github.com/fog/fog-aws/pull/323) ([ebihara99999](https://github.com/ebihara99999))
+- data pipeline mocks [\#318](https://github.com/fog/fog-aws/pull/318) ([ehowe](https://github.com/ehowe))
+
 ## [v0.13.0](https://github.com/fog/fog-aws/tree/v0.13.0) (2016-11-29)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.12.0...v0.13.0)
 
