@@ -75,6 +75,18 @@ module Fog
           reload
         end
 
+        def attach_load_balancer_target_groups(*target_group_arns)
+          requires :id
+          service.attach_load_balancer_target_groups(id, 'TargetGroupARNs' => target_group_arns)
+          reload
+        end
+
+        def detach_load_balancer_target_groups(*target_group_arns)
+          requires :id
+          service.detach_load_balancer_target_groups(id, 'TargetGroupARNs' => target_group_arns)
+          reload
+        end
+
         def disable_metrics_collection(metrics = {})
           requires :id
           service.disable_metrics_collection(id, 'Metrics' => metrics)
