@@ -36,6 +36,8 @@ module Fog
         #       * 'rootDeviceName'<~String> - Root device name, e.g. /dev/sda1
         #       * 'rootDeviceType'<~String> - Root device type, ebs or instance-store
         #       * 'virtualizationType'<~String> - Type of virtualization
+        #       * 'creationDate'time<~Datetime> - Date and time the image was created
+        #       * 'enaSupport'<~Boolean> - whether or not the image supports enhanced networking
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeImages.html]
         def describe_images(filters = {})

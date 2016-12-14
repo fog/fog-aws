@@ -23,14 +23,28 @@ module Fog
             :body => Fog::JSON.encode(params),
             :headers => { 'X-Amz-Target' => 'DataPipeline.DescribeObjects' },
           })
-
-          Fog::JSON.decode(response.body)
         end
       end
 
       class Mock
         def describe_objects(id, objects, options={})
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+
+          find_pipeline(id)
+
+          pipeline_objects = self.data[:pipeline_definitions][id]["pipelineObjects"].select { |o| objects.include?(o["id"]) }
+
+          response.body = {
+            "hasMoreResults"  => false,
+            "marker"          => options[:marker],
+            "pipelineObjects" => [
+              {
+                "fields" => pipeline_objects
+              }
+            ]
+          }
+
+          response
         end
       end
     end

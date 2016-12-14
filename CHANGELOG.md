@@ -1,5 +1,43 @@
 # Change Log
 
+## [v1.0.0](https://github.com/fog/fog-aws/tree/v1.0.0) (2016-12-12)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v0.13.0...v1.0.0)
+
+**Merged pull requests:**
+
+- fix host header with another port on s3 [\#327](https://github.com/fog/fog-aws/pull/327) ([rodrigoapereira](https://github.com/rodrigoapereira))
+- Add new t2.xlarge, t2.2xlarge and r4 class instances. [\#326](https://github.com/fog/fog-aws/pull/326) ([rogersd](https://github.com/rogersd))
+- Fix the bug that can't create fifo queue in SQS. [\#323](https://github.com/fog/fog-aws/pull/323) ([ebihara99999](https://github.com/ebihara99999))
+- data pipeline mocks [\#318](https://github.com/fog/fog-aws/pull/318) ([ehowe](https://github.com/ehowe))
+
+## [v0.13.0](https://github.com/fog/fog-aws/tree/v0.13.0) (2016-11-29)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v0.12.0...v0.13.0)
+
+**Closed issues:**
+
+- Fog::Compute::AWS::Image not properly loaded [\#324](https://github.com/fog/fog-aws/issues/324)
+- Add creation\_date field for aws images [\#320](https://github.com/fog/fog-aws/issues/320)
+- Bug: \[fog\]\[WARNING\] Unrecognized arguments: region, use\_iam\_profile [\#315](https://github.com/fog/fog-aws/issues/315)
+- Better contributing documentation [\#311](https://github.com/fog/fog-aws/issues/311)
+- AutoscalingGroups with a TargetGroup set are not parsed correctly [\#308](https://github.com/fog/fog-aws/issues/308)
+- autoscaling create launch config doesn't work with BlockDeviceMappings  [\#307](https://github.com/fog/fog-aws/issues/307)
+- Is there a configuration setting for the AWS provider to adjust the url scheme for S3 buckets? [\#305](https://github.com/fog/fog-aws/issues/305)
+- DB Subnet Group id for Cluster returns nil [\#292](https://github.com/fog/fog-aws/issues/292)
+
+**Merged pull requests:**
+
+- Fixed some missing parts in change sets [\#322](https://github.com/fog/fog-aws/pull/322) ([nilroy](https://github.com/nilroy))
+- Add creation date and enhanced networking support for images [\#321](https://github.com/fog/fog-aws/pull/321) ([puneetloya](https://github.com/puneetloya))
+- Fix warnings in running tests [\#319](https://github.com/fog/fog-aws/pull/319) ([ebihara99999](https://github.com/ebihara99999))
+- Add `Fog::AWS::STS.Mock\#assume\_role` [\#316](https://github.com/fog/fog-aws/pull/316) ([pedrommonteiro](https://github.com/pedrommonteiro))
+- Ohio region [\#314](https://github.com/fog/fog-aws/pull/314) ([chanakyacool](https://github.com/chanakyacool))
+- mime types gem update [\#312](https://github.com/fog/fog-aws/pull/312) ([lucianosousa](https://github.com/lucianosousa))
+- fix S3 \#delete\_multiple\_objects for UTF-8 names [\#310](https://github.com/fog/fog-aws/pull/310) ([alepore](https://github.com/alepore))
+- Support for target groups \(fix for \#308\) [\#309](https://github.com/fog/fog-aws/pull/309) ([msiuts](https://github.com/msiuts))
+- create, describe, and destroy elastic file systems [\#304](https://github.com/fog/fog-aws/pull/304) ([ehowe](https://github.com/ehowe))
+- Correct optional parameter naming in documentation for Fog::AWS::Auto… [\#302](https://github.com/fog/fog-aws/pull/302) ([ehealy](https://github.com/ehealy))
+- Modify Db subnet group  [\#293](https://github.com/fog/fog-aws/pull/293) ([chanakyacool](https://github.com/chanakyacool))
+
 ## [v0.12.0](https://github.com/fog/fog-aws/tree/v0.12.0) (2016-09-22)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.11.0...v0.12.0)
 

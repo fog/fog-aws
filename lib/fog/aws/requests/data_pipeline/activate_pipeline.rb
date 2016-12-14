@@ -14,16 +14,20 @@ module Fog
 
           response = request({
             :body => Fog::JSON.encode(params),
-            :headers => { 'X-Amz-Target' => 'DataPipeline.ActivatePipeline' },
+            :headers => { 'X-Amz-Target' => 'DataPipeline.ActivatePipeline' }
           })
-
-          Fog::JSON.decode(response.body)
         end
       end
 
       class Mock
         def activate_pipeline(id)
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+
+          pipeline = find_pipeline(id)
+          pipeline[:active] = true
+
+          response.body = {}
+          response
         end
       end
     end
