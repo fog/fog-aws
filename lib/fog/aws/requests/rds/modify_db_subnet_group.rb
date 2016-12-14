@@ -25,20 +25,3 @@ module Fog
     end
   end
 end
-
-=begin
-rds.modify_db_subnet_group('kd-subnet-group', ['subnet-5259d03a', 'subnet-eb518f83'], 'hahaha!') #=>
-  {:subnets=>
-    [{:availability_zone=>
-       {:name=>"us-east-1d", :provisioned_iops_capable=>false},
-      :status=>"Active",
-      :subnet_id=>"subnet-5259d03a"},
-     {:availability_zone=>
-       {:name=>"us-east-1a", :provisioned_iops_capable=>false},
-      :status=>"Active",
-      :subnet_id=>"subnet-eb518f83"}],
-   :vpc_id=>"vpc-10518f78",
-   :status=>"Complete",
-   :description=>"hahaha!",
-   :name=>"kd-subnet-group"}
-=end
