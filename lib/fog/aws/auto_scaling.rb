@@ -164,7 +164,7 @@ module Fog
                   when 'ResourceInUse'
                     Fog::AWS::AutoScaling::ResourceInUse.slurp(error, match[:message])
                   when 'ValidationError'
-                    Fog::AWS::AutoScaling::ValidationError.slurp(error, match[:message])
+                    Fog::AWS::AutoScaling::ValidationError.slurp(error, CGI.unescapeHTML(match[:message]))
                   else
                     Fog::AWS::AutoScaling::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                   end
