@@ -1,5 +1,20 @@
 # Change Log
 
+## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v1.0.0...HEAD)
+
+**Closed issues:**
+
+- Support new Ohio region \(us-east-2\) [\#313](https://github.com/fog/fog-aws/issues/313)
+
+**Merged pull requests:**
+
+- Canada and London regions [\#333](https://github.com/fog/fog-aws/pull/333) ([mattheworiordan](https://github.com/mattheworiordan))
+- Updated ELB Dual Stack hosted zone DNS records [\#332](https://github.com/fog/fog-aws/pull/332) ([mattheworiordan](https://github.com/mattheworiordan))
+- Added support for attaching auto scaling groups to target groups [\#330](https://github.com/fog/fog-aws/pull/330) ([maf23](https://github.com/maf23))
+- credential\_fetcher: Mark AWS metadata calls as idempotent [\#329](https://github.com/fog/fog-aws/pull/329) ([mtekel](https://github.com/mtekel))
+
 ## [v1.0.0](https://github.com/fog/fog-aws/tree/v1.0.0) (2016-12-12)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.13.0...v1.0.0)
 
