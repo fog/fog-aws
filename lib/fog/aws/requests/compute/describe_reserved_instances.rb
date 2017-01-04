@@ -20,11 +20,15 @@ module Fog
         #       * 'instanceType'<~String> - type of instance
         #       * 'instanceCount'<~Integer> - number of reserved instances
         #       * 'productDescription'<~String> - reserved instance description
+        #       * 'recurringCharges'<~Array>:
+        #         * 'frequency'<~String> - frequency of a recurring charge while the reservation is active (only Hourly at this time)
+        #         * 'amount'<~Float> - recurring charge amount
         #       * 'reservedInstancesId'<~String> - id of the instance
+        #       * 'scope'<~String> - scope of the reservation (i.e. 'Availability Zone' or 'Region' - as of version 2016/11/15)
         #       * 'start'<~Time> - start time for reservation
         #       * 'state'<~String> - state of reserved instance purchase, in .[pending-payment, active, payment-failed, retired]
         #       * 'usagePrice"<~Float> - usage price of reserved instances, per hour
-        #       * 'end' - time reservation stopped being applied (i.e sold or canceled - as of version 2013/10/01)
+        #       * 'end'<~Time> - time reservation stopped being applied (i.e. sold or canceled - as of version 2013/10/01)
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeReservedInstances.html]
         def describe_reserved_instances(filters = {})
