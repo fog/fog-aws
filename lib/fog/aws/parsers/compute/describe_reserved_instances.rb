@@ -4,16 +4,15 @@ module Fog
       module AWS
         class DescribeReservedInstances < Fog::Parsers::Base
           def get_default_item
-            {'tagSet' => {}, 'recurringCharges' => {}}
+            {'tagSet' => {}, 'recurringCharges' => []}
           end
 
           def reset
             @context = []
-            # Note:  <recurringCharges> should also be handled as a set, but do not want to disrupt anyone relying on
-            # it currently being flatted
-            @contexts = ['reservedInstancesSet', 'tagSet']
+            @contexts = ['reservedInstancesSet', 'recurringCharges', 'tagSet']
             @reserved_instance = get_default_item
             @response = { 'reservedInstancesSet' => [] }
+            @charge = {}
             @tag = {}
           end
 
@@ -26,11 +25,11 @@ module Fog
 
           def end_element(name)
             case name
-            when 'availabilityZone', 'instanceType', 'productDescription', 'reservedInstancesId', 'state', 'offeringType', 'instanceTenancy'
+            when 'availabilityZone', 'instanceTenancy', 'instanceType', 'offeringType', 'productDescription', 'reservedInstancesId', 'scope', 'state'
               @reserved_instance[name] = value
             when 'duration', 'instanceCount'
               @reserved_instance[name] = value.to_i
-            when 'fixedPrice', 'amount', 'usagePrice'
+            when 'fixedPrice', 'usagePrice'
               @reserved_instance[name] = value.to_f
             when *@contexts
               @context.pop
@@ -39,10 +38,22 @@ module Fog
               when 'reservedInstancesSet'
                 @response['reservedInstancesSet'] << @reserved_instance
                 @reserved_instance = get_default_item
+              when 'recurringCharges'
+                @reserved_instance['recurringCharges'] << { 'frequency' => @charge['frequency'], 'amount' => @charge['amount'] }
+                @charge = {}
               when 'tagSet'
                 @reserved_instance['tagSet'][@tag['key']] = @tag['value']
                 @tag = {}
               end
+            when 'amount'
+              case @context.last
+              when 'reservedInstancesSet'
+                @reserved_instance[name] = value.to_f
+              when 'recurringCharges'
+                @charge[name] = value.to_f
+              end
+            when 'frequency'
+              @charge[name] = value
             when 'key', 'value'
               @tag[name] = value
             when 'requestId'
