@@ -8,6 +8,7 @@ module Fog
 
         attribute :username
         attribute :group_name
+        attribute :role_name
 
         model Fog::AWS::IAM::ManagedPolicy
 
@@ -16,6 +17,8 @@ module Fog
                    all_by_user(self.username, options)
                  elsif self.group_name
                    all_by_group(self.group_name, options)
+                 elsif self.role_name
+                   all_by_role(self.role_name, options)
                  else
                    all_policies(options)
                  end
@@ -44,6 +47,15 @@ module Fog
 
         def all_by_group(group_name, options={})
           body = service.list_attached_group_policies(group_name, page_params(options)).body
+          merge_attributes(body)
+
+          body['Policies'].map do |policy|
+            service.get_policy(policy['PolicyArn']).body['Policy']
+          end
+        end
+
+        def all_by_role(role_name, options={})
+          body = service.list_attached_role_policies(role_name, page_params(options)).body
           merge_attributes(body)
 
           body['Policies'].map do |policy|

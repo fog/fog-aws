@@ -14,6 +14,8 @@ module Fog
         attribute :path,            :aliases => 'Path'
         attribute :updated_at,      :aliases => 'UpdateDate', :type => :time
 
+        attr_accessor :policy_document
+
         def attach(user_or_username)
           requires :arn
 
@@ -31,6 +33,24 @@ module Fog
 
           service.get_policy_version(self.arn, self.default_version).
             body['PolicyVersion']['Document']
+        end
+
+        def reload
+          service.managed_policies.get(self.arn)
+        end
+
+        def save
+          requires :name, :policy_document
+
+          merge_attributes(service.create_policy(self.name, self.policy_document, self.path, self.description).body["Policy"])
+        end
+
+        def destroy
+          requires :arn
+
+          service.delete_policy(self.arn)
+
+          true
         end
       end
     end

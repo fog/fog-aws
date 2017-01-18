@@ -20,6 +20,36 @@ module Fog
           true
         end
 
+        def attach(policy_or_arn)
+          requires :rolename
+
+          arn = if policy_or_arn.respond_to?(:arn)
+                  policy_or_arn.arn
+                else
+                  policy_or_arn
+                end
+
+          service.attach_role_policy(self.rolename, arn)
+        end
+
+        def detach(policy_or_arn)
+          requires :rolename
+
+          arn = if policy_or_arn.respond_to?(:arn)
+                  policy_or_arn.arn
+                else
+                  policy_or_arn
+                end
+
+          service.detach_role_policy(self.rolename, arn)
+        end
+
+        def attached_policies
+          requires :rolename
+
+          service.managed_policies(:role_name => self.rolename)
+        end
+
         def destroy
           requires :rolename
 

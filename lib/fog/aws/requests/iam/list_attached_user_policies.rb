@@ -70,7 +70,8 @@ module Fog
           body = {
             'Policies'    => data,
             'IsTruncated' => truncated,
-            'RequestId'   => Fog::AWS::Mock.request_id
+            'RequestId'   => Fog::AWS::Mock.request_id,
+            'Marker'      => nil
           }
 
           if marker

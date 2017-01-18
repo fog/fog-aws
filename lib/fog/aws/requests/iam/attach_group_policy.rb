@@ -46,6 +46,7 @@ module Fog
 
           group = self.data[:groups][group_name]
           group[:attached_policies] << policy_arn
+          managed_policy["AttachmentCount"] += 1
 
           Excon::Response.new.tap { |response|
             response.status = 200
