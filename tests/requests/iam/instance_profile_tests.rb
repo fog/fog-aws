@@ -11,7 +11,7 @@ Shindo.tests("AWS::IAM | instance profile requests", ['aws']) do
       Fog::AWS[:iam].get_instance_profile(profile_name).body
     end
 
-    @role = Fog::AWS[:iam].roles.create(rolename: uniq_id('instance-profile-role'))
+    @role = Fog::AWS[:iam].roles.create(:rolename => uniq_id('instance-profile-role'))
 
     tests("#add_role_to_instance_profile('#{@role.rolename}', '#{profile_name}')").formats(BASIC) do
       Fog::AWS[:iam].add_role_to_instance_profile(@role.rolename, profile_name).body

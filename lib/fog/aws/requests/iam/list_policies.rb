@@ -65,7 +65,7 @@ module Fog
                      end
 
           if options["PathPrefix"]
-            data_set.select! { |p| p["Path"].match(/^#{options["PathPrefix"]}/) }
+            data_set = data_set.select { |p| p["Path"].match(/^#{options["PathPrefix"]}/) }
           end
 
           data = data_set.slice!(0, limit || 100)
