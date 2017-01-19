@@ -6,6 +6,9 @@ Shindo.tests("Fog::AWS[:iam] | instance_profiles", ['aws', 'iam']) do
       returns(true) { @instance.add_role(@role.rolename) }
     end
 
+    returns(1) { @role.instance_profiles.count }
+    returns(@instance) { @role.instance_profiles.first }
+
     tests("#remove_role('#{@role.rolename}')") do
       returns(true) { @instance.remove_role(@role.rolename) }
     end

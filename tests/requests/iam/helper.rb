@@ -144,6 +144,11 @@ Xb9WSr07saxZQbxBPQyTlb0Q9Tu2djAq2/o/nYD1/50/fXUTuWMB
       INSTANCE_PROFILE_RESULT = BASIC.merge(
         'InstanceProfile' => INSTANCE_PROFILE
       )
+
+      LIST_INSTANCE_PROFILE_RESULT = BASIC.merge(
+        "IsTruncated" => Fog::Boolean,
+        "InstanceProfiles" => [INSTANCE_PROFILE]
+      )
     end
   end
 end

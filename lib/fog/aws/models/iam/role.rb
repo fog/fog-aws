@@ -50,6 +50,11 @@ module Fog
           service.managed_policies(:role_name => self.rolename)
         end
 
+        def instance_profiles
+          requires :rolename
+          service.instance_profiles.load(service.list_instance_profiles_for_role(self.rolename).body["InstanceProfiles"])
+        end
+
         def destroy
           requires :rolename
 
