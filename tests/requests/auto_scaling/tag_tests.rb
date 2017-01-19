@@ -23,8 +23,8 @@ Shindo.tests('AWS::AutoScaling | tag requests', ['aws', 'auto_scaling']) do
     'Value'             => asg_name
   }
 
-  lc = Fog::AWS[:auto_scaling].create_launch_configuration(image_id[Fog::AWS[:auto_scaling].region], 't1.micro', lc_name)
-  asg = Fog::AWS[:auto_scaling].create_auto_scaling_group(asg_name, "#{Fog::AWS[:auto_scaling].region}a", lc_name, 0, 0, 'Tags' => [asg_tag])
+  Fog::AWS[:auto_scaling].create_launch_configuration(image_id[Fog::AWS[:auto_scaling].region], 't1.micro', lc_name)
+  Fog::AWS[:auto_scaling].create_auto_scaling_group(asg_name, "#{Fog::AWS[:auto_scaling].region}a", lc_name, 0, 0, 'Tags' => [asg_tag])
 
   tests('raises') do
     tests("#create_or_update_tags(empty)").raises(Fog::AWS::AutoScaling::ValidationError) do

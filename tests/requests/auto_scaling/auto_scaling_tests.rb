@@ -27,31 +27,33 @@ Shindo.tests('AWS::AutoScaling | auto_scaling_tests', ['aws', 'auto_scaling']) d
       Fog::AWS[:auto_scaling].create_auto_scaling_group(@asg_name, zones, @lc_name, max_size, min_size).body
     end
 
-    tests("#attach_load_balancers").formats(AWS::AutoScaling::Formats::BASIC) do
-      Fog::AWS[:auto_scaling].attach_load_balancers(@asg_name, 'LoadBalancerNames' => 'elb-test-fog').body
+    if Fog.mocking?
+      tests("#attach_load_balancers").formats(AWS::AutoScaling::Formats::BASIC) do
+        Fog::AWS[:auto_scaling].attach_load_balancers(@asg_name, 'LoadBalancerNames' => 'elb-test-fog').body
+      end
+
+      tests("#detach_load_balancers").formats(AWS::AutoScaling::Formats::BASIC) do
+        Fog::AWS[:auto_scaling].detach_load_balancers(@asg_name, 'LoadBalancerNames' => 'elb-test-fog').body
+      end
+
+      tests("#attach_load_balancer_target_groups").formats(AWS::AutoScaling::Formats::BASIC) do
+        Fog::AWS[:auto_scaling].attach_load_balancer_target_groups(@asg_name, 'TargetGroupARNs' => 'elb-test-fog').body
+      end
+
+      tests("#detach_load_balancer_target_groups").formats(AWS::AutoScaling::Formats::BASIC) do
+        Fog::AWS[:auto_scaling].detach_load_balancer_target_groups(@asg_name, 'TargetGroupARNs' => 'elb-test-fog').body
+      end
+
+      tests("#detach_instances").formats(AWS::AutoScaling::Formats::BASIC) do
+        Fog::AWS[:auto_scaling].detach_instances(@asg_name, 'InstanceIds' => 'i-deadbeef').body
+      end
+
+      tests("#attach_instances").formats(AWS::AutoScaling::Formats::BASIC) do
+        Fog::AWS[:auto_scaling].attach_instances(@asg_name, 'InstanceIds' => 'i-deadbeef').body
+      end
     end
 
-    tests("#detach_load_balancers").formats(AWS::AutoScaling::Formats::BASIC) do
-      Fog::AWS[:auto_scaling].detach_load_balancers(@asg_name, 'LoadBalancerNames' => 'elb-test-fog').body
-    end
-
-    tests("#attach_load_balancer_target_groups").formats(AWS::AutoScaling::Formats::BASIC) do
-      Fog::AWS[:auto_scaling].attach_load_balancer_target_groups(@asg_name, 'TargetGroupARNs' => 'elb-test-fog').body
-    end
-
-    tests("#detach_load_balancer_target_groups").formats(AWS::AutoScaling::Formats::BASIC) do
-      Fog::AWS[:auto_scaling].detach_load_balancer_target_groups(@asg_name, 'TargetGroupARNs' => 'elb-test-fog').body
-    end
-
-    tests("#detach_instances").formats(AWS::AutoScaling::Formats::BASIC) do
-      Fog::AWS[:auto_scaling].detach_instances(@asg_name, 'InstanceIds' => 'i-deadbeef').body
-    end
-
-    tests("#attach_instances").formats(AWS::AutoScaling::Formats::BASIC) do
-      Fog::AWS[:auto_scaling].attach_instances(@asg_name, 'InstanceIds' => 'i-deadbeef').body
-    end
-
-   tests("#describe_auto_scaling_groups").formats(AWS::AutoScaling::Formats::DESCRIBE_AUTO_SCALING_GROUPS) do
+    tests("#describe_auto_scaling_groups").formats(AWS::AutoScaling::Formats::DESCRIBE_AUTO_SCALING_GROUPS) do
       Fog::AWS[:auto_scaling].describe_auto_scaling_groups().body
     end
     tests("#describe_auto_scaling_groups").formats(AWS::AutoScaling::Formats::DESCRIBE_AUTO_SCALING_GROUPS) do
