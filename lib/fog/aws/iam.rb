@@ -99,6 +99,8 @@ module Fog
       collection  :access_keys
       model       :group
       collection  :groups
+      model       :instance_profile
+      collection  :instance_profiles
       model       :managed_policy
       collection  :managed_policies
       model       :policy
