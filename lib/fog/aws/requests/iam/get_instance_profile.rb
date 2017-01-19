@@ -35,6 +35,23 @@ module Fog
           })
         end
       end
+
+      class Mock
+        def get_instance_profile(instance_profile_name)
+          response = Excon::Response.new
+
+          instance_profile = self.data[:instance_profiles][instance_profile_name]
+          unless instance_profile
+            raise Fog::AWS::IAM::NotFound.new("Instance Profile #{instance_profile_name} cannot be found.")
+          end
+
+          instance_profile = instance_profile.dup
+          instance_profile["Roles"].map! { |r| self.data[:roles][r] }
+
+          response.body = {"InstanceProfile" => instance_profile, "RequestId" => Fog::AWS::Mock.request_id}
+          response
+        end
+      end
     end
   end
 end

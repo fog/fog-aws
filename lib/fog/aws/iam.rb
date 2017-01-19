@@ -117,6 +117,7 @@ module Fog
 
             hash[key] = {
               :owner_id => owner_id,
+              :instance_profiles => {},
               :server_certificates => {},
               :access_keys => [{
                 "Status" => "Active",
