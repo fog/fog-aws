@@ -43,6 +43,15 @@ module Fog
           }.merge!(options))
         end
       end
+
+      class Mock
+        def list_instance_profiles(options={})
+          response = Excon::Response.new
+          profiles = self.data[:instance_profiles].values
+          response.body = { "InstanceProfiles" => profiles, "IsTruncated" => false, "RequestId" => Fog::AWS::Mock.request_id }
+          response
+        end
+      end
     end
   end
 end

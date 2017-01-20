@@ -22,7 +22,7 @@ Shindo.tests("Fog::Compute[:iam] | managed_policies", ['aws','iam']) do
       "Statement" => [
         {
           "Effect"   => "Allow",
-          "Action"   => [ "iam:GenerateCredentialReport", "iam:Get*", "iam:List*" ],
+          "Action"   => [ "iam:GenerateCredentialReport", "iam:GenerateServiceLastAccessedDetails", "iam:Get*", "iam:List*" ],
           "Resource" => "*"
         }
       ]
@@ -37,6 +37,8 @@ Shindo.tests("Fog::Compute[:iam] | managed_policies", ['aws','iam']) do
 
       user.attached_policies.map(&:identity) == [policy.identity]
     end
+
+    returns(1) { policy.reload.attachments}
 
     tests("#detach").succeeds do
       user.detach(policy)
@@ -56,6 +58,8 @@ Shindo.tests("Fog::Compute[:iam] | managed_policies", ['aws','iam']) do
       group.attached_policies.map(&:identity) == [policy.identity]
     end
 
+    returns(1) { policy.reload.attachments}
+
     tests("#detach").succeeds do
       group.detach(policy)
 
@@ -63,5 +67,23 @@ Shindo.tests("Fog::Compute[:iam] | managed_policies", ['aws','iam']) do
     end
 
     group.destroy
+  end
+
+  tests("roles") do
+    role = iam.roles.create(:rolename => uniq_id("fog-test-role"))
+
+    tests("#attach").succeeds do
+      role.attach(policy)
+      role.attached_policies.map(&:identity) == [policy.identity]
+    end
+
+    returns(1) { policy.reload.attachments}
+
+    tests("#detach").succeeds do
+      role.detach(policy)
+      role.attached_policies.map(&:identity) == []
+    end
+
+    role.destroy
   end
 end

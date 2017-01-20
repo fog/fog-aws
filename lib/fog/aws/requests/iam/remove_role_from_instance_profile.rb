@@ -28,6 +28,25 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def remove_role_from_instance_profile(role_name, instance_profile_name)
+          response = Excon::Response.new
+
+          unless profile = self.data[:instance_profiles][instance_profile_name]
+            raise Fog::AWS::IAM::NotFound.new("Instance Profile #{instance_profile_name} cannot be found.")
+          end
+
+          unless role = self.data[:roles][role_name]
+            raise Fog::AWS::IAM::NotFound.new("Role #{role_name} cannot be found.")
+          end
+
+          profile["Roles"].delete(role_name)
+
+          response.body = {"RequestId" => Fog::AWS::Mock.request_id}
+          response
+        end
+      end
     end
   end
 end

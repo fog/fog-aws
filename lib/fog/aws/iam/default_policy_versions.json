@@ -2561,6 +2561,7 @@
           "Effect": "Allow",
           "Action": [
             "iam:GenerateCredentialReport",
+            "iam:GenerateServiceLastAccessedDetails",
             "iam:Get*",
             "iam:List*"
           ],

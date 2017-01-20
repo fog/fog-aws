@@ -64,6 +64,10 @@ module Fog
                        self.data[:managed_policies].values
                      end
 
+          if options["PathPrefix"]
+            data_set = data_set.select { |p| p["Path"].match(/^#{options["PathPrefix"]}/) }
+          end
+
           data = data_set.slice!(0, limit || 100)
           truncated = data_set.size > 0
           marker = truncated && Base64.encode64("metadata/l/#{account_id}/#{UUID.uuid}")
