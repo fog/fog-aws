@@ -1,5 +1,20 @@
 # Change Log
 
+## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v1.1.0...HEAD)
+
+**Closed issues:**
+
+- Support for AWS Application Load Balancer \(ALB\) [\#335](https://github.com/fog/fog-aws/issues/335)
+
+**Merged pull requests:**
+
+- Better iam policies [\#339](https://github.com/fog/fog-aws/pull/339) ([ehowe](https://github.com/ehowe))
+- Pin nokogiri gem for Ruby 1.9 and Ruby 2.0 [\#337](https://github.com/fog/fog-aws/pull/337) ([sodabrew](https://github.com/sodabrew))
+- Fix parsing of the Reserved Instance 'recurringCharge' field and add 'scope' field [\#336](https://github.com/fog/fog-aws/pull/336) ([sodabrew](https://github.com/sodabrew))
+- Fixes / improvements for AutoScaling [\#334](https://github.com/fog/fog-aws/pull/334) ([lanej](https://github.com/lanej))
+
 ## [v1.1.0](https://github.com/fog/fog-aws/tree/v1.1.0) (2016-12-16)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v1.0.0...v1.1.0)
 
