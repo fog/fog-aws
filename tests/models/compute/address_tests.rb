@@ -16,9 +16,28 @@ Shindo.tests("Fog::Compute[:aws] | address", ['aws']) do
       end
     end
 
+    tests("#change_scope") do
+      test('to vpc') do
+        @instance.change_scope
+        @instance.domain == 'vpc'
+      end
+
+      test('to classic') do
+        @instance.change_scope
+        @instance.domain == 'standard'
+      end
+
+      # merge_attributes requires this
+      @instance = Fog::Compute[:aws].addresses.get(@instance.identity)
+    end
+
     @server.destroy
 
   end
 
-  model_tests(Fog::Compute[:aws].addresses, { :domain => "vpc" }, true)
+  model_tests(Fog::Compute[:aws].addresses, { :domain => "vpc" }, true) do
+    tests("#change_scope").raises(Fog::Compute::AWS::Error) do
+      @instance.change_scope
+    end
+  end
 end

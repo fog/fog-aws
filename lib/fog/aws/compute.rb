@@ -142,6 +142,7 @@ module Fog
       request :modify_subnet_attribute
       request :modify_volume_attribute
       request :modify_vpc_attribute
+      request :move_address_to_vpc
       request :purchase_reserved_instances_offering
       request :reboot_instances
       request :release_address
@@ -151,6 +152,7 @@ module Fog
       request :register_image
       request :request_spot_instances
       request :reset_network_interface_attribute
+      request :restore_address_to_classic
       request :revoke_security_group_egress
       request :revoke_security_group_ingress
       request :run_instances
@@ -459,7 +461,7 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
-          @version                = options[:version]     ||  '2014-10-01'
+          @version                = options[:version]     ||  '2016-11-15'
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)

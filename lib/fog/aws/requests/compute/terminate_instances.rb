@@ -73,7 +73,7 @@ module Fog
 
             describe_addresses.body['addressesSet'].each do |address|
               if instance_id.include?(address['instanceId'])
-                disassociate_address(address['publicIp'])
+                disassociate_address(address['publicIp'], address['associationId'])
               end
             end
 

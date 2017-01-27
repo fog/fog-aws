@@ -34,6 +34,15 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
       data
     end
 
+    # the following 2 tests imply that your account is old enough that the tested region does not have a default VPC.  These methods do not work with an ip created in a vpc.  this probably means that they will probably fail if they aren't mocked
+    tests("#move_address_to_vpc('#{@public_ip}')").formats({'status' => String, 'allocationId' => String, 'requestId' => String}) do
+      compute.move_address_to_vpc(@public_ip).body
+    end
+
+    tests("#restore_address_to_classic('#{@public_ip}')").formats({'status' => String, 'publicIp' => String, 'requestId' => String}) do
+      compute.restore_address_to_classic(@public_ip).body
+    end
+
     tests('#describe_addresses').formats(@addresses_format) do
       compute.describe_addresses.body
     end
@@ -42,11 +51,11 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
       compute.describe_addresses('public-ip' => @public_ip).body
     end
 
-    tests("#associate_addresses('#{@server.identity}', '#{@public_ip}')").formats(AWS::Compute::Formats::BASIC) do
+    tests("#associate_address('#{@server.identity}', '#{@public_ip}')").formats(AWS::Compute::Formats::BASIC) do
       compute.associate_address(@server.identity, @public_ip).body
     end
 
-    tests("#associate_addresses({:instance_id=>'#{@server.identity}', :public_ip=>'#{@public_ip}'})").formats(AWS::Compute::Formats::BASIC) do
+    tests("#associate_address({:instance_id=>'#{@server.identity}', :public_ip=>'#{@public_ip}'})").formats(AWS::Compute::Formats::BASIC) do
       compute.associate_address({:instance_id=>@server.identity,:public_ip=> @public_ip}).body
     end
 
@@ -54,16 +63,26 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
       compute.disassociate_address(@public_ip).body
     end
 
-    tests("#associate_addresses('#{@server.id}', nil, nil, '#{@vpc_allocation_id}')").formats(AWS::Compute::Formats::BASIC) do
+    tests("#associate_address('#{@server.id}', nil, nil, '#{@vpc_allocation_id}')").formats(AWS::Compute::Formats::BASIC) do
       compute.associate_address(@server.id, nil, nil, @vpc_allocation_id).body
     end
 
-    tests("#associate_addresses({:instance_id=>'#{@server.id}', :allocation_id=>'#{@vpc_allocation_id}'})").formats(AWS::Compute::Formats::BASIC) do
+    $pry = true
+    tests("#associate_address({:instance_id=>'#{@server.id}', :allocation_id=>'#{@vpc_allocation_id}'})").formats(AWS::Compute::Formats::BASIC) do
       compute.associate_address({:instance_id=>@server.id, :allocation_id=>@vpc_allocation_id}).body
+    end
+
+    tests("#disassociate_address('#{@vpc_public_ip}')").raises(Fog::Compute::AWS::Error) do
+      compute.disassociate_address(@vpc_public_ip)
     end
 
     tests("#release_address('#{@public_ip}')").formats(AWS::Compute::Formats::BASIC) do
       compute.release_address(@public_ip).body
+    end
+
+    tests("#disassociate_address('#{@vpc_public_ip}', '#{@vpc_allocation_id}')").formats(AWS::Compute::Formats::BASIC) do
+      address = compute.describe_addresses('public-ip' => @vpc_public_ip).body['addressesSet'].first
+      compute.disassociate_address(@vpc_public_ip, address['associationId']).body
     end
 
     tests("#release_address('#{@vpc_allocation_id}')").formats(AWS::Compute::Formats::BASIC) do
@@ -86,6 +105,10 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
 
     tests("#associate_addresses({:instance_id =>'i-00000000', :public_ip => '127.0.0.1'})").raises(Fog::Compute::AWS::NotFound) do
       compute.associate_address({:instance_id =>'i-00000000', :public_ip =>'127.0.0.1'})
+    end
+
+    tests("#restore_address_to_classic('#{@vpc_address.identity}')").raises(Fog::Compute::AWS::Error) do
+      compute.restore_address_to_classic(@vpc_address.identity)
     end
 
     tests("#disassociate_addresses('127.0.0.1') raises BadRequest error").raises(Fog::Compute::AWS::Error) do

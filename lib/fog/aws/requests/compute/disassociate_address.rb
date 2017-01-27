@@ -29,10 +29,13 @@ module Fog
       end
 
       class Mock
-        def disassociate_address(public_ip)
+        def disassociate_address(public_ip, association_id=nil)
           response = Excon::Response.new
           response.status = 200
           if address = self.data[:addresses][public_ip]
+            if address['allocationId'] && association_id.nil?
+              raise Fog::Compute::AWS::Error.new("InvalidParameterValue => You must specify an association id when unmapping an address from a VPC instance")
+            end
             instance_id = address['instanceId']
             if instance = self.data[:instances][instance_id]
               instance['ipAddress']         = instance['originalIpAddress']
