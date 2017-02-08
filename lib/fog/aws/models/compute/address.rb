@@ -73,7 +73,11 @@ module Fog
           @server = nil
           self.server_id = nil
           if persisted?
-            service.disassociate_address(public_ip, association_id)
+            if association_id
+              service.disassociate_address(nil, association_id)
+            else
+              service.disassociate_address(public_ip)
+            end
           end
         end
       end
