@@ -33,7 +33,6 @@ module Fog
              end
            else
              raise(Excon::Errors.status_error({:expects => 200}, response))
-             # raise Fog::AWS::IAM::NotFound.new("The bucket with name #{bucket_name} cannot be found.")
            end
         end
       end
