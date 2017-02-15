@@ -31,6 +31,7 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
         'instanceOwnerId'        => Fog::Nullable::String,
         'networkInterfaceId'     => Fog::Nullable::String,
         'vpcPeeringConnectionId' => Fog::Nullable::String,
+        'natGatewayId'           => Fog::Nullable::String,
         'state'                  => String,
         'origin'                 => String
       }],
