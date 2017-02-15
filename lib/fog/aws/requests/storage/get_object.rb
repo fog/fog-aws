@@ -86,12 +86,16 @@ module Fog
             if (object && !object[:delete_marker])
               if options['If-Match'] && options['If-Match'] != object['ETag']
                 response.status = 412
+                raise(Excon::Errors.status_error({:expects => 200}, response))
               elsif options['If-Modified-Since'] && options['If-Modified-Since'] >= Time.parse(object['Last-Modified'])
                 response.status = 304
+                raise(Excon::Errors.status_error({:expects => 200}, response))
               elsif options['If-None-Match'] && options['If-None-Match'] == object['ETag']
                 response.status = 304
+                raise(Excon::Errors.status_error({:expects => 200}, response))
               elsif options['If-Unmodified-Since'] && options['If-Unmodified-Since'] < Time.parse(object['Last-Modified'])
                 response.status = 412
+                raise(Excon::Errors.status_error({:expects => 200}, response))
               else
                 response.status = 200
                 for key, value in object

@@ -229,6 +229,10 @@ Shindo.tests('Fog::Storage[:aws] | versioning', ["aws"]) do
       Fog::Storage[:aws].put_bucket_versioning(@aws_bucket_name, 'bad_value')
     end
 
+    tests("#get_bucket_object_versions('#{@aws_bucket_name}', { 'version-id-marker' => 'foo' })").raises(Excon::Errors::BadRequest) do
+      Fog::Storage[:aws].get_bucket_object_versions(@aws_bucket_name, { 'version-id-marker' => 'foo' })
+    end
+
     tests("#put_bucket_versioning('fognonbucket', 'Enabled')").raises(Excon::Errors::NotFound) do
       Fog::Storage[:aws].put_bucket_versioning('fognonbucket', 'Enabled')
     end
