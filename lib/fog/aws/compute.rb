@@ -179,13 +179,14 @@ module Fog
 
       class Mock
         MOCKED_TAG_TYPES = {
-          'ami' => 'image',
-          'i' => 'instance',
+          'acl'  => 'network_acl',
+          'ami'  => 'image',
+          'igw'  => 'internet_gateway',
+          'i'    => 'instance',
+          'rtb'  => 'route_table',
           'snap' => 'snapshot',
-          'vol' => 'volume',
-          'igw' => 'internet_gateway',
-          'acl' => 'network_acl',
-          'vpc' => 'vpc'
+          'vol'  => 'volume',
+          'vpc'  => 'vpc'
         }
 
         include Fog::AWS::CredentialFetcher::ConnectionMethods
@@ -387,6 +388,10 @@ module Fog
               when 'vpc'
                 if self.data[:vpcs].select {|v| v['vpcId'] == resource_id }.empty?
                   raise(Fog::Service::NotFound.new("Cannot tag #{resource_id}, the vpc does not exist"))
+                end
+              when 'route_table'
+                unless self.data[:route_tables].detect { |r| r['routeTableId'] == resource_id }
+                  raise(Fog::Service::NotFound.new("Cannot tag #{resource_id}, the route table does not exist"))
                 end
               else
                 unless self.data[:"#{type}s"][resource_id]

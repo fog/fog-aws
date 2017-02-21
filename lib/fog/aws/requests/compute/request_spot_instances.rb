@@ -71,7 +71,7 @@ module Fog
             options.merge!(Fog::AWS.indexed_param('LaunchSpecification.SecurityGroupId', [*security_group_ids]))
           end
           if options['LaunchSpecification.UserData']
-            options['LaunchSpecification.UserData'] = Base64.encode64(options['LaunchSpecification.UserData'])
+            options['LaunchSpecification.UserData'] = Base64.encode64(options['LaunchSpecification.UserData']).chomp!
           end
 
           if options['ValidFrom'] && options['ValidFrom'].is_a?(Time)
