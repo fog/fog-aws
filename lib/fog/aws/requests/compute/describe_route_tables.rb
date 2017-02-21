@@ -74,6 +74,11 @@ module Fog
             end
           end
 
+          display_routes.each do |route|
+            tags = self.data[:tag_sets][route['routeTableId']]
+            route.merge!('tagSet' => tags) if tags
+          end
+
           Excon::Response.new(
             :status => 200,
             :body   => {
