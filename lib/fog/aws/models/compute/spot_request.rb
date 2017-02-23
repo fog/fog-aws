@@ -21,6 +21,7 @@ module Fog
 
         attribute :ebs_optimized,              :aliases => 'LaunchSpecification.EbsOptimized'
         attribute :groups,                     :aliases => 'LaunchSpecification.SecurityGroup'
+        attribute :security_group_ids,         :aliases => 'LaunchSpecification.SecurityGroupId'
         attribute :key_name,                   :aliases => 'LaunchSpecification.KeyName'
         attribute :availability_zone,          :aliases => 'LaunchSpecification.Placement.AvailabilityZone'
         attribute :flavor_id,                  :aliases => 'LaunchSpecification.InstanceType'
@@ -37,7 +38,7 @@ module Fog
         attr_writer   :iam_instance_profile_name, :iam_instance_profile_arn
 
         def initialize(attributes={})
-          self.groups ||= ["default"]
+          self.groups ||= self.security_group_ids || ["default"]
           self.flavor_id ||= 't1.micro'
           self.image_id   ||= begin
             self.username ||= 'ubuntu'
@@ -93,7 +94,7 @@ module Fog
             'LaunchSpecification.KeyName'                    => key_name,
             'LaunchSpecification.Monitoring.Enabled'         => monitoring,
             'LaunchSpecification.Placement.AvailabilityZone' => availability_zone,
-            'LaunchSpecification.SecurityGroupId'            => groups,
+            'LaunchSpecification.SecurityGroupId'            => security_group_ids || groups,
             'LaunchSpecification.EbsOptimized'               => ebs_optimized,
             'LaunchSpecification.UserData'                   => user_data,
             'LaunchSpecification.SubnetId'                   => subnet_id,

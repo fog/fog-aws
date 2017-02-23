@@ -288,7 +288,8 @@ module Fog
                     "values"        => ["5"],
                     "attributeName" => "vpc-max-elastic-ips"
                   }
-                ]
+                ],
+                :spot_requests => {},
               }
             end
           end

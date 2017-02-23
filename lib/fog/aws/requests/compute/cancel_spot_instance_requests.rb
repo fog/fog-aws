@@ -27,6 +27,23 @@ module Fog
           }.merge!(params))
         end
       end
+
+      class Mock
+        def cancel_spot_instance_requests(spot_instance_request_id)
+          response = Excon::Response.new
+          spot_request = self.data[:spot_requests][spot_instance_request_id]
+
+          unless spot_request
+            raise Fog::Compute::AWS::NotFound.new("The spot instance request ID '#{spot_instance_request_id}' does not exist")
+          end
+
+          spot_request['fault']['code'] = 'request-cancelled'
+          spot_request['state'] = 'cancelled'
+
+          response.body = {'spotInstanceRequestSet' => [{'spotInstanceRequestId' => spot_instance_request_id, 'state' => 'cancelled'}], 'requestId' => Fog::AWS::Mock.request_id}
+          response
+        end
+      end
     end
   end
 end
