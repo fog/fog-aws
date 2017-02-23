@@ -142,6 +142,7 @@ module Fog
       request :modify_subnet_attribute
       request :modify_volume_attribute
       request :modify_vpc_attribute
+      request :move_address_to_vpc
       request :purchase_reserved_instances_offering
       request :reboot_instances
       request :release_address
@@ -151,6 +152,7 @@ module Fog
       request :register_image
       request :request_spot_instances
       request :reset_network_interface_attribute
+      request :restore_address_to_classic
       request :revoke_security_group_egress
       request :revoke_security_group_ingress
       request :run_instances
@@ -177,13 +179,14 @@ module Fog
 
       class Mock
         MOCKED_TAG_TYPES = {
-          'ami' => 'image',
-          'i' => 'instance',
+          'acl'  => 'network_acl',
+          'ami'  => 'image',
+          'igw'  => 'internet_gateway',
+          'i'    => 'instance',
+          'rtb'  => 'route_table',
           'snap' => 'snapshot',
-          'vol' => 'volume',
-          'igw' => 'internet_gateway',
-          'acl' => 'network_acl',
-          'vpc' => 'vpc'
+          'vol'  => 'volume',
+          'vpc'  => 'vpc'
         }
 
         include Fog::AWS::CredentialFetcher::ConnectionMethods
@@ -386,6 +389,10 @@ module Fog
                 if self.data[:vpcs].select {|v| v['vpcId'] == resource_id }.empty?
                   raise(Fog::Service::NotFound.new("Cannot tag #{resource_id}, the vpc does not exist"))
                 end
+              when 'route_table'
+                unless self.data[:route_tables].detect { |r| r['routeTableId'] == resource_id }
+                  raise(Fog::Service::NotFound.new("Cannot tag #{resource_id}, the route table does not exist"))
+                end
               else
                 unless self.data[:"#{type}s"][resource_id]
                  raise(Fog::Service::NotFound.new("Cannot tag #{resource_id}, the #{type} does not exist"))
@@ -459,7 +466,7 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
-          @version                = options[:version]     ||  '2014-10-01'
+          @version                = options[:version]     ||  '2016-11-15'
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)

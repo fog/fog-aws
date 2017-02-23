@@ -16,6 +16,10 @@ module Fog
           state == 'available'
         end
 
+        def network_interfaces
+          service.network_interfaces.all('subnet-id' => [self.identity])
+        end
+
         # Removes an existing subnet
         #
         # subnet.destroy

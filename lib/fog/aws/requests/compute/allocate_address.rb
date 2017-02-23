@@ -40,7 +40,8 @@ module Fog
           data = {
             'instanceId' => nil,
             'publicIp'   => public_ip,
-            'domain'     => domain
+            'domain'     => domain,
+            :origin      => domain
           }
 
           if domain == 'vpc'

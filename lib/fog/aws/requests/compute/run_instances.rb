@@ -240,6 +240,7 @@ module Fog
               'reason'              => nil,
               'rootDeviceName'      => block_device_mapping.first && block_device_mapping.first["deviceName"],
               'rootDeviceType'      => 'instance-store',
+              'subnetId'            => options['SubnetId'],
               'virtualizationType'  => 'paravirtual'
             }
             instances_set << instance

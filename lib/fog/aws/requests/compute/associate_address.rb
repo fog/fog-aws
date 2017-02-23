@@ -80,6 +80,12 @@ module Fog
               if !allocation_ip.nil?
                 public_ip = allocation_ip['publicIp']
                 address = public_ip.nil? ? nil : self.data[:addresses][public_ip]
+
+                if instance['vpcId'] && vpc = self.data[:vpcs].detect { |v| v['vpcId'] == instance['vpcId'] }
+                  if vpc['enableDnsHostnames']
+                    instance['dnsName'] = Fog::AWS::Mock.dns_name_for(public_ip)
+                  end
+                end
               end
             end
             if !address.nil?
@@ -103,10 +109,12 @@ module Fog
                 'return'    => true
               }
             elsif !params[:allocation_id].nil?
+              association_id = "eipassoc-#{Fog::Mock.random_hex(8)}"
+              address['associationId'] = association_id
               response.body = {
                 'requestId'     => Fog::AWS::Mock.request_id,
                 'return'        => true,
-                'associationId' => Fog::AWS::Mock.request_id
+                'associationId' => association_id,
               }
             end
             response
