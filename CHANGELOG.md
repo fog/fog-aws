@@ -1,5 +1,21 @@
 # Change Log
 
+## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v1.2.0...HEAD)
+
+**Closed issues:**
+
+- Fog mock does not mimmick real behaviour for some Excon errors [\#341](https://github.com/fog/fog-aws/issues/341)
+
+**Merged pull requests:**
+
+- Spot fixes [\#349](https://github.com/fog/fog-aws/pull/349) ([ehowe](https://github.com/ehowe))
+- add natGatewayId to describe\_route\_tables [\#346](https://github.com/fog/fog-aws/pull/346) ([mliao2](https://github.com/mliao2))
+- Fog mock accuracy, fixes \#341 [\#344](https://github.com/fog/fog-aws/pull/344) ([easkay](https://github.com/easkay))
+- Subnet [\#343](https://github.com/fog/fog-aws/pull/343) ([ehowe](https://github.com/ehowe))
+- Fix multipart upload [\#340](https://github.com/fog/fog-aws/pull/340) ([nobmurakita](https://github.com/nobmurakita))
+
 ## [v1.2.0](https://github.com/fog/fog-aws/tree/v1.2.0) (2017-01-20)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v1.1.0...v1.2.0)
 
