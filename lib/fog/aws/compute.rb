@@ -459,7 +459,7 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
-          @version                = options[:version]     ||  '2014-10-01'
+          @version                = options[:version]     ||  '2016-11-15'
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
