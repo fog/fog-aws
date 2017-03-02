@@ -68,6 +68,29 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
     'requestId' => String
   }
 
+  @volume_modification_format = {
+    'endTime'            => Fog::Nullable::Time,
+    'modificationState'  => String,
+    'originalIops'       => Fog::Nullable::Integer,
+    'originalSize'       => Fog::Nullable::Integer,
+    'originalVolumeType' => Fog::Nullable::String,
+    'startTime'          => Time,
+    'targetIops'         => Fog::Nullable::Integer,
+    'targetSize'         => Fog::Nullable::Integer,
+    'targetVolumeType'   => Fog::Nullable::String,
+    'volumeId'           => String,
+  }
+
+  @modify_volume_format = {
+    'requestId'          => String,
+    'volumeModification' => @volume_modification_format
+  }
+
+  @describe_volume_modifications_format = {
+    'requestId'             => String,
+    'volumeModificationSet' => [@volume_modification_format]
+  }
+
   @server = Fog::Compute[:aws].servers.create
   @server.wait_for { ready? }
 
@@ -113,13 +136,13 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
     Fog::Compute[:aws].delete_volume(@volume_id)
 
     tests('#create_volume from snapshot with size').formats(@volume_format) do
-      volume = Fog::Compute[:aws].volumes.create(:availability_zone => 'us-east-1d', :size => 1)
+      volume = Fog::Compute[:aws].volumes.create(:availability_zone => 'us-east-1d', :size => 1, :type => 'gp2')
       volume.wait_for { ready? }
 
       snapshot = Fog::Compute[:aws].create_snapshot(volume.identity).body
       Fog::Compute[:aws].snapshots.new(snapshot).wait_for { ready? }
 
-      data = Fog::Compute[:aws].create_volume(@server.availability_zone, 1, 'SnapshotId' => snapshot['snapshotId']).body
+      data = Fog::Compute[:aws].create_volume(@server.availability_zone, 1, 'SnapshotId' => snapshot['snapshotId'], 'VolumeType' => 'gp2').body
       @volume_id = data['volumeId']
       data
     end
@@ -154,6 +177,23 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
     end
 
     Fog::Compute[:aws].volumes.get(@volume_id).wait_for { ready? }
+
+    tests("#modify_volume('#{@volume_id}', 'Size' => 100, 'VolumeType' => 'io1', 'Iops' => 5000").formats(@modify_volume_format) do
+      Fog::Compute[:aws].modify_volume(@volume_id, 'Size' => 100, 'VolumeType' => 'io1', 'Iops' => 5000).body
+    end
+
+    tests("#describe_volumes_modifications('volume-id' => '#{@volume_id}')").formats(@describe_volume_modifications_format) do
+      Fog.wait_for do
+        Fog::Compute[:aws].describe_volumes_modifications('volume-id' => @volume_id).body['volumeModificationSet'].first['modificationState'] == 'completed'
+      end
+
+      volume = Fog::Compute[:aws].describe_volumes('volume-id' => @volume_id).body['volumeSet'].first
+      returns(100)   { volume['size'] }
+      returns('io1') { volume['volumeType'] }
+      returns(5000)  { volume['iops'] }
+
+      Fog::Compute[:aws].describe_volumes_modifications('volume-id' => @volume_id).body
+    end
 
     tests("#modify_volume_attribute('#{@volume_id}', true)").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].modify_volume_attribute(@volume_id, true).body
