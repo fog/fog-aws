@@ -3,7 +3,7 @@ Shindo.tests("Fog::Compute[:aws] | volume", ['aws']) do
   @server = Fog::Compute[:aws].servers.create
   @server.wait_for { ready? }
 
-  model_tests(Fog::Compute[:aws].volumes, {:availability_zone => @server.availability_zone, :size => 1, :device => '/dev/sdz1', :tags => {"key" => "value"}}, true) do
+  model_tests(Fog::Compute[:aws].volumes, {:availability_zone => @server.availability_zone, :size => 1, :device => '/dev/sdz1', :tags => {"key" => "value"}, :type => 'gp2'}, true) do
 
     @instance.wait_for { ready? }
 
@@ -31,6 +31,21 @@ Shindo.tests("Fog::Compute[:aws] | volume", ['aws']) do
     end
 
     @instance.wait_for { ready? }
+
+    @instance.type = 'io1'
+    @instance.iops = 5000
+    @instance.size = 100
+    @instance.save
+
+    returns(true) { @instance.modification_in_progress? }
+    @instance.wait_for { !modification_in_progress? }
+
+    # avoid weirdness with merge_attributes
+    @instance = Fog::Compute[:aws].volumes.get(@instance.identity)
+
+    returns('io1') { @instance.type }
+    returns(5000)  { @instance.iops }
+    returns(100)   { @instance.size }
 
     tests('@instance.reload.tags').returns({'key' => 'value'}) do
       @instance.reload.tags

@@ -36,31 +36,50 @@ module Fog
           state == 'available'
         end
 
+        def modification_in_progress?
+          modifications.any? { |m| m['modificationState'] != 'completed' }
+        end
+
+        def modifications
+          requires :identity
+          service.describe_volumes_modifications('volume-id' => self.identity).body['volumeModificationSet']
+        end
+
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
-          requires :availability_zone
-          requires_one :size, :snapshot_id
+          if identity
+            update_params = {
+              'Size'       => self.size,
+              'Iops'       => self.iops,
+              'VolumeType' => self.type
+            }
 
-          if type == 'io1'
-            requires :iops
+            service.modify_volume(self.identity, update_params)
+            true
+          else
+            requires :availability_zone
+            requires_one :size, :snapshot_id
+
+            if type == 'io1'
+              requires :iops
+            end
+
+            data = service.create_volume(availability_zone, size, create_params).body
+            merge_attributes(data)
+
+            if tags = self.tags
+              # expect eventual consistency
+              Fog.wait_for { self.reload rescue nil }
+              service.create_tags(
+                self.identity,
+                tags
+              )
+            end
+
+            if @server
+              self.server = @server
+            end
+            true
           end
-
-          data = service.create_volume(availability_zone, size, create_params).body
-          merge_attributes(data)
-
-          if tags = self.tags
-            # expect eventual consistency
-            Fog.wait_for { self.reload rescue nil }
-            service.create_tags(
-              self.identity,
-              tags
-            )
-          end
-
-          if @server
-            self.server = @server
-          end
-          true
         end
 
         def server
