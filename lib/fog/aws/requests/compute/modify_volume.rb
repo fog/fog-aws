@@ -63,7 +63,7 @@ module Fog
           if options['Iops']
             volume_modification.merge!(
               'originalIops' => volume['iops'],
-              'targetIops'   => options['Iops'],
+              'targetIops'   => options['Iops']
             )
           end
 
