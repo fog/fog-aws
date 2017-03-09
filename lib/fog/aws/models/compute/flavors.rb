@@ -425,6 +425,66 @@ module Fog
           :instance_store_volumes  => 8
         },
         {
+          :id                      => 'i3.large',
+          :name                    => 'I3 Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 475,
+          :ram                     => 15616,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'i3.xlarge',
+          :name                    => 'I3 Extra Large',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 950,
+          :ram                     => 31232,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'i3.2xlarge',
+          :name                    => 'I3 Double Extra Large',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 1900,
+          :ram                     => 62464,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'i3.4xlarge',
+          :name                    => 'I3 Quadruple Extra Large',
+          :bits                    => 64,
+          :cores                   => 16,
+          :disk                    => 3800,
+          :ram                     => 124928,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'i3.8xlarge',
+          :name                    => 'I3 Eight Extra Large',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 7600,
+          :ram                     => 249856,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => 'i3.16xlarge',
+          :name                    => 'I3 Sixteen Extra Large',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 15200,
+          :ram                     => 499712,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 8
+        },
+        {
           :id                      => "r3.large",
           :name                    => "R3 Large",
           :bits                    => 64,
