@@ -219,7 +219,7 @@ module Fog
             data = service.put_object(directory.key, key, body, options)
             merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
           end
-          self.etag.gsub!('"','')
+          self.etag.gsub!('"','') if self.etag
           self.content_length = Fog::Storage.get_body_size(body)
           self.content_type ||= Fog::Storage.get_content_type(body)
           true
