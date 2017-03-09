@@ -120,6 +120,7 @@ module Fog
       request :describe_subnets
       request :describe_tags
       request :describe_volumes
+      request :describe_volumes_modifications
       request :describe_volume_status
       request :describe_vpcs
       request :describe_vpc_attribute
@@ -140,6 +141,7 @@ module Fog
       request :modify_network_interface_attribute
       request :modify_snapshot_attribute
       request :modify_subnet_attribute
+      request :modify_volume
       request :modify_volume_attribute
       request :modify_vpc_attribute
       request :move_address_to_vpc
@@ -290,6 +292,7 @@ module Fog
                   }
                 ],
                 :spot_requests => {},
+                :volume_modifications => {}
               }
             end
           end
