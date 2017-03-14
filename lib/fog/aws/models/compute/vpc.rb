@@ -47,6 +47,36 @@ module Fog
           true
         end
 
+        def classic_link_enabled?
+          requires :identity
+          service.describe_vpc_classic_link(:vpc_ids => [self.identity]).body['vpcSet'].first['classicLinkEnabled']
+        end
+
+        def enable_classic_link
+          requires :identity
+          service.enable_vpc_classic_link(self.identity).body['return']
+        end
+
+        def disable_classic_link
+          requires :identity
+          service.disable_vpc_classic_link(self.identity).body['return']
+        end
+
+        def classic_link_dns_enabled?
+          requires :identity
+          service.describe_vpc_classic_link_dns_support(:vpc_ids => [self.identity]).body['vpcs'].first['classicLinkDnsSupported']
+        end
+
+        def enable_classic_link_dns
+          requires :identity
+          service.enable_vpc_classic_link_dns_support(self.identity).body['return']
+        end
+
+        def disable_classic_link_dns
+          requires :identity
+          service.disable_vpc_classic_link_dns_support(self.identity).body['return']
+        end
+
         # Create a vpc
         #
         # >> g = AWS.vpcs.new(:cidr_block => "10.1.2.0/24")

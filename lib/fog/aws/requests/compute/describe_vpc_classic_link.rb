@@ -45,7 +45,7 @@ module Fog
           vpcs = apply_tag_filters(vpcs, options[:filters], 'vpcId') if options[:filters]
 
           response.status = 200
-          vpc_data = vpcs.collect do |vpc| 
+          vpc_data = vpcs.collect do |vpc|
             {
               'vpcId' => vpc['vpcId'],
               'classicLinkEnabled' => vpc['classicLinkEnabled'],
@@ -56,6 +56,7 @@ module Fog
             'requestId' => Fog::AWS::Mock.request_id,
             'vpcSet' => vpc_data
           }
+          response
         end
       end
     end

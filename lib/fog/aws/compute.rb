@@ -125,14 +125,17 @@ module Fog
       request :describe_vpcs
       request :describe_vpc_attribute
       request :describe_vpc_classic_link
+      request :describe_vpc_classic_link_dns_support
       request :detach_network_interface
       request :detach_internet_gateway
       request :detach_volume
       request :detach_classic_link_vpc
       request :disable_vpc_classic_link
+      request :disable_vpc_classic_link_dns_support
       request :disassociate_address
       request :disassociate_route_table
       request :enable_vpc_classic_link
+      request :enable_vpc_classic_link_dns_support
       request :get_console_output
       request :get_password_data
       request :import_key_pair

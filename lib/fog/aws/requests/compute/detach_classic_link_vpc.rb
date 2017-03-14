@@ -26,7 +26,6 @@ module Fog
             'DryRun'    => dry_run,
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           )
-          
         end
       end
 
@@ -47,12 +46,11 @@ module Fog
               instance['classicLinkVpcId'] = nil
             end
             response
-          elsif !instance 
+          elsif !instance
             raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_id}' does not exist.")
           elsif !vpc
             raise Fog::Compute::AWS::NotFound.new("The VPC '#{vpc_id}' does not exist.")
           end
-
         end
       end
     end

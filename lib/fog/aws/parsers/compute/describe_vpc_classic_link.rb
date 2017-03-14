@@ -30,8 +30,10 @@ module Fog
               end
             else
               case name
-              when 'vpcId', 'classicLinkEnabled'
+              when 'vpcId'
                 @vpc[name] = value
+              when 'classicLinkEnabled'
+                @vpc[name] = value == 'true'
               when 'item'
                 @response['vpcSet'] << @vpc
                 @vpc = { 'tagSet' => {} }
