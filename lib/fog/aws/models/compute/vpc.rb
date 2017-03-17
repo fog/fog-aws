@@ -50,6 +50,8 @@ module Fog
         def classic_link_enabled?
           requires :identity
           service.describe_vpc_classic_link(:vpc_ids => [self.identity]).body['vpcSet'].first['classicLinkEnabled']
+        rescue
+          nil
         end
 
         def enable_classic_link
@@ -65,6 +67,8 @@ module Fog
         def classic_link_dns_enabled?
           requires :identity
           service.describe_vpc_classic_link_dns_support(:vpc_ids => [self.identity]).body['vpcs'].first['classicLinkDnsSupported']
+        rescue
+          nil
         end
 
         def enable_classic_link_dns

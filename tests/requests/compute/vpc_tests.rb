@@ -140,7 +140,7 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
 
     tests("enable_vpc_classic_link").returns(true) do
       Fog::Compute[:aws].enable_vpc_classic_link @vpc_id
-      body = Fog::Compute[:aws].describe_vpc_classic_link(:vpc_ids => [@vpc_id])
+      body = Fog::Compute[:aws].describe_vpc_classic_link(:vpc_ids => [@vpc_id]).body
       body['vpcSet'].first['classicLinkEnabled']
     end
 
@@ -198,7 +198,7 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
 
     tests("disable_vpc_classic_link").returns(false) do
       Fog::Compute[:aws].disable_vpc_classic_link @vpc_id
-      body = Fog::Compute[:aws].describe_vpc_classic_link(:vpc_ids => [@vpc_id])
+      body = Fog::Compute[:aws].describe_vpc_classic_link(:vpc_ids => [@vpc_id]).body
       body['vpcSet'].first['classicLinkEnabled']
     end
 

@@ -29,7 +29,9 @@ module Fog
       class Mock
         def enable_vpc_classic_link_dns_support(vpc_id)
           response = Excon::Response.new
-          vpc = self.data[:vpcs].find { |v| v['vpcId'] == vpc_id }
+          unless vpc = self.data[:vpcs].find { |v| v['vpcId'] == vpc_id }
+            raise Fog::Compute::AWS::NotFound.new("The VPC '#{vpc_id}' does not exist")
+          end
           vpc['classicLinkDnsSupport'] = true
           response.body = {
             'requestId' => Fog::AWS::Mock.request_id,
