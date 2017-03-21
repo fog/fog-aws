@@ -164,7 +164,7 @@ module Fog
           @data = nil
         end
 
-        attr_accessor :region
+        attr_accessor :region, :aws_access_key_id
 
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
