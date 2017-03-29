@@ -15,8 +15,8 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def authorize_db_security_group_ingress(name, opts={})
-          unless opts.key?('CIDRIP') || (opts.key?('EC2SecurityGroupName') && opts.key?('EC2SecurityGroupOwnerId'))
-            raise ArgumentError, 'Must specify CIDRIP, or both EC2SecurityGroupName and EC2SecurityGroupOwnerId'
+          unless opts.key?('CIDRIP') || ((opts.key?('EC2SecurityGroupName') || opts.key?('EC2SecurityGroupId')) && opts.key?('EC2SecurityGroupOwnerId'))
+            raise ArgumentError, 'Must specify CIDRIP, or one of EC2SecurityGroupName or EC2SecurityGroupId, and EC2SecurityGroupOwnerId'
           end
 
           request({
@@ -29,8 +29,13 @@ module Fog
 
       class Mock
         def authorize_db_security_group_ingress(name, opts = {})
-          unless opts.key?('CIDRIP') || (opts.key?('EC2SecurityGroupName') && opts.key?('EC2SecurityGroupOwnerId'))
-            raise ArgumentError, 'Must specify CIDRIP, or both EC2SecurityGroupName and EC2SecurityGroupOwnerId'
+          unless opts.key?('CIDRIP') || ((opts.key?('EC2SecurityGroupName') || opts.key?('EC2SecurityGroupId')) && opts.key?('EC2SecurityGroupOwnerId'))
+            raise ArgumentError, 'Must specify CIDRIP, or one of EC2SecurityGroupName or EC2SecurityGroupId, and EC2SecurityGroupOwnerId'
+          end
+
+          if ec2_security_group_id = opts.delete("EC2SecurityGroupId")
+            ec2_security_group = (Fog::Compute::AWS::Mock.data[self.region][self.aws_access_key_id][:security_groups] || {}).values.detect { |sg| sg['groupId'] == ec2_security_group_id }
+            opts['EC2SecurityGroupName'] = ec2_security_group['groupName']
           end
 
           response = Excon::Response.new
@@ -42,7 +47,7 @@ module Fog
               end
               sec_group['IPRanges'] << opts.merge({"Status" => 'authorizing'})
             else
-              if sec_group['EC2SecurityGroups'].find{|h| h['EC2SecurityGroupName'] == opts['EC2SecurityGroupName']}
+              if sec_group['EC2SecurityGroups'].find{|h| h['EC2SecurityGroupName'] == opts['EC2SecurityGroupName'] || h['EC2SecurityGroupId'] == opts['EC2SecurityGroupId']}
                 raise Fog::AWS::RDS::AuthorizationAlreadyExists.new("AuthorizationAlreadyExists => #{opts['EC2SecurityGroupName']} is alreay defined")
               end
               sec_group['EC2SecurityGroups'] << opts.merge({"Status" => 'authorizing'})

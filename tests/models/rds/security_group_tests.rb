@@ -6,9 +6,9 @@ Shindo.tests("AWS::RDS | security_group", ['aws', 'rds']) do
 
     tests("#description").returns('fog test') { @instance.description }
 
-    tests("#authorize_ec2_security_group").succeeds do
-      @ec2_sec_group = Fog::Compute[:aws].security_groups.create(:name => 'fog-test', :description => 'fog test')
+    @ec2_sec_group = Fog::Compute[:aws].security_groups.create(:name => uniq_id("fog-rds-test"), :description => 'fog test')
 
+    tests("#authorize_ec2_security_group('#{@ec2_sec_group.name}')").succeeds do
       @instance.authorize_ec2_security_group(@ec2_sec_group.name)
       returns('authorizing') do
         @instance.ec2_security_groups.find{|h| h['EC2SecurityGroupName'] == @ec2_sec_group.name}['Status']
@@ -17,9 +17,7 @@ Shindo.tests("AWS::RDS | security_group", ['aws', 'rds']) do
 
     @instance.wait_for { ready? }
 
-    tests("#revoke_ec2_security_group").succeeds do
-      pending if Fog.mocking?
-
+    tests("#revoke_ec2_security_group('#{@ec2_sec_group.name}')").succeeds do
       @instance.revoke_ec2_security_group(@ec2_sec_group.name)
 
       returns('revoking') do
@@ -29,8 +27,34 @@ Shindo.tests("AWS::RDS | security_group", ['aws', 'rds']) do
       @instance.wait_for { ready? }
 
       returns(false) { @instance.ec2_security_groups.any?{|h| h['EC2SecurityGroupName'] == @ec2_sec_group.name} }
-      @ec2_sec_group.destroy
     end
+
+    @instance.wait_for { ready? }
+
+    tests("#authorize_ec2_security_group('#{@ec2_sec_group.group_id}')").succeeds do
+      @instance.authorize_ec2_security_group(@ec2_sec_group.group_id)
+      returns('authorizing') do
+        @instance.ec2_security_groups.find{|h| h['EC2SecurityGroupName'] == @ec2_sec_group.name}['Status']
+      end
+    end
+
+    @instance.wait_for { ready? }
+
+    tests("#revoke_ec2_security_group('#{@ec2_sec_group.group_id}')").succeeds do
+      @instance.revoke_ec2_security_group(@ec2_sec_group.group_id)
+
+      returns('revoking') do
+        @instance.ec2_security_groups.find{|h| h['EC2SecurityGroupName'] == @ec2_sec_group.name}['Status']
+      end
+
+      @instance.wait_for { ready? }
+
+      returns(false) { @instance.ec2_security_groups.any?{|h| h['EC2SecurityGroupId'] == @ec2_sec_group.group_id} }
+    end
+
+    @instance.wait_for { ready? }
+
+    @ec2_sec_group.destroy
 
     tests("#authorize_cidrip").succeeds do
       @cidr = '127.0.0.1/32'

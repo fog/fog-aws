@@ -29,8 +29,9 @@ module Fog
 
         # group_owner_id defaults to the current owner_id
         def authorize_ec2_security_group(group_name, group_owner_id=owner_id)
+          key = group_name.match(/^sg-/) ? 'EC2SecurityGroupId' : 'EC2SecurityGroupName'
           authorize_ingress({
-            'EC2SecurityGroupName' => group_name,
+            key                       => group_name,
             'EC2SecurityGroupOwnerId' => group_owner_id
           })
         end
@@ -56,8 +57,9 @@ module Fog
 
         # group_owner_id defaults to the current owner_id
         def revoke_ec2_security_group(group_name, group_owner_id=owner_id)
+          key = group_name.match(/^sg-/) ? 'EC2SecurityGroupId' : 'EC2SecurityGroupName'
           revoke_ingress({
-            'EC2SecurityGroupName' => group_name,
+            key                       => group_name,
             'EC2SecurityGroupOwnerId' => group_owner_id
           })
         end

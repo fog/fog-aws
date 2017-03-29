@@ -26,6 +26,8 @@ module Fog
             raise Fog::AWS::RDS::NotFound.new("DBSubnetGroupNotFound => The subnet group '#{name}' doesn't exists")
           end
 
+          self.data[:subnet_groups].delete(name)
+
           response.body = {
             'ResponseMetadata'=>{ 'RequestId'=> Fog::AWS::Mock.request_id },
             'return' => true,
