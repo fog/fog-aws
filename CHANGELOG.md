@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
-
-[Full Changelog](https://github.com/fog/fog-aws/compare/v1.2.1...HEAD)
+## [v1.3.0](https://github.com/fog/fog-aws/tree/v1.3.0) (2017-03-30)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v1.2.1...v1.3.0)
 
 **Closed issues:**
 
