@@ -28,6 +28,7 @@ module Fog
         attribute :image_id,                   :aliases => 'LaunchSpecification.ImageId'
         attribute :monitoring,                 :aliases => 'LaunchSpecification.Monitoring'
         attribute :block_device_mapping,       :aliases => 'LaunchSpecification.BlockDeviceMapping'
+        attribute :network_interfaces,         :aliases => 'LaunchSpecification.NetworkInterfaces'
         attribute :subnet_id,                  :aliases => 'LaunchSpecification.SubnetId'
         attribute :iam_instance_profile,       :aliases => 'LaunchSpecification.IamInstanceProfile'
 
@@ -91,6 +92,7 @@ module Fog
             'InstanceCount'                                  => instance_count,
             'LaunchGroup'                                    => launch_group,
             'LaunchSpecification.BlockDeviceMapping'         => block_device_mapping,
+            'LaunchSpecification.NetworkInterfaces'          => network_interfaces,
             'LaunchSpecification.KeyName'                    => key_name,
             'LaunchSpecification.Monitoring.Enabled'         => monitoring,
             'LaunchSpecification.Placement.AvailabilityZone' => availability_zone,
