@@ -537,7 +537,10 @@ module Fog
           end
         end
 
-        def _request(body, headers, idempotent, parser)
+        def _request(body, headers, idempotent, parser, retries = 0)
+
+          max_retries = 10
+
           @connection.request({
               :body       => body,
               :expects    => 200,
@@ -552,6 +555,13 @@ module Fog
           raise case match[:code]
                 when 'NotFound', 'Unknown'
                   Fog::Compute::AWS::NotFound.slurp(error, match[:message])
+                when 'RequestLimitExceeded'
+                  if retries < max_retries
+                    sleep (2.0 ** (1.0 + retries) * 100) / 1000.0
+                    _request(body, headers, idempotent, parser, retries + 1)
+                  else
+                    Fog::Compute::AWS::Error.slurp(error, "Max retries exceeded (#{max_retries}) #{match[:code]} => #{match[:message]}")
+                  end
                 else
                   Fog::Compute::AWS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                 end
