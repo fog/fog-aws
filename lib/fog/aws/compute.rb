@@ -3,6 +3,8 @@ module Fog
     class AWS < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
+      class RequestLimitExceeded < Fog::Errors::Error; end
+
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name, :version
 
@@ -560,7 +562,7 @@ module Fog
                     sleep (2.0 ** (1.0 + retries) * 100) / 1000.0
                     _request(body, headers, idempotent, parser, retries + 1)
                   else
-                    Fog::Compute::AWS::Error.slurp(error, "Max retries exceeded (#{max_retries}) #{match[:code]} => #{match[:message]}")
+                    Fog::Compute::AWS::RequestLimitExceeded.slurp(error, "Max retries exceeded (#{max_retries}) #{match[:code]} => #{match[:message]}")
                   end
                 else
                   Fog::Compute::AWS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
