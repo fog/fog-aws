@@ -16,7 +16,7 @@ module Fog
           if options[:use_iam_profile]
             begin
               role_data = nil
-              az_data = nil
+              region = options[:region]
 
               if ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
                 connection = options[:connection] || Excon.new(CONTAINER_CREDENTIALS_HOST)
@@ -24,15 +24,13 @@ module Fog
                 role_data = connection.get(:path => credential_path, :idempotent => true, :expects => 200).body
 
                 connection = options[:metadata_connection] || Excon.new(INSTANCE_METADATA_HOST)
-                az_data = connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200).body
+                region ||= connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200).body[0..-2]
               else
                 connection = options[:connection] || Excon.new(INSTANCE_METADATA_HOST)
                 role_name = connection.get(:path => INSTANCE_METADATA_PATH, :idempotent => true, :expects => 200).body
                 role_data = connection.get(:path => INSTANCE_METADATA_PATH+role_name, :idempotent => true, :expects => 200).body
-                az_data = connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200).body
+                region ||= connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200).body[0..-2]
               end
-
-              region = az_data[0..-2] # get region from az
 
               session = Fog::JSON.decode(role_data)
               credentials = {}
