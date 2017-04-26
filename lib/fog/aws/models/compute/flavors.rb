@@ -683,6 +683,36 @@ module Fog
           :disk                    => 0,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "p2.xlarge",
+          :name                    => "General Purpose GPU Extra Large",
+          :bits                    => 64,
+          :cores                   => 2496,
+          :ram                     => 65498,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "p2.8xlarge",
+          :name                    => "General Purpose GPU Eight Extra Large",
+          :bits                    => 64,
+          :cores                   => 19968,
+          :ram                     => 523986,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "p2.16xlarge",
+          :name                    => "General Purpose GPU Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 39936,
+          :ram                     => 785979,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
         }
       ]
 
