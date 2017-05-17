@@ -74,6 +74,18 @@ Shindo.tests("Storage[:aws] | file", ["aws"]) do
 
     end
 
+    tests("multipart upload with empty file") do
+      pending if Fog.mocking?
+
+      @empty_file = Tempfile.new("fog-test-aws-s3-multipart-empty")
+     
+      tests("#save(:multipart_chunk_size => 5242880)").succeeds do
+        @directory.files.create(:key => 'empty-multipart-upload', :body => @empty_file, :multipart_chunk_size => 5242880)
+      end
+
+      @empty_file.close
+    end
+
     tests("multipart upload with customer encryption").returns(true) do
       pending if Fog.mocking?
 
