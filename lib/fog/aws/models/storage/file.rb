@@ -276,6 +276,11 @@ module Fog
             part_tags << part_upload.headers["ETag"]
           end
 
+          if part_tags.empty? #it is an error to have a multipart upload with no parts
+            part_upload = service.upload_part(directory.key, key, upload_id, 1, '', part_headers('', options))
+            part_tags << part_upload.headers["ETag"]
+          end
+
         rescue
           # Abort the upload & reraise
           service.abort_multipart_upload(directory.key, key, upload_id) if upload_id
