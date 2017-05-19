@@ -53,6 +53,15 @@ module Fog
                 'status'      => 'attaching',
                 'volumeId'    => volume_id
               }
+              # Insert new mapping information into the instance
+              instance['blockDeviceMapping'] << {
+                'deviceName'          => data['device'],
+                'volumeId'            => data['volumeId'],
+                'status'              => data['status'],
+                'attachTime'          => data['attachTime'].utc,
+                'deleteOnTermination' => volume['deleteOnTermination']
+              }
+
               volume['attachmentSet'] = [data]
               volume['status'] = 'attaching'
               response.status = 200
