@@ -68,7 +68,7 @@ module Fog
 
         def refresh_credentials
           if @use_iam_profile
-            new_credentials = service.fetch_credentials :use_iam_profile => @use_iam_profile
+            new_credentials = service.fetch_credentials :use_iam_profile => @use_iam_profile, :region => @region
             if new_credentials.any?
               setup_credentials new_credentials
               return true
