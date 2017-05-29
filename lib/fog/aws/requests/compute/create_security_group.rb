@@ -35,27 +35,29 @@ module Fog
           response = Excon::Response.new
 
           vpc_id ||= Fog::AWS::Mock.default_vpc_for(region)
+          group_id = Fog::AWS::Mock.security_group_id
 
-          unless self.data[:security_groups][name]
-            data = {
-              'groupDescription'    => description,
-              'groupName'           => name,
-              'groupId'             => Fog::AWS::Mock.security_group_id,
-              'ipPermissionsEgress' => [],
-              'ipPermissions'       => [],
-              'ownerId'             => self.data[:owner_id],
-              'vpcId'               => vpc_id
-            }
-            self.data[:security_groups][name] = data
-            response.body = {
-              'requestId' => Fog::AWS::Mock.request_id,
-              'groupId'   => data['groupId'],
-              'return'    => true
-            }
-            response
-          else
-            raise Fog::Compute::AWS::Error.new("InvalidGroup.Duplicate => The security group '#{name}' already exists")
+          if self.data[:security_groups].find { |_,v| v['groupName'] == name }
+            raise Fog::Compute::AWS::Error,
+              "InvalidGroup.Duplicate => The security group '#{name}' already exists"
           end
+
+          self.data[:security_groups][group_id] = {
+            'groupDescription'    => description,
+            'groupName'           => name,
+            'groupId'             => group_id,
+            'ipPermissionsEgress' => [],
+            'ipPermissions'       => [],
+            'ownerId'             => self.data[:owner_id],
+            'vpcId'               => vpc_id
+          }
+
+          response.body = {
+            'requestId' => Fog::AWS::Mock.request_id,
+            'groupId'   => group_id,
+            'return'    => true
+          }
+          response
         end
       end
     end

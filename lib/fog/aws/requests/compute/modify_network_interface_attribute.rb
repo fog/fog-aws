@@ -54,11 +54,11 @@ module Fog
             when 'groupSet'
               groups = {}
               value.each do |group_id|
-                name = self.data[:security_groups].select { |k,v| v['groupId'] == group_id } .first.first
-                if name.nil?
+                security_group = self.data[:security_groups][group_id]
+                if security_group.nil?
                   raise Fog::Compute::AWS::Error.new("Unknown security group '#{group_id}' specified")
                 end
-                groups[group_id] = name
+                groups[group_id] = security_group['groupName']
               end
               nic['groupSet'] = groups
             when 'sourceDestCheck'

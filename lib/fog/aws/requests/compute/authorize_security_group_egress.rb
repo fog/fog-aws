@@ -57,14 +57,16 @@ module Fog
       class Mock
         def authorize_security_group_egress(group_name, options = {})
           options = Fog::AWS.parse_security_group_options(group_name, options)
-          if options.key?('GroupName')
-            group_name = options['GroupName']
-          else
-            group_name = self.data[:security_groups].reject { |k,v| v['groupId'] != options['GroupId'] } .keys.first
-          end
+
+          group = if options.key?('GroupName')
+                    self.data[:security_groups].values.find { |v| v['groupName'] == options['GroupName'] }
+                  else
+                    self.data[:security_groups][options.fetch('GroupId')]
+                  end
 
           response = Excon::Response.new
-          group = self.data[:security_groups][group_name] || raise(Fog::Compute::AWS::NotFound.new("The security group '#{group_name}' does not exist"))
+          group ||
+            raise(Fog::Compute::AWS::NotFound.new("The security group '#{group_name}' does not exist"))
 
           verify_permission_options(options, group['vpcId'] != nil)
 

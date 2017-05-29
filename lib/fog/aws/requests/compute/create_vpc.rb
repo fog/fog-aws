@@ -80,20 +80,24 @@ module Fog
 
               # create default security groups
               default_elb_group_name = "default_elb_#{Fog::Mock.random_hex(6)}"
+              default_elb_group_id = Fog::AWS::Mock.security_group_id
 
-              Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups][default_elb_group_name] = {
+              Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups][default_elb_group_id] = {
                 'groupDescription'    => 'default_elb security group',
                 'groupName'           => default_elb_group_name,
-                'groupId'             => Fog::AWS::Mock.security_group_id,
+                'groupId'             => default_elb_group_id,
                 'ipPermissions'       => [],
                 'ownerId'             => self.data[:owner_id],
                 'vpcId'               => vpc_id
               }
 
-              Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups]['default'] = {
-                'groupDescription'    => 'default',
-                'groupName'           => 'default',
-                'groupId'             => Fog::AWS::Mock.security_group_id,
+              default_group_name = 'default'
+              default_group_id = Fog::AWS::Mock.security_group_id
+
+              Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups][default_group_id] = {
+                'groupDescription'    => default_group_name,
+                'groupName'           => default_group_name,
+                'groupId'             => default_group_id,
                 'ipPermissions'       => [],
                 'ownerId'             => self.data[:owner_id],
                 'vpcId'               => vpc_id

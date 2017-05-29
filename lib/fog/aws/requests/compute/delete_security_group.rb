@@ -47,12 +47,12 @@ module Fog
             raise Fog::Compute::AWS::Error.new("May not specify both group_name and group_id")
           end
 
-          if id
-            name = self.data[:security_groups].reject { |k,v| v['groupId'] != id } .keys.first
+          if name
+            id, _ = self.data[:security_groups].find { |_,v| v['groupName'] == name }
           end
 
-          unless self.data[:security_groups][name]
-            raise Fog::Compute::AWS::NotFound.new("The security group '#{name}' does not exist")
+          unless self.data[:security_groups][id]
+            raise Fog::Compute::AWS::NotFound.new("The security group '#{id}' does not exist")
           end
 
           response = Excon::Response.new
@@ -61,14 +61,14 @@ module Fog
 
           # ec2 authorizations
           self.region_data.each do |_, key_data|
-            key_data[:security_groups].each do |group_name, group|
-              next if group == self.data[:security_groups][name]
+            key_data[:security_groups].each do |group_id, group|
+              next if group == self.data[:security_groups][group_id]
 
               group['ipPermissions'].each do |group_ip_permission|
                 group_ip_permission['groups'].each do |group_group_permission|
-                  if group_group_permission['groupName'] == name &&
+                  if group_group_permission['groupId'] == group_id &&
                       group_group_permission['userId'] == self.data[:owner_id]
-                    used_by_groups << "#{key_data[:owner_id]}:#{group_name}"
+                    used_by_groups << "#{key_data[:owner_id]}:#{group['groupName']}"
                   end
                 end
               end
@@ -100,7 +100,7 @@ module Fog
             raise Fog::Compute::AWS::Error.new("InUse => There are active instances using security group '#{name}'")
           end
 
-          self.data[:security_groups].delete(name)
+          self.data[:security_groups].delete(id)
           response.status = 200
           response.body = {
             'requestId' => Fog::AWS::Mock.request_id,
