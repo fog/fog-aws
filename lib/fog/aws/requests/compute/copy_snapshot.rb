@@ -17,12 +17,13 @@ module Fog
         #     * 'snapshotId'<~String> - id of snapshot
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CopySnapshot.html]
-        def copy_snapshot(source_snapshot_id, source_region, description = nil)
+        def copy_snapshot(source_snapshot_id, source_region, description = nil, encrypted = false)
           request(
             'Action'          => 'CopySnapshot',
             'SourceSnapshotId'=> source_snapshot_id,
             'SourceRegion'    => source_region,
             'Description'     => description,
+            'Encrypted'       => encrypted,
             :parser       => Fog::Parsers::Compute::AWS::CopySnapshot.new
           )
         end
@@ -35,7 +36,7 @@ module Fog
         # Fog::AWS[:compute].copy_snapshot("snap-1db0a957", 'us-east-1')
         #
 
-        def copy_snapshot(source_snapshot_id, source_region, description = nil)
+        def copy_snapshot(source_snapshot_id, source_region, description = nil, encrypted = true)
           response = Excon::Response.new
           response.status = 200
           snapshot_id = Fog::AWS::Mock.snapshot_id
