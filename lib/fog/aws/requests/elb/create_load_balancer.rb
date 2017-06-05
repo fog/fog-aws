@@ -5,6 +5,7 @@ module Fog
         require 'fog/aws/parsers/elb/create_load_balancer'
 
         # Create a new Elastic Load Balancer
+        # http://docs.aws.amazon.com/elasticloadbalancing/2012-06-01/APIReference/API_CreateLoadBalancer.html
         #
         # ==== Parameters
         # * availability_zones<~Array> - List of availability zones for the ELB
@@ -92,7 +93,7 @@ module Fog
           supported_platforms = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:account_attributes].find { |h| h["attributeName"] == "supported-platforms" }["values"]
           subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select {|e| subnet_ids.include?(e["subnetId"]) }
 
-          # http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/default-vpc.html
+          # http://docs.aws.amazon.com/AmazonVPC/2012-06-01/UserGuide/default-vpc.html
           elb_location = if supported_platforms.include?("EC2")
                            if subnet_ids.empty?
                              'EC2-Classic'

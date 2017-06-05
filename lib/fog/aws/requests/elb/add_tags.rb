@@ -4,7 +4,7 @@ module Fog
       class Real
 
         # adds tags to a load balancer instance
-        # http://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_AddTags.html
+        # http://docs.aws.amazon.com/ElasticLoadBalancing/2012-06-01/APIReference/API_AddTags.html
         # ==== Parameters
         # * elb_id <~String> - name of the ELB instance to be tagged
         # * tags <~Hash> A Hash of (String) key-value pairs

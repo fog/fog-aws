@@ -5,7 +5,7 @@ module Fog
         require 'fog/aws/parsers/elb/configure_health_check'
 
         # Enables the client to define an application healthcheck for the instances.
-        # See http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_ConfigureHealthCheck.html
+        # See http://docs.amazonwebservices.com/ElasticLoadBalancing/2012-06-01/APIReference/index.html?API_ConfigureHealthCheck.html
         #
         # ==== Parameters
         # * lb_name<~String> - Name of the ELB

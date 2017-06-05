@@ -13,7 +13,7 @@ module Fog
         #
         # Still requires: AccessLog configuration
         #
-        # http://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_ModifyLoadBalancerAttributes.html
+        # http://docs.aws.amazon.com/ElasticLoadBalancing/2012-06-01/APIReference/API_ModifyLoadBalancerAttributes.html
         # ==== Parameters
         # * lb_name<~String> - Name of the ELB
         # * options<~Hash>

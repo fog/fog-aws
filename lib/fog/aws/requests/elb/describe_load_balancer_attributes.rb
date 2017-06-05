@@ -5,7 +5,7 @@ module Fog
         require 'fog/aws/parsers/elb/describe_load_balancer_attributes'
 
         # Describe the load balancer attributes
-        # http://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_DescribeLoadBalancerAttributes.html
+        # http://docs.aws.amazon.com/ElasticLoadBalancing/2012-06-01/APIReference/API_DescribeLoadBalancerAttributes.html
         # ==== Parameters
         # * lb_name<~String> - The mnemonic name associated with the LoadBalancer.
         #

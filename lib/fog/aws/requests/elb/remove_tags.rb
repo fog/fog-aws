@@ -4,7 +4,7 @@ module Fog
       class Real
 
         # removes tags from an elastic load balancer instance
-        # http://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_RemoveTags.html
+        # http://docs.aws.amazon.com/ElasticLoadBalancing/2012-06-01/APIReference/API_RemoveTags.html
         # ==== Parameters
         # * elb_id <~String> - name of the ELB instance whose tags are to be retrieved
         # * keys <~Array> A list of String keys for the tags to remove

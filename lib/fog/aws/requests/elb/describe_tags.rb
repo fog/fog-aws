@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/elb/tag_list_parser'
 
         # returns a Hash of tags for a load balancer
-        # http://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_DescribeTags.html
+        # http://docs.aws.amazon.com/ElasticLoadBalancing/2012-06-01/APIReference/API_DescribeTags.html
         # ==== Parameters
         # * elb_id <~String> - name(s) of the ELB instance whose tags are to be retrieved (allows 1-20 of them)
         # ==== Returns
