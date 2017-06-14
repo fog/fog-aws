@@ -1,5 +1,28 @@
 # Change Log
 
+## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v1.3.0...HEAD)
+
+**Closed issues:**
+
+- Support REST Bucket Get v2 [\#369](https://github.com/fog/fog-aws/issues/369)
+- Fog::AWS::IAM::Error: InvalidAction =\> Could not find operation "ReplaceIamInstanceProfileAssociation" for version 2010-05-08 [\#368](https://github.com/fog/fog-aws/issues/368)
+- Multipart upload fails on empty files [\#364](https://github.com/fog/fog-aws/issues/364)
+- The action `ModifyVolume` is not valid for this web service. [\#363](https://github.com/fog/fog-aws/issues/363)
+- Tag instances upon creation of new instance [\#359](https://github.com/fog/fog-aws/issues/359)
+- Cache/read local amazon data [\#354](https://github.com/fog/fog-aws/issues/354)
+
+**Merged pull requests:**
+
+- add NextContinuationToken support to GetBucket operation [\#370](https://github.com/fog/fog-aws/pull/370) ([khoan](https://github.com/khoan))
+- Add a top-level require that matches the gem name [\#367](https://github.com/fog/fog-aws/pull/367) ([lanej](https://github.com/lanej))
+- Fixed credential refresh when instance metadata host is inaccessible [\#366](https://github.com/fog/fog-aws/pull/366) ([ankane](https://github.com/ankane))
+- Handle multipart upload of empty files [\#365](https://github.com/fog/fog-aws/pull/365) ([fcheung](https://github.com/fcheung))
+- Add p2 instance types [\#362](https://github.com/fog/fog-aws/pull/362) ([Caged](https://github.com/Caged))
+- Exponential backoff [\#361](https://github.com/fog/fog-aws/pull/361) ([VVMichaelSawyer](https://github.com/VVMichaelSawyer))
+- Skip call to instance metadata host if region is specified [\#360](https://github.com/fog/fog-aws/pull/360) ([ankane](https://github.com/ankane))
+
 ## [v1.3.0](https://github.com/fog/fog-aws/tree/v1.3.0) (2017-03-29)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v1.2.1...v1.3.0)
 
