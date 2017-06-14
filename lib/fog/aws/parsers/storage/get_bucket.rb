@@ -35,7 +35,7 @@ module Fog
               end
             when 'LastModified'
               @object['LastModified'] = Time.parse(value)
-            when 'Marker', 'Name'
+            when 'Marker', 'Name', 'NextContinuationToken'
               @response[name] = value
             when 'MaxKeys'
               @response['MaxKeys'] = value.to_i
