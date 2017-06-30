@@ -66,10 +66,10 @@ Shindo.tests('AWS | credentials', ['aws']) do
     end
 
     mocked_credentials = {
-      aws_access_key_id: "access-key-id",
-      aws_secret_access_key: "secret-access-key",
-      aws_session_token: "session-token",
-      aws_credentials_expire_at: Time.at(Time.now.to_i + 500).xmlschema
+      :aws_access_key_id => "access-key-id",
+      :aws_secret_access_key => "secret-access-key",
+      :aws_session_token => "session-token",
+      :aws_credentials_expire_at => Time.at(Time.now.to_i + 500).xmlschema
     }
     tests("#fetch_credentials when mocking") do
       Fog.mock!
