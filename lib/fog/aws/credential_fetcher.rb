@@ -11,7 +11,7 @@ module Fog
       module ServiceMethods
         def fetch_credentials(options)
           if options[:use_iam_profile] && Fog.mocking?
-            Fog::Compute::AWS::Mock.data[:iam_role_based_creds]
+            return Fog::Compute::AWS::Mock.data[:iam_role_based_creds]
           end
           if options[:use_iam_profile]
             begin
