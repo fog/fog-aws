@@ -15,11 +15,15 @@ module Fog
             case name
             when 'Listeners'
               @in_listeners = true
+            when 'Certificates'
+              @in_certificates = true
             when 'DefaultActions'
               @in_default_actions = true
             when 'member'
               if @in_default_actions
                 @default_action = {}
+              elsif @in_certificates
+                @certificates = []
               else
                 @listener = {}
               end
@@ -32,6 +36,9 @@ module Fog
               if @in_default_actions
                 @default_actions << @default_action
                 @default_action = nil
+              elsif @in_certificates
+                @certificates << @certificate
+                @certificate = nil
               elsif @in_listeners
                 @listeners << @listener
                 @listener = nil
@@ -41,6 +48,14 @@ module Fog
               @listener['DefaultActions'] = @default_actions
               @default_actions = []
               @in_default_actions = false
+
+            when 'Certificates'
+              @listener['Certificates'] = @certificates
+              @certificates = []
+              @in_certificates = false
+
+            when 'CertificateArn'
+              @certificate = value
 
             when 'Listeners'
               @response[self.class::RESULT_KEY]['Listeners'] = @listeners
