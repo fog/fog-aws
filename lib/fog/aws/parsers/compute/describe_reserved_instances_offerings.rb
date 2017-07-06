@@ -19,7 +19,7 @@ module Fog
             when 'item'
               @response['reservedInstancesOfferingsSet'] << @reserved_instances_offering unless @reserved_instances_offering.empty?
               @reserved_instances_offering = {}
-            when 'requestId'
+            when 'requestId', 'nextToken'
               @response[name] = value
             end
           end
