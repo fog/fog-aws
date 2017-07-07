@@ -25,7 +25,7 @@ module Fog
           headers = {
             'Content-Length' => body.bytesize.to_s,
             'Content-Range' => "bytes #{offset}-#{offset+body.bytesize-1}/*",
-            'x-amz-content-sha256' => Digest::SHA256.hexdigest(body),
+            'x-amz-content-sha256' => OpenSSL::Digest::SHA256.hexdigest(body),
             'x-amz-sha256-tree-hash' => hash
           }
 

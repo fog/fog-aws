@@ -9,6 +9,7 @@ module Fog
       request_path 'fog/aws/requests/data_pipeline'
       request :activate_pipeline
       request :create_pipeline
+      request :deactivate_pipeline
       request :delete_pipeline
       request :describe_pipelines
       request :list_pipelines
@@ -22,8 +23,58 @@ module Fog
       collection  :pipelines
 
       class Mock
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
+
+        def self.data
+          @data ||= Hash.new do |hash, region|
+            hash[region] = Hash.new do |region_hash, key|
+              region_hash[key] = {
+                :pipelines            => {},
+                :pipeline_definitions => {},
+              }
+            end
+          end
+        end
+
+        def self.reset
+          @data = nil
+        end
+
+        def data
+          self.class.data[@region][@aws_access_key_id]
+        end
+
+        def reset
+          self.class.reset
+        end
+
+        attr_accessor :region
+
         def initialize(options={})
-          Fog::Mock.not_implemented
+          @region                = options[:region] || "us-east-1"
+          @aws_access_key_id     = options[:aws_access_key_id]
+          @aws_secret_access_key = options[:aws_secret_access_key]
+        end
+
+        def stringify_keys(object)
+          case object
+          when Hash
+            object.inject({}) { |h,(k,v)| h[k.to_s] = stringify_keys(v); h }
+          when Array
+            object.map { |v| stringify_keys(v) }
+          else
+            object
+          end
+        end
+
+        def find_pipeline(id)
+          pipeline = self.data[:pipelines].values.detect { |p| p["pipelineId"] == id }
+
+          if pipeline.nil? || pipeline[:deleted]
+            raise Fog::AWS::DataPipeline::NotFound.new("Pipeline with id: #{id} does not exist")
+          end
+
+          pipeline
         end
       end
 
@@ -116,7 +167,19 @@ module Fog
         end
 
         def _request(params)
-          @connection.request(params)
+          response = @connection.request(params)
+
+          unless response.body.empty?
+            response.body = Fog::JSON.decode(response.body)
+          end
+
+          response
+        rescue Excon::Error::BadRequest => error
+          match = Fog::AWS::Errors.match_error(error)
+          raise if match.empty?
+          if %w(PipelineNotFoundException PipelineDeletedException).include?(match[:code])
+            raise Fog::AWS::DataPipeline::NotFound.slurp(error, match[:message])
+          end
         end
       end
     end

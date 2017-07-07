@@ -65,7 +65,8 @@ module Fog
           end
 
           # These are the required parameters according to the API
-          required_params = %w{AllocatedStorage DBInstanceClass Engine MasterUserPassword MasterUsername }
+          required_params = %w(DBInstanceClass Engine)
+          required_params += %w{AllocatedStorage DBInstanceClass Engine MasterUserPassword MasterUsername } unless options["DBClusterIdentifier"]
           required_params.each do |key|
             unless options.key?(key) and options[key] and !options[key].to_s.empty?
               #response.status = 400
@@ -78,18 +79,86 @@ module Fog
             end
           end
 
+          if !!options["MultiAZ"] && !!options["AvailabilityZone"]
+            raise Fog::AWS::RDS::InvalidParameterCombination.new('Requesting a specific availability zone is not valid for Multi-AZ instances.')
+          end
+
+          ec2 = Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id]
+
+          db_parameter_groups     = if pg_name = options.delete("DBParameterGroupName")
+                                      group = self.data[:parameter_groups][pg_name]
+                                      if group
+                                        [{"DBParameterGroupName" => pg_name, "ParameterApplyStatus" => "in-sync" }]
+                                      else
+                                        raise Fog::AWS::RDS::NotFound.new("Parameter group does not exist")
+                                      end
+                                    else
+                                      [{ "DBParameterGroupName" => "default.mysql5.5", "ParameterApplyStatus" => "in-sync" }]
+                                    end
+          db_security_group_names = Array(options.delete("DBSecurityGroups"))
+          rds_security_groups     = self.data[:security_groups].values
+          ec2_security_groups     = ec2[:security_groups].values
+          vpc                     = !ec2[:account_attributes].find { |h| "supported-platforms" == h["attributeName"] }["values"].include?("EC2")
+
+          db_security_groups = db_security_group_names.map do |group_name|
+            unless rds_security_groups.find { |sg| sg["DBSecurityGroupName"] == group_name }
+              raise Fog::AWS::RDS::Error.new("InvalidParameterValue => Invalid security group , groupId= , groupName=#{group_name}")
+            end
+
+            {"Status" => "active", "DBSecurityGroupName" => group_name }
+          end
+
+          if !vpc && db_security_groups.empty?
+            db_security_groups << { "Status" => "active", "DBSecurityGroupName" => "default" }
+          end
+
+          vpc_security_groups = Array(options.delete("VpcSecurityGroups")).map do |group_id|
+            unless ec2_security_groups.find { |sg| sg["groupId"] == group_id }
+              raise Fog::AWS::RDS::Error.new("InvalidParameterValue => Invalid security group , groupId=#{group_id} , groupName=")
+            end
+
+            {"Status" => "active", "VpcSecurityGroupId" => group_id }
+          end
+
+          if options["Engine"] == "aurora" && ! options["DBClusterIdentifier"]
+            raise Fog::AWS::RDS::Error.new("InvalidParameterStateValue => Standalone instances for this engine are not supported")
+          end
+
+          if cluster_id = options["DBClusterIdentifier"]
+            if vpc_security_groups.any?
+              raise Fog::AWS::RDS::Error.new("InvalidParameterCombination => The requested DB Instance will be a member of a DB Cluster and its vpc security group should not be set directly.")
+            end
+
+            if options["MultiAZ"]
+              raise Fog::AWS::RDS::Error.new("InvalidParameterCombination => VPC Multi-AZ DB Instances are not available for engine: aurora")
+            end
+
+            %w(AllocatedStorage BackupRetentionPeriod MasterUsername MasterUserPassword).each do |forbidden|
+              raise Fog::AWS::RDS::Error.new("InvalidParameterCombination => The requested DB Instance will be a member of a DB Cluster and its #{forbidden} should not be set directly.") if options[forbidden]
+            end
+
+            options["StorageType"] = "aurora"
+
+            cluster = self.data[:clusters][cluster_id]
+
+            member = {"DBInstanceIdentifier" => db_name, "master" => cluster['DBClusterMembers'].empty?}
+            cluster['DBClusterMembers'] << member
+            self.data[:clusters][cluster_id] = cluster
+          end
+
           data = {
             "AllocatedStorage"                 => options["AllocatedStorage"],
             "AutoMinorVersionUpgrade"          => options["AutoMinorVersionUpgrade"].nil? ? true : options["AutoMinorVersionUpgrade"],
             "AvailabilityZone"                 => options["AvailabilityZone"],
             "BackupRetentionPeriod"            => options["BackupRetentionPeriod"] || 1,
             "CACertificateIdentifier"          => "rds-ca-2015",
+            "DBClusterIdentifier"              => options["DBClusterIdentifier"],
             "DBInstanceClass"                  => options["DBInstanceClass"],
             "DBInstanceIdentifier"             => db_name,
             "DBInstanceStatus"                 =>"creating",
             "DBName"                           => options["DBName"],
-            "DBParameterGroups"                => [{ "DBParameterGroupName" => "default.mysql5.5", "ParameterApplyStatus" => "in-sync" }],
-            "DBSecurityGroups"                 => [{ "Status" => "active", "DBSecurityGroupName" => "default" }],
+            "DBParameterGroups"                => db_parameter_groups,
+            "DBSecurityGroups"                 => db_security_groups,
             "DBSubnetGroupName"                => options["DBSubnetGroupName"],
             "Endpoint"                         =>{},
             "Engine"                           => options["Engine"],
@@ -97,16 +166,16 @@ module Fog
             "InstanceCreateTime"               => nil,
             "Iops"                             => options["Iops"],
             "LicenseModel"                     => "general-public-license",
-            "MasterUsername"                   => options["MasterUsername"],
-            "MultiAZ"                          => !!options['MultiAZ'],
+            "MasterUsername"                   => cluster_id ? cluster["MasterUsername"] : options["MasterUsername"],
+            "MultiAZ"                          => !!options["MultiAZ"],
             "PendingModifiedValues"            => { "MasterUserPassword" => "****" }, # This clears when is available
             "PreferredBackupWindow"            => options["PreferredBackupWindow"] || "08:00-08:30",
             "PreferredMaintenanceWindow"       => options["PreferredMaintenanceWindow"] || "mon:04:30-mon:05:00",
             "PubliclyAccessible"               => !!options["PubliclyAccessible"],
             "ReadReplicaDBInstanceIdentifiers" => [],
-            "StorageEncrypted"                 => false,
+            "StorageEncrypted"                 => cluster_id ? cluster["StorageEncrypted"] : (options["StorageEncrypted"] || false),
             "StorageType"                      => options["StorageType"] || "standard",
-            "VpcSecurityGroups"                => options["VpcSecurityGroups"],
+            "VpcSecurityGroups"                => vpc_security_groups,
           }
 
           self.data[:servers][db_name] = data

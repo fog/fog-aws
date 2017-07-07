@@ -16,6 +16,8 @@ module Fog
         #     * 'ProductDescription'<~String> - description of offering, in ['Linux/UNIX', 'Linux/UNIX (Amazon VPC)', 'Windows', 'Windows (Amazon VPC)']
         #     * 'MaxDuration'<~Integer> - maximum duration (in seconds) of offering
         #     * 'MinDuration'<~Integer> - minimum duration (in seconds) of offering
+        #     * 'MaxResults'<~Integer> - The maximum number of results to return for the request in a single page
+        #     * 'NextToken'<~String> - The token to retrieve the next page of results
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -31,11 +33,12 @@ module Fog
         #       * 'productDescription'<~String> - description of offering
         #       * 'reservedInstancesOfferingId'<~String> - id of offering
         #       * 'usagePrice'<~Float> - usage price of offering, per hour
+        #     * 'NextToken'<~String> - The token to retrieve the next page of results
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeReservedInstancesOfferings.html]
         def describe_reserved_instances_offerings(filters = {})
           options = {}
-          for key in ['AvailabilityZone', 'InstanceType', 'InstanceTenancy', 'OfferingType', 'ProductDescription', 'MaxDuration', 'MinDuration']
+          for key in %w(AvailabilityZone InstanceType InstanceTenancy OfferingType ProductDescription MaxDuration MinDuration MaxResults NextToken)
             if filters.is_a?(Hash) && filters.key?(key)
               options[key] = filters.delete(key)
             end
@@ -69,7 +72,8 @@ module Fog
 
           response.body = {
             'reservedInstancesOfferingsSet' => self.data[:reserved_instances_offerings],
-            'requestId' => Fog::AWS::Mock.request_id
+            'requestId' => Fog::AWS::Mock.request_id,
+            'nextToken' => (0...64).map { ('a'..'z').to_a[rand(26)] }.join
           }
 
           response

@@ -170,6 +170,10 @@ module Fog
         "sir-#{Fog::Mock.random_letters_and_numbers(8)}"
       end
 
+      def self.data_pipeline_id
+        "df-#{Fog::Mock.random_letters_and_numbers(19).capitalize}"
+      end
+
       def self.spot_product_descriptions
         [
           'Linux/UNIX',

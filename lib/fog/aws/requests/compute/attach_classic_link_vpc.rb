@@ -26,7 +26,7 @@ module Fog
             'DryRun'    => dry_run,
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           }.merge(Fog::AWS.indexed_param('SecurityGroupId', security_group_ids)))
-          
+
         end
       end
 
@@ -50,11 +50,11 @@ module Fog
               'return'    => true
             }
             unless dry_run
-              instance['classicLinkSecurityGroups'] = security_group_ids 
+              instance['classicLinkSecurityGroups'] = security_group_ids
               instance['classicLinkVpcId'] = vpc_id
             end
             response
-          elsif !instance 
+          elsif !instance
             raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_id}' does not exist.")
           elsif !vpc
             raise Fog::Compute::AWS::NotFound.new("The VPC '#{vpc_id}' does not exist.")

@@ -25,6 +25,21 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def delete_policy(policy_arn)
+          response = Excon::Response.new
+          policy = self.data[:managed_policies][policy_arn]
+
+          if policy.nil?
+            raise Fog::AWS::IAM::NotFound.new("Policy #{policy_arn} does not exist or is not attachable.")
+          end
+
+          self.data[:managed_policies].delete(policy_arn)
+          response.body = {"RequestId" => Fog::AWS::Mock.request_id}
+          response
+        end
+      end
     end
   end
 end

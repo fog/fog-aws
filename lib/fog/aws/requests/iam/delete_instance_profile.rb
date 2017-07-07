@@ -25,6 +25,21 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def delete_instance_profile(instance_profile_name)
+          response = Excon::Response.new
+
+          unless profile = self.data[:instance_profiles][instance_profile_name]
+            raise Fog::AWS::IAM::NotFound.new("Instance Profile #{instance_profile_name} cannot be found.")
+          end
+
+          self.data[:instance_profiles].delete(instance_profile_name)
+
+          response.body = {"RequestId" => Fog::AWS::Mock.request_id}
+          response
+        end
+      end
     end
   end
 end

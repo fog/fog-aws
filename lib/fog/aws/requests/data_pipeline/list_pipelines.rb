@@ -17,14 +17,14 @@ module Fog
             :body => Fog::JSON.encode(params),
             :headers => { 'X-Amz-Target' => 'DataPipeline.ListPipelines' },
           })
-
-          Fog::JSON.decode(response.body)
         end
       end
 
       class Mock
         def list_pipelines(options={})
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          response.body = {"pipelineIdList" => self.data[:pipelines].values.map { |p| {"id" => p["pipelineId"], "name" => p["name"]} } }
+          response
         end
       end
     end

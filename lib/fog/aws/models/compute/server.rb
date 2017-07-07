@@ -205,7 +205,6 @@ module Fog
 
         def setup(credentials = {})
           requires :ssh_ip_address, :username
-          require 'net/ssh'
 
           commands = [
             %{mkdir .ssh},

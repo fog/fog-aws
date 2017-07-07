@@ -34,9 +34,12 @@ module Fog
 
       class Mock
         def get_role(role_name)
-          role = self.data[:roles][role_name]
 
-          raise Fog::AWS::IAM::NotFound.new("The role with name #{role_name} cannot be found") unless role
+          unless self.data[:roles].key?(role_name)
+            raise Fog::AWS::IAM::NotFound.new("The role with name #{role_name} cannot be found")
+          end
+
+          role = self.data[:roles][role_name]
 
           Excon::Response.new.tap do |response|
             response.body = {

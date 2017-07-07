@@ -4,6 +4,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       class IdentifierTaken < Fog::Errors::Error; end
+      class InvalidParameterCombination < Fog::Errors::Error; end
 
       class AuthorizationAlreadyExists < Fog::Errors::Error; end
 
@@ -28,6 +29,8 @@ module Fog
       request :describe_db_snapshots
       request :create_db_snapshot
       request :delete_db_snapshot
+      request :modify_db_snapshot_attribute
+      request :copy_db_snapshot
 
       request :create_db_parameter_group
       request :delete_db_parameter_group
@@ -48,7 +51,7 @@ module Fog
       request :create_db_subnet_group
       request :describe_db_subnet_groups
       request :delete_db_subnet_group
-      # TODO: :modify_db_subnet_group
+      request :modify_db_subnet_group
 
       request :describe_orderable_db_instance_options
 
@@ -61,9 +64,22 @@ module Fog
       request :create_event_subscription
       request :delete_event_subscription
 
+      request :describe_engine_default_parameters
+
+      request :describe_db_clusters
+      request :describe_db_cluster_snapshots
+      request :create_db_cluster
+      request :create_db_cluster_snapshot
+      request :delete_db_cluster
+      request :delete_db_cluster_snapshot
+
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
+
+      model       :cluster
+      collection  :clusters
+      collection  :cluster_snapshots
 
       model       :snapshot
       collection  :snapshots
@@ -94,11 +110,23 @@ module Fog
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
+                :clusters            => {},
+                :cluster_snapshots   => {},
                 :servers             => {},
                 :security_groups     => {},
                 :subnet_groups       => {},
                 :snapshots           => {},
                 :event_subscriptions => {},
+                :default_parameters  => [
+                  {
+                    "DataType"      => "integer",
+                    "Source"        => "engine-default",
+                    "Description"   => "Intended for use with master-to-master replication, and can be used to control the operation of AUTO_INCREMENT columns",
+                    "ApplyType"     => "dynamic",
+                    "AllowedValues" => "1-65535",
+                    "ParameterName" => "auto_increment_increment"
+                  }
+                ],
                 :db_engine_versions  => [
                   {
                     'Engine'                     => "mysql",
@@ -136,16 +164,13 @@ module Fog
           @data = nil
         end
 
-        attr_accessor :region
+        attr_accessor :region, :aws_access_key_id
 
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
           @region          = options[:region] || 'us-east-1'
 
-          unless %w(ap-northeast-1 ap-northeast-2 ap-southeast-1 ap-southeast-2 eu-central-1 eu-west-1 eu-west-2 us-east-1
-                    us-east-2 us-west-1 us-west-2 sa-east-1 ap-south-1 ca-central-1).include?(@region)
-            raise ArgumentError, "Unknown region: #{@region.inspect}"
-          end
+          Fog::AWS.validate_region!(@region)
 
           setup_credentials(options)
         end
@@ -271,7 +296,7 @@ module Fog
             end
           else
             raise case match[:code]
-                  when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound', 'SubscriptionNotFound'
+                  when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound', 'SubscriptionNotFound', 'DBClusterNotFoundFault'
                     Fog::AWS::RDS::NotFound.slurp(error, match[:message])
                   when 'DBParameterGroupAlreadyExists'
                     Fog::AWS::RDS::IdentifierTaken.slurp(error, match[:message])

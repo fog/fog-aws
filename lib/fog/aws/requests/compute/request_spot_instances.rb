@@ -71,7 +71,7 @@ module Fog
             options.merge!(Fog::AWS.indexed_param('LaunchSpecification.SecurityGroupId', [*security_group_ids]))
           end
           if options['LaunchSpecification.UserData']
-            options['LaunchSpecification.UserData'] = Base64.encode64(options['LaunchSpecification.UserData'])
+            options['LaunchSpecification.UserData'] = Base64.encode64(options['LaunchSpecification.UserData']).chomp!
           end
 
           if options['ValidFrom'] && options['ValidFrom'].is_a?(Time)
@@ -95,6 +95,7 @@ module Fog
       class Mock
         def request_spot_instances(image_id, instance_type, spot_price, options = {})
           response = Excon::Response.new
+          id       = Fog::AWS::Mock.spot_instance_request_id
 
           if (image_id && instance_type && spot_price)
             response.status = 200
@@ -139,32 +140,42 @@ module Fog
 
           launch_spec = {
             'iamInstanceProfile' => {},
-            'blockDeviceMapping' => [],
-            'groupSet'           => [Fog::AWS::Mock.security_group_id],
+            'blockDeviceMapping' => options['LaunchSpecification.BlockDeviceMapping'] || [],
+            'groupSet'           => options['LaunchSpecification.SecurityGroupId']    || ['default'],
             'imageId'            => image_id,
             'instanceType'       => instance_type,
-            'monitoring'         => options['MonitoringEnabled'] || false,
-            'subnetId'           => nil,
-            'ebsOptimized'       => false,
-            'keyName'            => options['KeyName'] || nil
+            'monitoring'         => options['LaunchSpecification.Monitoring.Enabled'] || false,
+            'subnetId'           => options['LaunchSpecification.SubnetId']           || nil,
+            'ebsOptimized'       => options['LaunchSpecification.EbsOptimized']       || false,
+            'keyName'            => options['LaunchSpecification.KeyName']            || nil
           }
 
+          if iam_arn = options['LaunchSpecification.IamInstanceProfile.Arn']
+            launch_spec['iamInstanceProfile'].merge!('Arn' => iam_arn)
+          end
+
+          if iam_name = options['LaunchSpecification.IamInstanceProfile.Name']
+            launch_spec['iamInstanceProfile'].merge!('Name' => iam_name)
+          end
+
+          spot_request = {
+            'launchSpecification'   => launch_spec,
+            'spotInstanceRequestId' => id,
+            'spotPrice'             => spot_price,
+            'type'                  => options['Type'] || 'one-time',
+            'state'                 => 'open',
+            'fault'                 => {
+              'code'    => 'pending-evaluation',
+              'message' => 'Your Spot request has been submitted for review, and is pending evaluation.'
+            },
+            'createTime'         => Time.now,
+            'productDescription' => 'Linux/UNIX'
+          }
+
+          self.data[:spot_requests][id] = spot_request
+
           response.body = {
-            'spotInstanceRequestSet' => [
-              {
-                'launchSpecification'   => launch_spec,
-                'spotInstanceRequestId' => Fog::AWS::Mock.spot_instance_request_id,
-                'spotPrice'             => spot_price,
-                'type'                  => options['Type'] || 'one-time',
-                'state'                 => 'open',
-                'fault'                 => {
-                  'code'    => 'pending-evaluation',
-                  'message' => 'Your Spot request has been submitted for review, and is pending evaluation.'
-                },
-                'createTime'         => Time.now,
-                'productDescription' => 'Linux/UNIX'
-              }
-            ],
+            'spotInstanceRequestSet' => [spot_request],
             'requestId' => Fog::AWS::Mock.request_id
           }
 

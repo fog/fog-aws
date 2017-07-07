@@ -42,6 +42,10 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       data
     end
 
+    tests("#get_object('#{@directory.identity}', 'fog_object', { 'If-Match' => Digest::MD5.hexdigest(lorem_file) })").returns(lorem_file.read) do
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', { 'If-Match' => Digest::MD5.hexdigest(lorem_file.read) }).body
+    end
+
     tests("#get_object('#{@directory.identity}', 'fog_object', {'Range' => 'bytes=0-20'})").returns(lorem_file.read[0..20]) do
       Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', {'Range' => 'bytes=0-20'}).body
     end
@@ -50,8 +54,40 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', {'Range' => 'bytes=0-0'}).body
     end
 
+    tests("#get_object('#{@directory.identity}', 'fog_object', { 'If-Match' => Digest::MD5.hexdigest(lorem_file.read) })").returns(lorem_file.read) do
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', { 'If-Match' => Digest::MD5.hexdigest(lorem_file.read) }).body
+    end
+
+    tests("#get_object('#{@directory.identity}', 'fog_object', { 'If-Modified-Since' => Time.now - 60 })").returns(lorem_file.read) do
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', { 'If-Modified-Since' => Time.now - 60 }).body
+    end
+
+    tests("#get_object('#{@directory.identity}', 'fog_object', { 'If-None-Match' => 'invalid_etag' })").returns(lorem_file.read) do
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', { 'If-None-Match' => 'invalid_etag' }).body
+    end
+
+    tests("#get_object('#{@directory.identity}', 'fog_object', { 'If-Unmodified-Since' => Time.now + 60 })").returns(lorem_file.read) do
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', { 'If-Unmodified-Since' => Time.now + 60 }).body
+    end
+
     tests("#head_object('#{@directory.identity}', 'fog_object')").succeeds do
       Fog::Storage[:aws].head_object(@directory.identity, 'fog_object')
+    end
+
+    tests("#head_object('#{@directory.identity}', 'fog_object', { 'If-Match' => Digest::MD5.hexdigest(lorem_file.read) })").succeeds do
+      Fog::Storage[:aws].head_object(@directory.identity, 'fog_object', { 'If-Match' => Digest::MD5.hexdigest(lorem_file.read) })
+    end
+
+    tests("#head_object('#{@directory.identity}', 'fog_object', { 'If-Modified-Since' => Time.now - 60 })").succeeds do
+      Fog::Storage[:aws].head_object(@directory.identity, 'fog_object', { 'If-Modified-Since' => Time.now - 60 })
+    end
+
+    tests("#head_object('#{@directory.identity}', 'fog_object', { 'If-None-Match' => 'invalid_etag' })").succeeds do
+      Fog::Storage[:aws].head_object(@directory.identity, 'fog_object', { 'If-None-Match' => 'invalid_etag' })
+    end
+
+    tests("#head_object('#{@directory.identity}', 'fog_object', { 'If-Unmodified-Since' => Time.now + 60 })").succeeds do
+      Fog::Storage[:aws].head_object(@directory.identity, 'fog_object', { 'If-Unmodified-Since' => Time.now + 60 })
     end
 
     tests("#post_object_restore('#{@directory.identity}', 'fog_object')").succeeds do
@@ -128,6 +164,10 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object', 'fog_other_object']).body
     end
 
+    tests("#delete_multiple_objects('#{@directory.identity}', 'fØg_öbjèct', UTF-8)").succeeds do
+      Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fØg_öbjèct'])
+    end
+
   end
 
   fognonbucket = uniq_id('fognonbucket')
@@ -163,6 +203,42 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
     tests("#get_object('#{@directory.identity}', 'fog_non_object')").raises(Excon::Errors::NotFound) do
       Fog::Storage[:aws].get_object(@directory.identity, 'fog_non_object')
     end
+
+    Fog::Storage[:aws].put_object(@directory.identity, 'fog_object', lorem_file)
+
+    tests("#get_object('#{@directory.identity}', 'fog_object', { 'If-Match' => 'invalid_etag' })").raises(Excon::Errors::PreconditionFailed) do
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', { 'If-Match' => 'invalid_etag' })
+    end
+
+    tests("#get_object('#{@directory.identity}', 'fog_object', { 'If-Modified-Since' => Time.now })").raises(Excon::Errors::NotModified) do
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', { 'If-Modified-Since' => Time.now })
+    end
+
+    tests("#get_object('#{@directory.identity}', 'fog_object', { 'If-None-Match' => Digest::MD5.hexdigest(lorem_file.read) })").raises(Excon::Errors::NotModified) do
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', { 'If-None-Match' => Digest::MD5.hexdigest(lorem_file.read) })
+    end
+
+    tests("#get_object('#{@directory.identity}', 'fog_object', { 'If-Unmodified-Since' => Time.now - 60 })").raises(Excon::Errors::PreconditionFailed) do
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', { 'If-Unmodified-Since' => Time.now - 60 })
+    end
+
+    tests("#head_object('#{@directory.identity}', 'fog_object', { 'If-Match' => 'invalid_etag' })").raises(Excon::Errors::PreconditionFailed) do
+      Fog::Storage[:aws].head_object(@directory.identity, 'fog_object', { 'If-Match' => 'invalid_etag' })
+    end
+
+    tests("#head_object('#{@directory.identity}', 'fog_object', { 'If-Modified-Since' => Time.now })").raises(Excon::Errors::NotModified) do
+      Fog::Storage[:aws].head_object(@directory.identity, 'fog_object', { 'If-Modified-Since' => Time.now })
+    end
+
+    tests("#head_object('#{@directory.identity}', 'fog_object', { 'If-None-Match' => Digest::MD5.hexdigest(lorem_file.read) })").raises(Excon::Errors::NotModified) do
+      Fog::Storage[:aws].head_object(@directory.identity, 'fog_object', { 'If-None-Match' => Digest::MD5.hexdigest(lorem_file.read) })
+    end
+
+    tests("#head_object('#{@directory.identity}', 'fog_object', { 'If-Unmodified-Since' => Time.now - 60 })").raises(Excon::Errors::PreconditionFailed) do
+      Fog::Storage[:aws].head_object(@directory.identity, 'fog_object', { 'If-Unmodified-Since' => Time.now - 60 })
+    end
+
+    Fog::Storage[:aws].delete_object(@directory.identity, 'fog_object')
 
     tests("#head_object(fognonbucket, 'fog_non_object')").raises(Excon::Errors::NotFound) do
       Fog::Storage[:aws].head_object(fognonbucket, 'fog_non_object')

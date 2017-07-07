@@ -81,7 +81,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'timestamp'    => Time
   }
 
-  @terminate_instances_format = {
+  @instance_state_change_format = {
     'instancesSet'  => [{
       'currentState' => {'code' => Integer, 'name' => String},
       'instanceId'    => String,
@@ -161,6 +161,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       'eventsSet'        => [Fog::Nullable::Hash],
     }]
   }
+
   tests('success') do
 
     @instance_id = nil
@@ -217,6 +218,38 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
 
     another_server.destroy
 
+    tests("#run_instances_with_tags").formats(@describe_instances_format) do
+
+      svr1 = Fog::Compute[:aws].servers.create(
+          :availability_zone => 'eu-west-1a',
+          :tags => {
+              "Name"  => "test::test::test",
+              "Stack" => "test",
+              "Stage" => "test",
+              "App"   => "test1",
+          },
+          :image_id => 'ami-3d7e2e54',
+          :flavor_id =>  't1.micro'
+      )
+      svr2 = Fog::Compute[:aws].servers.create(
+          :availability_zone => 'eu-west-1b',
+          :tags => {
+              "Name"  => "test::test::dev",
+              "Stack" => "test",
+              "Stage" => "test",
+              "App"   => "test2",
+          },
+          :image_id => 'ami-3d7e2e54',
+          :flavor_id =>  't1.micro'
+      )
+
+      body = Fog::Compute[:aws].describe_instances('tag:App' => ['test1', 'test2']).body
+      tests("returns 2 hosts").returns(2) { body['reservationSet'].size }
+      svr1.destroy
+      svr2.destroy
+      body
+    end
+
     tests("#get_console_output('#{@instance_id}')").formats(@get_console_output_format) do
       Fog::Compute[:aws].get_console_output(@instance_id).body
     end
@@ -246,7 +279,15 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       Fog::Compute[:aws].reboot_instances(@instance_id).body
     end
 
-    tests("#terminate_instances('#{@instance_id}')").formats(@terminate_instances_format) do
+    tests("#stop_instances('#{@instance_id}')").formats(@instance_state_change_format) do
+      Fog::Compute[:aws].stop_instances(@instance_id).body
+    end
+
+    tests("#start_instances('#{@instance_id}')").formats(@instance_state_change_format) do
+      Fog::Compute[:aws].start_instances(@instance_id).body
+    end
+
+    tests("#terminate_instances('#{@instance_id}')").formats(@instance_state_change_format) do
       Fog::Compute[:aws].terminate_instances(@instance_id).body
     end
 

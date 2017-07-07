@@ -80,16 +80,15 @@ module Fog
           @data = nil
         end
 
+        attr_reader :region
+
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
 
           @region = options[:region] || 'us-east-1'
           setup_credentials(options)
 
-          unless %w(ap-northeast-1 ap-northeast-2 ap-southeast-1 ap-southeast-2 eu-central-1 eu-west-1 eu-west-2
-                    us-east-1 us-east-2 us-west-1 us-west-2 sa-east-1 ap-south-1 ca-central-1).include?(@region)
-            raise ArgumentError, "Unknown region: #{@region.inspect}"
-          end
+          Fog::AWS.validate_region!(@region)
         end
 
         def setup_credentials(options)
@@ -145,8 +144,9 @@ module Fog
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
 
           setup_credentials(options)
-
         end
+
+        attr_reader :region
 
         def reload
           @connection.reset
@@ -155,12 +155,12 @@ module Fog
         private
 
         def setup_credentials(options={})
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
-          @aws_session_token      = options[:aws_session_token]
+          @aws_access_key_id         = options[:aws_access_key_id]
+          @aws_secret_access_key     = options[:aws_secret_access_key]
+          @aws_session_token         = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key,@region,'elasticloadbalancing')
+          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 'elasticloadbalancing')
         end
 
         def request(params)

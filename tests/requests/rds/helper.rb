@@ -138,7 +138,7 @@ class AWS
 
       SNAPSHOT = {
         'AllocatedStorage' => Integer,
-        'AvailabilityZone' => String,
+        'AvailabilityZone' => Fog::Nullable::String,
         'DBInstanceIdentifier' => String,
         'DBSnapshotIdentifier' => String,
         'EngineVersion' => String,
@@ -146,10 +146,11 @@ class AWS
         'InstanceCreateTime' => Time,
         'Iops' => Fog::Nullable::Integer,
         'MasterUsername' => String,
-        'Port' => Integer,
+        'Port' => Fog::Nullable::Integer,
         'SnapshotCreateTime' => Fog::Nullable::Time,
         'Status' => String,
-        'SnapshotType' => String
+        'SnapshotType' => String,
+        'StorageType' => String,
       }
 
       INSTANCE = {
@@ -159,6 +160,7 @@ class AWS
         'BackupRetentionPeriod'   => Integer,
         'CACertificateIdentifier' => String,
         'CharacterSetName'        => Fog::Nullable::String,
+        'DBClusterIndentifier'    => Fog::Nullable::String,
         'DbiResourceId'           => Fog::Nullable::String,
         'DBInstanceClass'         => String,
         'DBInstanceIdentifier'    => String,
@@ -311,6 +313,89 @@ class AWS
           'DBEngineVersions' => [DB_ENGINE_VERSION]
         }
       )
+
+      DB_CLUSTER = {
+        'AllocatedStorage'           => String,
+        'BackupRetentionPeriod'      => String,
+        'DBClusterIdentifier'        => String,
+        'DBClusterMembers'           => [{
+          "master"               => Fog::Nullable::Boolean,
+          "DBInstanceIdentifier" => Fog::Nullable::String,
+        }],
+        'DBClusterParameterGroup'    => String,
+        'DBSubnetGroup'              => String,
+        'Endpoint'                   => String,
+        'Engine'                     => String,
+        'EngineVersion'              => String,
+        'MasterUsername'             => String,
+        'Port'                       => String,
+        'PreferredBackupWindow'      => String,
+        'PreferredMaintenanceWindow' => String,
+        'Status'                     => String,
+        'VpcSecurityGroups'          => [{
+          "VpcSecurityGroupId" => Fog::Nullable::String,
+        }]
+      }
+
+      DESCRIBE_DB_CLUSTERS = BASIC.merge({
+        'DescribeDBClustersResult' =>  {
+          'Marker' => Fog::Nullable::String,
+          'DBClusters' => [DB_CLUSTER]
+        }
+      })
+
+      CREATE_DB_CLUSTER = BASIC.merge(
+        'CreateDBClusterResult' => {
+          'DBCluster' => DB_CLUSTER
+        }
+      )
+
+      DELETE_DB_CLUSTER = BASIC.merge(
+        'DeleteDBClusterResult' => {
+          'DBCluster' => DB_CLUSTER
+        }
+      )
+
+      DB_CLUSTER_SNAPSHOT = {
+        'AllocatedStorage'            => Fog::Nullable::Integer,
+        'ClusterCreateTime'           => Fog::Nullable::Time,
+        'DBClusterIdentifier'         => String,
+        'DBClusterSnapshotIdentifier' => String,
+        'Engine'                      => String,
+        'LicenseModel'                => String,
+        'MasterUsername'              => String,
+        'PercentProgress'             => Fog::Nullable::Integer,
+        'Port'                        => Fog::Nullable::Integer,
+        'SnapshotCreateTime'          => Fog::Nullable::Time,
+        'SnapshotType'                => String,
+        'Status'                      => String,
+        'VpcId'                       => Fog::Nullable::String
+      }
+
+      CREATE_DB_CLUSTER_SNAPSHOT = BASIC.merge(
+        'CreateDBClusterSnapshotResult' => {
+          'DBClusterSnapshot' => DB_CLUSTER_SNAPSHOT
+        }
+      )
+
+      DESCRIBE_DB_CLUSTER_SNAPSHOTS = BASIC.merge(
+        'DescribeDBClusterSnapshotsResult' => {
+          'Marker'             => Fog::Nullable::String,
+          'DBClusterSnapshots' => [DB_CLUSTER_SNAPSHOT],
+        }
+      )
+
+      DELETE_DB_CLUSTER_SNAPSHOT = BASIC.merge(
+        'DeleteDBClusterSnapshotResult' => {
+          'DBClusterSnapshot' => DB_CLUSTER_SNAPSHOT,
+        }
+      )
+
+      RESTORE_DB_INSTANCE_FROM_DB_SNAPSHOT = BASIC.merge({
+        'RestoreDBInstanceFromDBSnapshotResult' => {
+          'DBInstance' => INSTANCE
+        }
+      })
     end
   end
 end

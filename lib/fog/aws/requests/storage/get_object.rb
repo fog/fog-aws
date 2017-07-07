@@ -48,17 +48,18 @@ module Fog
             params[:headers]['If-Unmodified-Since'] = Fog::Time.at(options['If-Unmodified-Since'].to_i).to_date_header
           end
 
-          params[:region] = options[:region] if options.has_key?(:region)
-
+          idempotent = true
+          
           if block_given?
             params[:response_block] = Proc.new
+            idempotent = false
           end
 
           request(params.merge!({
             :expects  => [ 200, 206 ],
             :bucket_name => bucket_name,
             :object_name => object_name,
-            :idempotent => true,
+            :idempotent => idempotent,
             :method   => 'GET',
           }))
         end
@@ -86,12 +87,16 @@ module Fog
             if (object && !object[:delete_marker])
               if options['If-Match'] && options['If-Match'] != object['ETag']
                 response.status = 412
+                raise(Excon::Errors.status_error({:expects => 200}, response))
               elsif options['If-Modified-Since'] && options['If-Modified-Since'] >= Time.parse(object['Last-Modified'])
                 response.status = 304
+                raise(Excon::Errors.status_error({:expects => 200}, response))
               elsif options['If-None-Match'] && options['If-None-Match'] == object['ETag']
                 response.status = 304
+                raise(Excon::Errors.status_error({:expects => 200}, response))
               elsif options['If-Unmodified-Since'] && options['If-Unmodified-Since'] < Time.parse(object['Last-Modified'])
                 response.status = 412
+                raise(Excon::Errors.status_error({:expects => 200}, response))
               else
                 response.status = 200
                 for key, value in object
@@ -117,10 +122,10 @@ module Fog
                   response.body = body
                 else
                   data = StringIO.new(body)
-                  remaining = data.length
+                  remaining = total_bytes = data.length
                   while remaining > 0
                     chunk = data.read([remaining, Excon::CHUNK_SIZE].min)
-                    block.call(chunk)
+                    block.call(chunk, remaining, total_bytes)
                     remaining -= Excon::CHUNK_SIZE
                   end
                 end

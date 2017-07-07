@@ -6,7 +6,7 @@ module Fog
 
         # Delete a stack.
         #
-        # @param stack_name String] Name of the stack to create.
+        # @param stack_name [String] Name of the stack to create.
         #
         # @return [Excon::Response]
         #

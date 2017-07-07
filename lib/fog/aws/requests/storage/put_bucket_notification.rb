@@ -36,7 +36,7 @@ module Fog
                 QueueConfiguration do
                   Id    queue['Id']
                   Queue queue['Queue']
-                  Event topic['Event']
+                  Event queue['Event']
                 end
               end
               notification.fetch('CloudFunctions', []).each do |func|
@@ -54,7 +54,7 @@ module Fog
           request({
             :body     => body,
             :expects  => 200,
-            :headers  => {'Content-MD5' => Base64.encode64(Digest::MD5.digest(body)).chomp!,
+            :headers  => {'Content-MD5' => Base64.encode64(OpenSSL::Digest::MD5.digest(body)).chomp!,
               'Content-Type' => 'application/xml'},
             :bucket_name => bucket_name,
             :method   => 'PUT',

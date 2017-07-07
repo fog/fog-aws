@@ -37,19 +37,20 @@ module Fog
           end
 
           request({
-            'Action'  => 'ModifyDBInstance',
+            'Action'               => 'ModifyDBInstance',
             'DBInstanceIdentifier' => db_name,
-            'ApplyImmediately' => apply_immediately,
-            :parser   => Fog::Parsers::AWS::RDS::ModifyDBInstance.new,
+            'ApplyImmediately'     => apply_immediately,
+            :parser                => Fog::Parsers::AWS::RDS::ModifyDBInstance.new
           }.merge(options))
         end
       end
 
       class Mock
-        def modify_db_instance(db_name, apply_immediately, options={})
+        def modify_db_instance(db_name, apply_immediately, _options={})
+          options = _options.dup
           response = Excon::Response.new
-          if self.data[:servers][db_name]
-            if self.data[:servers][db_name]["DBInstanceStatus"] != "available"
+          if server = self.data[:servers][db_name]
+            if server["DBInstanceStatus"] != "available"
               raise Fog::AWS::RDS::NotFound.new("DBInstance #{db_name} not available for modification")
             else
               self.data[:modify_time] = Time.now
@@ -61,11 +62,40 @@ module Fog
               #else
               #  modified_server = server["PendingModifiedValues"].merge!(options) # it appends
               #end
+              if options["NewDBInstanceIdentifier"]
+                options["DBInstanceIdentifier"] = options.delete("NewDBInstanceIdentifier")
+                options["Endpoint"]             = {"Port" => server["Endpoint"]["Port"], "Address"=> Fog::AWS::Mock.rds_address(options["DBInstanceIdentifier"],region)}
+              end
+
+              rds_security_groups = self.data[:security_groups].values
+              ec2_security_groups = Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id][:security_groups].values
+
+              db_security_group_names = Array(options.delete("DBSecurityGroups"))
+              db_security_groups = db_security_group_names.inject([]) do |r, group_name|
+                unless rds_security_groups.find { |sg| sg["DBSecurityGroupName"] == group_name }
+                  raise Fog::AWS::RDS::Error.new("InvalidParameterValue => Invalid security group , groupId= , groupName=#{group_name}")
+                end
+                r << {"Status" => "active", "DBSecurityGroupName" => group_name }
+              end
+
+              vpc_security_groups = Array(options.delete("VpcSecurityGroups")).inject([]) do |r, group_id|
+                unless ec2_security_groups.find { |sg| sg["groupId"] == group_id }
+                  raise Fog::AWS::RDS::Error.new("InvalidParameterValue => Invalid security group , groupId=#{group_id} , groupName=")
+                end
+
+                r << {"Status" => "active", "VpcSecurityGroupId" => group_id }
+              end
+
+              options.merge!(
+                "DBSecurityGroups"  => db_security_groups,
+                "VpcSecurityGroups" => vpc_security_groups
+              )
+
               self.data[:servers][db_name]["PendingModifiedValues"].merge!(options) # it appends
               self.data[:servers][db_name]["DBInstanceStatus"] = "modifying"
               response.status = 200
               response.body = {
-                "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+                "ResponseMetadata"       => { "RequestId"  => Fog::AWS::Mock.request_id },
                 "ModifyDBInstanceResult" => { "DBInstance" => self.data[:servers][db_name] }
               }
               response

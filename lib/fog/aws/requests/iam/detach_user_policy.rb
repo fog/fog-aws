@@ -46,6 +46,7 @@ module Fog
 
           user = self.data[:users][user_name]
           user[:attached_policies].delete(policy_arn)
+          managed_policy["AttachmentCount"] -= 1
 
           Excon::Response.new.tap { |response|
             response.status = 200

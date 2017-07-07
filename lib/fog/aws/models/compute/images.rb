@@ -32,7 +32,9 @@ module Fog
         #    ramdisk_id=nil,
         #    root_device_type=nil,
         #    root_device_name=nil,
-        #    tags=nil
+        #    tags=nil,
+        #    creation_date=nil,
+        #    ena_support=nil
         #  >
         #
 

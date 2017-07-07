@@ -46,8 +46,8 @@ module Fog
           end
           data << "</Delete>"
 
-          headers['Content-Length'] = data.length
-          headers['Content-MD5'] = Base64.encode64(Digest::MD5.digest(data)).
+          headers['Content-Length'] = data.bytesize
+          headers['Content-MD5'] = Base64.encode64(OpenSSL::Digest::MD5.digest(data)).
                                    gsub("\n", '')
 
           request({

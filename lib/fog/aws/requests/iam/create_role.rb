@@ -63,7 +63,7 @@ module Fog
                   'Arn'                      => data[:roles][role_name][:arn].strip,
                   'AssumeRolePolicyDocument' => Fog::JSON.encode(data[:roles][role_name][:assume_role_policy_document]),
                   'CreateDate'               => data[:roles][role_name][:create_date],
-                  'Path'                     => path,
+                  'Path'                     => path || "/",
                   'RoleId'                   => data[:roles][role_name][:role_id].strip,
                   'RoleName'                 => role_name,
                 },

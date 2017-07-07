@@ -21,6 +21,7 @@ module Fog
         attribute :tags,                      :aliases => 'Tags'
         attribute :termination_policies,      :aliases => 'TerminationPolicies'
         attribute :vpc_zone_identifier,       :aliases => 'VPCZoneIdentifier'
+        attribute :target_group_arns,         :aliases => 'TargetGroupARNs'
 
         def initialize(attributes={})
           self.instances = []
@@ -35,6 +36,7 @@ module Fog
           self.suspended_processes = []
           self.tags = {}
           self.termination_policies = ['Default']
+          self.target_group_arns = []
           super
         end
 
@@ -44,9 +46,45 @@ module Fog
           activities = Fog::AWS::AutoScaling::Activities.new(:service => service, :filters => {'AutoScalingGroupName' => id})
         end
 
+        def attach_load_balancers(*load_balancer_names)
+          requires :id
+          service.attach_load_balancers(id, 'LoadBalancerNames' => load_balancer_names)
+          reload
+        end
+
         def configuration
           requires :launch_configuration_name
           service.configurations.get(launch_configuration_name)
+        end
+
+        def detach_load_balancers(*load_balancer_names)
+          requires :id
+          service.detach_load_balancers(id, 'LoadBalancerNames' => load_balancer_names)
+          reload
+        end
+
+        def detach_instances(*instance_ids)
+          requires :id
+          service.detach_instances(id, 'InstanceIds' => instance_ids)
+          reload
+        end
+
+        def attach_instances(*instance_ids)
+          requires :id
+          service.attach_instances(id, 'InstanceIds' => instance_ids)
+          reload
+        end
+
+        def attach_load_balancer_target_groups(*target_group_arns)
+          requires :id
+          service.attach_load_balancer_target_groups(id, 'TargetGroupARNs' => target_group_arns)
+          reload
+        end
+
+        def detach_load_balancer_target_groups(*target_group_arns)
+          requires :id
+          service.detach_load_balancer_target_groups(id, 'TargetGroupARNs' => target_group_arns)
+          reload
         end
 
         def disable_metrics_collection(metrics = {})

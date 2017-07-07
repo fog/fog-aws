@@ -10,6 +10,7 @@ module Fog
         attribute :backup_retention_period,      :aliases => 'BackupRetentionPeriod', :type => :integer
         attribute :ca_certificate_id,            :aliases => 'CACertificateIdentifier'
         attribute :character_set_name,           :aliases => 'CharacterSetName'
+        attribute :cluster_id,                   :aliases => 'DBClusterIdentifier'
         attribute :created_at,                   :aliases => 'InstanceCreateTime', :type => :time
         attribute :db_name,                      :aliases => 'DBName'
         attribute :db_parameter_groups,          :aliases => 'DBParameterGroups'
@@ -38,7 +39,12 @@ module Fog
         attribute :tde_credential_arn,           :aliases => 'TdeCredentialArn'
         attribute :vpc_security_groups,          :aliases => 'VpcSecurityGroups', :type => :array
 
-        attr_accessor :password, :parameter_group_name, :security_group_names, :port
+        attr_accessor :password, :parameter_group_name, :security_group_names, :port, :source_snapshot_id
+
+        def cluster
+          return nil unless cluster_id
+          service.clusters.get(cluster_id)
+        end
 
         def create_read_replica(replica_id, options={})
           options[:security_group_names] ||= options['DBSecurityGroups']
@@ -87,8 +93,13 @@ module Fog
 
         def promote_read_replica
           requires :id
-          service.promote_read_replica(id)
+
+          data = service.promote_read_replica(id).body["PromoteReadReplicaResult"]["DBInstance"]
+
+          merge_attributes(data)
         end
+
+        alias promote promote_read_replica
 
         def modify(immediately, options)
           options[:security_group_names] ||= options['DBSecurityGroups']
@@ -99,16 +110,27 @@ module Fog
         end
 
         def save
-          requires :engine
-          requires :allocated_storage
-          requires :master_username
-          requires :password
+          if source_snapshot_id
+            requires :id
+            data = service.restore_db_instance_from_db_snapshot(source_snapshot_id, id, attributes_to_params)
+            merge_attributes(data.body['RestoreDBInstanceFromDBSnapshotResult']['DBInstance'])
+          else
+            requires :engine
 
-          self.flavor_id ||= 'db.m1.small'
+            if engine == 'aurora'
+              requires :cluster_id
+              self.flavor_id ||= 'db.r3.large'
+            else
+              requires :master_username
+              requires :password
+              requires :allocated_storage
+              self.flavor_id ||= 'db.m1.small'
+            end
 
-          data = service.create_db_instance(id, attributes_to_params)
-          merge_attributes(data.body['CreateDBInstanceResult']['DBInstance'])
-          true
+            data = service.create_db_instance(id, attributes_to_params)
+            merge_attributes(data.body['CreateDBInstanceResult']['DBInstance'])
+            true
+          end
         end
 
         # Converts attributes to a parameter hash suitable for requests
@@ -116,27 +138,30 @@ module Fog
           options = {
             'AllocatedStorage'              => allocated_storage,
             'AutoMinorVersionUpgrade'       => auto_minor_version_upgrade,
+            'AvailabilityZone'              => availability_zone,
             'BackupRetentionPeriod'         => backup_retention_period,
+            'DBClusterIdentifier'           => cluster_id,
+            'DBInstanceClass'               => flavor_id,
+            'DBInstanceIdentifier'          => id,
             'DBName'                        => db_name,
             'DBParameterGroupName'          => parameter_group_name || attributes['DBParameterGroupName'],
             'DBSecurityGroups'              => security_group_names,
-            'DBInstanceIdentifier'          => id,
-            'AvailabilityZone'              => availability_zone,
-            'DBInstanceClass'               => flavor_id,
-            'Port'                          => port || attributes['Port'],
+            'DBSubnetGroupName'             => db_subnet_group_name,
             'Engine'                        => engine,
             'EngineVersion'                 => engine_version,
             'Iops'                          => iops,
-            'MasterUsername'                => master_username,
-            'MasterUserPassword'            => password || attributes['MasterUserPassword'],
-            'PreferredMaintenanceWindow'    => preferred_maintenance_window,
-            'PreferredBackupWindow'         => preferred_backup_window,
-            'MultiAZ'                       => multi_az,
+            'KmsKeyId'                      => kms_key_id,
             'LicenseModel'                  => license_model,
-            'DBSubnetGroupName'             => db_subnet_group_name,
+            'MasterUserPassword'            => password || attributes['MasterUserPassword'],
+            'MasterUsername'                => master_username,
+            'MultiAZ'                       => multi_az,
+            'Port'                          => port || attributes['Port'],
+            'PreferredBackupWindow'         => preferred_backup_window,
+            'PreferredMaintenanceWindow'    => preferred_maintenance_window,
             'PubliclyAccessible'            => publicly_accessible,
-            'VpcSecurityGroups'             => vpc_security_groups,
+            'StorageEncrypted'              => storage_encrypted,
             'StorageType'                   => storage_type,
+            'VpcSecurityGroups'             => vpc_security_groups,
           }
 
           options.delete_if {|key, value| value.nil?}

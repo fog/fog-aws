@@ -35,13 +35,37 @@ module Fog
             'PolicyName'      => policy_name,
             'PolicyDocument'  => Fog::JSON.encode(policy_document),
             'Path'            => path,
-            'Description'     => description,  
+            'Description'     => description,
             :parser           => Fog::Parsers::AWS::IAM::SinglePolicy.new
           }.reject {|_, value| value.nil?})
         end
       end
 
-      
+      class Mock
+        def create_policy(policy_name, policy_document, path="/", description=nil)
+          response = Excon::Response.new
+
+          arn = "arn:aws:iam:#{Fog::AWS::Mock.owner_id}:policy/#{policy_name}"
+
+          policy = {
+            "Arn"              => arn,
+            "AttachmentCount"  => 0,
+            "CreateDate"       => Time.now.utc,
+            "DefaultVersionId" => "v1",
+            "Description"      => description,
+            "IsAttachable"     => true,
+            "Path"             => path,
+            "PolicyId"         => Fog::Mock.random_hex(21),
+            "PolicyName"       => policy_name,
+            "UpdateDate"       => Time.now.utc,
+          }
+
+          self.data[:managed_policies][arn] = policy
+
+          response.body = {"RequestId" => Fog::AWS::Mock.request_id, "Policy" => policy}
+          response
+        end
+      end
     end
   end
 end

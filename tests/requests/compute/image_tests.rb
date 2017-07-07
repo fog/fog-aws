@@ -21,7 +21,9 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
       'rootDeviceType'      => String,
       'stateReason'         => {},
       'tagSet'              => {},
-      'virtualizationType'  => String
+      'virtualizationType'  => String,
+      'creationDate' => Fog::Nullable::Time,
+      'enaSupport' => Fog::Nullable::Boolean
     }],
     'requestId'     => String,
   }

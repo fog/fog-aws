@@ -42,6 +42,13 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
     'requestId' => String
   }
 
+  @describe_vpc_classic_link_dns_support_format = {
+    "vpcs" => [{
+      "vpcId"                   => String,
+      "classicLinkDnsSupported" => Fog::Boolean
+    }]
+  }
+
   tests('success') do
 
     @vpc_id = nil
@@ -126,14 +133,14 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
     end
 
     tests("describe_vpc_classic_link(:filters => {'tag-key' => 'foo'}").formats(@describe_vpcs_classic_link_format) do
-      body = Fog::Compute[:aws].describe_vpc_classic_link(:filters => {'tag-key' => 'foo'})
+      body = Fog::Compute[:aws].describe_vpc_classic_link(:filters => {'tag-key' => 'foo'}).body
       tests("returns 1 vpc").returns(1) { body['vpcSet'].size }
       body
     end
 
     tests("enable_vpc_classic_link").returns(true) do
       Fog::Compute[:aws].enable_vpc_classic_link @vpc_id
-      body = Fog::Compute[:aws].describe_vpc_classic_link(:vpc_ids => [@vpc_id])
+      body = Fog::Compute[:aws].describe_vpc_classic_link(:vpc_ids => [@vpc_id]).body
       body['vpcSet'].first['classicLinkEnabled']
     end
 
@@ -143,7 +150,7 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
     @group = Fog::Compute[:aws].security_groups.create :name => 'test-group', :description => 'vpc security group'
 
     tests("attach_classic_link_vpc") do
-      Fog::Compute[:aws].attach_classic_link_vpc(@server.id, @vpc_id, [@group])
+      Fog::Compute[:aws].attach_classic_link_vpc(@server.id, @vpc_id, [@group.group_id])
     end
 
     tests('describe_classic_link_instances').formats(@describe_classic_link_instances) do
@@ -154,7 +161,36 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
       Fog::Compute[:aws].detach_classic_link_vpc(@server.id, @vpc_id)
       Fog::Compute[:aws].describe_classic_link_instances().body['instancesSet']
     end
-    
+
+    tests("enable_vpc_classic_link_dns_support('#{@vpc_id}')").formats(AWS::Compute::Formats::BASIC) do
+      body = Fog::Compute[:aws].enable_vpc_classic_link_dns_support(@vpc_id).body
+      body
+    end
+
+    tests("#describe_vpc_classic_link_dns_support").formats(@describe_vpc_classic_link_dns_support_format) do
+      Fog::Compute[:aws].describe_vpc_classic_link_dns_support.body
+    end
+
+    tests("#describe_vpc_classic_link_dns_support(:vpc_ids => ['#{@vpc_id}'])").formats(@describe_vpc_classic_link_dns_support_format) do
+      body = Fog::Compute[:aws].describe_vpc_classic_link_dns_support(:vpc_ids => [@vpc_id]).body
+      returns(1)       { body['vpcs'].count }
+      returns(@vpc_id) { body['vpcs'].first['vpcId'] }
+      returns(true)    { body['vpcs'].first['classicLinkDnsSupported'] }
+      body
+    end
+
+    tests("disable_vpc_classic_link_dns_support('#{@vpc_id}')").formats(AWS::Compute::Formats::BASIC) do
+      Fog::Compute[:aws].disable_vpc_classic_link_dns_support(@vpc_id).body
+    end
+
+    tests("#describe_vpc_classic_link_dns_support(:vpc_ids => ['#{@vpc_id}'])").formats(@describe_vpc_classic_link_dns_support_format) do
+      body = Fog::Compute[:aws].describe_vpc_classic_link_dns_support(:vpc_ids => [@vpc_id]).body
+      returns(1)       { body['vpcs'].count }
+      returns(@vpc_id) { body['vpcs'].first['vpcId'] }
+      returns(false)   { body['vpcs'].first['classicLinkDnsSupported'] }
+      body
+    end
+
     if !Fog.mocking?
       @server.destroy
       @server.wait_for {state == 'terminated'}
@@ -162,7 +198,7 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
 
     tests("disable_vpc_classic_link").returns(false) do
       Fog::Compute[:aws].disable_vpc_classic_link @vpc_id
-      body = Fog::Compute[:aws].describe_vpc_classic_link(:vpc_ids => [@vpc_id])
+      body = Fog::Compute[:aws].describe_vpc_classic_link(:vpc_ids => [@vpc_id]).body
       body['vpcSet'].first['classicLinkEnabled']
     end
 

@@ -26,7 +26,7 @@ module Fog
             when 'DisplayName', 'ID'
               @object['Owner'][name] = value
             when 'ETag'
-              @object[name] = value.gsub('"', '')
+              @object[name] = value.gsub('"', '') if value != nil
             when 'IsTruncated'
               if value == 'true'
                 @response['IsTruncated'] = true
@@ -35,7 +35,7 @@ module Fog
               end
             when 'LastModified'
               @object['LastModified'] = Time.parse(value)
-            when 'Marker', 'Name'
+            when 'Marker', 'Name', 'NextContinuationToken'
               @response[name] = value
             when 'MaxKeys'
               @response['MaxKeys'] = value.to_i

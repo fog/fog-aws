@@ -27,7 +27,11 @@ module Fog
 
         # @note Chunk size to use for multipart uploads.
         #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
-        attr_accessor :multipart_chunk_size
+        attr_reader :multipart_chunk_size
+        def multipart_chunk_size=(mp_chunk_size)
+          raise ArgumentError.new("minimum multipart_chunk_size is 5242880") if mp_chunk_size < 5242880
+          @multipart_chunk_size = mp_chunk_size
+        end
 
         def acl
           requires :directory, :key
@@ -205,14 +209,17 @@ module Fog
           options['x-amz-storage-class'] = storage_class if storage_class
           options.merge!(encryption_headers)
 
-          if multipart_chunk_size && body.respond_to?(:read)
+          # With a single PUT operation you can upload objects up to 5 GB in size. Automatically set MP for larger objects.
+          self.multipart_chunk_size = 5242880 if !multipart_chunk_size && Fog::Storage.get_body_size(body) > 5368709120
+
+          if multipart_chunk_size && Fog::Storage.get_body_size(body) >= multipart_chunk_size && body.respond_to?(:read)
             data = multipart_save(options)
             merge_attributes(data.body)
           else
             data = service.put_object(directory.key, key, body, options)
             merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
           end
-          self.etag.gsub!('"','')
+          self.etag.gsub!('"','') if self.etag
           self.content_length = Fog::Storage.get_body_size(body)
           self.content_type ||= Fog::Storage.get_content_type(body)
           true
@@ -269,6 +276,11 @@ module Fog
             part_tags << part_upload.headers["ETag"]
           end
 
+          if part_tags.empty? #it is an error to have a multipart upload with no parts
+            part_upload = service.upload_part(directory.key, key, upload_id, 1, '', part_headers('', options))
+            part_tags << part_upload.headers["ETag"]
+          end
+
         rescue
           # Abort the upload & reraise
           service.abort_multipart_upload(directory.key, key, upload_id) if upload_id
@@ -289,7 +301,7 @@ module Fog
         end
 
         def part_headers(chunk, options)
-          md5 = Base64.encode64(Digest::MD5.digest(chunk)).strip
+          md5 = Base64.encode64(OpenSSL::Digest::MD5.digest(chunk)).strip
           encryption_keys = encryption_customer_key_headers.keys
           encryption_headers = options.select { |key| encryption_keys.include?(key) }
           { 'Content-MD5' => md5 }.merge(encryption_headers)
@@ -299,7 +311,7 @@ module Fog
           {
             'x-amz-server-side-encryption-customer-algorithm' => encryption,
             'x-amz-server-side-encryption-customer-key' => Base64.encode64(encryption_key.to_s).chomp!,
-            'x-amz-server-side-encryption-customer-key-md5' => Base64.encode64(Digest::MD5.digest(encryption_key.to_s)).chomp!
+            'x-amz-server-side-encryption-customer-key-md5' => Base64.encode64(OpenSSL::Digest::MD5.digest(encryption_key.to_s)).chomp!
           }
         end
       end

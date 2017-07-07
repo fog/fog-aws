@@ -27,7 +27,6 @@ module Fog
     autoload :CredentialFetcher, File.expand_path('../aws/credential_fetcher', __FILE__)
     autoload :Errors, File.expand_path('../aws/errors', __FILE__)
     autoload :Mock, File.expand_path('../aws/mock', __FILE__)
-    autoload :RegionMethods, File.expand_path('../aws/region_methods', __FILE__)
     autoload :SignatureV4, File.expand_path('../aws/signaturev4', __FILE__)
 
     # Services
@@ -37,6 +36,8 @@ module Fog
     autoload :CloudTrail,       File.expand_path('../aws/cloudtrail', __FILE__)
     autoload :DataPipeline,     File.expand_path('../aws/data_pipeline', __FILE__)
     autoload :DynamoDB,         File.expand_path('../aws/dynamodb', __FILE__)
+    autoload :ECS,              File.expand_path('../aws/ecs', __FILE__)
+    autoload :EFS,              File.expand_path('../aws/efs', __FILE__)
     autoload :ELB,              File.expand_path('../aws/elb', __FILE__)
     autoload :EMR,              File.expand_path('../aws/emr', __FILE__)
     autoload :ElasticBeanstalk, File.expand_path('../aws/beanstalk', __FILE__)
@@ -44,13 +45,16 @@ module Fog
     autoload :Federation,       File.expand_path('../aws/federation', __FILE__)
     autoload :Glacier,          File.expand_path('../aws/glacier', __FILE__)
     autoload :IAM,              File.expand_path('../aws/iam', __FILE__)
+    autoload :Kinesis,          File.expand_path('../aws/kinesis', __FILE__)
     autoload :KMS,              File.expand_path('../aws/kms', __FILE__)
+    autoload :Lambda,           File.expand_path('../aws/lambda', __FILE__)
     autoload :RDS,              File.expand_path('../aws/rds', __FILE__)
     autoload :Redshift,         File.expand_path('../aws/redshift', __FILE__)
     autoload :SES,              File.expand_path('../aws/ses', __FILE__)
     autoload :SNS,              File.expand_path('../aws/sns', __FILE__)
     autoload :SQS,              File.expand_path('../aws/sqs', __FILE__)
     autoload :STS,              File.expand_path('../aws/sts', __FILE__)
+    autoload :Support,          File.expand_path('../aws/support', __FILE__)
     autoload :SimpleDB,         File.expand_path('../aws/simpledb', __FILE__)
 
     service(:auto_scaling,    'AutoScaling')
@@ -64,12 +68,16 @@ module Fog
     service(:dns,             'DNS')
     service(:dynamodb,        'DynamoDB')
     service(:elasticache,     'Elasticache')
+    service(:ecs,             'ECS')
+    service(:efs,             'EFS')
     service(:elb,             'ELB')
     service(:emr,             'EMR')
     service(:federation,      'Federation')
     service(:glacier,         'Glacier')
     service(:iam,             'IAM')
+    service(:kinesis,         'Kinesis')
     service(:kms,             'KMS')
+    service(:lambda,          'Lambda')
     service(:rds,             'RDS')
     service(:redshift,        'Redshift')
     service(:ses,             'SES')
@@ -78,6 +86,7 @@ module Fog
     service(:sqs,             'SQS')
     service(:storage,         'Storage')
     service(:sts,             'STS')
+    service(:support,         'Support')
 
     def self.indexed_param(key, values)
       params = {}
@@ -99,18 +108,18 @@ module Fog
 
     def self.serialize_keys(key, value, options = {})
       case value
-        when Hash
-          value.each do | k, v |
-            options.merge!(serialize_keys("#{key}.#{k}", v))
-          end
-          return options
-        when Array
-          value.each_with_index do | it, idx |
-            options.merge!(serialize_keys("#{key}.member.#{(idx + 1)}", it))
-          end
-          return options
-        else
-          return {key => value}
+      when Hash
+        value.each do | k, v |
+          options.merge!(serialize_keys("#{key}.#{k}", v))
+        end
+        return options
+      when Array
+        value.each_with_index do | it, idx |
+          options.merge!(serialize_keys("#{key}.member.#{(idx + 1)}", it))
+        end
+        return options
+      else
+        return {key => value}
       end
     end
 
@@ -148,32 +157,37 @@ module Fog
 
       headers = headers.merge('Host' => options[:host], 'x-amz-date' => date.to_iso8601_basic)
       headers['x-amz-security-token'] = options[:aws_session_token] if options[:aws_session_token]
+      query = options[:query] || {}
 
-      body = ''
-      for key in params.keys.sort
-        unless (value = params[key]).nil?
-          body << "#{key}=#{escape(value.to_s)}&"
+      if !options[:body]
+        body = ''
+        for key in params.keys.sort
+          unless (value = params[key]).nil?
+            body << "#{key}=#{escape(value.to_s)}&"
+          end
         end
+        body.chop!
+      else
+        body = options[:body]
       end
-      body.chop!
 
-      headers['Authorization'] = options[:signer].sign({:method => options[:method], :headers => headers, :body => body, :query => {}, :path => options[:path]}, date)
+      headers['Authorization'] = options[:signer].sign({:method => options[:method], :headers => headers, :body => body, :query => query, :path => options[:path]}, date)
 
       return body, headers
     end
 
     def self.signed_params(params, options = {})
       params.merge!({
-                        'AWSAccessKeyId'    => options[:aws_access_key_id],
-                        'SignatureMethod'   => 'HmacSHA256',
-                        'SignatureVersion'  => '2',
-                        'Timestamp'         => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
-                        'Version'           => options[:version]
-                    })
+        'AWSAccessKeyId'    => options[:aws_access_key_id],
+        'SignatureMethod'   => 'HmacSHA256',
+        'SignatureVersion'  => '2',
+        'Timestamp'         => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        'Version'           => options[:version]
+      })
 
       params.merge!({
-                        'SecurityToken'     => options[:aws_session_token]
-                    }) if options[:aws_session_token]
+        'SecurityToken'     => options[:aws_session_token]
+      }) if options[:aws_session_token]
 
       body = ''
       for key in params.keys.sort
@@ -208,6 +222,21 @@ module Fog
         options.delete('GroupName')
       end
       options
+    end
+
+    def self.json_response?(response)
+      return false unless response && response.headers
+      response.get_header('Content-Type') =~ %r{application/.*json.*}i ? true : false
+    end
+
+    def self.regions
+      @regions ||= ['ap-northeast-1', 'ap-northeast-2', 'ap-southeast-1', 'ap-southeast-2', 'eu-central-1', 'ca-central-1', 'eu-west-1', 'eu-west-2', 'us-east-1', 'us-east-2', 'us-west-1', 'us-west-2', 'sa-east-1', 'cn-north-1', 'us-gov-west-1', 'ap-south-1']
+    end
+
+    def self.validate_region!(region, host=nil)
+      if (!host || host.end_with?('.amazonaws.com')) && !regions.include?(region)
+        raise ArgumentError, "Unknown region: #{region.inspect}"
+      end
     end
   end
 end

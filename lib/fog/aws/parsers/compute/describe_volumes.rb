@@ -30,7 +30,7 @@ module Fog
                 @attachment[name] = Time.parse(value)
               when 'deleteOnTermination'
                 @attachment[name] = value == 'true'
-              when 'device', 'instanceId', 'status', 'volumeId'
+              when 'device', 'instanceId', 'status', 'volumeId', 'kmsKeyId'
                 @attachment[name] = value
               when 'item'
                 @volume['attachmentSet'] << @attachment

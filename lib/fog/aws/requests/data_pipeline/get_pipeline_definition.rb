@@ -18,14 +18,17 @@ module Fog
             :body => Fog::JSON.encode(params),
             :headers => { 'X-Amz-Target' => 'DataPipeline.GetPipelineDefinition' },
           })
-
-          Fog::JSON.decode(response.body)
         end
       end
 
       class Mock
-        def get_pipeline_definition(id, objects)
-          Fog::Mock.not_implemented
+        def get_pipeline_definition(id)
+          response = Excon::Response.new
+
+          pipeline = find_pipeline(id)
+
+          response.body = self.data[:pipeline_definitions][id] || {"pipelineObjects" => []}
+          response
         end
       end
     end

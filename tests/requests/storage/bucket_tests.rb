@@ -56,6 +56,18 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       end
     end
 
+    tests('put existing bucket - default region - preserves files') do
+      Fog::Storage[:aws].put_bucket(@aws_bucket_name)
+      test_key = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'test', :key => 'test/key')
+      Fog::Storage[:aws].put_bucket(@aws_bucket_name)
+
+      tests(".body['Contents'].first['Key']").returns('test/key') do
+        Fog::Storage[:aws].get_bucket(@aws_bucket_name).body['Contents'].first['Key']
+      end
+
+      test_key.destroy
+    end
+
     tests("#get_service").formats(@service_format) do
       Fog::Storage[:aws].get_service.body
     end
@@ -262,6 +274,11 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       end
       lifecycle = {'Rules' => [{'ID' => 'test rule', 'Prefix' => '/prefix', 'Enabled' => true, 'Expiration' => {'Days' => 42}, 'Transition' => {'Days' => 6, 'StorageClass'=>'GLACIER'}}]}
       tests('transition').returns(lifecycle) do
+        Fog::Storage[:aws].put_bucket_lifecycle(@aws_bucket_name, lifecycle)
+        Fog::Storage[:aws].get_bucket_lifecycle(@aws_bucket_name).body
+      end
+      lifecycle = {'Rules' => [{'ID' => 'test rule', 'Prefix' => '/prefix', 'Enabled' => true, 'NoncurrentVersionExpiration' => {'NoncurrentDays' => 42}, 'NoncurrentVersionTransition' => {'NoncurrentDays' => 6, 'StorageClass'=>'GLACIER'}}]}
+      tests('versioned transition').returns(lifecycle) do
         Fog::Storage[:aws].put_bucket_lifecycle(@aws_bucket_name, lifecycle)
         Fog::Storage[:aws].get_bucket_lifecycle(@aws_bucket_name).body
       end

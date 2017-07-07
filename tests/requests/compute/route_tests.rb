@@ -25,13 +25,15 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
       }],
       'tagSet'         => Hash,
       'routeSet'       => [{
-        'destinationCidrBlock' => String,
-        'gatewayId'            => Fog::Nullable::String,
-        'instanceId'           => Fog::Nullable::String,
-        'instanceOwnerId'      => Fog::Nullable::String,
-        'networkInterfaceId'   => Fog::Nullable::String,
-        'state'                => String,
-        'origin'               => String
+        'destinationCidrBlock'   => String,
+        'gatewayId'              => Fog::Nullable::String,
+        'instanceId'             => Fog::Nullable::String,
+        'instanceOwnerId'        => Fog::Nullable::String,
+        'networkInterfaceId'     => Fog::Nullable::String,
+        'vpcPeeringConnectionId' => Fog::Nullable::String,
+        'natGatewayId'           => Fog::Nullable::String,
+        'state'                  => String,
+        'origin'                 => String
       }],
       'routeTableId'   => String,
       'vpcId'          => String,

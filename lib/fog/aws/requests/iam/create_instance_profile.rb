@@ -40,6 +40,26 @@ module Fog
           }.merge!(options))
         end
       end
+
+      class Mock
+        def create_instance_profile(instance_profile_name, path='/', options={})
+          response = Excon::Response.new
+
+          profile = {
+            "Arn"                 => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:instance-profile#{path}#{instance_profile_name}",
+            "CreateDate"          => Time.now.utc,
+            "InstanceProfileId"   => Fog::Mock.random_hex(21),
+            "InstanceProfileName" => instance_profile_name,
+            "Path"                => path,
+            "Roles"               => [],
+          }
+
+          self.data[:instance_profiles][instance_profile_name] = profile
+
+          response.body = {"InstanceProfile" => profile, "RequestId" => Fog::AWS::Mock.request_id}
+          response
+        end
+      end
     end
   end
 end

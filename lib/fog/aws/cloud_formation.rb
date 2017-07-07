@@ -7,14 +7,28 @@ module Fog
       recognizes :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/cloud_formation'
+      request :cancel_update_stack
+      request :continue_update_rollback
+      request :create_change_set
       request :create_stack
       request :update_stack
+      request :delete_change_set
       request :delete_stack
+      request :describe_account_limits
+      request :describe_change_set
       request :describe_stack_events
+      request :describe_stack_resource
       request :describe_stack_resources
       request :describe_stacks
+      request :estimate_template_cost
+      request :execute_change_set
+      request :get_stack_policy
       request :get_template
+      request :get_template_summary
+      request :set_stack_policy
+      request :signal_resource
       request :validate_template
+      request :list_change_sets
       request :list_stacks
       request :list_stack_resources
 

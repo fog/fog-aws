@@ -133,6 +133,20 @@ module Fog
           https_url(params, expires)
         end
 
+        def require_mime_types
+          begin
+            # Use mime/types/columnar if available, for reduced memory usage
+            require 'mime/types/columnar'
+          rescue LoadError
+            begin
+              require 'mime/types'
+            rescue LoadError
+              Fog::Logger.warning("'mime-types' missing, please install and try again.")
+              exit(1)
+            end
+          end
+        end
+
         def request_url(params)
           params = request_params(params)
           params_to_url(params)
@@ -176,6 +190,7 @@ module Fog
 
           params = request_params(params)
           params[:headers][:host] = params[:host]
+          params[:headers][:host] += ":#{params[:port]}" if params.fetch(:port, nil)
 
           signature_query_params = @signer.signature_parameters(params, now, "UNSIGNED-PAYLOAD")
           params[:query] = (params[:query] || {}).merge(signature_query_params)
@@ -203,10 +218,12 @@ module Fog
 
         def region_to_host(region=nil)
           case region.to_s
-            when DEFAULT_REGION, ''
-              's3.amazonaws.com'
-            else
-              "s3-#{region}.amazonaws.com"
+          when DEFAULT_REGION, ''
+            's3.amazonaws.com'
+          when 'cn-north-1'
+            's3.cn-north-1.amazonaws.com.cn'
+          else
+            "s3-#{region}.amazonaws.com"
           end
         end
 
@@ -404,6 +421,8 @@ module Fog
         end
 
         def initialize(options={})
+          require_mime_types
+
           @use_iam_profile = options[:use_iam_profile]
 
           @region = options[:region] || DEFAULT_REGION
@@ -471,6 +490,7 @@ module Fog
         # ==== Returns
         # * S3 object with connection to aws.
         def initialize(options={})
+          require_mime_types
 
           @use_iam_profile = options[:use_iam_profile]
           @instrumentor = options[:instrumentor]
@@ -559,6 +579,10 @@ module Fog
             params[:headers]['x-amz-date'] = date.to_iso8601_basic
             if params[:body].respond_to?(:read)
               # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
+              # We ignore the bit about setting the content-encoding to aws-chunked because
+              # this can cause s3 to serve files with a blank content encoding which causes problems with some CDNs
+              # AWS have confirmed that s3 can infer that the content-encoding is aws-chunked from the x-amz-content-sha256 header
+              #
               params[:headers]['x-amz-content-sha256'] = 'STREAMING-AWS4-HMAC-SHA256-PAYLOAD'
               params[:headers]['x-amz-decoded-content-length'] = params[:headers].delete 'Content-Length'
 
@@ -570,7 +594,7 @@ module Fog
 
               params[:headers]['Content-Encoding'] = encoding
             else
-              params[:headers]['x-amz-content-sha256'] ||= Digest::SHA256.hexdigest(params[:body] || '')
+              params[:headers]['x-amz-content-sha256'] ||= OpenSSL::Digest::SHA256.hexdigest(params[:body] || '')
             end
 
             _signer =
@@ -631,7 +655,15 @@ module Fog
           end
           Fog::Logger.warning("fog: followed redirect to #{host}, connecting to the matching region will be more performant")
           original_region, original_signer = @region, @signer
+
           new_params[:region] = @new_region
+
+          @region = @new_region || case new_params[:host]
+          when /s3.amazonaws.com/, /s3-external-1.amazonaws.com/
+            DEFAULT_REGION
+          else
+            %r{s3[\.\-]([^\.]*).amazonaws.com}.match(new_params[:host]).captures.first
+          end
 
           if @signature_version == 4
             @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @new_region, 's3')
@@ -667,6 +699,7 @@ module Fog
           #we must also reset the signature
           def rewind
             self.signature = initial_signature
+            self.finished = false
             body.rewind
           end
 
@@ -693,11 +726,11 @@ module Fog
             string_to_sign = <<-DATA
 AWS4-HMAC-SHA256-PAYLOAD
 #{date.to_iso8601_basic}
-            #{signer.credential_scope(date)}
-            #{previous_signature}
-            #{Digest::SHA256.hexdigest('')}
-            #{Digest::SHA256.hexdigest(data)}
-            DATA
+#{signer.credential_scope(date)}
+#{previous_signature}
+#{OpenSSL::Digest::SHA256.hexdigest('')}
+#{OpenSSL::Digest::SHA256.hexdigest(data)}
+DATA
             hmac = signer.derived_hmac(date)
             hmac.sign(string_to_sign.strip).unpack('H*').first
           end

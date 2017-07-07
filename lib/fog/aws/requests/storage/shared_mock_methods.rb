@@ -50,7 +50,7 @@ module Fog
           object = {
             :body             => body,
             'Content-Type'    => options['Content-Type'],
-            'ETag'            => Digest::MD5.hexdigest(body),
+            'ETag'            => OpenSSL::Digest::MD5.hexdigest(body),
             'Key'             => object_name,
             'Last-Modified'   => Fog::Time.now.to_date_header,
             'Content-Length'  => options['Content-Length'],

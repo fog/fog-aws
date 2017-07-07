@@ -98,6 +98,7 @@ class AWS
         'Status' => Fog::Nullable::String,
         'SuspendedProcesses' => [SUSPENDED_PROCESS],
         'Tags' => [TAG_DESCRIPTION],
+        'TargetGroupARNs' => Array,
         'TerminationPolicies' => [String],
         'VPCZoneIdentifier' => Fog::Nullable::String
       }

@@ -11,6 +11,8 @@ module Fog
       recognizes :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/auto_scaling'
+      request :attach_load_balancers
+      request :attach_load_balancer_target_groups
       request :create_auto_scaling_group
       request :create_launch_configuration
       request :create_or_update_tags
@@ -33,6 +35,10 @@ module Fog
       request :describe_scheduled_actions
       request :describe_tags
       request :describe_termination_policy_types
+      request :detach_load_balancers
+      request :detach_load_balancer_target_groups
+      request :detach_instances
+      request :attach_instances
       request :disable_metrics_collection
       request :enable_metrics_collection
       request :execute_policy
@@ -158,7 +164,7 @@ module Fog
                   when 'ResourceInUse'
                     Fog::AWS::AutoScaling::ResourceInUse.slurp(error, match[:message])
                   when 'ValidationError'
-                    Fog::AWS::AutoScaling::ValidationError.slurp(error, match[:message])
+                    Fog::AWS::AutoScaling::ValidationError.slurp(error, CGI.unescapeHTML(match[:message]))
                   else
                     Fog::AWS::AutoScaling::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                   end
@@ -251,10 +257,7 @@ module Fog
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
 
-          unless %w(ap-northeast-1 ap-northeast-2 ap-southeast-1 ap-southeast-2 eu-central-1 eu-west-1 eu-west-2 sa-east-1
-                    us-east-1 us-east-2 us-west-1 us-west-2 ap-south-1 ca-central-1).include?(@region)
-            raise ArgumentError, "Unknown region: #{@region.inspect}"
-          end
+          Fog::AWS.validate_region!(@region)
         end
 
         def region_data

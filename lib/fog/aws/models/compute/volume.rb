@@ -9,10 +9,11 @@ module Fog
         attribute :created_at,            :aliases => 'createTime'
         attribute :delete_on_termination, :aliases => 'deleteOnTermination'
         attribute :device
+        attribute :encrypted
+        attribute :key_id,                :aliases => ['KmsKeyId', 'kmsKeyId']
         attribute :iops
         attribute :server_id,             :aliases => 'instanceId'
         attribute :size
-        attribute :encrypted
         attribute :snapshot_id,           :aliases => 'snapshotId'
         attribute :state,                 :aliases => 'status'
         attribute :tags,                  :aliases => 'tagSet'
@@ -35,32 +36,50 @@ module Fog
           state == 'available'
         end
 
+        def modification_in_progress?
+          modifications.any? { |m| m['modificationState'] != 'completed' }
+        end
+
+        def modifications
+          requires :identity
+          service.describe_volumes_modifications('volume-id' => self.identity).body['volumeModificationSet']
+        end
+
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
-          requires :availability_zone
-          requires_one :size, :snapshot_id
+          if identity
+            update_params = {
+              'Size'       => self.size,
+              'Iops'       => self.iops,
+              'VolumeType' => self.type
+            }
 
-          if type == 'io1'
-            requires :iops
+            service.modify_volume(self.identity, update_params)
+            true
+          else
+            requires :availability_zone
+            requires_one :size, :snapshot_id
+
+            if type == 'io1'
+              requires :iops
+            end
+
+            data = service.create_volume(availability_zone, size, create_params).body
+            merge_attributes(data)
+
+            if tags = self.tags
+              # expect eventual consistency
+              Fog.wait_for { self.reload rescue nil }
+              service.create_tags(
+                self.identity,
+                tags
+              )
+            end
+
+            if @server
+              self.server = @server
+            end
+            true
           end
-
-          data = service.create_volume(availability_zone, size, 'SnapshotId' => snapshot_id, 'VolumeType' => type, 'Iops' => iops, 'Encrypted' => encrypted).body
-          new_attributes = data.reject {|key,value| key == 'requestId'}
-          merge_attributes(new_attributes)
-
-          if tags = self.tags
-            # expect eventual consistency
-            Fog.wait_for { self.reload rescue nil }
-            service.create_tags(
-              self.identity,
-              tags
-            )
-          end
-
-          if @server
-            self.server = @server
-          end
-          true
         end
 
         def server
@@ -117,6 +136,16 @@ module Fog
             service.detach_volume(id, 'Force' => force)
             reload
           end
+        end
+
+        def create_params
+          {
+            'Encrypted'  => encrypted,
+            'KmsKeyId'   => key_id,
+            'Iops'       => iops,
+            'SnapshotId' => snapshot_id,
+            'VolumeType' => type
+          }
         end
       end
     end

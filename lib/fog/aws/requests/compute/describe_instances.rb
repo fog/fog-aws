@@ -199,7 +199,7 @@ module Fog
             when 'rebooting'
               instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
             when 'stopping'
-              instance['instanceState'] = { 'code' => 0, 'name' => 'stopping' }
+              instance['instanceState'] = { 'code' => 0, 'name' => 'stopped' }
               instance['stateReason'] = { 'code' => 0 }
             when 'shutting-down'
               if Time.now - self.data[:deleted_at][instance['instanceId']] >= Fog::Mock.delay * 2
@@ -249,7 +249,7 @@ module Fog
                 'ownerId'       => instance['ownerId'],
                 'reservationId' => instance['reservationId']
               }
-              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'ebsOptimized', 'hypervisor', 'iamInstanceProfile', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'networkInterfaces', 'ownerId', 'placement', 'platform', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceName', 'rootDeviceType', 'stateReason', 'virtualizationType'].include?(key)}.merge('tagSet' => self.data[:tag_sets][instance['instanceId']])
+              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'ebsOptimized', 'hypervisor', 'iamInstanceProfile', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'networkInterfaces', 'ownerId', 'placement', 'platform', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceName', 'rootDeviceType', 'spotInstanceRequestId', 'stateReason', 'subnetId', 'virtualizationType'].include?(key)}.merge('tagSet' => self.data[:tag_sets][instance['instanceId']])
             end
           end
 

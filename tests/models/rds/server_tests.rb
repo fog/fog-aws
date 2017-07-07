@@ -2,8 +2,15 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
   model_tests(Fog::AWS[:rds].servers, rds_default_server_params) do
     # We'll need this later; create it early to avoid waiting
     @instance_with_final_snapshot = Fog::AWS[:rds].servers.create(rds_default_server_params.merge(:id => uniq_id("fog-snapshot-test"), :backup_retention_period => 1))
+    @instance_with_encrypted_storage = Fog::AWS[:rds].servers.create(rds_default_server_params.merge(:storage_encrypted => true))
 
     @instance.wait_for(20*60) { ready? }
+    @instance_with_encrypted_storage.wait_for(20*60) { ready? }
+    @final_snapshot_id = uniq_id('fog-test-snapshot')
+
+    tests("#storage_encrypted") do
+      returns(true) { @instance_with_encrypted_storage.storage_encrypted }
+    end
 
     test('#read_replica_identifiers is []') do
       returns([]) { @instance.read_replica_identifiers }
@@ -81,8 +88,9 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
     @instance.wait_for { state == 'rebooting' }
     @instance.wait_for { ready? }
 
-    tests('#create_read_replica').succeeds do
+    replica = nil
 
+    tests('#create_read_replica').succeeds do
       replica = @instance_with_final_snapshot.create_read_replica(uniq_id('fog-replica'))
       @instance_with_final_snapshot.reload
       returns([replica.id]) { @instance_with_final_snapshot.read_replica_identifiers }
@@ -92,17 +100,26 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
 
       # FinalDBSnapshotIdentifier can not be specified when deleting a replica instance
       raises(Fog::AWS::RDS::Error) { replica.destroy("foobar") }
-
-      replica.destroy
     end
 
+    tests('#promote_read_replica').succeeds do
+      replica.promote.wait_for { state != "modifying" }
+
+      replica.read_replica_source == nil
+    end
+
+    tests('#promote_read_replica', 'master').raises(Fog::AWS::RDS::Error) {
+      @instance_with_final_snapshot.promote
+    }
+
+    replica && replica.destroy
+
     test("Destroying with a final snapshot") do
-      final_snapshot_id = uniq_id('fog-test-snapshot')
 
       @instance_with_final_snapshot.wait_for { ready? }
-      @instance_with_final_snapshot.destroy(final_snapshot_id)
+      @instance_with_final_snapshot.destroy(@final_snapshot_id)
       returns(true, "Final snapshot created") do
-        @final_snapshot = Fog::AWS[:rds].snapshots.get(final_snapshot_id)
+        @final_snapshot = Fog::AWS[:rds].snapshots.get(@final_snapshot_id)
         !@final_snapshot.nil?
       end
 

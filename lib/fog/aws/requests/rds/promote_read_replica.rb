@@ -25,34 +25,43 @@ module Fog
           params['BackupRetentionPeriod'] = backup_retention_period if backup_retention_period
           params['PreferredBackupWindow'] = preferred_backup_window if preferred_backup_window
           request({
-            'Action'  => 'PromoteReadReplica',
+            'Action'               => 'PromoteReadReplica',
             'DBInstanceIdentifier' => identifier,
-            :parser   => Fog::Parsers::AWS::RDS::PromoteReadReplica.new
+            :parser                => Fog::Parsers::AWS::RDS::PromoteReadReplica.new
           }.merge(params))
         end
       end
 
       class Mock
         def promote_read_replica(identifier, backup_retention_period = nil, preferred_backup_window = nil)
-          if self.data[:servers][identifier]
-            data = {
-              'BackupRetentionPeriod' => backup_retention_period || 1,
-              'PreferredBackupWindow' => preferred_backup_window || '08:00-08:30',
-              'DBInstanceIdentifier' => identifier,
-            }
+          server = self.data[:servers][identifier]
+          server || raise(Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found"))
 
-            db_instance = self.data[:servers][identifier].merge(data)
-
-            response = Excon::Response.new
-            response.body = {
-              "ResponseMetadata"         => { "RequestId"  => Fog::AWS::Mock.request_id },
-              "PromoteReadReplicaResult" => { "DBInstance" => db_instance }
-            }
-            response.status = 200
-            response
-          else
-            raise Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found")
+          if server["ReadReplicaSourceDBInstanceIdentifier"].nil?
+            raise(Fog::AWS::RDS::Error.new("InvalidDBInstanceState => DB Instance is not a read replica."))
           end
+
+          self.data[:modify_time] = Time.now
+
+          data = {
+            'BackupRetentionPeriod' => backup_retention_period || 1,
+            'PreferredBackupWindow' => preferred_backup_window || '08:00-08:30',
+            'DBInstanceIdentifier'  => identifier,
+            'DBInstanceStatus'      => "modifying",
+            'PendingModifiedValues' => {
+              'ReadReplicaSourceDBInstanceIdentifier' => nil,
+            }
+          }
+
+          server.merge!(data)
+
+          response = Excon::Response.new
+          response.body = {
+            "ResponseMetadata"         => { "RequestId"  => Fog::AWS::Mock.request_id },
+            "PromoteReadReplicaResult" => { "DBInstance" => server }
+          }
+          response.status = 200
+          response
         end
       end
     end

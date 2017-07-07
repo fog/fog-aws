@@ -1,11 +1,12 @@
 Shindo.tests('AWS | credentials', ['aws']) do
   old_mock_value = Excon.defaults[:mock]
+  fog_was_mocked = Fog.mocking?
   Excon.stubs.clear
-
+  Fog.unmock!
   begin
     Excon.defaults[:mock] = true
-    default_credentials = Fog::Compute::AWS.fetch_credentials({})
     Excon.stub({:method => :get, :path => "/latest/meta-data/iam/security-credentials/"}, {:status => 200, :body => 'arole'})
+    Excon.stub({:method => :get, :path => "/latest/meta-data/placement/availability-zone/"}, {:status => 200, :body => 'us-west-1a'})
 
     expires_at = Time.at(Time.now.to_i + 500)
     credentials = {
@@ -21,8 +22,22 @@ Shindo.tests('AWS | credentials', ['aws']) do
       returns({:aws_access_key_id => 'dummykey',
                 :aws_secret_access_key => 'dummysecret',
                 :aws_session_token => 'dummytoken',
+                :region => "us-west-1",
                 :aws_credentials_expire_at => expires_at}) { Fog::Compute::AWS.fetch_credentials(:use_iam_profile => true) }
     end
+
+    ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"] = '/v1/credentials?id=task_id'
+    Excon.stub({:method => :get, :path => '/v1/credentials?id=task_id'}, {:status => 200, :body => Fog::JSON.encode(credentials)})
+
+    tests("#fetch_credentials") do
+      returns({:aws_access_key_id => 'dummykey',
+                :aws_secret_access_key => 'dummysecret',
+                :aws_session_token => 'dummytoken',
+                :region => "us-west-1",
+                :aws_credentials_expire_at => expires_at}) { Fog::Compute::AWS.fetch_credentials(:use_iam_profile => true) }
+    end
+
+    ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"] = nil
 
     compute = Fog::Compute::AWS.new(:use_iam_profile => true)
 
@@ -43,13 +58,29 @@ Shindo.tests('AWS | credentials', ['aws']) do
     end
     Fog::Time.now = Time.now
 
+    default_credentials = Fog::Compute::AWS.fetch_credentials({})
     tests("#fetch_credentials when the url 404s") do
       Excon.stub({:method => :get, :path => "/latest/meta-data/iam/security-credentials/"}, {:status => 404, :body => 'not bound'})
+      Excon.stub({:method => :get, :path => "/latest/meta-data/placement/availability-zone/"}, {:status => 400, :body => 'not found'})
       returns(default_credentials) {Fog::Compute::AWS.fetch_credentials(:use_iam_profile => true)}
     end
 
+    mocked_credentials = {
+      :aws_access_key_id => "access-key-id",
+      :aws_secret_access_key => "secret-access-key",
+      :aws_session_token => "session-token",
+      :aws_credentials_expire_at => Time.at(Time.now.to_i + 500).xmlschema
+    }
+    tests("#fetch_credentials when mocking") do
+      Fog.mock!
+      Fog::Compute::AWS::Mock.data[:iam_role_based_creds] = mocked_credentials
+      returns(mocked_credentials) {Fog::Compute::AWS.fetch_credentials(:use_iam_profile => true)}
+    end
+
   ensure
+    ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"] = nil
     Excon.stubs.clear
     Excon.defaults[:mock] = old_mock_value
+    Fog.mock! if fog_was_mocked
   end
 end

@@ -9,6 +9,11 @@ module Fog
         attribute :dhcp_options_id,  :aliases => 'dhcpOptionsId'
         attribute :tags,             :aliases => 'tagSet'
         attribute :tenancy,          :aliases => 'instanceTenancy'
+        attribute :is_default,       :aliases => 'isDefault'
+
+        def subnets
+          service.subnets(:filters => {'vpcId' => self.identity}).all
+        end
 
         def initialize(attributes={})
           self.dhcp_options_id ||= "default"
@@ -19,6 +24,11 @@ module Fog
         def ready?
           requires :state
           state == 'available'
+        end
+
+        def is_default?
+          require :is_default
+          is_default
         end
 
         # Removes an existing vpc
@@ -35,6 +45,40 @@ module Fog
 
           service.delete_vpc(id)
           true
+        end
+
+        def classic_link_enabled?
+          requires :identity
+          service.describe_vpc_classic_link(:vpc_ids => [self.identity]).body['vpcSet'].first['classicLinkEnabled']
+        rescue
+          nil
+        end
+
+        def enable_classic_link
+          requires :identity
+          service.enable_vpc_classic_link(self.identity).body['return']
+        end
+
+        def disable_classic_link
+          requires :identity
+          service.disable_vpc_classic_link(self.identity).body['return']
+        end
+
+        def classic_link_dns_enabled?
+          requires :identity
+          service.describe_vpc_classic_link_dns_support(:vpc_ids => [self.identity]).body['vpcs'].first['classicLinkDnsSupported']
+        rescue
+          nil
+        end
+
+        def enable_classic_link_dns
+          requires :identity
+          service.enable_vpc_classic_link_dns_support(self.identity).body['return']
+        end
+
+        def disable_classic_link_dns
+          requires :identity
+          service.disable_vpc_classic_link_dns_support(self.identity).body['return']
         end
 
         # Create a vpc

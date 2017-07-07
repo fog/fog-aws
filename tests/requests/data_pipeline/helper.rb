@@ -35,9 +35,13 @@ class AWS
         "marker" => Fog::Nullable::String,
         "pipelineObjects" => [
           {
-            'id' => String,
-            'name' => String,
-            'fields' => FIELDS,
+            "fields" => [
+              {
+                'id' => String,
+                'name' => String,
+                'fields' => FIELDS,
+              }
+            ]
           }
         ]
       }
@@ -65,7 +69,9 @@ class AWS
             "name" => String,
             "fields" => FIELDS,
           }
-        ]
+        ],
+        "parameterObjects" => Fog::Nullable::Array,
+        "parameterValues" => Fog::Nullable::Array,
       }
     end
   end

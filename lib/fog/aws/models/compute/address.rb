@@ -24,6 +24,16 @@ module Fog
           true
         end
 
+        def change_scope
+          if self.domain == 'standard'
+            service.move_address_to_vpc(self.identity)
+            wait_for { self.domain == 'vpc' }
+          else
+            service.restore_address_to_classic(self.identity)
+            wait_for { self.domain == 'standard' }
+          end
+        end
+
         def server=(new_server)
           if new_server
             associate(new_server)
@@ -63,7 +73,11 @@ module Fog
           @server = nil
           self.server_id = nil
           if persisted?
-            service.disassociate_address(public_ip)
+            if association_id
+              service.disassociate_address(nil, association_id)
+            else
+              service.disassociate_address(public_ip)
+            end
           end
         end
       end

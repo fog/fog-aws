@@ -32,6 +32,8 @@ module Fog
               case name
               when 'vpcId', 'state', 'cidrBlock', 'dhcpOptionsId', 'instanceTenancy'
                 @vpc[name] = value
+              when 'isDefault'
+                @vpc['isDefault'] = value == 'true'
               when 'item'
                 @response['vpcSet'] << @vpc
                 @vpc = { 'tagSet' => {} }
