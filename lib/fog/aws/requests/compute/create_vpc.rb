@@ -60,6 +60,10 @@ module Fog
               default_route = self.route_tables.new(:vpc_id => vpc_id)
               default_route.save
 
+              # Create a default security group
+              default_sg = self.security_groups.new(vpc_id: vpc_id, name: 'default', description: 'default VPC security group')
+              default_sg.save
+
               # You are not able to push a main route in the normal AWS, so we are re-implementing some of the
               # associate_route_table here in order to accomplish this.
               route_table = self.data[:route_tables].find { |routetable| routetable["routeTableId"].eql? default_route.id }
