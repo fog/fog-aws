@@ -54,7 +54,7 @@ module Fog
             'Name'            => lb_name,
             'Scheme'          => options[:scheme] || 'internet-facing',
             'IpAddressType'   => options[:ip_address_type] || 'ipv4',
-            :parser           => Fog::Parsers::AWS::ELBV2::DescribeLoadBalancers.new
+            :parser           => Fog::Parsers::AWS::ELBV2::CreateLoadBalancer.new
           }.merge(params))
         end
       end
