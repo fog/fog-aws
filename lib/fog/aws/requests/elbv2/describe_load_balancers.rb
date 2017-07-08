@@ -67,6 +67,7 @@ module Fog
           end
 
           load_balancers = load_balancers.map { |lb|
+            raise Fog::AWS::ELB::NotFound unless lb
             h = lb.dup
             h.delete(:attributes)
             h
