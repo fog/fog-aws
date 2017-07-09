@@ -47,7 +47,7 @@ module Fog
               @arns = []
 
             when 'HttpCode'
-              @target_group['Matcher'] = { 'HttpCode' => value } if @in_matcher
+              @target_group['Matcher.HttpCode'] = value if @in_matcher
 
             when 'TargetGroups'
               @response[self.class::RESULT_KEY]['TargetGroups'] = @target_groups
