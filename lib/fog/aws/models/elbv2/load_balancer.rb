@@ -15,7 +15,7 @@ module Fog
         attribute :type,                      :aliases => 'Type'
         attribute :vpc_id,                    :aliases => 'VpcId'
 
-        attribute :subnet_ids,                :aliases => 'Subnets'
+        attribute :subnet_ids
         attribute :tags_set
 
         IP_ADDRESS_TYPES = ['ipv4', 'dualstack']
