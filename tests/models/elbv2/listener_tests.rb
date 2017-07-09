@@ -49,8 +49,8 @@ Shindo.tests('AWS::elbv2 | listener', ['aws', 'elbv2', 'models']) do
     end
 
     tests('#update') do
-      @listener.update(:target_group_id => @tg2.id)
-      tests('default actions').returns({'Type' => 'forward', 'TargetGroupArn' => @tg2.id}) do
+      @listener.update(:target_group_ids => [@tg2.id])
+      tests('default actions').returns([{'Type' => 'forward', 'TargetGroupArn' => @tg2.id}]) do
         @listener.reload.default_actions
       end
     end

@@ -10,7 +10,7 @@ module Fog
         attribute :protocol,            :aliases => 'Protocol' # HTTP, HTTPS
         attribute :ssl_policy,          :aliases => 'SslPolicy'
 
-        attribute :target_group_id
+        attribute :target_group_ids
 
         def rules
           Fog::AWS::ELBV2::Rules.new(
@@ -31,8 +31,8 @@ module Fog
           add_rule([target_group_id], conditions, :priority => priority)
         end
 
-        def add_rule(target_group_ids, conditions, priority = 1)
-          actions = target_group_ids.map { |tg_id| { 'Type' => 'forward', 'TargetGroupArn' => tg_id } }
+        def add_rule(tg_ids, conditions, priority = 1)
+          actions = tg_ids.map { |tg_id| { 'Type' => 'forward', 'TargetGroupArn' => tg_id } }
           rules.create(
             :actions => actions,
             :conditions => conditions,
@@ -60,8 +60,8 @@ module Fog
         protected
 
           def build_default_actions
-            if target_group_id
-              { 'Type' => 'forward', 'TargetGroupArn' => target_group_id }
+            if target_group_ids && target_group_ids.any?
+              target_group_ids.map{ |tg_id| { 'Type' => 'forward', 'TargetGroupArn' => tg_id } }
             else
               default_actions
             end
