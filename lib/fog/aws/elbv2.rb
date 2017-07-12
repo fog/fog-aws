@@ -11,6 +11,11 @@ module Fog
       class LimitExceeded               < Fog::Errors::Error; end
       class InvalidConfigurationRequest < Fog::Errors::Error; end
       class ValidationError             < Fog::Errors::Error; end
+      class ListenerNotFound            < Fog::Errors::Error; end
+      class LoadBalancerNotFound        < Fog::Errors::Error; end
+      class RuleNotFound                < Fog::Errors::Error; end
+      class SSLPolicyNotFound           < Fog::Errors::Error; end
+      class TargetGroupNotFound         < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name

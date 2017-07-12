@@ -63,6 +63,7 @@ module Fog
           } if options[:names]
 
           target_groups = target_groups.map { |target_group|
+            raise Fog::AWS::ELBV2::TargetGroupNotFound unless target_group
             d = target_group.dup
             d.delete(:attributes)
             d.delete(:targets)

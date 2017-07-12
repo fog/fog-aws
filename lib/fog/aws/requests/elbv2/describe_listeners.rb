@@ -50,6 +50,8 @@ module Fog
           listener_ids = [*listener_ids]
           listeners = self.data[:load_balancer_listeners]
           listeners = listener_ids.any? ? listeners.values_at(*listener_ids) : listeners.values
+          raise Fog::AWS::ELBV2::ListenerNotFound if listener_ids && listeners.none?
+
           listeners = listeners.select { |listener|
             listener['LoadBalancerArn'] == lb_id
           } if lb_id

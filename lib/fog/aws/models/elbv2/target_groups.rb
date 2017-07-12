@@ -29,7 +29,7 @@ module Fog
             resp = service.describe_target_groups(nil, identity)
             new(resp.body['DescribeTargetGroupsResult']['TargetGroups'].first)
           end
-        rescue Fog::AWS::ELB::NotFound
+        rescue Fog::AWS::ELBV2::TargetGroupNotFound
           nil
         end
       end

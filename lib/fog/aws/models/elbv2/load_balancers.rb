@@ -29,7 +29,7 @@ module Fog
             resp = service.describe_load_balancers(identity)
             new(resp.body['DescribeLoadBalancersResult']['LoadBalancers'].first)
           end
-        rescue Fog::AWS::ELB::NotFound
+        rescue Fog::AWS::ELBV2::NotFound
           nil
         end
       end

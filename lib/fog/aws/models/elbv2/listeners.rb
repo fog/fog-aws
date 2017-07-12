@@ -23,16 +23,12 @@ module Fog
           load(result) # data is an array of attribute hashes
         end
 
-        def new(attributes={})
-          super(attributes.merge(:load_balancer_id => load_balancer.id))
-        end
-
         def get(identity)
           if identity
             resp = service.describe_listeners(nil, identity)
             new(resp.body['DescribeListenersResult']['Listeners'].first)
           end
-        rescue Fog::AWS::ELB::NotFound
+        rescue Fog::AWS::ELBV2::ListenerNotFound
           nil
         end
       end
