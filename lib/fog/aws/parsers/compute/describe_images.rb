@@ -75,7 +75,7 @@ module Fog
                   @image[name] = false
                 end
               when 'creationDate'
-                @image[name] = Time.parse(value)
+                @image[name] = Time.parse(value) if value && !value.empty?
               when 'item'
                 @response['imagesSet'] << @image
                 @image = { 'blockDeviceMapping' => [], 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
