@@ -33,12 +33,12 @@ module Fog
         def set_subnets(lb_id, subnet_ids)
           load_balancer = self.data[:load_balancers][lb_id]
           raise Fog::AWS::ELBV2::NotFound unless load_balancer
+          subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select {|e| subnet_ids.include?(e["subnetId"]) }
 
-          availability_zones = {
-            "#{@region}a" => subnet_ids[0],
-            "#{@region}b" => subnet_ids[1]
-          }
-
+          availability_zones = subnets.each_with_object({}) do |sub, acc|
+            acc[sub['availabilityZone']] = sub['subnetId']
+          end
+          
           load_balancer.merge!('AvailabilityZones' => availability_zones)
 
           response = Excon::Response.new

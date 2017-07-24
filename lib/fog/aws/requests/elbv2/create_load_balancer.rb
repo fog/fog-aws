@@ -72,18 +72,17 @@ module Fog
           dns_name = Fog::AWS::ELBV2::Mock.dns_name(lb_name, @region)
           lb_id = Fog::AWS::Mock.arn('elasticloadbalancing', self.data[:owner_id], "loadbalancer/app/#{lb_name}", @region)
 
+          subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select {|e| subnet_ids.include?(e["subnetId"]) }
+
           region = Fog::Compute::AWS::Mock.data.keys.select do |region|
-            subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets]
             subnets.any? { |subnet| subnet_ids.include?(subnet['subnetId']) }
           end.first
           region ||= 'us-east-1'
 
-          availability_zones = {
-            "#{region}a" => subnet_ids[0],
-            "#{region}b" => subnet_ids[1]
-          }
-
-          subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select {|e| subnet_ids.include?(e["subnetId"]) }
+          availability_zones = subnets.each_with_object({}) do |sub, acc|
+            acc[sub['availabilityZone']] = sub['subnetId']
+          end
+          
           vpc_id = subnets.first["vpcId"]
 
           default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
