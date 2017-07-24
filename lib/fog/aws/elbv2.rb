@@ -16,6 +16,9 @@ module Fog
       class RuleNotFound                < Fog::Errors::Error; end
       class SSLPolicyNotFound           < Fog::Errors::Error; end
       class TargetGroupNotFound         < Fog::Errors::Error; end
+      class InvalidTarget               < Fog::Errors::Error; end
+      class TooManyTargets              < Fog::Errors::Error; end
+      class TooManyRegistrationsForTargetId < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
