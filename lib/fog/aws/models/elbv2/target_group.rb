@@ -27,6 +27,11 @@ module Fog
           service.deregister_targets(id, targets)
         end
 
+        def targets(target_ids = [])
+          requires :id
+          service.describe_target_health(id, target_ids)
+        end
+
         def tg_attributes
           requires :id
           service.describe_target_group_attributes(id).body['DescribeTargetGroupAttributesResult']['Attributes']
