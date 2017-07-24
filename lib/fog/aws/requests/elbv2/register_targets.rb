@@ -18,8 +18,8 @@ module Fog
         #       * 'RequestId'<~String> - Id of request
         def register_targets(tg_id, target_ids = [], target_ids_by_port = {})
           params = {}
-          targets = target_ids.map { |v| { 'Id' => v } }
-          targets += target_ids_by_port.map { |k, v| { 'Id' => k, 'Port' => v } }
+          targets = target_ids.map { |id| { 'Id' => id } }
+          targets += target_ids_by_port.map { |id, port| { 'Id' => id, 'Port' => port } }
           params.merge!(Fog::AWS.serialize_keys('Targets', targets))
           request({
             'Action' => 'RegisterTargets',
