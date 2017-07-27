@@ -10,6 +10,8 @@ module Fog
         attribute :tags,             :aliases => 'tagSet'
         attribute :tenancy,          :aliases => 'instanceTenancy'
         attribute :is_default,       :aliases => 'isDefault'
+        attribute :ipv_6_cidr_block_association_set,  :aliases => 'ipv6CidrBlockAssociationSet'
+        attribute :amazon_provided_ipv_6_cidr_block,  :aliases => 'amazonProvidedIpv6CidrBlock'
 
         def subnets
           service.subnets(:filters => {'vpcId' => self.identity}).all
@@ -18,6 +20,7 @@ module Fog
         def initialize(attributes={})
           self.dhcp_options_id ||= "default"
           self.tenancy ||= "default"
+          self.amazon_provided_ipv_6_cidr_block ||=false
           super
         end
 
@@ -94,8 +97,7 @@ module Fog
 
         def save
           requires :cidr_block
-
-          data = service.create_vpc(cidr_block).body['vpcSet'].first
+          data = service.create_vpc(cidr_block, { 'AmazonProvidedIpv6CidrBlock' => amazon_provided_ipv_6_cidr_block }).body['vpcSet'].first
           new_attributes = data.reject {|key,value| key == 'requestId'}
           new_attributes = data.reject {|key,value| key == 'requestId' || key == 'tagSet' }
           merge_attributes(new_attributes)
