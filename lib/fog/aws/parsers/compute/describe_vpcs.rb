@@ -4,7 +4,7 @@ module Fog
       module AWS
         class DescribeVpcs < Fog::Parsers::Base
           def reset
-            @vpc = { 'tagSet' => {} }
+            @vpc = { 'tagSet' => {}, 'ipv6CidrBlockAssociationSet' => {} }
             @response = { 'vpcSet' => [] }
             @tag = {}
           end
@@ -14,6 +14,8 @@ module Fog
             case name
             when 'tagSet'
               @in_tag_set = true
+            when 'ipv6CidrBlockAssociationSet'
+              @in_ipv6_set = true
             end
           end
 
@@ -28,15 +30,25 @@ module Fog
                 when 'tagSet'
                   @in_tag_set = false
               end
+            elsif @in_ipv6_set
+              case name
+              when 'ipv6CidrBlock', 'associationId'
+                @vpc['ipv6CidrBlockAssociationSet'][name] = value
+              when 'ipv6CidrBlockState'
+                @vpc['ipv6CidrBlockAssociationSet'][name] = {'State' => value.squish}
+              when 'ipv6CidrBlockAssociationSet'
+                @vpc['amazonProvidedIpv6CidrBlock'] = !value.blank?
+                @in_ipv6_set = false
+              end
             else
               case name
               when 'vpcId', 'state', 'cidrBlock', 'dhcpOptionsId', 'instanceTenancy'
                 @vpc[name] = value
               when 'isDefault'
-                @vpc['isDefault'] = value == 'true'
+                @vpc['isDefault'] = value == 'true'        
               when 'item'
                 @response['vpcSet'] << @vpc
-                @vpc = { 'tagSet' => {} }
+                @vpc = { 'tagSet' => {}, 'ipv6CidrBlockAssociationSet' => {} }
               when 'requestId'
                 @response[name] = value
               end
