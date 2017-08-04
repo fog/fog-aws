@@ -24,6 +24,7 @@ module Fog
         attribute :encryption,          :aliases => 'x-amz-server-side-encryption'
         attribute :encryption_key,      :aliases => 'x-amz-server-side-encryption-customer-key'
         attribute :version,             :aliases => 'x-amz-version-id'
+        attribute :kms_key_id,          :aliases => 'x-amz-server-side-encryption-aws-kms-key-id'
 
         # @note Chunk size to use for multipart uploads.
         #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
@@ -294,7 +295,7 @@ module Fog
           if encryption && encryption_key
             encryption_customer_key_headers
           elsif encryption
-            { 'x-amz-server-side-encryption' => encryption }
+            { 'x-amz-server-side-encryption' => encryption, 'x-amz-server-side-encryption-aws-kms-key-id' => kms_key_id }.reject {|_, value| value.nil?}
           else
             {}
           end
