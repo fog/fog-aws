@@ -2,6 +2,7 @@ module Fog
   module AWS
     class ELBV2
       class Real
+        require 'fog/aws/parsers/elbv2/empty'
         # Deletes the specified rule.
         #
         # ==== Parameters

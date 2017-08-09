@@ -2,6 +2,7 @@ module Fog
   module AWS
     class ELBV2
       class Real
+        require 'fog/aws/parsers/elbv2/empty'
         # Removes the specified tags from the specified resource.
         # http://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_RemoveTags.html
         #

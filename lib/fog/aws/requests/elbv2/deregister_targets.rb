@@ -2,6 +2,7 @@ module Fog
   module AWS
     class ELBV2
       class Real
+        require 'fog/aws/parsers/elbv2/empty'
         # Deregisters the specified targets from the specified target group. After the targets are deregistered, they no longer receive traffic from the load balancer.
         #
         # ==== Parameters

@@ -2,6 +2,7 @@ module Fog
   module AWS
     class ELBV2
       class Real
+        require 'fog/aws/parsers/elbv2/empty'
         # Registers the specified targets with the specified target group.
         # By default, the load balancer routes requests to registered targets using the protocol and port number for the target group. Alternatively, you can override the port for a target when you register it.
         # The target must be in the virtual private cloud (VPC) that you specified for the target group. If the target is an EC2 instance, it must be in the running state when you register it.

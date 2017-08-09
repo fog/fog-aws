@@ -2,6 +2,7 @@ module Fog
   module AWS
     class ELBV2
       class Real
+        require 'fog/aws/parsers/elbv2/empty'
         # Delete an existing Elastic Load Balancer listener
         #
         # ==== Parameters

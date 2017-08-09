@@ -2,6 +2,7 @@ module Fog
   module AWS
     class ELBV2
       class Real
+        require 'fog/aws/parsers/elbv2/empty'
         # Adds the specified tags to the specified resource. You can tag your Application Load Balancers and your target groups.
         # http://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_AddTags.html
         #
