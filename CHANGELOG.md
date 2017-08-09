@@ -2,7 +2,25 @@
 
 ## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
 
-[Full Changelog](https://github.com/fog/fog-aws/compare/v1.3.0...HEAD)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v1.4.0...HEAD)
+
+**Closed issues:**
+
+- retrieval of ipv6 vpc  [\#379](https://github.com/fog/fog-aws/issues/379)
+- Timeout when trying to bootstrap or ssh spot request instances [\#372](https://github.com/fog/fog-aws/issues/372)
+- Why default VPC does not require Elastic IP to connect in internet [\#338](https://github.com/fog/fog-aws/issues/338)
+- Chunked images response causing Nokogiri::XML::SyntaxError [\#273](https://github.com/fog/fog-aws/issues/273)
+
+**Merged pull requests:**
+
+- Allow specifying kms key id to use [\#382](https://github.com/fog/fog-aws/pull/382) ([fcheung](https://github.com/fcheung))
+- added support to retrieve and create vpc with ipv6 cidr block [\#381](https://github.com/fog/fog-aws/pull/381) ([chanakyacool](https://github.com/chanakyacool))
+- Add MaxResults filter to describe reserved instances offerings [\#376](https://github.com/fog/fog-aws/pull/376) ([KevinLoiseau](https://github.com/KevinLoiseau))
+- Fix Fog::Compute::AWS::Images\#all [\#375](https://github.com/fog/fog-aws/pull/375) ([eddiej](https://github.com/eddiej))
+- Fix AWS credential mocking [\#374](https://github.com/fog/fog-aws/pull/374) ([v-yarotsky](https://github.com/v-yarotsky))
+
+## [v1.4.0](https://github.com/fog/fog-aws/tree/v1.4.0) (2017-06-14)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v1.3.0...v1.4.0)
 
 **Closed issues:**
 
@@ -197,7 +215,7 @@
 **Merged pull requests:**
 
 - Parse EbsOptimized parameter in launch configuration description [\#259](https://github.com/fog/fog-aws/pull/259) ([djudd](https://github.com/djudd))
-- Allow case-insensitive record comparison [\#258](https://github.com/fog/fog-aws/pull/258) ([mpick92](https://github.com/mpick92))
+- Allow case-insensitive record comparison [\#258](https://github.com/fog/fog-aws/pull/258) ([matthewpick](https://github.com/matthewpick))
 - Fix for empty ETag values [\#257](https://github.com/fog/fog-aws/pull/257) ([baryshev](https://github.com/baryshev))
 - do not make requests if mocked. [\#252](https://github.com/fog/fog-aws/pull/252) ([shaiguitar](https://github.com/shaiguitar))
 - Parse CloudWatch alarm actions as arrays instead of strings [\#245](https://github.com/fog/fog-aws/pull/245) ([eherot](https://github.com/eherot))
