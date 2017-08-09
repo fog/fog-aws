@@ -18,7 +18,7 @@ module Fog
         def delete_target_group(tg_id)
           request({
             'Action'          => 'DeleteTargetGroup',
-            'TargetGroupArn'  => tg_arn,
+            'TargetGroupArn'  => tg_id,
             :parser           => Fog::Parsers::AWS::ELBV2::Empty.new
           })
         end
