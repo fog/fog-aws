@@ -32,6 +32,7 @@ module Fog
         #         * 'SslPolicy'<~String> - The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
         #     * 'NextMarker'<~String> - Marker to specify for next page
         def describe_listeners(lb_id = nil, listener_ids = [], options = {})
+          listener_ids = Array(listener_ids)
           params = {}
           params['Marker'] = options[:marker] if options[:marker]
           params['PageSize'] = options[:page_size] if options[:page_size]
