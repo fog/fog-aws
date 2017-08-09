@@ -38,7 +38,7 @@ module Fog
           params['PageSize'] = options[:page_size] if options[:page_size]
 
           params['LoadBalancerArn'] = lb_id if lb_id
-          params.merge!(Fog::AWS.serialize_keys('ListenersArns', listener_ids)) if listener_ids.any?
+          params.merge!(Fog::AWS.serialize_keys('ListenerArns', listener_ids)) if listener_ids.any?
           request({
             'Action' => 'DescribeListeners',
             :parser => Fog::Parsers::AWS::ELBV2::DescribeListeners.new
