@@ -54,7 +54,7 @@ module Fog
         #         * 'VpcId'<~String> - The identifier of the virtual private cloud (VPC).
         def modify_target_group(tg_id, options)
           params = {}
-          params.merge!('Matcher.HttpCode', options[:matcher]) if options[:matcher]
+          params.merge!('Matcher.HttpCode' => options[:matcher]) if options[:matcher]
           Both::TARGET_GROUP_OPTIONS_MAPPING.each_pair do |key, target_group_key|
             params[target_group_key] = options[key] if options.has_key?(key)
           end
