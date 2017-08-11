@@ -60,7 +60,7 @@ module Fog
           end
           request({
             'Action' => 'ModifyTargetGroup',
-            'TargetGroupArn' => tg_arn,
+            'TargetGroupArn' => tg_id,
             :parser => Fog::Parsers::AWS::ELBV2::ModifyTargetGroup.new
           }.merge(params))
         end
