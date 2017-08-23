@@ -13,6 +13,7 @@
 
 **Merged pull requests:**
 
+- Update changelog for 1.4.0 [\#383](https://github.com/fog/fog-aws/pull/383) ([greysteil](https://github.com/greysteil))
 - Allow specifying kms key id to use [\#382](https://github.com/fog/fog-aws/pull/382) ([fcheung](https://github.com/fcheung))
 - added support to retrieve and create vpc with ipv6 cidr block [\#381](https://github.com/fog/fog-aws/pull/381) ([chanakyacool](https://github.com/chanakyacool))
 - Add MaxResults filter to describe reserved instances offerings [\#376](https://github.com/fog/fog-aws/pull/376) ([KevinLoiseau](https://github.com/KevinLoiseau))
@@ -305,7 +306,7 @@
 - Allow region to be set for STS [\#189](https://github.com/fog/fog-aws/pull/189) ([fcheung](https://github.com/fcheung))
 - add cn support for s3 [\#187](https://github.com/fog/fog-aws/pull/187) ([ming-relax](https://github.com/ming-relax))
 - mock instance stop and start properly [\#184](https://github.com/fog/fog-aws/pull/184) ([ehowe](https://github.com/ehowe))
-- Disable idempotent option when block is passed to get\_object [\#183](https://github.com/fog/fog-aws/pull/183) ([wangteji](https://github.com/wangteji))
+- Disable idempotent option when block is passed to get\_object [\#183](https://github.com/fog/fog-aws/pull/183) ([ghost](https://github.com/ghost))
 - Yield arguments to Mock\#get\_object block more similar to Excon [\#182](https://github.com/fog/fog-aws/pull/182) ([tdg5](https://github.com/tdg5))
 - add IAM role paging [\#178](https://github.com/fog/fog-aws/pull/178) ([lanej](https://github.com/lanej))
 - properly mock rds name update [\#170](https://github.com/fog/fog-aws/pull/170) ([ehowe](https://github.com/ehowe))
