@@ -10,8 +10,11 @@ module Fog
         attribute :tags,             :aliases => 'tagSet'
         attribute :tenancy,          :aliases => 'instanceTenancy'
         attribute :is_default,       :aliases => 'isDefault'
-        attribute :ipv_6_cidr_block_association_set,  :aliases => 'ipv6CidrBlockAssociationSet'
-        attribute :amazon_provided_ipv_6_cidr_block,  :aliases => 'amazonProvidedIpv6CidrBlock'
+
+        attribute :cidr_block_association_set, :aliases => 'cidrBlockAssociationSet'
+
+        attribute :ipv_6_cidr_block_association_set, :aliases => 'ipv6CidrBlockAssociationSet'
+        attribute :amazon_provided_ipv_6_cidr_block, :aliases => 'amazonProvidedIpv6CidrBlock'
 
         def subnets
           service.subnets(:filters => {'vpcId' => self.identity}).all
