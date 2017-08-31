@@ -11,6 +11,7 @@ module Fog
         attribute :tenancy,          :aliases => 'instanceTenancy'
         attribute :is_default,       :aliases => 'isDefault'
         attribute :ipv_6_cidr_block_association_set,  :aliases => 'ipv6CidrBlockAssociationSet'
+        attribute :cidrBlockAssociationSet,  :aliases => 'cidrBlockAssociationSet'
         attribute :amazon_provided_ipv_6_cidr_block,  :aliases => 'amazonProvidedIpv6CidrBlock'
 
         def subnets
