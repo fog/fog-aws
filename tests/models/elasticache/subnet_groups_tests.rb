@@ -14,7 +14,6 @@ Shindo.tests('AWS::Elasticache | subnet group', ['aws', 'elasticache']) do
   @subnets = (1..3).map do
     result = Fog::Compute[:aws].create_subnet(@vpc.id, "10.#{vpc_range}.#{subnet_range}.0/24",
                                               'AvailabilityZone' => subnet_az)
-    puts result
     subnet = result.body['subnet']
     subnet_az = subnet_az.succ
     subnet_range *= 2

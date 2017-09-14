@@ -57,10 +57,7 @@ Shindo.tests('AWS::IAM | versioned managed policy requests', ['aws']) do
     }
 
     tests("#create_policy('fog_policy')").formats(create_policy_format) do
-      body = Fog::AWS[:iam].create_policy('fog_policy', @policy, '/fog/').body
-      puts body.inspect
-      @policy_arn = body['Policy']['Arn']
-      body
+      Fog::AWS[:iam].create_policy('fog_policy', @policy, '/fog/').body['Policy']['Arn']
     end
 
     tests("#list_policies('fog_policy')").formats(list_policies_format) do
@@ -72,10 +69,7 @@ Shindo.tests('AWS::IAM | versioned managed policy requests', ['aws']) do
     end
 
     tests("#create_versioned_policy('fog_policy')").formats(create_versioned_policy_format) do
-      body = Fog::AWS[:iam].create_versioned_policy(@policy_arn, @policy_v2, true).body
-      puts body.inspect
-      @policy_version_document = body['PolicyVersion']['Document']
-      body
+      Fog::AWS[:iam].create_versioned_policy(@policy_arn, @policy_v2, true).body['PolicyVersion']['Document']
     end
 
     tests("#list_policy_versions('fog_policy')").formats(list_policy_versions_format) do
@@ -95,10 +89,7 @@ Shindo.tests('AWS::IAM | versioned managed policy requests', ['aws']) do
     end
 
     tests("#delete_versioned_policy('fog_policy')").formats(AWS::IAM::Formats::BASIC) do
-      body = Fog::AWS[:iam].delete_policy(@policy_arn, 'v2').body
-      puts body.inspect
-      @policy_version_document = body['PolicyVersion']['Document']
-      body
+      Fog::AWS[:iam].delete_policy(@policy_arn, 'v2').body['PolicyVersion']['Document']
     end
 
     tests("#delete_policy('fog_policy')").formats(AWS::IAM::Formats::BASIC) do
