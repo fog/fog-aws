@@ -27,6 +27,7 @@ module Fog
     autoload :CredentialFetcher, File.expand_path('../aws/credential_fetcher', __FILE__)
     autoload :Errors, File.expand_path('../aws/errors', __FILE__)
     autoload :Mock, File.expand_path('../aws/mock', __FILE__)
+    autoload :ServiceMapper, File.expand_path('../aws/service_mapper', __FILE__)
     autoload :SignatureV4, File.expand_path('../aws/signaturev4', __FILE__)
 
     # Services
