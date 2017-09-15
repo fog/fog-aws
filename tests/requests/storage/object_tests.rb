@@ -156,7 +156,6 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
 
     tests("#head_object_url('#{@directory.identity}', 'fog_object', expiration timestamp)").returns(true) do
       object_url = Fog::Storage[:aws].head_object_url(@directory.identity, 'fog_object', (Time.now + 60))
-      puts object_url
       (object_url =~ /https:\/\/#{Regexp.quote(@directory.identity)}\.s3\.amazonaws\.com\/fog_object/) != nil
     end
 

@@ -43,7 +43,6 @@ Shindo.tests('AWS::IAM | managed policy requests', ['aws']) do
 
     tests("#create_policy('fog_policy')").formats(create_policy_format) do
       body = Fog::AWS[:iam].create_policy('fog_policy', @policy, '/fog/').body
-      puts body.inspect
       @policy_arn = body['Policy']['Arn']
       body
     end

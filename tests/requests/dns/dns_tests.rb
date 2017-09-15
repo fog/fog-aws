@@ -188,10 +188,6 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       change_batch << resource_record_set
       options = { :comment => 'add ALIAS record to domain'}
 
-      puts "Hosted Zone ID (ELB): #{hosted_zone_id}"
-      puts "DNS Name (ELB): #{dns_name}"
-      puts "Zone ID for Route 53: #{@zone_id}"
-
       response = @r53_connection.change_resource_record_sets(@zone_id, change_batch, options)
 
       Fog.wait_for { @r53_connection.get_change(response.body["Id"]).body["Status"] != "PENDING" }
