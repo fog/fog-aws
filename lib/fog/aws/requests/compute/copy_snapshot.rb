@@ -9,6 +9,11 @@ module Fog
         # ==== Parameters
         # * source_snapshot_id<~String> - Id of snapshot
         # * source_region<~String>      - Region to move it from
+        # * options<~Hash>:
+        #   * 'Description'<~String>    - A description for the EBS snapshot
+        #   * 'Encrypted'<~Boolean>     - Specifies whether the destination snapshot should be encrypted
+        #   * 'KmsKeyId'<~String>       - The full ARN of the AWS Key Management Service (AWS KMS) CMK
+        #                                 to use when creating the snapshot copy.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -17,14 +22,22 @@ module Fog
         #     * 'snapshotId'<~String> - id of snapshot
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CopySnapshot.html]
-        def copy_snapshot(source_snapshot_id, source_region, description = nil)
-          request(
-            'Action'          => 'CopySnapshot',
-            'SourceSnapshotId'=> source_snapshot_id,
-            'SourceRegion'    => source_region,
-            'Description'     => description,
-            :parser       => Fog::Parsers::Compute::AWS::CopySnapshot.new
-          )
+        def copy_snapshot(source_snapshot_id, source_region, options = {})
+          # For backward compatibility. In previous versions third param was a description
+          if options.is_a?(String)
+            Fog::Logger.warning("copy_snapshot with description as a string in third param is deprecated, use hash instead: copy_snapshot('source-id', 'source-region', { 'Description' => 'some description' })")
+            options = { 'Description' => options }
+          end
+          params              = {
+            'Action'           => 'CopySnapshot',
+            'SourceSnapshotId' => source_snapshot_id,
+            'SourceRegion'     => source_region,
+            'Description'      => options['Description'],
+            :parser            => Fog::Parsers::Compute::AWS::CopySnapshot.new
+          }
+          params['Encrypted'] = true if options['Encrypted']
+          params['KmsKeyId']  = options['KmsKeyId'] if options['Encrypted'] && options['KmsKeyId']
+          request(params)
         end
       end
 
@@ -35,7 +48,7 @@ module Fog
         # Fog::AWS[:compute].copy_snapshot("snap-1db0a957", 'us-east-1')
         #
 
-        def copy_snapshot(source_snapshot_id, source_region, description = nil)
+        def copy_snapshot(source_snapshot_id, source_region, options = {})
           response = Excon::Response.new
           response.status = 200
           snapshot_id = Fog::AWS::Mock.snapshot_id
