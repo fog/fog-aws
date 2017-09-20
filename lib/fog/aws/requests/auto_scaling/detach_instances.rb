@@ -13,9 +13,7 @@ module Fog
         #
         #   * AutoScalingGroupName<~String> - The name of the Auto Scaling group``
         #   * 'InstanceIds'<~Array> - The list of Auto Scaling instances to detach.
-        #
-        # * options<~Hash>:
-        # 'shouldDecrementDesiredCapacity'<~Boolean> - decrement the asg capacity or not (it will boot another if an instance id detached)
+        #   * ShouldDecrementDesiredCapacity<~Boolean> - decrement the asg capacity or not (it will boot another if an instance id detached)
         #
         # ==== See Also
         #
@@ -23,6 +21,7 @@ module Fog
 
         ExpectedOptions[:asg_name] = %w[AutoScalingGroupName]
         ExpectedOptions[:instance_ids] = %w[InstanceIds]
+        ExpectedOptions[:should_decrement_desired_capacity] = %w[ShouldDecrementDesiredCapacity]
 
         def detach_instances(auto_scaling_group_name, options = {})
 
@@ -46,7 +45,7 @@ module Fog
 
       class Mock
         def detach_instances(auto_scaling_group_name, options = {})
-          unexpected_options = options.keys - ExpectedOptions[:asg_name] - ExpectedOptions[:instance_ids]
+          unexpected_options = options.keys - ExpectedOptions[:asg_name] - ExpectedOptions[:instance_ids] - ExpectedOptions[:should_decrement_desired_capacity]
 
           unless unexpected_options.empty?
             raise Fog::AWS::AutoScaling::ValidationError.new("Options #{unexpected_options.join(',')} should not be included in request")
