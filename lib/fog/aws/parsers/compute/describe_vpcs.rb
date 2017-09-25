@@ -47,8 +47,10 @@ module Fog
               when 'isDefault'
                 @vpc['isDefault'] = value == 'true'        
               when 'item'
-                @response['vpcSet'] << @vpc
-                @vpc = { 'tagSet' => {}, 'ipv6CidrBlockAssociationSet' => {} }
+                if value =~ /^(true|false)/
+                  @response['vpcSet'] << @vpc
+                  @vpc = { 'tagSet' => {}, 'ipv6CidrBlockAssociationSet' => {} }
+                end
               when 'requestId'
                 @response[name] = value
               end
