@@ -4,9 +4,11 @@ module Fog
       module AWS
         class DescribeVpcs < Fog::Parsers::Base
           def reset
-            @vpc = { 'tagSet' => {}, 'ipv6CidrBlockAssociationSet' => {} }
+            @vpc = { 'tagSet' => {}, 'ipv6CidrBlockAssociationSet' => [], 'cidrBlockAssociationSet' => [] }
             @response = { 'vpcSet' => [] }
             @tag = {}
+            @ipv6_cidr = {}
+            @ipv4_cidr = {}
           end
 
           def start_element(name, attrs = [])
@@ -16,6 +18,8 @@ module Fog
               @in_tag_set = true
             when 'ipv6CidrBlockAssociationSet'
               @in_ipv6_set = true
+            when 'cidrBlockAssociationSet'
+              @in_ipv4_set = true              
             end
           end
 
@@ -24,7 +28,6 @@ module Fog
               case name
                 when 'item'
                   @vpc['tagSet'][@tag['key']] = @tag['value']
-                  @tag = {}
                 when 'key', 'value'
                   @tag[name] = value
                 when 'tagSet'
@@ -32,14 +35,26 @@ module Fog
               end
             elsif @in_ipv6_set
               case name
-              when 'ipv6CidrBlock', 'associationId'
-                @vpc['ipv6CidrBlockAssociationSet'][name] = value
-              when 'ipv6CidrBlockState'
-                @vpc['ipv6CidrBlockAssociationSet'][name] = {'State' => value.squish}
-              when 'ipv6CidrBlockAssociationSet'
-                @vpc['amazonProvidedIpv6CidrBlock'] = !value.blank?
-                @in_ipv6_set = false
+                when 'item'
+                  @vpc['ipv6CidrBlockAssociationSet'].push(@ipv6_cidr)
+                when 'ipv6CidrBlock', 'associationId'
+                  @ipv6_cidr[name] = value
+                when 'ipv6CidrBlockState'
+                  @ipv6_cidr[name] = value.squish
+                when 'ipv6CidrBlockAssociationSet'
+                  @in_ipv6_set = false
               end
+            elsif @in_ipv4_set
+              case name
+                when 'item'
+                  @vpc['cidrBlockAssociationSet'].push(@ipv4_cidr)
+                when 'cidrBlock', 'associationId'
+                  @ipv4_cidr[name] = value
+                when 'cidrBlockState'
+                  @ipv4_cidr[name] = value.squish
+                when 'cidrBlockAssociationSet'
+                  @in_ipv4_set = false
+              end              
             else
               case name
               when 'vpcId', 'state', 'cidrBlock', 'dhcpOptionsId', 'instanceTenancy'
@@ -48,7 +63,7 @@ module Fog
                 @vpc['isDefault'] = value == 'true'        
               when 'item'
                 @response['vpcSet'] << @vpc
-                @vpc = { 'tagSet' => {}, 'ipv6CidrBlockAssociationSet' => {} }
+                @vpc = { 'tagSet' => {}, 'ipv6CidrBlockAssociationSet' => [], 'cidrBlockAssociationSet' => [] }
               when 'requestId'
                 @response[name] = value
               end
