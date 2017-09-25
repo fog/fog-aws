@@ -47,6 +47,8 @@ notifications:
     on_success: always
     on_failure: always
     use_notice: false
+before_install:
+  - gem update bundler
 env:
   global:
     secure: LlDKdKSRo3sEjQ55XesbOXhKZ3RrOtqoD1ZL8Wx39K3iVzeEV3Kc8HjDfEvo7R4pOc3BMTNJcputklVEPN0FkWGN7Py+OEtbHj3IZl0MX+KEWNk0gU+4+sgPrL1eXUQyMUSkCrBsKg08rPel4KMYUOXbtnLyUU9PDbBwm4LJYOc=
