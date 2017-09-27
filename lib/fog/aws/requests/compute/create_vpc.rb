@@ -61,7 +61,7 @@ module Fog
               default_route.save
 
               # Create a default security group
-              default_sg = self.security_groups.new(vpc_id: vpc_id, name: 'default', description: 'default VPC security group')
+              default_sg = self.security_groups.new(:vpc_id => vpc_id, :name => 'default', :description => 'default VPC security group')
               default_sg.save
 
               # You are not able to push a main route in the normal AWS, so we are re-implementing some of the

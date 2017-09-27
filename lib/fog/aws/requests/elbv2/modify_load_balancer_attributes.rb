@@ -24,7 +24,7 @@ module Fog
         #         * 'deletion_protection.enabled'<~Boolean> - Indicates whether deletion protection is enabled.
         #         * 'idle_timeout.timeout_seconds'<~Integer> - The idle timeout value, in seconds. The valid range is 1-3600. The default is 60 seconds.
         def modify_load_balancer_attributes(lb_id, attributes)
-          attributes = Fog::AWS.serialize_keys 'Attributes', attributes.map{ |property, value| { Key: property, Value: value } }
+          attributes = Fog::AWS.serialize_keys 'Attributes', attributes.map{ |property, value| { :Key => property, :Value => value } }
           request(attributes.merge(
             'Action'           => 'ModifyLoadBalancerAttributes',
             'LoadBalancerArn'  => lb_id,
