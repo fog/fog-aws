@@ -11,8 +11,11 @@ module Fog
           def end_element(name)
             case name
             when 'member'
-              # One subnet per availability zone, at least two subnets
-              @availability_zones[@zone_name] = @subnet_id
+              if @availability_zones[@zone_name].nil?
+                @availability_zones[@zone_name] = [@subnet_id]
+              else
+                @availability_zones[@zone_name] << @subnet_id
+              end
             when 'SubnetId'
               @subnet_id = value
             when 'ZoneName'

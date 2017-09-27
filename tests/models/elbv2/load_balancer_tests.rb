@@ -75,8 +75,8 @@ Shindo.tests('AWS::elbv2 | load_balancer', ['aws', 'elbv2', 'models']) do
     @load_balancer2.security_group_ids
   end
 
-  tests("#set_subnets").returns(['subnet-333', 'subnet-444']) do
-    @load_balancer2.set_subnets(['subnet-333', 'subnet-444'])
+  tests("#set_subnets").returns([@subnet1.subnet_id, @subnet2.subnet_id]) do
+    @load_balancer2.set_subnets([@subnet1.subnet_id, @subnet2.subnet_id])
     @load_balancer2.reload.subnet_ids
   end
 

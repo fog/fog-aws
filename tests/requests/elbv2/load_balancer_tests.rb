@@ -14,16 +14,16 @@ Shindo.tests('AWS::elbv2 | application_load_balancer_tests', ['aws', 'elbv2']) d
 
   ELBV2 = Fog::AWS[:elbv2]
 
-  tests('#describe_account_limits').formats(AWS::ELBV2::Formats::DESCRIBE_ACCOUNT_LIMITS) do
+  tests('#describe_account_limits').data_matches_schema(AWS::ELBV2::Formats::DESCRIBE_ACCOUNT_LIMITS) do
     ELBV2.describe_account_limits.body
   end
 
-  tests('#describe_ssl_policies').formats(AWS::ELBV2::Formats::DESCRIBE_SSL_POLICIES) do
+  tests('#describe_ssl_policies').data_matches_schema(AWS::ELBV2::Formats::DESCRIBE_SSL_POLICIES) do
     ELBV2.describe_ssl_policies.body
   end
 
   tests('target groups') do
-    tests('create target group').formats(AWS::ELBV2::Formats::CREATE_TARGET_GROUP) do
+    tests('create target group').data_matches_schema(AWS::ELBV2::Formats::CREATE_TARGET_GROUP) do
       ELBV2.create_target_group('test-tg-1', 3000, @vpc_id).body
     end
 
@@ -37,7 +37,7 @@ Shindo.tests('AWS::elbv2 | application_load_balancer_tests', ['aws', 'elbv2']) d
       end
     end
 
-    tests('create target group with healthcheck options').formats(AWS::ELBV2::Formats::CREATE_TARGET_GROUP) do
+    tests('create target group with healthcheck options').data_matches_schema(AWS::ELBV2::Formats::CREATE_TARGET_GROUP) do
       ELBV2.create_target_group('test-tg-2', 3000, @vpc_id,
         :matcher => '200-299',
         :healthy_threshold_count => 6,
@@ -55,15 +55,15 @@ Shindo.tests('AWS::elbv2 | application_load_balancer_tests', ['aws', 'elbv2']) d
       @target_group_id = resp.body['CreateTargetGroupResult']['TargetGroups'].first['TargetGroupArn']
       @instance_id = Fog::Compute[:aws].servers.create.id
 
-      tests('#describe_target_groups').formats(AWS::ELBV2::Formats::DESCRIBE_TARGET_GROUPS) do
+      tests('#describe_target_groups').data_matches_schema(AWS::ELBV2::Formats::DESCRIBE_TARGET_GROUPS) do
         ELBV2.describe_target_groups.body
       end
 
-      tests('#describe_target_group_attributes').formats(AWS::ELBV2::Formats::DESCRIBE_TARGET_GROUP_ATTRIBUTES) do
+      tests('#describe_target_group_attributes').data_matches_schema(AWS::ELBV2::Formats::DESCRIBE_TARGET_GROUP_ATTRIBUTES) do
         ELBV2.describe_target_group_attributes(@target_group_id).body
       end
 
-      tests('#describe_target_health').formats(AWS::ELBV2::Formats::DESCRIBE_TARGET_HEALTH) do
+      tests('#describe_target_health').data_matches_schema(AWS::ELBV2::Formats::DESCRIBE_TARGET_HEALTH) do
         ELBV2.register_targets(@target_group_id, @instance_id)
         ELBV2.describe_target_health(@target_group_id).body
       end
@@ -81,7 +81,7 @@ Shindo.tests('AWS::elbv2 | application_load_balancer_tests', ['aws', 'elbv2']) d
 
   tests('load balancers') do
 
-    tests('create load balancer').formats(AWS::ELBV2::Formats::CREATE_LOAD_BALANCER) do
+    tests('create load balancer').data_matches_schema(AWS::ELBV2::Formats::CREATE_LOAD_BALANCER) do
       ELBV2.create_load_balancer("my-test-#{SecureRandom.urlsafe_base64[0..5]}",
         :subnet_ids => [@subnet1.subnet_id, @subnet2.subnet_id],
         :security_group_ids => [@security_group.group_id],
@@ -95,13 +95,17 @@ Shindo.tests('AWS::elbv2 | application_load_balancer_tests', ['aws', 'elbv2']) d
         :security_group_ids => [@security_group.group_id],
         tags: {'hello' => 'world'}
       )
+      tg = ELBV2.target_groups.create(:name => 'test-tg-1', :port => 3000, :vpc_id => @vpc_id)
+      @tg_id = tg.id
       @load_balancer_id = resp.body['CreateLoadBalancerResult']['LoadBalancers'].first['LoadBalancerArn']
 
-      tests('#describe_load_balancers').formats(AWS::ELBV2::Formats::DESCRIBE_LOAD_BALANCERS) do
+      tests('#describe_load_balancers').data_matches_schema(AWS::ELBV2::Formats::DESCRIBE_LOAD_BALANCERS) do
         ELBV2.describe_load_balancers.body
       end
 
       tests('listeners') do
+        resp = ELBV2.create_listener(@load_balancer_id, 3000, [{'Type' => 'forward', 'TargetGroupArn' => @tg_id}])
+        @listener_id = resp.body['CreateListenerResult']['Listeners'].first['ListenerArn']
         tests('#create_listener') do
         end
 
@@ -120,11 +124,11 @@ Shindo.tests('AWS::elbv2 | application_load_balancer_tests', ['aws', 'elbv2']) d
         tests('#delete_rule') do
         end
 
-        tests('#describe_listeners').formats(AWS::ELBV2::Formats::DESCRIBE_LISTENERS) do
+        tests('#describe_listeners').data_matches_schema(AWS::ELBV2::Formats::DESCRIBE_LISTENERS) do
           ELBV2.describe_listeners(@load_balancer_id).body
         end
 
-        tests('#describe_listeners').formats(AWS::ELBV2::Formats::DESCRIBE_LISTENERS) do
+        tests('#describe_listeners').data_matches_schema(AWS::ELBV2::Formats::DESCRIBE_LISTENERS) do
           ELBV2.describe_listeners(@load_balancer_id, [@listener_id]).body
         end
 
@@ -135,7 +139,7 @@ Shindo.tests('AWS::elbv2 | application_load_balancer_tests', ['aws', 'elbv2']) d
         end
       end
 
-      tests('#describe_load_balancer_attributes').formats(AWS::ELBV2::Formats::DESCRIBE_LOAD_BALANCER_ATTRIBUTES) do
+      tests('#describe_load_balancer_attributes').data_matches_schema(AWS::ELBV2::Formats::DESCRIBE_LOAD_BALANCER_ATTRIBUTES) do
         ELBV2.describe_load_balancer_attributes(@load_balancer_id).body
       end
 

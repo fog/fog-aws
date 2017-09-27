@@ -79,7 +79,7 @@ module Fog
           listener = {
             'LoadBalancerArn' => lb_id,
             'ListenerArn' => listener_id,
-            'Port' => port,
+            'Port' => port.to_s,
             'Protocol' => protocol,
             'SslPolicy' => ssl_policy,
             'Certificates' => certificates,

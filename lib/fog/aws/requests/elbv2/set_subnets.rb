@@ -36,7 +36,11 @@ module Fog
           subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select {|e| subnet_ids.include?(e["subnetId"]) }
 
           availability_zones = subnets.each_with_object({}) do |sub, acc|
-            acc[sub['availabilityZone']] = sub['subnetId']
+            if acc[sub['availabilityZone']].nil?
+              acc[sub['availabilityZone']] = [sub['subnetId']]
+            else
+              acc[sub['availabilityZone']] << sub['subnetId']
+            end
           end
           
           load_balancer.merge!('AvailabilityZones' => availability_zones)

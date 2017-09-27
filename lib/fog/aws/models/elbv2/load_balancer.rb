@@ -123,7 +123,7 @@ module Fog
           requires :id
           resp = service.set_subnets(id, subnet_ids)
           merge_attributes(:availability_zones => resp.body['SetSubnetsResult']['AvailabilityZones'])
-          merge_attributes(:subnet_ids => self.availability_zones.values)
+          merge_attributes(:subnet_ids => self.availability_zones.values.flatten)
         end
 
         def listeners
@@ -136,6 +136,7 @@ module Fog
 
         def create_listener(port, default_target_group_id, protocol = 'HTTP', ssl_policy = nil, certificate_id = nil)
           listeners.create(
+            :load_balancer_id => identity,
             :port => port,
             :default_actions => [ {'TargetGroupArn' => default_target_group_id, 'Type' => 'forward'} ],
             :procotol => protocol,

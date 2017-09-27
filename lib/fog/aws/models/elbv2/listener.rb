@@ -36,7 +36,7 @@ module Fog
           rules.create(
             :actions => actions,
             :conditions => conditions,
-            :priority => priority,
+            :priority => priority
           )
         end
 
