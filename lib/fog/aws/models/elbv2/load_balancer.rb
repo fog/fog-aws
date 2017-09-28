@@ -18,8 +18,8 @@ module Fog
         attribute :subnet_ids
         attribute :tags_set
 
-        IP_ADDRESS_TYPES = ['ipv4', 'dualstack']
-        SCHEMES = ['internet-facing', 'internal']
+        IP_ADDRESS_TYPES     = ['ipv4', 'dualstack']
+        SCHEMES              = ['internet-facing', 'internal']
         LOAD_BALANCER_STATES = ['active', 'provisioning', 'failed']
 
         def state_code
@@ -138,10 +138,10 @@ module Fog
           listeners.create(
             :load_balancer_id => identity,
             :port => port,
-            :default_actions => [ {'TargetGroupArn' => default_target_group_id, 'Type' => 'forward'} ],
+            :default_actions => [{'TargetGroupArn' => default_target_group_id, 'Type' => 'forward'}],
             :procotol => protocol,
             :ssl_policy => ssl_policy,
-            :certificates => certificate_id ? [ {'CertificateArn' => certificate_id} ] : []
+            :certificates => certificate_id ? [{'CertificateArn' => certificate_id}] : []
           )
         end
 

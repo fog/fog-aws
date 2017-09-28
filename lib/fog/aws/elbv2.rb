@@ -5,19 +5,21 @@ module Fog
 
       API_VERSION = '2015-12-01'
 
-      class IdentifierTaken             < Fog::Errors::Error; end
-      class ResourceInUse               < Fog::Errors::Error; end
-      class InvalidTargetException      < Fog::Errors::Error; end
-      class LimitExceeded               < Fog::Errors::Error; end
-      class InvalidConfigurationRequest < Fog::Errors::Error; end
-      class ValidationError             < Fog::Errors::Error; end
-      class ListenerNotFound            < Fog::Errors::Error; end
-      class LoadBalancerNotFound        < Fog::Errors::Error; end
-      class RuleNotFound                < Fog::Errors::Error; end
-      class SSLPolicyNotFound           < Fog::Errors::Error; end
-      class TargetGroupNotFound         < Fog::Errors::Error; end
-      class InvalidTarget               < Fog::Errors::Error; end
-      class TooManyTargets              < Fog::Errors::Error; end
+      class IdentifierTaken                 < Fog::Errors::Error; end
+      class ResourceInUse                   < Fog::Errors::Error; end
+      class InvalidTargetException          < Fog::Errors::Error; end
+      class LimitExceeded                   < Fog::Errors::Error; end
+      class InvalidConfigurationRequest     < Fog::Errors::Error; end
+      class ValidationError                 < Fog::Errors::Error; end
+      class ListenerNotFound                < Fog::Errors::Error; end
+      class LoadBalancerNotFound            < Fog::Errors::Error; end
+      class RuleNotFound                    < Fog::Errors::Error; end
+      class PriorityInUse                   < Fog::Errors::Error; end
+      class NotPermitted                    < Fog::Errors::Error; end
+      class SSLPolicyNotFound               < Fog::Errors::Error; end
+      class TargetGroupNotFound             < Fog::Errors::Error; end
+      class InvalidTarget                   < Fog::Errors::Error; end
+      class TooManyTargets                  < Fog::Errors::Error; end
       class TooManyRegistrationsForTargetId < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
@@ -55,9 +57,6 @@ module Fog
       request :set_rule_priorities
       request :set_security_groups
       request :set_subnets
-      # request :wait_until_load_balancer_available
-      # request :wait_until_load_balancer_exists
-      # request :wait_until_load_balancers_deleted
 
       model_path 'fog/aws/models/elbv2'
       model      :load_balancer
@@ -68,7 +67,7 @@ module Fog
       collection :rules
       model      :listener
       collection :listeners
-      model :target_health_description
+      model      :target_health_description
       collection :target_health_descriptions
 
       class Mock
@@ -151,14 +150,14 @@ module Fog
         # * ELB object with connection to AWS.
         def initialize(options={})
 
-          @use_iam_profile = options[:use_iam_profile]
+          @use_iam_profile        = options[:use_iam_profile]
           @connection_options     = options[:connection_options] || {}
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.elb'
 
           options[:region] ||= 'us-east-1'
-          @region = options[:region]
-          @host = options[:host] || "elasticloadbalancing.#{@region}.amazonaws.com"
+          @region     = options[:region]
+          @host       = options[:host] || "elasticloadbalancing.#{@region}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
@@ -202,7 +201,7 @@ module Fog
               :port               => @port,
               :version            => API_VERSION,
               :method             => 'POST'
-          }
+            }
           )
 
           if @instrumentor
@@ -227,23 +226,26 @@ module Fog
           match = Fog::AWS::Errors.match_error(error)
           raise if match.empty?
           raise case match[:code]
+            when 'OperationNotPermitted'
+              Fog::AWS::ELBV2::NotPermitted.slurp(error, match[:message])
+            when 'PriorityInUse'
+              Fog::AWS::ELBV2::PriorityInUse.slurp(error, match[:message])
             when 'CertificateNotFound'
               Fog::AWS::IAM::NotFound.slurp(error, match[:message])
-            when 'LoadBalancerNotFoundException', 'TargetGroupNotFoundException', 'SSLPolicyNotFoundException',
-              'CertificateNotFoundException', 'SubnetNotFoundException', 'ListenerNotFoundException', 'RuleNotFoundException', 'HealthUnavailableException'
+            when 'LoadBalancerNotFound', 'TargetGroupNotFound', 'SSLPolicyNotFound',
+              'CertificateNotFound', 'SubnetNotFound', 'ListenerNotFound', 'RuleNotFound', 'HealthUnavailable'
               Fog::AWS::ELBV2::NotFound.slurp(error, match[:message])
-            when 'DuplicateTagKeysException', 'DuplicateListenerException', 'DuplicateLoadBalancerNameException', 'DuplicateTargetGroupNameException'
+            when 'DuplicateTagKeys', 'DuplicateListener', 'DuplicateLoadBalancerName', 'DuplicateTargetGroupName'
               Fog::AWS::ELBV2::IdentifierTaken.slurp(error, match[:message])
-            when 'ResourceInUseException'
+            when 'ResourceInUse'
               Fog::AWS::ELBV2::ResourceInUse.slurp(error, match[:message])
-            when 'InvalidTargetException'
+            when 'InvalidTarget'
               Fog::AWS::ELBV2::InvalidTargetException.slurp(error, match[:message])
             when 'InvalidConfigurationRequest'
-              # when do they fucking use this shit?
               Fog::AWS::ELBV2::InvalidConfigurationRequest.slurp(error, match[:message])
-            when 'TooManyTagsException', 'TooManyListenersException', 'TooManyCertificatesException', 'TooManyRegistrationsForTargetIdException', 'TooManyLoadBalancersException', 'TooManyTargetGroupsException', 'TooManyRulesException', 'TooManyTargetsException', 'TargetGroupAssociationLimitException',
+            when 'TooManyTags', 'TooManyListeners', 'TooManyCertificates', 'TooManyRegistrationsForTargetId', 'TooManyLoadBalancers', 'TooManyTargetGroups', 'TooManyRules', 'TooManyTargets', 'TargetGroupAssociationLimit',
               Fog::AWS::ELBV2::LimitExceeded.slurp(error, match[:message])
-            when 'IncompatibleProtocolsException', 'InvalidSubnetException', 'InvalidSecurityGroupException', 'InvalidSchemeException', 'InvalidTargetException', 'UnsupportedProtocolException', 'PriorityInUseException'
+            when 'IncompatibleProtocols', 'InvalidSubnet', 'InvalidSecurityGroup', 'InvalidScheme', 'InvalidTarget', 'UnsupportedProtocol', 'PriorityInUse'
               Fog::AWS::ELB::ValidationError.slurp(error, match[:message])
             else
               Fog::AWS::ELB::Error.slurp(error, "#{match[:code]} => #{match[:message]}")

@@ -44,12 +44,12 @@ module Fog
           requires :id
           merge_attributes(attributes)
           resp = service.modify_listener(id, port, build_default_actions, (protocol && protocol.upcase) || 'HTTP', ssl_policy, build_certificates || [])
-          merge_attributes resp.body['ModifyListenerResult']['Listeners'].first
+          merge_attributes(resp.body['ModifyListenerResult']['Listeners'].first)
         end
 
         def save
           resp = service.create_listener(load_balancer_id, port, build_default_actions, (protocol && protocol.upcase) || 'HTTP', ssl_policy, build_certificates || [])
-          merge_attributes resp.body['CreateListenerResult']['Listeners'].first
+          merge_attributes(resp.body['CreateListenerResult']['Listeners'].first)
         end
 
         def destroy

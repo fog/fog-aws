@@ -42,10 +42,10 @@ module Fog
           params.merge!(Fog::AWS.serialize_keys('Conditions', conditions))
 
           request({
-                    'Action'            => 'CreateRule',
-                    'Priority'          => options[:priority] || 1,
-                    'ListenerArn'       => listener_id,
-                    :parser             => Fog::Parsers::AWS::ELBV2::DescribeRules.new
+                    'Action'      => 'CreateRule',
+                    'Priority'    => options[:priority] || 1,
+                    'ListenerArn' => listener_id,
+                    :parser       => Fog::Parsers::AWS::ELBV2::DescribeRules.new
                   }.merge!(params))
         end
       end
@@ -59,11 +59,11 @@ module Fog
 
           rule_id = Fog::AWS::Mock.arn('elasticloadbalancing', self.data[:owner_id], "listener-rule/app/#{load_balancer['Name']}", @region)
           rule_data = {
-            'RuleArn' => rule_id,
-            'Priority' => options[:priority] || 1,
+            'RuleArn'     => rule_id,
+            'Priority'    => options[:priority] || 1,
             'ListenerArn' => listener_id,
-            'Actions' => actions,
-            'Conditions' => conditions
+            'Actions'     => actions,
+            'Conditions'  => conditions
           }
 
           self.data[:load_balancer_listener_rules] << rule_data

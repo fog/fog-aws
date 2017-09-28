@@ -79,8 +79,13 @@ module Fog
           end.first
           region ||= 'us-east-1'
 
-          availability_zones = subnets.each_with_object({}) do |sub, acc|
-            acc[sub['availabilityZone']] = sub['subnetId']
+          availability_zones = subnets.inject({}) do |acc, sub|
+            if acc[sub['availabilityZone']].nil?
+              acc[sub['availabilityZone']] = [sub['subnetId']]
+            else
+              acc[sub['availabilityZone']] << sub['subnetId']
+            end
+            acc
           end
           
           vpc_id = subnets.first["vpcId"]

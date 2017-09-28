@@ -2,7 +2,7 @@ module Fog
   module AWS
     class ELBV2
       class Rule < Fog::Model
-        identity :id, :aliases => 'RuleArn'
+        identity  :id, :aliases => 'RuleArn'
         attribute :is_default, :aliases => 'IsDefault'
         attribute :priority, :aliases => 'Priority'
         attribute :actions, :aliases => 'Actions'
@@ -13,10 +13,10 @@ module Fog
         PATH_PATTERN = 'path-pattern'
         HOST_HEADER = 'host-header'
 
-        # def priority=(new_priority)
-        #   requires :id
-        #   service.set_rule_priorities(id, priorities)
-        # end
+        def priority=(new_priority)
+          requires :id
+          service.set_rule_priorities(id => new_priority)
+        end
 
         def target_group_ids
           actions.map { |action| action['TargetGroupArn'] }

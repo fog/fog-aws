@@ -15,7 +15,7 @@ module Fog
           result = []
           marker = nil
           finished = false
-          while !finished
+          until finished
             data = service.describe_load_balancers(nil, :marker => marker).body
             result.concat(data['DescribeLoadBalancersResult']['LoadBalancers'])
             marker = data['DescribeLoadBalancersResult']['NextMarker']

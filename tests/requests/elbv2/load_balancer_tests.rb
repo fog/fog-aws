@@ -85,7 +85,7 @@ Shindo.tests('AWS::elbv2 | application_load_balancer_tests', ['aws', 'elbv2']) d
       ELBV2.create_load_balancer("my-test-#{SecureRandom.urlsafe_base64[0..5]}",
         :subnet_ids => [@subnet1.subnet_id, @subnet2.subnet_id],
         :security_group_ids => [@security_group.group_id],
-        tags: {'hello' => 'world'}
+        :tags => { 'hello' => 'world' }
       ).body
     end
 
@@ -93,7 +93,7 @@ Shindo.tests('AWS::elbv2 | application_load_balancer_tests', ['aws', 'elbv2']) d
       resp = ELBV2.create_load_balancer("my-test-#{SecureRandom.urlsafe_base64[0..5]}",
         :subnet_ids => [@subnet1.subnet_id, @subnet2.subnet_id],
         :security_group_ids => [@security_group.group_id],
-        tags: {'hello' => 'world'}
+        :tags => { 'hello' => 'world' }
       )
       tg = ELBV2.target_groups.create(:name => 'test-tg-1', :port => 3000, :vpc_id => @vpc_id)
       @tg_id = tg.id

@@ -35,12 +35,13 @@ module Fog
           raise Fog::AWS::ELBV2::NotFound unless load_balancer
           subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select {|e| subnet_ids.include?(e["subnetId"]) }
 
-          availability_zones = subnets.each_with_object({}) do |sub, acc|
+          availability_zones = subnets.inject({}) do |acc, sub|
             if acc[sub['availabilityZone']].nil?
               acc[sub['availabilityZone']] = [sub['subnetId']]
             else
               acc[sub['availabilityZone']] << sub['subnetId']
             end
+            acc
           end
           
           load_balancer.merge!('AvailabilityZones' => availability_zones)

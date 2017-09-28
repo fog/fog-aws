@@ -14,10 +14,10 @@ module Fog
           finished = false
           lb_id = nil
           lb_id = load_balancer.id if load_balancer
-          while !finished
+          until finished
             data = service.describe_listeners(lb_id, [], :marker => marker).body
             result.concat(data['DescribeListenersResult']['Listeners'])
-            marker = data['DescribeListenersResult']['NextMarker']
+            marker   = data['DescribeListenersResult']['NextMarker']
             finished = marker.nil?
           end
           load(result) # data is an array of attribute hashes

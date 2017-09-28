@@ -13,7 +13,7 @@ module Fog
           marker = nil
           finished = false
           params = {}
-          while !finished
+          until finished
             data = service.describe_rules(listener.id, [], :marker => marker).body
             result.concat(data['DescribeRulesResult']['Rules'])
             marker = data['DescribeRulesResult']['NextMarker']
