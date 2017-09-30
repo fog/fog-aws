@@ -13,8 +13,14 @@ module Fog
 
         attribute :cidr_block_association_set, :aliases => 'cidrBlockAssociationSet'
 
-        attribute :ipv_6_cidr_block_association_set, :aliases => 'ipv6CidrBlockAssociationSet'
-        attribute :amazon_provided_ipv_6_cidr_block, :aliases => 'amazonProvidedIpv6CidrBlock'
+        attribute :ipv6_cidr_block_association_set, :aliases => 'ipv6CidrBlockAssociationSet'
+        attribute :amazon_provided_ipv6_cidr_block, :aliases => 'amazonProvidedIpv6CidrBlock'
+
+        # Backward compatibility. Please use ipv6_cidr_block_association_set
+        alias_method :ipv_6_cidr_block_association_set,  :ipv6_cidr_block_association_set
+        alias_method :ipv_6_cidr_block_association_set=, :ipv6_cidr_block_association_set=
+        alias_method :amazon_provided_ipv_6_cidr_block,  :amazon_provided_ipv6_cidr_block
+        alias_method :amazon_provided_ipv_6_cidr_block=, :amazon_provided_ipv6_cidr_block=
 
         def subnets
           service.subnets(:filters => {'vpcId' => self.identity}).all
