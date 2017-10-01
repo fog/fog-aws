@@ -48,7 +48,7 @@ module Fog
                 @current_cidr_block[name] = value
 
               when 'vpcSet.item.cidrBlockAssociationSet.item.cidrBlockState'
-                @current_cidr_block['state'] = value.squish
+                @current_cidr_block['state'] = value.strip
 
               when 'vpcSet.item.cidrBlockAssociationSet.item'
                 @current_vpc['cidrBlockAssociationSet'] << @current_cidr_block
@@ -60,7 +60,7 @@ module Fog
                 @current_ipv6_block[name] = value
 
               when 'vpcSet.item.ipv6CidrBlockAssociationSet.item.ipv6CidrBlockState'
-                @current_ipv6_block['state'] = value.squish
+                @current_ipv6_block['state'] = value.strip
 
               when 'vpcSet.item.ipv6CidrBlockAssociationSet.item'
                 @current_vpc['ipv6CidrBlockAssociationSet'] << @current_ipv6_block
