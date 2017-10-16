@@ -32,7 +32,7 @@ module Fog
               case name
               when 'subnetId', 'state', 'vpcId', 'cidrBlock', 'availableIpAddressCount', 'availabilityZone'
                 @subnet[name] = value
-              when 'mapPublicIpOnLaunch'
+              when 'mapPublicIpOnLaunch', 'defaultForAz'
                 @subnet[name] = value == 'true' ? true : false
               when 'item'
                 @response['subnetSet'] << @subnet

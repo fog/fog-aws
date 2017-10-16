@@ -8,6 +8,8 @@ Shindo.tests('Fog::Compute[:aws] | subnet requests', ['aws']) do
     'availableIpAddressCount'  => String,
     'availabilityZone'         => String,
     'tagSet'                   => Hash,
+    'mapPublicIpOnLaunch'      => Fog::Boolean,
+    'defaultForAz'             => Fog::Boolean,
   }
 
   @single_subnet_format = {
@@ -24,7 +26,7 @@ Shindo.tests('Fog::Compute[:aws] | subnet requests', ['aws']) do
     'requestId' => String,
     'return' => Fog::Boolean
   }
-  
+
   @vpc_network = '10.0.10.0/24'
   @vpc=Fog::Compute[:aws].vpcs.create('cidr_block' => @vpc_network)
   @vpc_id = @vpc.id
