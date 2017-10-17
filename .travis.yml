@@ -27,8 +27,6 @@ matrix:
     gemfile: gemfiles/Gemfile-edge
   - rvm: 2.3.0
     gemfile: Gemfile
-  - rvm: jruby-18mode
-    gemfile: gemfiles/Gemfile-ruby-1.8.7
   - rvm: jruby-19mode
     gemfile: gemfiles/Gemfile-ruby-1.9
   - rvm: jruby-head
