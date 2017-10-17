@@ -35,6 +35,13 @@ matrix:
     gemfile: Gemfile
   allow_failures:
   - rvm: jruby-head
+    gemfile: Gemfile
+  - rvm: 2.2.0
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.3.0
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.1.1
+    gemfile: gemfiles/Gemfile-edge
 notifications:
   email: false
   irc:
