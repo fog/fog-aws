@@ -14,17 +14,18 @@ module Fog
         # * body<~Hash>:
         # * 'requestId'<~String> - Id of request
         # * 'subnetSet'<~Array>:
-        # * 'subnetId'<~String> - The Subnet's ID
-        # * 'state'<~String> - The current state of the Subnet. ['pending', 'available']
-        # * 'vpcId'<~String> - The ID of the VPC the subnet is in
-        # * 'cidrBlock'<~String> - The CIDR block the Subnet covers.
-        # * 'availableIpAddressCount'<~Integer> - The number of unused IP addresses in the subnet (the IP addresses for any
-        #   stopped instances are considered unavailable)
-        # * 'availabilityZone'<~String> - The Availability Zone the subnet is in.
-        # * 'tagSet'<~Array>: Tags assigned to the resource.
-        # * 'key'<~String> - Tag's key
-        # * 'value'<~String> - Tag's value
-        # * 'instanceTenancy'<~String> - The allowed tenancy of instances launched into the Subnet.
+        #   * 'subnetId'<~String> - The Subnet's ID
+        #   * 'state'<~String> - The current state of the Subnet. ['pending', 'available']
+        #   * 'vpcId'<~String> - The ID of the VPC the subnet is in
+        #   * 'cidrBlock'<~String> - The CIDR block the Subnet covers.
+        #   * 'availableIpAddressCount'<~Integer> - The number of unused IP addresses in the subnet (the IP addresses for any
+        #     stopped instances are considered unavailable)
+        #   * 'availabilityZone'<~String> - The Availability Zone the subnet is in.
+        #   * 'tagSet'<~Array>: Tags assigned to the resource.
+        #     * 'key'<~String> - Tag's key
+        #     * 'value'<~String> - Tag's value
+        #   * 'mapPublicIpOnLaunch'<~Boolean> - Indicates whether instances launched in this subnet receive a public IPv4 address.
+        #   * 'defaultForAz'<~Boolean> - Indicates whether this is the default subnet for the Availability Zone.
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2011-07-15/APIReference/index.html?ApiReference-query-DescribeSubnets.html]
         def describe_subnets(filters = {})
