@@ -32,12 +32,14 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
 
   @describe_vpcs_format = {
     'vpcSet' => [{
-      'vpcId'           => String,
-      'state'           => String,
-      'cidrBlock'       => String,
-      'dhcpOptionsId'   => String,
-      'tagSet'          => Hash,
-      'instanceTenancy' => Fog::Nullable::String,
+      'vpcId'                       => String,
+      'state'                       => String,
+      'cidrBlock'                   => String,
+      'dhcpOptionsId'               => String,
+      'tagSet'                      => Hash,
+      'instanceTenancy'             => Fog::Nullable::String,
+      'cidrBlockAssociationSet'     => [{'cidrBlock'     => String, 'associationId' => String, 'state' => String}],
+      'ipv6CidrBlockAssociationSet' => [{'ipv6CidrBlock' => String, 'associationId' => String, 'state' => String}]
     }],
     'requestId' => String
   }

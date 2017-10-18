@@ -4,57 +4,89 @@ module Fog
       module AWS
         class DescribeVpcs < Fog::Parsers::Base
           def reset
-            @vpc = { 'tagSet' => {}, 'ipv6CidrBlockAssociationSet' => {} }
             @response = { 'vpcSet' => [] }
-            @tag = {}
+            @context = []
           end
 
           def start_element(name, attrs = [])
             super
-            case name
-            when 'tagSet'
-              @in_tag_set = true
-            when 'ipv6CidrBlockAssociationSet'
-              @in_ipv6_set = true
+            @context.push(name)
+
+            case @context[1 .. -1].join('.')
+              when 'vpcSet.item'
+                @current_vpc = { 'tagSet' => {}, 'cidrBlockAssociationSet' => [], 'ipv6CidrBlockAssociationSet' => [] }
+
+              when 'vpcSet.item.tagSet.item'
+                @current_tag_key = @current_tag_value = nil
+
+              when 'vpcSet.item.cidrBlockAssociationSet.item'
+                @current_cidr_block = {}
+
+              when 'vpcSet.item.ipv6CidrBlockAssociationSet.item'
+                @current_ipv6_block = {}
             end
           end
 
           def end_element(name)
-            if @in_tag_set
-              case name
-                when 'item'
-                  @vpc['tagSet'][@tag['key']] = @tag['value']
-                  @tag = {}
-                when 'key', 'value'
-                  @tag[name] = value
-                when 'tagSet'
-                  @in_tag_set = false
-              end
-            elsif @in_ipv6_set
-              case name
-              when 'ipv6CidrBlock', 'associationId'
-                @vpc['ipv6CidrBlockAssociationSet'][name] = value
-              when 'ipv6CidrBlockState'
-                @vpc['ipv6CidrBlockAssociationSet'][name] = {'State' => value.squish}
-              when 'ipv6CidrBlockAssociationSet'
-                @vpc['amazonProvidedIpv6CidrBlock'] = !value.blank?
-                @in_ipv6_set = false
-              end
-            else
-              case name
-              when 'vpcId', 'state', 'cidrBlock', 'dhcpOptionsId', 'instanceTenancy'
-                @vpc[name] = value
-              when 'isDefault'
-                @vpc['isDefault'] = value == 'true'        
-              when 'item'
-                if value =~ /^(true|false)/
-                  @response['vpcSet'] << @vpc
-                  @vpc = { 'tagSet' => {}, 'ipv6CidrBlockAssociationSet' => {} }
-                end
+            case @context[1 .. -1].join('.')
+              # tagSet
+
+              when 'vpcSet.item.tagSet.item'
+                @current_vpc['tagSet'][@current_tag_key] = @current_tag_value
+                @current_tag_key = @current_tag_value = nil
+
+              when 'vpcSet.item.tagSet.item.key'
+                @current_tag_key = value
+
+              when 'vpcSet.item.tagSet.item.value'
+                @current_tag_value = value
+
+              # cidrBlockAssociationSet
+
+              when 'vpcSet.item.cidrBlockAssociationSet.item.cidrBlock',
+                   'vpcSet.item.cidrBlockAssociationSet.item.associationId'
+                @current_cidr_block[name] = value
+
+              when 'vpcSet.item.cidrBlockAssociationSet.item.cidrBlockState'
+                @current_cidr_block['state'] = value.strip
+
+              when 'vpcSet.item.cidrBlockAssociationSet.item'
+                @current_vpc['cidrBlockAssociationSet'] << @current_cidr_block
+
+              # ipv6CidrBlockAssociationSet
+
+              when 'vpcSet.item.ipv6CidrBlockAssociationSet.item.ipv6CidrBlock',
+                   'vpcSet.item.ipv6CidrBlockAssociationSet.item.associationId'
+                @current_ipv6_block[name] = value
+
+              when 'vpcSet.item.ipv6CidrBlockAssociationSet.item.ipv6CidrBlockState'
+                @current_ipv6_block['state'] = value.strip
+
+              when 'vpcSet.item.ipv6CidrBlockAssociationSet.item'
+                @current_vpc['ipv6CidrBlockAssociationSet'] << @current_ipv6_block
+
+              # vpc
+
+              when 'vpcSet.item.vpcId',
+                   'vpcSet.item.state',
+                   'vpcSet.item.cidrBlock',
+                   'vpcSet.item.dhcpOptionsId',
+                   'vpcSet.item.instanceTenancy'
+                @current_vpc[name] = value
+
+              when 'vpcSet.item.isDefault'
+                @current_vpc['isDefault'] = value == 'true'
+
+              when 'vpcSet.item'
+                @response['vpcSet'] << @current_vpc
+
+              # root
+
               when 'requestId'
                 @response[name] = value
-              end
             end
+
+            @context.pop
           end
         end
       end

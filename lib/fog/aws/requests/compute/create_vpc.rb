@@ -43,16 +43,18 @@ module Fog
               response.status = 200
               vpc_id = Fog::AWS::Mock.vpc_id
               vpc = {
-                'vpcId'                 => vpc_id,
-                'state'                 => 'pending',
-                'cidrBlock'             => cidrBlock,
-                'dhcpOptionsId'         => Fog::AWS::Mock.request_id,
-                'tagSet'                => {},
-                'enableDnsSupport'      => true,
-                'enableDnsHostnames'    => false,
-                'mapPublicIpOnLaunch'   => false,
-                'classicLinkEnabled'    => false,
-                'classicLinkDnsSupport' => false
+                'vpcId'                       => vpc_id,
+                'state'                       => 'pending',
+                'cidrBlock'                   => cidrBlock,
+                'dhcpOptionsId'               => Fog::AWS::Mock.request_id,
+                'tagSet'                      => {},
+                'enableDnsSupport'            => true,
+                'enableDnsHostnames'          => false,
+                'mapPublicIpOnLaunch'         => false,
+                'classicLinkEnabled'          => false,
+                'classicLinkDnsSupport'       => false,
+                'cidrBlockAssociationSet'     => [{ 'cidrBlock' => cidrBlock, 'state' => 'associated', 'associationId' => "vpc-cidr-assoc-#{vpc_id}" }],
+                'ipv6CidrBlockAssociationSet' => []
               }
               self.data[:vpcs].push(vpc)
 
