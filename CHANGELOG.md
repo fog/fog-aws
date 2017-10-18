@@ -6,13 +6,28 @@
 
 **Closed issues:**
 
+- cannot load such file -- fog \(LoadError\) [\#401](https://github.com/fog/fog-aws/issues/401)
+- Missing file for extraction? [\#390](https://github.com/fog/fog-aws/issues/390)
+-  Regression: IO stream sent to AWS fails [\#388](https://github.com/fog/fog-aws/issues/388)
+- Stack Level Too Deep on YAML Serialization [\#385](https://github.com/fog/fog-aws/issues/385)
 - retrieval of ipv6 vpc  [\#379](https://github.com/fog/fog-aws/issues/379)
 - Timeout when trying to bootstrap or ssh spot request instances [\#372](https://github.com/fog/fog-aws/issues/372)
 - Why default VPC does not require Elastic IP to connect in internet [\#338](https://github.com/fog/fog-aws/issues/338)
 - Chunked images response causing Nokogiri::XML::SyntaxError [\#273](https://github.com/fog/fog-aws/issues/273)
+- Generates wrong url when region is not DEFAULT\_REGION [\#214](https://github.com/fog/fog-aws/issues/214)
 
 **Merged pull requests:**
 
+- allow Gemfile-edge travis builds to fail [\#403](https://github.com/fog/fog-aws/pull/403) ([lanej](https://github.com/lanej))
+- Add `default\_for\_az` attribute to subnet [\#402](https://github.com/fog/fog-aws/pull/402) ([rzaharenkov](https://github.com/rzaharenkov))
+- bundler ~\> 1.15 [\#399](https://github.com/fog/fog-aws/pull/399) ([lanej](https://github.com/lanej))
+- Fix detaching instances from auto scaling group. [\#397](https://github.com/fog/fog-aws/pull/397) ([rzaharenkov](https://github.com/rzaharenkov))
+- Issue \#387 Fog::Compute::AWS::Vpcs returns VPCs with nil ids [\#396](https://github.com/fog/fog-aws/pull/396) ([maguec](https://github.com/maguec))
+- feat\(CONTRIBUTORS\): Update [\#394](https://github.com/fog/fog-aws/pull/394) ([plribeiro3000](https://github.com/plribeiro3000))
+- fix\(Tests\):Remove debugging [\#393](https://github.com/fog/fog-aws/pull/393) ([plribeiro3000](https://github.com/plribeiro3000))
+- Migrate Service mapper from Fog [\#392](https://github.com/fog/fog-aws/pull/392) ([plribeiro3000](https://github.com/plribeiro3000))
+- Add ability to encrypt a copy of an unencrypted snapshot [\#391](https://github.com/fog/fog-aws/pull/391) ([nodecarter](https://github.com/nodecarter))
+- Fix VPC parser [\#389](https://github.com/fog/fog-aws/pull/389) ([ddiachkov](https://github.com/ddiachkov))
 - Update changelog for 1.4.0 [\#383](https://github.com/fog/fog-aws/pull/383) ([greysteil](https://github.com/greysteil))
 - Allow specifying kms key id to use [\#382](https://github.com/fog/fog-aws/pull/382) ([fcheung](https://github.com/fcheung))
 - added support to retrieve and create vpc with ipv6 cidr block [\#381](https://github.com/fog/fog-aws/pull/381) ([chanakyacool](https://github.com/chanakyacool))
