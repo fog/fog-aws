@@ -46,8 +46,7 @@ module Fog
           data = options.delete("Data")
           partition_key = options.delete("PartitionKey")
 
-          sample_method = RUBY_VERSION == "1.8.7" ? :choice : :sample
-          shard_id = stream["Shards"].send(sample_method)["ShardId"]
+          shard_id = stream["Shards"].sample["ShardId"]
           shard = stream["Shards"].detect{ |shard| shard["ShardId"] == shard_id }
           # store the records on the shard(s)
           shard["Records"] << {
