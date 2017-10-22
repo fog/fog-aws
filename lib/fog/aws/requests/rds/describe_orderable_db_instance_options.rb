@@ -47,11 +47,17 @@ module Fog
                                    'ReadReplicaCapable' => true,
                                    'EngineVersion' => opts[:engine_version] || '5.6.12',
                                    'AvailabilityZones' => [
-                                      {'Name' => 'us-east-1b', 'ProvisionedIopsCapable' => true},
-                                      {'Name' => 'us-east-1c', 'ProvisionedIopsCapable' => true},
-                                      {'Name' => 'us-east-1d', 'ProvisionedIopsCapable' => false},
-                                      {'Name' => 'us-east-1e', 'ProvisionedIopsCapable' => true}],
+                                      {'Name' => 'us-east-1b'},
+                                      {'Name' => 'us-east-1c'},
+                                      {'Name' => 'us-east-1d'},
+                                      {'Name' => 'us-east-1e'}],
                                    'DBInstanceClass' => size,
+                                   'SupportsStorageEncryption' => true,
+                                   'SupportsPerformanceInsights' => false,
+                                   'StorageType' => 'gp2',
+                                   'SupportsIops' => false,
+                                   'SupportsIAMDatabaseAuthentication' => false,
+                                   'SupportsEnhancedMonitoring' => true,
                                    'Vpc' => opts[:vpc].nil? ? true : opts[:vpc]}
 
             end

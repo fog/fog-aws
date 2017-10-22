@@ -6,8 +6,7 @@ class AWS
       }
 
       DB_AVAILABILITY_ZONE_OPTION = {
-        'Name' => String,
-        'ProvisionedIopsCapable' => Fog::Boolean
+        'Name' => String
       }
 
       DB_PARAMETER_GROUP = {
@@ -89,6 +88,12 @@ class AWS
         'EngineVersion' => String,
         'AvailabilityZones' => [DB_AVAILABILITY_ZONE_OPTION],
         'DBInstanceClass' => String,
+        'SupportsStorageEncryption' => Fog::Boolean,
+        'SupportsPerformanceInsights' => Fog::Boolean,
+        'StorageType' => String,
+        'SupportsIops' => Fog::Boolean,
+        'SupportsIAMDatabaseAuthentication' => Fog::Boolean,
+        'SupportsEnhancedMonitoring' => Fog::Boolean,
         'Vpc' => Fog::Boolean
       }
 
