@@ -39,7 +39,7 @@ module Fog
           unless vpc.nil?
             response.status = 200
             route_table = {
-              'routeTableId' => "rtb-#{Fog::Mock.random_hex(8)}",
+              'routeTableId' => Fog::AWS::Mock.route_table_id,
               'vpcId' => vpc["vpcId"],
               'routeSet' => [{
                 "destinationCidrBlock" => vpc["cidrBlock"],

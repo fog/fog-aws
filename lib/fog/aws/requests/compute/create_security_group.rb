@@ -33,6 +33,9 @@ module Fog
       class Mock
         def create_security_group(name, description, vpc_id=nil)
           response = Excon::Response.new
+
+          vpc_id ||= Fog::AWS::Mock.default_vpc_for(region)
+
           unless self.data[:security_groups][name]
             data = {
               'groupDescription'    => description,
