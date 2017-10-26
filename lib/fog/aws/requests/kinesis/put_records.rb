@@ -43,8 +43,7 @@ module Fog
           record_results = records.map { |r|
             sequence_number = next_sequence_number
 
-            sample_method = RUBY_VERSION == "1.8.7" ? :choice : :sample
-            shard_id = stream["Shards"].send(sample_method)["ShardId"]
+            shard_id = stream["Shards"].sample["ShardId"]
             shard = stream["Shards"].detect{ |shard| shard["ShardId"] == shard_id }
             # store the records on the shard(s)
             shard["Records"] << r.merge("SequenceNumber" => sequence_number)

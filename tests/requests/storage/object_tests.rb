@@ -18,12 +18,6 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].put_object(@directory.identity, 'fog_object', lorem_file)
     end
 
-    if RUBY_VERSION =~ /^1\.8\./
-      tests("#put_object('#{@directory.identity}', 'fog_object', lorem_file, {'x-amz-meta-json' => 'ä'}").succeeds do
-        Fog::Storage[:aws].put_object(@directory.identity, 'fog_object', lorem_file, {'x-amz-meta-json' => 'ä'})
-      end
-    end
-
     tests("#copy_object('#{@directory.identity}', 'fog_object', '#{@directory.identity}', 'fog_other_object')").succeeds do
       Fog::Storage[:aws].copy_object(@directory.identity, 'fog_object', @directory.identity, 'fog_other_object')
     end
@@ -177,10 +171,8 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].put_object(fognonbucket, 'fog_non_object', lorem_file)
     end
 
-    unless RUBY_VERSION =~ /^1\.8\./
-      tests("#put_object('#{@directory.identity}', 'fog_object', lorem_file, {'x-amz-meta-json' => 'ä'}").raises(Excon::Errors::BadRequest) do
-        Fog::Storage[:aws].put_object(@directory.identity, 'fog_object', lorem_file, {'x-amz-meta-json' => 'ä'})
-      end
+    tests("#put_object('#{@directory.identity}', 'fog_object', lorem_file, {'x-amz-meta-json' => 'ä'}").raises(Excon::Errors::BadRequest) do
+      Fog::Storage[:aws].put_object(@directory.identity, 'fog_object', lorem_file, {'x-amz-meta-json' => 'ä'})
     end
 
     tests("#copy_object('#{fognonbucket}', 'fog_object', '#{@directory.identity}', 'fog_other_object')").raises(Excon::Errors::NotFound) do
