@@ -4,8 +4,8 @@ module Fog
       class Real
         require 'fog/aws/parsers/rds/describe_orderable_db_instance_options'
 
-        # Describe all or specified load db instances
-        # http://docs.amazonwebservices.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html
+        # Describe all or specified orderable db instances options
+        # https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeOrderableDBInstanceOptions.html
         # ==== Parameters
         # * Engine <~String> - The name of the engine to retrieve DB Instance options for. Required.
         # * Options <~Hash> - Hash of options. Optional. The following keys are used:
@@ -47,11 +47,17 @@ module Fog
                                    'ReadReplicaCapable' => true,
                                    'EngineVersion' => opts[:engine_version] || '5.6.12',
                                    'AvailabilityZones' => [
-                                      {'Name' => 'us-east-1b', 'ProvisionedIopsCapable' => true},
-                                      {'Name' => 'us-east-1c', 'ProvisionedIopsCapable' => true},
-                                      {'Name' => 'us-east-1d', 'ProvisionedIopsCapable' => false},
-                                      {'Name' => 'us-east-1e', 'ProvisionedIopsCapable' => true}],
+                                      {'Name' => 'us-east-1b'},
+                                      {'Name' => 'us-east-1c'},
+                                      {'Name' => 'us-east-1d'},
+                                      {'Name' => 'us-east-1e'}],
                                    'DBInstanceClass' => size,
+                                   'SupportsStorageEncryption' => true,
+                                   'SupportsPerformanceInsights' => false,
+                                   'StorageType' => 'gp2',
+                                   'SupportsIops' => false,
+                                   'SupportsIAMDatabaseAuthentication' => false,
+                                   'SupportsEnhancedMonitoring' => true,
                                    'Vpc' => opts[:vpc].nil? ? true : opts[:vpc]}
 
             end
