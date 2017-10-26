@@ -4,8 +4,8 @@ module Fog
       class Real
         require 'fog/aws/parsers/rds/describe_orderable_db_instance_options'
 
-        # Describe all or specified load db instances
-        # http://docs.amazonwebservices.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html
+        # Describe all or specified orderable db instances options
+        # https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeOrderableDBInstanceOptions.html
         # ==== Parameters
         # * Engine <~String> - The name of the engine to retrieve DB Instance options for. Required.
         # * Options <~Hash> - Hash of options. Optional. The following keys are used:
