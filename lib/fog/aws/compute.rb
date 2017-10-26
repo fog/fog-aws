@@ -196,6 +196,8 @@ module Fog
           'vpc'  => 'vpc'
         }
 
+        VPC_BLANK_VALUE = 'none'
+
         include Fog::AWS::CredentialFetcher::ConnectionMethods
 
         def self.data
@@ -284,7 +286,7 @@ module Fog
                     "attributeName" => "supported-platforms"
                   },
                   {
-                    "values"        => ["none"],
+                    "values"        => [VPC_BLANK_VALUE],
                     "attributeName" => "default-vpc"
                   },
                   {
@@ -373,6 +375,79 @@ module Fog
 
         def set_supported_platforms(values)
           self.data[:account_attributes].find { |h| h["attributeName"] == "supported-platforms" }["values"] = values
+        end
+
+        def default_vpc
+          vpc_id = describe_account_attributes.body["accountAttributeSet"].find{ |h| h["attributeName"] == "default-vpc" }["values"].first
+          vpc_id == VPC_BLANK_VALUE ? nil : vpc_id
+        end
+
+        def default_vpc=(value)
+          self.data[:account_attributes].find { |h| h["attributeName"] == "default-vpc" }["values"] = [value]
+        end
+
+        def setup_default_vpc!
+          return if default_vpc.present?
+
+          disable_ec2_classic
+
+          vpc_id = Fog::AWS::Mock.default_vpc_for(region)
+          self.default_vpc = vpc_id
+
+          data[:vpcs] << {
+            'vpcId' => vpc_id,
+            'state' => 'available',
+            'cidrBlock' => '172.31.0.0/16',
+            'dhcpOptionsId' => Fog::AWS::Mock.dhcp_options_id,
+            'tagSet' => {},
+            'instanceTenancy' => 'default',
+            'enableDnsSupport' => true,
+            'enableDnsHostnames' => true,
+            'isDefault' => true
+          }
+
+          internet_gateway_id = Fog::AWS::Mock.internet_gateway_id
+          data[:internet_gateways][internet_gateway_id] = {
+            'internetGatewayId' => internet_gateway_id,
+            'attachmentSet' => {
+              'vpcId' => vpc_id,
+              'state' => 'available'
+            },
+            'tagSet' => {}
+          }
+
+          data[:route_tables] << {
+            'routeTableId' => Fog::AWS::Mock.route_table_id,
+            'vpcId' => vpc_id,
+            'routes' => [
+              {
+                'destinationCidrBlock' => '172.31.0.0/16',
+                'gatewayId' => 'local',
+                'state' => 'active',
+                'origin' => 'CreateRouteTable'
+              },
+              {
+                'destinationCidrBlock' => '0.0.0.0/0',
+                'gatewayId' => internet_gateway_id,
+                'state' => 'active',
+                'origin' => 'CreateRoute'
+              }
+            ]
+          }
+
+          describe_availability_zones.body['availabilityZoneInfo'].map { |z| z['zoneName'] }.each_with_index do |zone, i|
+            data[:subnets] << {
+              'subnetId'                 => Fog::AWS::Mock.subnet_id,
+              'state'                    => 'available',
+              'vpcId'                    => vpc_id,
+              'cidrBlock'                => "172.31.#{i}.0/16",
+              'availableIpAddressCount'  => '251',
+              'availabilityZone'         => zone,
+              'tagSet'                   => {},
+              'mapPublicIpOnLaunch'      => true,
+              'defaultForAz'             => true
+            }
+          end
         end
 
         def tagged_resources(resources)

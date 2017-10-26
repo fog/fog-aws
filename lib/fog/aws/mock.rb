@@ -145,6 +145,9 @@ module Fog
       def self.zone_id
         "zone-#{Fog::Mock.random_hex(8)}"
       end
+      def self.route_table_id
+        "rtb-#{Fog::Mock.random_hex(8)}"
+      end
       def self.change_id
         Fog::Mock.random_letters_and_numbers(14)
       end
@@ -180,6 +183,11 @@ module Fog
           'Windows',
           'SUSE Linux'
         ]
+      end
+
+      def self.default_vpc_for(region)
+        @default_vpcs ||= {}
+        @default_vpcs[region] ||= vpc_id
       end
     end
   end
