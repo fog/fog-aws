@@ -713,6 +713,36 @@ module Fog
           :disk                    => 0,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "p3.2xlarge",
+          :name                    => "Tesla GPU Two Extra Large",
+          :bits                    => 64,
+          :cores                   => 5120,
+          :ram                     => 6100,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "p3.8xlarge",
+          :name                    => "Tesla GPU Eight Extra Large",
+          :bits                    => 64,
+          :cores                   => 204080,
+          :ram                     => 244000,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "p3.16xlarge",
+          :name                    => "Tesla GPU Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 408160,
+          :ram                     => 488000,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
         }
       ]
 
