@@ -635,7 +635,16 @@ module Fog
                   Fog::Compute::AWS::NotFound.slurp(error, match[:message])
                 when 'RequestLimitExceeded'
                   if retries < max_retries
-                    sleep (2.0 ** (1.0 + retries) * 100) / 1000.0
+                    jitter = rand(100)
+                    waiting = true
+                    start_time = Time.now
+                    wait_time = ((2.0 ** (1.0 + retries) * 100) + jitter) / 1000.0
+                    Fog::Logger.warning "Waiting #{wait_time} seconds to retry."
+                    while waiting
+                      if Time.now - start_time >= wait_time
+                        waiting = false
+                      end
+                    end
                     retries += 1
                     retry
                   else
