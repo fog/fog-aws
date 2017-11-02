@@ -564,7 +564,7 @@ module Fog
                     waiting = true
                     start_time = Time.now
                     wait_time = ((2.0 ** (1.0 + retries) * 100) + jitter) / 1000.0
-                    puts "Waiting #{wait_time} seconds to retry."
+                    Fog::Logger.warning "Waiting #{wait_time} seconds to retry."
                     while waiting
                       if Time.now - start_time >= wait_time
                         waiting = false
