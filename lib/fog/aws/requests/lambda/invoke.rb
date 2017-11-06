@@ -18,7 +18,7 @@ module Fog
           headers = {}
           if client_context = params.delete('ClientContext')
             headers['X-Amz-Client-Context'] =
-              Base64::encode64(Fog::Json.encode(client_context))
+              Base64::encode64(Fog::JSON.encode(client_context))
           end
           if client_type = params.delete('InvocationType')
             headers['X-Amz-Client-Type'] = client_type
