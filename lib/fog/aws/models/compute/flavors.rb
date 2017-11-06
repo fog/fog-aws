@@ -15,6 +15,16 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
+          :id                      => 't2.nano',
+          :name                    => 'Nano Instance',
+          :bits                    => 64,
+          :cores                   => 1,
+          :disk                    => 0,
+          :ram                     => 512,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
           :id                      => 't2.micro',
           :name                    => 'Micro Instance',
           :bits                    => 64,
