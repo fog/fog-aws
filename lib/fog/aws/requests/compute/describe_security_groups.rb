@@ -66,22 +66,46 @@ module Fog
             'protocol'  => 'ipProtocol',
             'to-port'   => 'toPort'
           }
-          security_group_groups = lambda { |security_group| (security_group['ipPermissions'] || []).map { |permission| permission["groups"] }.flatten.compact.uniq }
+
+          security_group_groups = lambda do |security_group|
+            (security_group['ipPermissions'] || []).map do |permission|
+              permission['groups']
+            end.flatten.compact.uniq
+          end
+
           for filter_key, filter_value in filters
             if permission_key = filter_key.split('ip-permission.')[1]
               if permission_key == 'group-name'
-                security_group_info = security_group_info.reject{|security_group| !security_group_groups.call(security_group).find {|group| [*filter_value].include?(group['groupName'])}}
+                security_group_info = security_group_info.reject do |security_group|
+                  !security_group_groups.call(security_group).find do |group|
+                    [*filter_value].include?(group['groupName'])
+                  end
+                end
               elsif permission_key == 'group-id'
-                security_group_info = security_group_info.reject{|security_group| !security_group_groups.call(security_group).find {|group| [*filter_value].include?(group['groupId'])}}
+                security_group_info = security_group_info.reject do |security_group|
+                  !security_group_groups.call(security_group).find do |group|
+                    [*filter_value].include?(group['groupId'])
+                  end
+                end
               elsif permission_key == 'user-id'
-                security_group_info = security_group_info.reject{|security_group| !security_group_groups.call(security_group).find {|group| [*filter_value].include?(group['userId'])}}
+                security_group_info = security_group_info.reject do |security_group|
+                  !security_group_groups.call(security_group).find do |group|
+                    [*filter_value].include?(group['userId'])
+                  end
+                end
               else
                 aliased_key = permission_aliases[filter_key]
-                security_group_info = security_group_info.reject{|security_group| !security_group['ipPermissions'].find {|permission| [*filter_value].include?(permission[aliased_key])}}
+                security_group_info = security_group_info.reject do |security_group|
+                  !security_group['ipPermissions'].find do |permission|
+                    [*filter_value].include?(permission[aliased_key])
+                  end
+                end
               end
             else
               aliased_key = aliases[filter_key]
-              security_group_info = security_group_info.reject{|security_group| ![*filter_value].include?(security_group[aliased_key])}
+              security_group_info = security_group_info.reject do |security_group|
+                ![*filter_value].include?(security_group[aliased_key])
+              end
             end
           end
 

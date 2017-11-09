@@ -80,14 +80,16 @@ module Fog
       class Mock
         def authorize_security_group_ingress(group_name, options = {})
           options = Fog::AWS.parse_security_group_options(group_name, options)
-          if options.key?('GroupName')
-            group_name = options['GroupName']
-          else
-            group_name = self.data[:security_groups].reject { |k,v| v['groupId'] != options['GroupId'] } .keys.first
-          end
+
+          group = if options.key?('GroupName')
+                    self.data[:security_groups].values.find { |v| v['groupName'] == options['GroupName'] }
+                  else
+                    self.data[:security_groups][options.fetch('GroupId')]
+                  end
 
           response = Excon::Response.new
-          group = self.data[:security_groups][group_name] || raise(Fog::Compute::AWS::NotFound.new("The security group '#{group_name}' does not exist"))
+          group ||
+            raise(Fog::Compute::AWS::NotFound.new("The security group '#{group_name}' does not exist"))
 
           verify_permission_options(options, group['vpcId'] != nil)
 
@@ -150,14 +152,15 @@ module Fog
                          else
                            options['SourceSecurityGroupName']
                          end
-            source_group_id=self.data[:security_groups][group_name]['groupId']
+            source_group_id, _ = self.data[:security_groups].find { |_,v| v['groupName'] == group_name }
+
             ['tcp', 'udp'].each do |protocol|
               normalized_permissions << {
                 'ipProtocol' => protocol,
                 'fromPort'   => 1,
                 'toPort'     => 65535,
                 'groups'     => [{
-                  'groupName' => options['SourceSecurityGroupName'],
+                  'groupName' => group_name,
                   'userId'    => options['SourceSecurityGroupOwnerId'] || self.data[:owner_id],
                   'groupId'   => source_group_id
                 }],
@@ -169,7 +172,7 @@ module Fog
               'fromPort'   => -1,
               'toPort'     => -1,
               'groups'     => [{
-                'groupName' => options['SourceSecurityGroupName'],
+                'groupName' => group_name,
                 'userId'    => options['SourceSecurityGroupOwnerId'] || self.data[:owner_id],
                 'groupId'   => source_group_id
               }],
@@ -188,18 +191,19 @@ module Fog
 
               groups = (permission['Groups'] || []).map do |authorized_group|
                 security_group = if group_name = authorized_group['GroupName']
-                                   self.data[:security_groups][group_name]
+                                   self.data[:security_groups].values.find { |sg| sg['groupName'] == group_name }
                                  elsif group_id = authorized_group['GroupId']
-                                   self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id }
-                                 end ||
-                                 raise(Fog::Compute::AWS::NotFound.new("The security group '#{group_name || group_id}' does not exist"))
+                                   self.data[:security_groups][group_id]
+                                 end
+                security_group ||
+                  raise(Fog::Compute::AWS::NotFound.new("The security group '#{group_name || group_id}' does not exist"))
 
-                                 {
-                                   'groupName' => authorized_group['GroupName'] || security_group["groupName"],
-                                   'userId'    => authorized_group['UserId']    || self.data[:owner_id],
-                                   'groupId'   => authorized_group["GroupId"]   || security_group['groupId']
-                                 }
-                  end
+                {
+                  'groupName' => authorized_group['GroupName'] || security_group['groupName'],
+                  'userId'    => authorized_group['UserId']    || self.data[:owner_id],
+                  'groupId'   => authorized_group["GroupId"]   || security_group['groupId']
+                }
+              end
 
 
               if ['tcp', 'udp', 'icmp'].include?(permission['IpProtocol'])
@@ -208,7 +212,7 @@ module Fog
                   'fromPort'   => Integer(permission['FromPort']),
                   'toPort'     => Integer(permission['ToPort']),
                   'groups'     => groups,
-                  'ipRanges' => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
+                  'ipRanges'   => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
                 }
               else
                 normalized_permissions << {

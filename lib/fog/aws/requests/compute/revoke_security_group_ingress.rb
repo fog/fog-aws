@@ -57,40 +57,33 @@ module Fog
       class Mock
         def revoke_security_group_ingress(group_name, options = {})
           options = Fog::AWS.parse_security_group_options(group_name, options)
-          if options.key?('GroupName')
-            group_name = options['GroupName']
-          else
-            group_name = self.data[:security_groups].reject { |k,v| v['groupId'] != options['GroupId'] } .keys.first
-          end
+          group = self.data[:security_groups].values.find { |v| v['groupName'] == group_name }
 
+          group ||
+            raise(Fog::Compute::AWS::NotFound.new("The security group '#{group_name}' does not exist"))
           response = Excon::Response.new
-          group = self.data[:security_groups][group_name]
 
-          if group
-            verify_permission_options(options, group['vpcId'] != nil)
+          verify_permission_options(options, group['vpcId'] != nil)
 
-            normalized_permissions = normalize_permissions(options)
+          normalized_permissions = normalize_permissions(options)
 
-            normalized_permissions.each do |permission|
-              if matching_permission = find_matching_permission(group, permission)
-                matching_permission['ipRanges'] -= permission['ipRanges']
-                matching_permission['groups'] -= permission['groups']
+          normalized_permissions.each do |permission|
+            if matching_permission = find_matching_permission(group, permission)
+              matching_permission['ipRanges'] -= permission['ipRanges']
+              matching_permission['groups'] -= permission['groups']
 
-                if matching_permission['ipRanges'].empty? && matching_permission['groups'].empty?
-                  group['ipPermissions'].delete(matching_permission)
-                end
+              if matching_permission['ipRanges'].empty? && matching_permission['groups'].empty?
+                group['ipPermissions'].delete(matching_permission)
               end
             end
-
-            response.status = 200
-            response.body = {
-              'requestId' => Fog::AWS::Mock.request_id,
-              'return'    => true
-            }
-            response
-          else
-            raise Fog::Compute::AWS::NotFound.new("The security group '#{group_name}' does not exist")
           end
+
+          response.status = 200
+          response.body = {
+            'requestId' => Fog::AWS::Mock.request_id,
+            'return'    => true
+          }
+          response
         end
       end
     end

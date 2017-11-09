@@ -77,6 +77,32 @@ module Fog
               # Manually override since Amazon doesn't let you create a default one
               self.data[:network_acls][default_nacl.network_acl_id]['default'] = true
 
+
+              # create default security groups
+              default_elb_group_name = "default_elb_#{Fog::Mock.random_hex(6)}"
+              default_elb_group_id = Fog::AWS::Mock.security_group_id
+
+              Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups][default_elb_group_id] = {
+                'groupDescription'    => 'default_elb security group',
+                'groupName'           => default_elb_group_name,
+                'groupId'             => default_elb_group_id,
+                'ipPermissions'       => [],
+                'ownerId'             => self.data[:owner_id],
+                'vpcId'               => vpc_id
+              }
+
+              default_group_name = 'default'
+              default_group_id = Fog::AWS::Mock.security_group_id
+
+              Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups][default_group_id] = {
+                'groupDescription'    => default_group_name,
+                'groupName'           => default_group_name,
+                'groupId'             => default_group_id,
+                'ipPermissions'       => [],
+                'ownerId'             => self.data[:owner_id],
+                'vpcId'               => vpc_id
+              }
+
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,
                 'vpcSet'    => [vpc]

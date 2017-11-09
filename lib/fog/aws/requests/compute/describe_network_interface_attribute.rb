@@ -42,23 +42,25 @@ module Fog
       class Mock
         def describe_network_interface_attribute(network_interface_id, attribute)
           response = Excon::Response.new
-          if self.data[:network_interfaces][network_interface_id]
+          network_interface = self.data[:network_interfaces][network_interface_id]
 
-            response.status = 200
-            response.body = {
-              'requestId'          => Fog::AWS::Mock.request_id,
-              'networkInterfaceId' => network_interface_id
-            }
-            case attribute
-            when 'description', 'groupSet', 'sourceDestCheck', 'attachment'
-              response.body[attribute] = self.data[:network_interfaces][network_interface_id][attribute]
-            else
-              raise Fog::Compute::AWS::Error.new("Illegal attribute '#{attribute}' specified")
-            end
-            response
-          else
+
+          unless network_interface
             raise Fog::Compute::AWS::NotFound.new("The network interface '#{network_interface_id}' does not exist")
           end
+
+          response.status = 200
+          response.body = {
+            'requestId'          => Fog::AWS::Mock.request_id,
+            'networkInterfaceId' => network_interface_id
+          }
+          case attribute
+          when 'description', 'groupSet', 'sourceDestCheck', 'attachment'
+            response.body[attribute] = network_interface[attribute]
+          else
+            raise Fog::Compute::AWS::Error.new("Illegal attribute '#{attribute}' specified")
+          end
+          response
         end
       end
     end

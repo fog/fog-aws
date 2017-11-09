@@ -111,53 +111,22 @@ module Fog
                            when 'EC2-Classic'
                              Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups]['amazon-elb-sg']
                            when 'EC2-VPC-Default'
-                             # find or create default vpc
                              compute = Fog::Compute::AWS::new(:aws_access_key_id => @aws_access_key_id, :aws_secret_access_key => @aws_secret_access_key)
-                             unless vpc = compute.vpcs.all.first
-                               vpc = compute.vpcs.create('cidr_block' => '10.0.0.0/24')
-                             end
 
-                             default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
+                             vpc = compute.vpcs.all.first ||
+                               compute.vpcs.create('cidr_block' => '10.0.0.0/24')
+
+                             Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
                                sg['groupName'] =~ /^default_elb/ &&
                                  sg["vpcId"] == vpc.id
                              }
-
-                             unless default_sg
-                               default_sg = {
-                                             'groupDescription'    => 'default_elb security group',
-                                             'groupName'           => "default_elb_#{Fog::Mock.random_hex(6)}",
-                                             'groupId'             => Fog::AWS::Mock.security_group_id,
-                                             'ipPermissionsEgress' => [],
-                                             'ipPermissions'       => [],
-                                             'ownerId'             => self.data[:owner_id],
-                                             'vpcId'               => vpc.id
-                                            }
-                               Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups]['default'] = default_sg
-                             end
-
-                             default_sg
                            when 'EC2-VPC'
-                             # find or create default vpc security group
                              vpc_id = subnets.first["vpcId"]
-                             default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
+
+                             Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
                                sg['groupName'] == 'default' &&
                                  sg["vpcId"] == vpc_id
                              }
-
-                             unless default_sg
-                               default_sg = {
-                                             'groupDescription'    => 'default elb security group',
-                                             'groupName'           => 'default',
-                                             'groupId'             => Fog::AWS::Mock.security_group_id,
-                                             'ipPermissionsEgress' => [],
-                                             'ipPermissions'       => [],
-                                             'ownerId'             => self.data[:owner_id],
-                                             'vpcId'               => vpc_id
-                                            }
-                               Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups]['default'] = default_sg
-                             end
-
-                             default_sg
                            end
           self.data[:tags] ||= {}
           self.data[:tags][lb_name] = {}
