@@ -23,8 +23,10 @@ module Fog
                 credential_path = options[:credential_path] || ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
                 role_data = connection.get(:path => credential_path, :idempotent => true, :expects => 200).body
 
-                connection = options[:metadata_connection] || Excon.new(INSTANCE_METADATA_HOST)
-                region ||= connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200).body[0..-2]
+                if region.nil?
+                  connection = options[:metadata_connection] || Excon.new(INSTANCE_METADATA_HOST)
+                  region = connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200).body[0..-2]
+                end
               else
                 connection = options[:connection] || Excon.new(INSTANCE_METADATA_HOST)
                 role_name = connection.get(:path => INSTANCE_METADATA_PATH, :idempotent => true, :expects => 200).body
