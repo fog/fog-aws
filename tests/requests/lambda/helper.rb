@@ -1,7 +1,7 @@
 class AWS
   class Lambda
     module Formats
-      require 'zip/zip'
+      require 'zip'
 
       GET_FUNCTION_CONFIGURATION = {
         'CodeSize'     => Integer,
@@ -65,7 +65,7 @@ class AWS
       DELETE_EVENT_SOURCE_MAPPING = GET_EVENT_SOURCE_MAPPING
 
       def self.zip(data, filename='index.js')
-        data_io = Zip::ZipOutputStream.write_buffer do |zio|
+        data_io = Zip::OutputStream.write_buffer do |zio|
           zio.put_next_entry(filename)
           zio.write(data)
         end
