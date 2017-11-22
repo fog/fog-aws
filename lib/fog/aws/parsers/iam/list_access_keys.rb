@@ -10,7 +10,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'AccessKeyId', 'Status', 'Username'
+            when 'AccessKeyId', 'Status', 'UserName'
               @access_key[name] = value
             when 'member'
               @response['AccessKeys'] << @access_key
