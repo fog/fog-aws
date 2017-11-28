@@ -2,22 +2,30 @@
 
 ## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
 
-[Full Changelog](https://github.com/fog/fog-aws/compare/v1.4.0...HEAD)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v1.4.1...HEAD)
 
 **Closed issues:**
 
+- connect\_write timeout on AWS CodeBuild [\#413](https://github.com/fog/fog-aws/issues/413)
 - cannot load such file -- fog \(LoadError\) [\#401](https://github.com/fog/fog-aws/issues/401)
 - Missing file for extraction? [\#390](https://github.com/fog/fog-aws/issues/390)
 -  Regression: IO stream sent to AWS fails [\#388](https://github.com/fog/fog-aws/issues/388)
 - Stack Level Too Deep on YAML Serialization [\#385](https://github.com/fog/fog-aws/issues/385)
-- retrieval of ipv6 vpc  [\#379](https://github.com/fog/fog-aws/issues/379)
-- Timeout when trying to bootstrap or ssh spot request instances [\#372](https://github.com/fog/fog-aws/issues/372)
-- Why default VPC does not require Elastic IP to connect in internet [\#338](https://github.com/fog/fog-aws/issues/338)
-- Chunked images response causing Nokogiri::XML::SyntaxError [\#273](https://github.com/fog/fog-aws/issues/273)
+- models/elb/model\_tests does not properly cleanup [\#347](https://github.com/fog/fog-aws/issues/347)
 - Generates wrong url when region is not DEFAULT\_REGION [\#214](https://github.com/fog/fog-aws/issues/214)
 
 **Merged pull requests:**
 
+- upgrade rubyzip to \>= 1.2.1 [\#416](https://github.com/fog/fog-aws/pull/416) ([lanej](https://github.com/lanej))
+- correction in iam/list\_access\_keys parser: Username should be UserName [\#415](https://github.com/fog/fog-aws/pull/415) ([patleb](https://github.com/patleb))
+- Avoid creating connection if region is not nil [\#414](https://github.com/fog/fog-aws/pull/414) ([hideto0710](https://github.com/hideto0710))
+- Resolving issue where `Fog::Json` was called instead of `Fog::JSON`. [\#412](https://github.com/fog/fog-aws/pull/412) ([mgarrick](https://github.com/mgarrick))
+- Add t2.micro in flavors list [\#411](https://github.com/fog/fog-aws/pull/411) ([KevinLoiseau](https://github.com/KevinLoiseau))
+- Adding AWS P3 Tesla GPU instance types [\#409](https://github.com/fog/fog-aws/pull/409) ([hamelsmu](https://github.com/hamelsmu))
+- Add jitter to exponential backoff [\#408](https://github.com/fog/fog-aws/pull/408) ([masstamike](https://github.com/masstamike))
+- Add emulation of default VPC to mocked mode. [\#407](https://github.com/fog/fog-aws/pull/407) ([rzaharenkov](https://github.com/rzaharenkov))
+- Update rds instance options model [\#406](https://github.com/fog/fog-aws/pull/406) ([carloslima](https://github.com/carloslima))
+- Drop Ruby\<2.0 support [\#405](https://github.com/fog/fog-aws/pull/405) ([tbrisker](https://github.com/tbrisker))
 - allow Gemfile-edge travis builds to fail [\#403](https://github.com/fog/fog-aws/pull/403) ([lanej](https://github.com/lanej))
 - Add `default\_for\_az` attribute to subnet [\#402](https://github.com/fog/fog-aws/pull/402) ([rzaharenkov](https://github.com/rzaharenkov))
 - bundler ~\> 1.15 [\#399](https://github.com/fog/fog-aws/pull/399) ([lanej](https://github.com/lanej))
@@ -28,6 +36,20 @@
 - Migrate Service mapper from Fog [\#392](https://github.com/fog/fog-aws/pull/392) ([plribeiro3000](https://github.com/plribeiro3000))
 - Add ability to encrypt a copy of an unencrypted snapshot [\#391](https://github.com/fog/fog-aws/pull/391) ([nodecarter](https://github.com/nodecarter))
 - Fix VPC parser [\#389](https://github.com/fog/fog-aws/pull/389) ([ddiachkov](https://github.com/ddiachkov))
+- fix default\_security\_group detection [\#348](https://github.com/fog/fog-aws/pull/348) ([lanej](https://github.com/lanej))
+
+## [v1.4.1](https://github.com/fog/fog-aws/tree/v1.4.1) (2017-08-23)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v1.4.0...v1.4.1)
+
+**Closed issues:**
+
+- retrieval of ipv6 vpc  [\#379](https://github.com/fog/fog-aws/issues/379)
+- Timeout when trying to bootstrap or ssh spot request instances [\#372](https://github.com/fog/fog-aws/issues/372)
+- Why default VPC does not require Elastic IP to connect in internet [\#338](https://github.com/fog/fog-aws/issues/338)
+- Chunked images response causing Nokogiri::XML::SyntaxError [\#273](https://github.com/fog/fog-aws/issues/273)
+
+**Merged pull requests:**
+
 - Update changelog for 1.4.0 [\#383](https://github.com/fog/fog-aws/pull/383) ([greysteil](https://github.com/greysteil))
 - Allow specifying kms key id to use [\#382](https://github.com/fog/fog-aws/pull/382) ([fcheung](https://github.com/fcheung))
 - added support to retrieve and create vpc with ipv6 cidr block [\#381](https://github.com/fog/fog-aws/pull/381) ([chanakyacool](https://github.com/chanakyacool))
