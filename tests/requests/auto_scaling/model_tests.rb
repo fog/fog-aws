@@ -2,7 +2,9 @@ Shindo.tests('AWS::AutoScaling | model_tests', ['aws', 'auto_scaling']) do
 
   tests('success') do
     lc = nil
+    asg = nil
     lc_id = 'fog-model-lc'
+    asg_id = 'fog-model-asg'
 
     tests('configurations') do
       tests('getting a missing configuration') do
@@ -37,9 +39,6 @@ Shindo.tests('AWS::AutoScaling | model_tests', ['aws', 'auto_scaling']) do
       tests('getting a missing group') do
         returns(nil) { Fog::AWS[:auto_scaling].groups.get('fog-no-such-asg') }
       end
-
-      asg = nil
-      asg_id = 'fog-model-asg'
 
       tests('create') do
         asg = Fog::AWS[:auto_scaling].groups.create(:id => asg_id, :availability_zones => ['us-east-1d'], :launch_configuration_name => lc_id)
@@ -76,11 +75,6 @@ Shindo.tests('AWS::AutoScaling | model_tests', ['aws', 'auto_scaling']) do
         end
       end
 
-      tests('destroy group') do
-        asg.destroy
-        asg = nil
-      end
-
       #tests('registering an invalid instance') do
       #  raises(Fog::AWS::AutoScaling::InvalidInstance) { asg.register_instances('i-00000000') }
       #end
@@ -88,13 +82,6 @@ Shindo.tests('AWS::AutoScaling | model_tests', ['aws', 'auto_scaling']) do
       #tests('deregistering an invalid instance') do
       #  raises(Fog::AWS::AutoScaling::InvalidInstance) { asg.deregister_instances('i-00000000') }
       #end
-    end
-
-    tests('configurations') do
-      tests('destroy configuration') do
-        lc.destroy
-        lc = nil
-      end
     end
 
     #server = Fog::AWS[:compute].servers.create
@@ -186,50 +173,66 @@ Shindo.tests('AWS::AutoScaling | model_tests', ['aws', 'auto_scaling']) do
     #  end
     #end
 
-    #tests('policies') do
-    #  app_policy_id = 'my-app-policy'
-    #
-    #  tests 'are empty' do
-    #    returns([]) { elb.policies.to_a }
-    #  end
-    #
-    #  tests('#all') do
-    #    returns([]) { elb.policies.all.to_a }
-    #  end
-    #
-    #  tests('create app policy') do
-    #    elb.policies.create(:id => app_policy_id, :cookie => 'my-app-cookie', :cookie_stickiness => :app)
-    #    returns(app_policy_id) { elb.policies.first.id }
-    #  end
-    #
-    #  tests('get policy') do
-    #    returns(app_policy_id) { elb.policies.get(app_policy_id).id }
-    #  end
-    #
-    #  tests('destroy app policy') do
-    #    elb.policies.first.destroy
-    #    returns([]) { elb.policies.to_a }
-    #  end
-    #
-    #  lb_policy_id = 'my-lb-policy'
-    #  tests('create lb policy') do
-    #    elb.policies.create(:id => lb_policy_id, :expiration => 600, :cookie_stickiness => :lb)
-    #    returns(lb_policy_id) { elb.policies.first.id }
-    #  end
-    #
-    #  tests('setting a listener policy') do
-    #    elb.set_listener_policy(80, lb_policy_id)
-    #    returns([lb_policy_id]) { elb.listeners.get(80).policy_names }
-    #  end
-    #
-    #  tests('unsetting a listener policy') do
-    #    elb.unset_listener_policy(80)
-    #    returns([]) { elb.listeners.get(80).policy_names }
-    #  end
-    #
-    #  tests('a malformed policy') do
-    #    raises(ArgumentError) { elb.policies.create(:id => 'foo', :cookie_stickiness => 'invalid stickiness') }
-    #  end
-    #end
+    tests('policies') do
+      simple_policy_id = 'fog-model-asg-policy-simple'
+      step_policy_id = 'fog-model-asg-policy-step'
+      target_policy_id = 'fog-model-asg-policy-target'
+
+      tests 'create simple' do
+        asg_policy = Fog::AWS[:auto_scaling].policies.create({ id: simple_policy_id, scaling_adjustment: 1, auto_scaling_group_name: asg_id })
+        tests('arn not nil').returns(false) { asg_policy.arn.nil? }
+        tests('adjustment is set').returns(true) { asg_policy.scaling_adjustment == 1 }
+        tests('alarms are not set').returns([]) { asg_policy.alarms }
+      end
+
+      tests('create step') do
+        asg_policy = Fog::AWS[:auto_scaling].policies.create({
+                                                               id: step_policy_id,
+                                                               type: 'StepScaling',
+                                                               step_adjustments: [{
+                                                                                    'MetricIntervalLowerBound' => 0,
+                                                                                    'MetricIntervalUpperBound' => nil,
+                                                                                    'ScalingAdjustment'        => 1
+                                                                                  }],
+                                                               auto_scaling_group_name: asg_id })
+        tests('arn not nil').returns(false) { asg_policy.arn.nil? }
+        tests('nested attributes are available with snake case').returns(true) { asg_policy.step_adjustments[0][:metric_interval_lower_bound] == 0 }
+      end
+
+      tests('create target') do
+        asg_policy = Fog::AWS[:auto_scaling].policies.create({
+                                                               id: target_policy_id,
+                                                               type: 'TargetTrackingScaling',
+                                                               target_tracking_configuration: {
+                                                                 predefined_metric_specification: {
+                                                                   predefined_metric_type: 'ASGAverageCPUUtilization'
+                                                                 },
+                                                                 target_value: 50
+                                                               },
+                                                               auto_scaling_group_name: asg_id })
+        tests('arn not nil').returns(false) { asg_policy.arn.nil? }
+        tests('nested attributes are available with snake case').returns(true) { asg_policy.target_tracking_configuration[:target_value] == 50 }
+      end
+
+      tests('destroy') do
+        policy = Fog::AWS[:auto_scaling].policies.get(simple_policy_id, asg_id)
+        policy.destroy
+        returns(nil) { Fog::AWS[:auto_scaling].policies.get(simple_policy_id, asg_id) }
+      end
+    end
+
+    tests('groups') do
+      tests('destroy group') do
+        asg.destroy
+        asg = nil
+      end
+    end
+
+    tests('configurations') do
+      tests('destroy configuration') do
+        lc.destroy
+        lc = nil
+      end
+    end
   end
 end

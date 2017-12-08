@@ -99,6 +99,10 @@ module Fog
           reload
         end
 
+        def policies
+          service.policies.all('AutoScalingGroupName' => id)
+        end
+
         def instances
           Fog::AWS::AutoScaling::Instances.new(:service => service).load(attributes[:instances])
         end

@@ -123,15 +123,27 @@ class AWS
         'UserData' => Fog::Nullable::String
       }
 
+      STEP_ADJUSTMENT = {
+        'MetricIntervalLowerBound' => Fog::Nullable::Float,
+        'MetricIntervalUpperBound' => Fog::Nullable::Float,
+        'ScalingAdjustment'        => Integer
+      }
+
       SCALING_POLICY = {
-        'AdjustmentType' => String,
+        'AdjustmentType' => Fog::Nullable::String,
         'Alarms' => [ALARM],
         'AutoScalingGroupName' => String,
-        'Cooldown' => Integer,
-        'MinAdjustmentStep' => Integer,
+        'Cooldown' => Fog::Nullable::Integer,
+        'EstimatedInstanceWarmup' => Fog::Nullable::Integer,
+        'MetricAggregationType' => Fog::Nullable::String,
+        'MinAdjustmentMagnitude' => Fog::Nullable::String,
+        'MinAdjustmentStep' => Fog::Nullable::Integer,
         'PolicyARN' => String,
         'PolicyName' => String,
-        'ScalingAdjustment' => Integer
+        'PolicyType' => String,
+        'ScalingAdjustment' => Fog::Nullable::Integer,
+        'TargetTrackingConfiguration' => Fog::Nullable::Hash,
+        'StepAdjustments' => [STEP_ADJUSTMENT]
       }
 
       DESCRIBE_ADJUSTMENT_TYPES = BASIC.merge({

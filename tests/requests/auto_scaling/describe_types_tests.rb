@@ -96,7 +96,6 @@ Shindo.tests('AWS::AutoScaling | describe types requests', ['aws', 'auto_scaling
 
       body
     end
-
   end
 
 end

@@ -87,6 +87,113 @@ module Fog
     service(:sts,             'STS')
     service(:support,         'Support')
 
+    # Transforms hash keys according to the passed mapping or given block
+    #
+    # ==== Parameters
+    # * object<~Hash> - A hash to apply transformation to
+    # * mappings<~Hash> - A hash of mappings for keys. Keys of the mappings object should match desired keys of the
+    #   object which will be transformed. If object contains values that are hashes or arrays of hashes which should
+    #   be transformed as well mappings object's value should be configured with a specific form, for example:
+    #   {
+    #     :key => {
+    #       'Key' => {
+    #         :nested_key => 'NestedKey'
+    #       }
+    #     }
+    #   }
+    #   This form will transform object's key :key to 'Key'
+    #   and transform corresponding value: if it's a hash then its key :nested_key will be transformed into 'NestedKey'
+    #   if it's an array of hashes, each hash element of the array will have it's key :nested_key transformed into 'NestedKey'
+    # * block<~Proc> - block which is applied if mappings object does not contain key. Block receives key as it's argument
+    #   and should return new key as the one that will be used to replace the original one
+    # ==== Returns
+    # * object<~Hash> - hash containing transformed keys
+    #
+    def self.map_keys(object, mappings = nil, &block)
+      case object
+      when ::Hash
+        object.reduce({}) do |acc, (key, val)|
+          mapping = mappings[key] if mappings
+          new_key, new_value = begin
+            if mapping
+              case mapping
+              when ::Hash
+                mapped_key = mapping.keys[0]
+                [mapped_key, map_keys(val, mapping[mapped_key], &block)]
+              else
+                [mapping, map_keys(val, &block)]
+              end
+            else
+              mapped_value = map_keys(val, &block)
+              if block_given?
+                [block.call(key), mapped_value]
+              else
+                [key, mapped_value]
+              end
+            end
+          end
+          acc[new_key] = new_value
+          acc
+        end
+      when ::Array
+        object.map { |item| map_keys(item, mappings, &block) }
+      else
+        object
+      end
+    end
+
+    # Maps object keys to aws compatible: underscore keys are transformed in camel case strings
+    # with capitalized first word (aka :ab_cd transforms into AbCd). Already compatible keys remain the same
+    #
+    # ==== Parameters
+    # * object<~Hash> - A hash to apply transformation to
+    # * mappings<~Hash> - An optional hash of mappings for keys
+    # ==== Returns
+    # * object<~Hash> - hash containing transformed keys
+    #
+    def self.map_to_aws(object, mappings = nil)
+      map_keys(object, mappings) do |key|
+        words = key.to_s.split('_')
+        if words.length > 1
+          words.collect(&:capitalize).join
+        else
+          words[0].split(/(?=[A-Z])/).collect(&:capitalize).join
+        end
+      end
+    end
+
+    # Maps object keys from aws to ruby compatible form aka snake case symbols
+    #
+    # ==== Parameters
+    # * object<~Hash> - A hash to apply transformation to
+    # * mappings<~Hash> - An optional hash of mappings for keys
+    # ==== Returns
+    # * object<~Hash> - hash containing transformed keys
+    #
+    def self.map_from_aws(object, mappings = nil)
+      map_keys(object, mappings) { |key| key.to_s.split(/(?=[A-Z])/).join('_').downcase.to_sym }
+    end
+
+    # Helper function to invert mappings: recursively replaces mapping keys and values.
+    #
+    # ==== Parameters
+    # * mappings<~Hash> - mappings hash
+    # ==== Returns
+    # * object<~Hash> - inverted mappings
+    #
+    def self.invert_mappings(mappings)
+      mappings.reduce({}) do |acc, (key, val)|
+        mapped_key, mapped_value = case val
+                                   when ::Hash
+                                     [val.keys[0], val.values[0]]
+                                   else
+                                     [val, nil]
+                                   end
+        acc[mapped_key] = mapped_value ? { key => invert_mappings(mapped_value) } : key
+        acc
+      end
+    end
+
     def self.indexed_param(key, values)
       params = {}
       unless key.include?('%d')
