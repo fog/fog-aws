@@ -14,7 +14,7 @@ module Fog
       class ValidationError             < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name, :version
 
       request_path 'fog/aws/requests/elb'
       request :configure_health_check
