@@ -4,6 +4,7 @@ module Fog
       class Address < Fog::Model
         identity  :public_ip,                  :aliases => 'publicIp'
 
+        attribute :private_ip_address,         :aliases => 'privateIpAddress'
         attribute :allocation_id,              :aliases => 'allocationId'
         attribute :association_id,             :aliases => 'associationId'
         attribute :server_id,                  :aliases => 'instanceId'
