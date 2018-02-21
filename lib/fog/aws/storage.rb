@@ -62,6 +62,7 @@ module Fog
       request :delete_bucket_policy
       request :delete_bucket_website
       request :delete_object
+      request :delete_object_url
       request :delete_multiple_objects
       request :delete_bucket_tagging
       request :get_bucket
