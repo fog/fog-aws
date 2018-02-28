@@ -1,5 +1,23 @@
 # Change Log
 
+## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v2.0.0...HEAD)
+
+**Closed issues:**
+
+- Unable to use fog-aws with DigitalOcean Spaces: MissingContentLength [\#428](https://github.com/fog/fog-aws/issues/428)
+- Add new France region [\#424](https://github.com/fog/fog-aws/issues/424)
+- How to set root volume size with bootstrap method? [\#417](https://github.com/fog/fog-aws/issues/417)
+- Update Dependencies [\#227](https://github.com/fog/fog-aws/issues/227)
+
+**Merged pull requests:**
+
+- Expose S3 pre-signed object delete url [\#431](https://github.com/fog/fog-aws/pull/431) ([nolith](https://github.com/nolith))
+- Fronzen strings fix [\#430](https://github.com/fog/fog-aws/pull/430) ([zhulik](https://github.com/zhulik))
+- Expose elastic ip's private\_ip\_address [\#427](https://github.com/fog/fog-aws/pull/427) ([KevinLoiseau](https://github.com/KevinLoiseau))
+- add france \(eu-west-3\) new region, fix \#424 [\#425](https://github.com/fog/fog-aws/pull/425) ([Val](https://github.com/Val))
+
 ## [v2.0.0](https://github.com/fog/fog-aws/tree/v2.0.0) (2017-11-28)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v1.4.1...v2.0.0)
 
