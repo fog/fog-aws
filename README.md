@@ -76,6 +76,10 @@ instance.destroy
 
 Fog::AWS is more than EC2 since it supports many services provided by AWS. The best way to learn and to know about how many services are supported is to take a look at the source code. To review the tests directory and to play with the library in ```irb``` can be very helpful resources as well.
 
+## Documentation
+
+See the [online documentation](http://www.rubydoc.info/github/fog/fog-aws) for a complete API reference.
+
 ## Contributing
 
 1. Fork it ( https://github.com/fog/fog-aws/fork )
