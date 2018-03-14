@@ -51,34 +51,37 @@ module Fog
 
       class Mock
         def create_load_balancer_listeners(lb_name, listeners)
-          if load_balancer = self.data[:load_balancers][lb_name]
-            response = Excon::Response.new
+          load_balancer = data[:load_balancers][lb_name]
+          raise Fog::AWS::ELB::NotFound unless load_balancer
+          response = Excon::Response.new
 
-            certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map {|n, c| c['Arn'] }
+          certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map { |_n, c| c['Arn'] }
 
-            listeners.each do |listener|
-              if listener['SSLCertificateId'] and !certificate_ids.include? listener['SSLCertificateId']
-                raise Fog::AWS::IAM::NotFound.new('CertificateNotFound')
-              end
-
-              if (%w( HTTP HTTPS).include?(listener['Protocol']) && !%w( HTTP HTTPS ).include?(listener['InstanceProtocol'])) ||
-                  (%w( TCP SSL).include?(listener['Protocol']) && !%w( TCP SSL ).include?(listener['InstanceProtocol']))
-                raise Fog::AWS::ELB::ValidationError
-              end if listener['Protocol'] && listener['InstanceProtocol']
-              load_balancer['ListenerDescriptions'] << {'Listener' => listener, 'PolicyNames' => []}
+          listeners.each do |listener|
+            if listener['SSLCertificateId'] && !certificate_ids.include?(listener['SSLCertificateId'])
+              raise Fog::AWS::IAM::NotFound, 'CertificateNotFound'
             end
 
-            response.status = 200
-            response.body = {
-              'ResponseMetadata' => {
-                'RequestId' => Fog::AWS::Mock.request_id
-              }
-            }
-
-            response
-          else
-            raise Fog::AWS::ELB::NotFound
+            if listener['Protocol'] && listener['InstanceProtocol']
+              if (
+                  %w[HTTP HTTPS].include?(listener['Protocol']) && !%w[HTTP HTTPS].include?(listener['InstanceProtocol'])
+              ) || (
+                %w[TCP SSL].include?(listener['Protocol']) && !%w[TCP SSL].include?(listener['InstanceProtocol'])
+              )
+              raise Fog::AWS::ELB::ValidationError
+              end
+            end
+            load_balancer['ListenerDescriptions'] << { 'Listener' => listener, 'PolicyNames' => [] }
           end
+
+          response.status = 200
+          response.body = {
+            'ResponseMetadata' => {
+              'RequestId' => Fog::AWS::Mock.request_id
+            }
+          }
+
+          response
         end
       end
     end

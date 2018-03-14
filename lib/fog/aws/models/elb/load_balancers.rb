@@ -6,7 +6,7 @@ module Fog
         model Fog::AWS::ELB::LoadBalancer
 
         # Creates a new load balancer
-        def initialize(attributes={})
+        def initialize(attributes = {})
           super
         end
 
@@ -14,7 +14,7 @@ module Fog
           result = []
           marker = nil
           finished = false
-          while !finished
+          until finished
             data = service.describe_load_balancers('Marker' => marker).body
             result.concat(data['DescribeLoadBalancersResult']['LoadBalancerDescriptions'])
             marker = data['DescribeLoadBalancersResult']['NextMarker']
@@ -24,10 +24,9 @@ module Fog
         end
 
         def get(identity)
-          if identity
-            data = service.describe_load_balancers('LoadBalancerNames' => identity).body['DescribeLoadBalancersResult']['LoadBalancerDescriptions'].first
-            new(data)
-          end
+          return unless identity
+          data = service.describe_load_balancers('LoadBalancerNames' => identity).body['DescribeLoadBalancersResult']['LoadBalancerDescriptions'].first
+          new(data)
         rescue Fog::AWS::ELB::NotFound
           nil
         end
