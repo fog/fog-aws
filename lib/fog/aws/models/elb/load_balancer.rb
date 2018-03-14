@@ -223,15 +223,23 @@ module Fog
         end
 
         def reload
-          super
           @instance_health = nil
           @policy_descriptions = nil
-          self
+          super
         end
 
         def destroy
           requires :id
           service.delete_load_balancer(id)
+        end
+
+        protected
+
+        def all_associations_and_attributes
+          super.merge(
+            'ListenerDescriptions' => attributes['ListenerDescriptions'],
+            'BackendServerDescriptions' => attributes['BackendServerDescriptions'],
+          )
         end
       end
     end
