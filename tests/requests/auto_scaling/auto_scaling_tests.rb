@@ -51,6 +51,14 @@ Shindo.tests('AWS::AutoScaling | auto_scaling_tests', ['aws', 'auto_scaling']) d
       tests("#attach_instances").formats(AWS::AutoScaling::Formats::BASIC) do
         Fog::AWS[:auto_scaling].attach_instances(@asg_name, 'InstanceIds' => 'i-deadbeef').body
       end
+
+      tests("#set_instance_protection").formats(AWS::AutoScaling::Formats::BASIC) do
+        Fog::AWS[:auto_scaling].set_instance_protection(
+          @asg_name,
+          'InstanceIds' => 'i-deadbeef',
+          'ProtectedFromScaleIn' => true
+        ).body
+      end
     end
 
     tests("#describe_auto_scaling_groups").formats(AWS::AutoScaling::Formats::DESCRIBE_AUTO_SCALING_GROUPS) do
