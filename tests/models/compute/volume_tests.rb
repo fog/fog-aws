@@ -1,14 +1,22 @@
-Shindo.tests("Fog::Compute[:aws] | volume", ['aws']) do
-
+Shindo.tests('Fog::Compute[:aws] | volume', ['aws']) do
   @server = Fog::Compute[:aws].servers.create
   @server.wait_for { ready? }
 
-  model_tests(Fog::Compute[:aws].volumes, {:availability_zone => @server.availability_zone, :size => 1, :device => '/dev/sdz1', :tags => {"key" => "value"}, :type => 'gp2'}, true) do
+  model_tests(
+    Fog::Compute[:aws].volumes,
+    {
+      availability_zone: @server.availability_zone,
+      size: 1,
+      tags: { 'key' => 'value' },
+      type: 'gp2'
+    },
+    true
+  ) do
 
     @instance.wait_for { ready? }
 
-    tests('#server = @server').succeeds do
-      @instance.server = @server
+    tests('#attach(server, device)').succeeds do
+      @instance.attach(@server, '/dev/sdz1')
     end
 
     @instance.wait_for { state == 'in-use' }
@@ -17,13 +25,14 @@ Shindo.tests("Fog::Compute[:aws] | volume", ['aws']) do
       @instance.server.id == @server.id
     end
 
-    tests('#server = nil').succeeds do
-      (@instance.server = nil).nil?
+    tests('#detach').succeeds do
+      @instance.detach
+      @instance.server.nil?
     end
 
     @instance.wait_for { ready? }
 
-    @instance.server = @server
+    @instance.attach(@server, '/dev/sdz1')
     @instance.wait_for { state == 'in-use' }
 
     tests('#force_detach').succeeds do
