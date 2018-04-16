@@ -23,11 +23,11 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler', '~> 1.15'
   spec.add_development_dependency 'rake',    '~> 10.0'
-  spec.add_development_dependency 'shindo',  '~> 0.3'
   spec.add_development_dependency 'rubyzip', '~> 1.2.1'
+  spec.add_development_dependency 'shindo',  '~> 0.3'
 
-  spec.add_dependency 'fog-core',  '~> 1.38'
-  spec.add_dependency 'fog-json',  '~> 1.0'
+  spec.add_dependency 'fog-core',  '~> 2.1'
+  spec.add_dependency 'fog-json',  '~> 1.1'
   spec.add_dependency 'fog-xml',   '~> 0.1'
   spec.add_dependency 'ipaddress', '~> 0.8'
 end

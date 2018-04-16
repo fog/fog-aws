@@ -12,17 +12,16 @@ module Fog
         end
 
         def get(lb_port)
-          all.find{|listener| listener.lb_port == lb_port}
+          all.find { |listener| listener.lb_port == lb_port }
         end
 
         private
+
         # Munge an array of ListenerDescription hashes like:
         # {'Listener' => listener, 'PolicyNames' => []}
         # to an array of listeners with a PolicyNames key
         def munged_data
-          data.map {|description|
-            description['Listener'].merge('PolicyNames' => description['PolicyNames'])
-          }
+          data.map { |description| description['Listener'].merge('PolicyNames' => description['PolicyNames']) }
         end
       end
     end

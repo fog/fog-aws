@@ -59,25 +59,19 @@ module Fog
             requires :availability_zone
             requires_one :size, :snapshot_id
 
-            if type == 'io1'
-              requires :iops
-            end
+            requires :iops if type == 'io1'
 
             data = service.create_volume(availability_zone, size, create_params).body
             merge_attributes(data)
 
             if tags = self.tags
               # expect eventual consistency
-              Fog.wait_for { self.reload rescue nil }
-              service.create_tags(
-                self.identity,
-                tags
-              )
+              Fog.wait_for { service.volumes.get(identity) }
+              service.create_tags(identity, tags)
             end
 
-            if @server
-              self.server = @server
-            end
+            attach(@service, device) if @server
+
             true
           end
         end
@@ -87,13 +81,7 @@ module Fog
           service.servers.get(server_id)
         end
 
-        def server=(new_server)
-          if new_server
-            attach(new_server)
-          else
-            detach
-          end
-        end
+        attr_writer :server
 
         def snapshots
           requires :id
@@ -109,22 +97,15 @@ module Fog
           detach(true)
         end
 
-        private
-
-        def attachmentSet=(new_attachment_set)
-          merge_attributes(new_attachment_set.first || {})
-        end
-
-        def attach(new_server)
+        def attach(new_server, new_device)
           if !persisted?
             @server = new_server
             self.availability_zone = new_server.availability_zone
           elsif new_server
-            requires :device
             wait_for { ready? }
             @server = nil
             self.server_id = new_server.id
-            service.attach_volume(server_id, id, device)
+            service.attach_volume(server_id, id, new_device)
             reload
           end
         end
@@ -136,6 +117,12 @@ module Fog
             service.detach_volume(id, 'Force' => force)
             reload
           end
+        end
+
+        private
+
+        def attachmentSet=(new_attachment_set)
+          merge_attributes(new_attachment_set.first || {})
         end
 
         def create_params
