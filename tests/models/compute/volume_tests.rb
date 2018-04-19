@@ -8,38 +8,33 @@ Shindo.tests('Fog::Compute[:aws] | volume', ['aws']) do
       availability_zone: @server.availability_zone,
       size: 1,
       tags: { 'key' => 'value' },
-      type: 'gp2'
+      type: 'gp2',
+      server: @server,
+      device: '/dev/sdz1'
     },
     true
   ) do
 
-    @instance.wait_for { ready? }
-
-    tests('#attach(server, device)').succeeds do
-      @instance.attach(@server, '/dev/sdz1')
-    end
-
-    @instance.wait_for { state == 'in-use' }
-
-    tests('#server').succeeds do
-      @instance.server.id == @server.id
+    tests('attached').succeeds do
+      @instance.server == @server
     end
 
     tests('#detach').succeeds do
       @instance.detach
+      @instance.wait_for { ready? }
       @instance.server.nil?
     end
 
-    @instance.wait_for { ready? }
-
-    @instance.attach(@server, '/dev/sdz1')
-    @instance.wait_for { state == 'in-use' }
+    tests('#attach(server, device)').succeeds do
+      @instance.attach(@server, '/dev/sdz1')
+      @instance.server == @server
+    end
 
     tests('#force_detach').succeeds do
       @instance.force_detach
+      @instance.wait_for { ready? }
+      @instance.server.nil?
     end
-
-    @instance.wait_for { ready? }
 
     @instance.type = 'io1'
     @instance.iops = 5000
@@ -56,10 +51,9 @@ Shindo.tests('Fog::Compute[:aws] | volume', ['aws']) do
     returns(5000)  { @instance.iops }
     returns(100)   { @instance.size }
 
-    tests('@instance.reload.tags').returns({'key' => 'value'}) do
-      @instance.reload.tags
+    tests('@instance.tags').returns({'key' => 'value'}) do
+      @instance.tags
     end
-
   end
 
   @server.destroy
