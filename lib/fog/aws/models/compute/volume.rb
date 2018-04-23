@@ -21,7 +21,7 @@ module Fog
 
         def initialize(attributes = {})
           # assign server first to prevent race condition with persisted?
-          self.server = attributes.delete(:server)
+          @server = attributes.delete(:server)
           super
         end
 
@@ -70,18 +70,16 @@ module Fog
               service.create_tags(identity, tags)
             end
 
-            attach(@service, device) if @server
-
-            true
+            attach(@server, device) if @server && device
           end
+
+          true
         end
 
         def server
           requires :server_id
           service.servers.get(server_id)
         end
-
-        attr_writer :server
 
         def snapshots
           requires :id
@@ -117,6 +115,10 @@ module Fog
             service.detach_volume(id, 'Force' => force)
             reload
           end
+        end
+
+        def server=(_)
+          raise NoMethodError, 'use Fog::Compute::AWS::Volume#attach(server, device)'
         end
 
         private
