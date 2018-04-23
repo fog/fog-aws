@@ -25,6 +25,10 @@ Shindo.tests('Fog::Compute[:aws] | volume', ['aws']) do
       @instance.server.nil?
     end
 
+    tests('#server=').raises(NoMethodError, 'use Fog::Compute::AWS::Volume#attach(server, device)') do
+      @instance.server = @server
+    end
+
     tests('#attach(server, device)').succeeds do
       @instance.attach(@server, '/dev/sdz1')
       @instance.server == @server

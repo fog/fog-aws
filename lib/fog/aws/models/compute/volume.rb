@@ -117,6 +117,10 @@ module Fog
           end
         end
 
+        def server=(_)
+          raise NoMethodError, 'use Fog::Compute::AWS::Volume#attach(server, device)'
+        end
+
         private
 
         def attachmentSet=(new_attachment_set)
