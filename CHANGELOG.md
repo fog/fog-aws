@@ -2,7 +2,24 @@
 
 ## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
 
-[Full Changelog](https://github.com/fog/fog-aws/compare/v2.0.0...HEAD)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v2.0.1...HEAD)
+
+**Closed issues:**
+
+- Easily Delete S3 directory and it contents? [\#435](https://github.com/fog/fog-aws/issues/435)
+- S3 upload help -- likely user error :\) [\#432](https://github.com/fog/fog-aws/issues/432)
+- Fog not work without pry [\#317](https://github.com/fog/fog-aws/issues/317)
+
+**Merged pull requests:**
+
+- fix: attach volume on \#save, remove \#server= [\#443](https://github.com/fog/fog-aws/pull/443) ([lanej](https://github.com/lanej))
+- Adding g3 flavors [\#440](https://github.com/fog/fog-aws/pull/440) ([AlexLamande](https://github.com/AlexLamande))
+- Add c5 and m5 instance types. [\#439](https://github.com/fog/fog-aws/pull/439) ([rogersd](https://github.com/rogersd))
+- Include link to full documentation [\#434](https://github.com/fog/fog-aws/pull/434) ([kylefox](https://github.com/kylefox))
+- fog-core 2.x, fog-json 1.x [\#433](https://github.com/fog/fog-aws/pull/433) ([lanej](https://github.com/lanej))
+
+## [v2.0.1](https://github.com/fog/fog-aws/tree/v2.0.1) (2018-02-28)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v2.0.0...v2.0.1)
 
 **Closed issues:**
 
