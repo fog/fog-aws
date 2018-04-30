@@ -28,14 +28,13 @@ module Fog
         }
       end
 
-      # See https://forums.aws.amazon.com/message.jspa?messageID=612414
-      # Note: Oddly, to update this list, I have had to revert to going to
-      #       dev console at https://console.aws.amazon.com/route53/home, then using
-      #       search all sources for Z14GRHDCWA56QT to find this in a HashMap
+      # See https://docs.aws.amazon.com/general/latest/gr/rande.html#elb_region
+      # This needs to be kept in sync manually sadly for now as seemingly this data is not available via an API
       def self.elb_dualstack_hosted_zone_mapping
         @elb_dualstack_hosted_zone_mapping ||= {
           "ap-northeast-1" => "Z14GRHDCWA56QT",
           "ap-northeast-2" => "ZWKZPGTI48KDX",
+          "ap-northeast-3" => "Z5LXEXXYW11ES",
           "ap-south-1" => "ZP97RAFLXTNZK",
           "ap-southeast-1" => "Z1LMS91P8CMLE5",
           "ap-southeast-2" => "Z1GM3OXH4ZPM65",
@@ -43,6 +42,7 @@ module Fog
           "eu-central-1" => "Z215JYRZR1TBD5",
           "eu-west-1" => "Z32O12XQLNTSW2",
           "eu-west-2" => "ZHURV8PSTC4K8",
+          "eu-west-3" => "Z3Q77PNBQS71R4",
           "us-east-1" => "Z35SXDOTRQ7X7K",
           "us-east-2" => "Z3AADJGX6KTTL2",
           "us-west-1" => "Z368ELLRRE2KJ0",
