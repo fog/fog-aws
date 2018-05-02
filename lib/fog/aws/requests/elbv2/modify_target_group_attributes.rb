@@ -23,7 +23,7 @@ module Fog
         #         * 'stickiness.lb_cookie.duration_seconds'<~Integer> - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).
         def modify_target_group_attributes(tg_id, attributes)
           params = {}
-          params.merge!(Fog::AWS.serialize_keys('Attributes', attributes))
+          params.merge!(Fog::AWS.indexed_param('Attributes.member', attributes))
           request({
             'Action' => 'ModifyTargetGroupAttributes',
             'TargetGroupArn' => tg_id,
@@ -37,7 +37,7 @@ module Fog
           target_group = self.data[:target_groups][tg_id]
           raise Fog::AWS::ELBV2::NotFound unless target_group
 
-          target_group[:attributes].merge!(attributes)
+          target_group[:attributes].merge!(attributes.inject({}) { |acc, pair| acc[pair['Key']] = pair['Value']; acc })
 
           response = Excon::Response.new
           response.status = 200

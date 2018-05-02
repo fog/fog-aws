@@ -38,7 +38,8 @@ module Fog
         end
 
         def tg_attributes=(attributes)
-          resp = service.modify_target_group_attributes(id, attributes)
+          pairs = attributes.map { |k, v| { 'Key' => k, 'Value' => v } }
+          resp = service.modify_target_group_attributes(id, pairs)
           merge_attributes resp.body['ModifyTargetGroupAttributesResult']['Attributes']
         end
 
