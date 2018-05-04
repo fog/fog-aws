@@ -39,7 +39,7 @@ module Fog
         #         * 'SslPolicy'<~String> - The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
         def create_listener(lb_id, port, default_actions, protocol = 'HTTP', ssl_policy = nil, certificates = [])
           params = {}
-          params.merge!(Fog::Aws.indexed_param('DefaultActions.member', default_actions))
+          params.merge!(Fog::AWS.indexed_param('DefaultActions.member', default_actions))
           params.merge!(Fog::AWS.indexed_param('Certificates.member', certificates)) if certificates.any?
 
           params['SslPolicy'] = ssl_policy if ssl_policy
