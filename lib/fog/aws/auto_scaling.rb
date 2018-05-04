@@ -48,6 +48,7 @@ module Fog
       request :resume_processes
       request :set_desired_capacity
       request :set_instance_health
+      request :set_instance_protection
       request :suspend_processes
       request :terminate_instance_in_auto_scaling_group
       request :update_auto_scaling_group
