@@ -93,6 +93,7 @@ module Fog
           default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
             sg['groupName'] == 'default' && sg["vpcId"] == vpc_id
           }
+          default_sg_group_ids = default_sg && [default_sg["groupId"]]
 
           canonical_hosted_zone_id = 'asdf'
 
@@ -103,7 +104,7 @@ module Fog
             'CreatedTime' => Time.now.strftime("%Y-%m-%dT%H:%M:%S%z"),
             'IpAddressType' => options[:ip_address_type] || 'ipv4',
             'AvailabilityZones' => availability_zones,
-            'SecurityGroups' => options[:security_group_ids] || [default_sg["groupId"]],
+            'SecurityGroups' => options[:security_group_ids] || default_sg_group_ids,
             'CanonicalHostedZoneId' => canonical_hosted_zone_id,
             'DNSName' => dns_name,
             'VpcId' => vpc_id,
