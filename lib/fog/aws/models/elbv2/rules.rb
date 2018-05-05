@@ -34,6 +34,27 @@ module Fog
         rescue Fog::AWS::ELB::NotFound
           nil
         end
+
+        def describe(rule_ids = nil, listener_id = nil)
+          unless rule_ids || listener_id
+            raise Fog::Errors::Error.new('No identity or listener id provided')
+          end
+          if rule_ids && listener_id
+            raise Fog::Errors::Error.new('Listener id and rule ids cannot be specified at the same time')
+          end
+
+          result = []
+          marker = nil
+          finished = false
+          params = true
+          until finished
+            data = service.describe_rules(listener_id, rule_ids, marker: marker).body
+            result.concat(data['DescribeRulesResult']['Rules'])
+            marker = data['DescribeRulesResult']['NextMarker']
+            finished = !marker
+          end
+          load(result)
+        end
       end
     end
   end
