@@ -16,7 +16,7 @@ module Fog
         def delete_rule(rule_id)
           request({
             'Action'          => 'DeleteRule',
-            'ListenerArn'     => rule_id,
+            'RuleArn'         => rule_id,
             :parser           => Fog::Parsers::AWS::ELBV2::Empty.new
           })
         end
