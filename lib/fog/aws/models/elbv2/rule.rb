@@ -39,7 +39,7 @@ module Fog
           requires :id
           actions = tg_ids.map { |tg_id| { 'Type' => 'forward', 'TargetGroupArn' => tg_id } }
           resp = service.modify_rule(id, actions, conditions)
-          merge_attributes(resp.body['ModifyRuleResult']['Listeners'].first)
+          merge_attributes(resp.body['ModifyRuleResult']['Rules'].first)
         end
 
         def destroy
