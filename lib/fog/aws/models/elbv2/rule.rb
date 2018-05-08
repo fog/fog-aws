@@ -35,6 +35,13 @@ module Fog
           merge_attributes(resp.body['DescribeRulesResult']['Rules'][0])
         end
 
+        def update(tg_ids, conditions)
+          requires :id
+          actions = tg_ids.map { |tg_id| { 'Type' => 'forward', 'TargetGroupArn' => tg_id } }
+          resp = service.modify_rule(id, actions, conditions)
+          merge_attributes(resp.body['ModifyRuleResult']['Listeners'].first)
+        end
+
         def destroy
           requires :id
           service.delete_rule(id)
