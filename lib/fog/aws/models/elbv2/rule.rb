@@ -32,7 +32,7 @@ module Fog
 
         def save
           resp = service.create_rule(listener.id, actions, conditions, :priority => priority)
-          merge_attributes(resp.body['DescribeRulesResult']['Rules'][0])
+          merge_attributes(resp.body['CreateRulesResult']['Rules'][0])
         end
 
         def update(tg_ids, conditions)
