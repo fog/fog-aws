@@ -163,10 +163,13 @@ module Fog
             # expect eventual consistency
             if (tags = server.tags) && tags.size > 0
               Fog.wait_for { server.reload rescue nil }
-              service.create_tags(
-                server.identity,
-                tags
-              )
+              Fog.wait_for {
+                begin
+                  service.create_tags(server.identity, tags)
+                rescue Fog::Compute::AWS::NotFound
+                  false
+                end
+              }
             end
             server
           end
