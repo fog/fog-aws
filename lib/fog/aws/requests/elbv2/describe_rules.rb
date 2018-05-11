@@ -47,7 +47,7 @@ module Fog
       class Mock
         def describe_rules(listener_id = nil, rule_ids = [], options = {})
           listener = self.data[:load_balancer_listeners][listener_id]
-          raise Fog::AWS::ELBV2::NotFound unless listener
+          raise Fog::AWS::ELBV2::NotFound if listener_id && !listener
 
           rules = self.data[:load_balancer_listener_rules].select { |rule|
             rule_ids.any? && rule_ids.include?(rule['RuleArn']) || listener_id && rule['ListenerArn'] == listener_id

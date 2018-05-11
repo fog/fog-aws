@@ -28,7 +28,7 @@ module Fog
 
         def get(identity)
           if identity
-            resp = service.describe_rules(nil, identity)
+            resp = service.describe_rules(nil, [*identity])
             new(resp.body['DescribeRulesResult']['Rules'].first)
           end
         rescue Fog::AWS::ELB::NotFound
