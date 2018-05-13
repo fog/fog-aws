@@ -45,7 +45,7 @@ module Fog
                     'Action'      => 'CreateRule',
                     'Priority'    => options[:priority] || 1,
                     'ListenerArn' => listener_id,
-                    :parser       => Fog::Parsers::AWS::ELBV2::CreateRules.new
+                    :parser       => Fog::Parsers::AWS::ELBV2::CreateRule.new
                   }.merge!(params))
         end
       end
