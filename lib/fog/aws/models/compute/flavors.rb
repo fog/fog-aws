@@ -138,7 +138,7 @@ module Fog
           :id                      => 'c1.xlarge',
           :name                    => 'High-CPU Extra Large',
           :bits                    => 64,
-          :cores                   => 20,
+          :cores                   => 8,
           :disk                    => 1690,
           :ram                     => 7168,
           :ebs_optimized_available => true,
