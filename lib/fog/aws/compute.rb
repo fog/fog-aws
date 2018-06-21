@@ -6,7 +6,7 @@ module Fog
       class RequestLimitExceeded < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name, :version
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name, :version, :retry_request_limit_exceeded, :retry_jitter_magnitude
 
       secrets    :aws_secret_access_key, :hmac, :aws_session_token
 
@@ -546,11 +546,13 @@ module Fog
 
         def initialize(options={})
 
-          @connection_options     = options[:connection_options] || {}
-          @region                 = options[:region] ||= 'us-east-1'
-          @instrumentor           = options[:instrumentor]
-          @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
-          @version                = options[:version]     ||  '2016-11-15'
+          @connection_options           = options[:connection_options] || {}
+          @region                       = options[:region] ||= 'us-east-1'
+          @instrumentor                 = options[:instrumentor]
+          @instrumentor_name            = options[:instrumentor_name] || 'fog.aws.compute'
+          @version                      = options[:version]     ||  '2016-11-15'
+          @retry_request_limit_exceeded = options.has_key?(:retry_request_limit_exceeded) ? options[:retry_request_limit_exceeded] : true
+          @retry_jitter_magnitude       = options[:retry_jitter_magnitude] || 0.1
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
@@ -633,22 +635,18 @@ module Fog
             raise case match[:code]
                 when 'NotFound', 'Unknown'
                   Fog::Compute::AWS::NotFound.slurp(error, match[:message])
-                when 'RequestLimitExceeded'
-                  if retries < max_retries
-                    jitter = rand(100)
-                    waiting = true
-                    start_time = Time.now
-                    wait_time = ((2.0 ** (1.0 + retries) * 100) + jitter) / 1000.0
+                when 'RequestLimitExceeded'                  
+                  if @retry_request_limit_exceeded && retries < max_retries
+                    jitter = rand * 10 * @retry_jitter_magnitude
+                    wait_time = ((2.0 ** (1.0 + retries) * 100) / 1000.0) + jitter
                     Fog::Logger.warning "Waiting #{wait_time} seconds to retry."
-                    while waiting
-                      if Time.now - start_time >= wait_time
-                        waiting = false
-                      end
-                    end
+                    sleep(wait_time)
                     retries += 1
                     retry
-                  else
+                  elsif @retry_request_limit_exceeded
                     Fog::Compute::AWS::RequestLimitExceeded.slurp(error, "Max retries exceeded (#{max_retries}) #{match[:code]} => #{match[:message]}")
+                  else
+                    Fog::Compute::AWS::RequestLimitExceeded.slurp(error, "#{match[:code]} => #{match[:message]}")
                   end
                 else
                   Fog::Compute::AWS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
