@@ -162,6 +162,7 @@ module Fog
             server.merge_attributes(instance_set)
             # expect eventual consistency
             if (tags = server.tags) && tags.size > 0
+              Fog.wait_for { server.reload rescue nil }
               Fog.wait_for {
                 begin
                   service.create_tags(server.identity, tags)
