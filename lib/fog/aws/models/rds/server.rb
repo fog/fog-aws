@@ -4,40 +4,41 @@ module Fog
       class Server < Fog::Model
         identity  :id, :aliases => 'DBInstanceIdentifier'
 
-        attribute :allocated_storage,            :aliases => 'AllocatedStorage', :type => :integer
-        attribute :auto_minor_version_upgrade,   :aliases => 'AutoMinorVersionUpgrade'
-        attribute :availability_zone,            :aliases => 'AvailabilityZone'
-        attribute :backup_retention_period,      :aliases => 'BackupRetentionPeriod', :type => :integer
-        attribute :ca_certificate_id,            :aliases => 'CACertificateIdentifier'
-        attribute :character_set_name,           :aliases => 'CharacterSetName'
-        attribute :cluster_id,                   :aliases => 'DBClusterIdentifier'
-        attribute :created_at,                   :aliases => 'InstanceCreateTime', :type => :time
-        attribute :db_name,                      :aliases => 'DBName'
-        attribute :db_parameter_groups,          :aliases => 'DBParameterGroups'
-        attribute :db_security_groups,           :aliases => 'DBSecurityGroups', :type => :array
-        attribute :db_subnet_group_name,         :aliases => 'DBSubnetGroupName'
-        attribute :dbi_resource_id,              :aliases => 'DbiResourceId'
-        attribute :endpoint,                     :aliases => 'Endpoint'
-        attribute :engine,                       :aliases => 'Engine'
-        attribute :engine_version,               :aliases => 'EngineVersion'
-        attribute :flavor_id,                    :aliases => 'DBInstanceClass'
-        attribute :iops,                         :aliases => 'Iops', :type => :integer
-        attribute :kms_key_id,                   :aliases => 'KmsKeyId'
-        attribute :last_restorable_time,         :aliases => 'LatestRestorableTime', :type => :time
-        attribute :license_model,                :aliases => 'LicenseModel'
-        attribute :master_username,              :aliases => 'MasterUsername'
-        attribute :multi_az,                     :aliases => 'MultiAZ', :type => :boolean
-        attribute :pending_modified_values,      :aliases => 'PendingModifiedValues'
-        attribute :preferred_backup_window,      :aliases => 'PreferredBackupWindow'
-        attribute :preferred_maintenance_window, :aliases => 'PreferredMaintenanceWindow'
-        attribute :publicly_accessible,          :aliases => 'PubliclyAccessible'
-        attribute :read_replica_identifiers,     :aliases => 'ReadReplicaDBInstanceIdentifiers', :type => :array
-        attribute :read_replica_source,          :aliases => 'ReadReplicaSourceDBInstanceIdentifier'
-        attribute :state,                        :aliases => 'DBInstanceStatus'
-        attribute :storage_encrypted,            :aliases => 'StorageEncrypted', :type => :boolean
-        attribute :storage_type,                 :aliases => 'StorageType'
-        attribute :tde_credential_arn,           :aliases => 'TdeCredentialArn'
-        attribute :vpc_security_groups,          :aliases => 'VpcSecurityGroups', :type => :array
+        attribute :allocated_storage,                  :aliases => 'AllocatedStorage', :type => :integer
+        attribute :auto_minor_version_upgrade,         :aliases => 'AutoMinorVersionUpgrade'
+        attribute :availability_zone,                  :aliases => 'AvailabilityZone'
+        attribute :backup_retention_period,            :aliases => 'BackupRetentionPeriod', :type => :integer
+        attribute :ca_certificate_id,                  :aliases => 'CACertificateIdentifier'
+        attribute :character_set_name,                 :aliases => 'CharacterSetName'
+        attribute :cluster_id,                         :aliases => 'DBClusterIdentifier'
+        attribute :created_at,                         :aliases => 'InstanceCreateTime', :type => :time
+        attribute :db_name,                            :aliases => 'DBName'
+        attribute :db_parameter_groups,                :aliases => 'DBParameterGroups'
+        attribute :db_security_groups,                 :aliases => 'DBSecurityGroups', :type => :array
+        attribute :db_subnet_group_name,               :aliases => 'DBSubnetGroupName'
+        attribute :dbi_resource_id,                    :aliases => 'DbiResourceId'
+        attribute :enable_iam_database_authentication, :aliases => 'EnableIAMDatabaseAuthentication', :type => :boolean
+        attribute :endpoint,                           :aliases => 'Endpoint'
+        attribute :engine,                             :aliases => 'Engine'
+        attribute :engine_version,                     :aliases => 'EngineVersion'
+        attribute :flavor_id,                          :aliases => 'DBInstanceClass'
+        attribute :iops,                               :aliases => 'Iops', :type => :integer
+        attribute :kms_key_id,                         :aliases => 'KmsKeyId'
+        attribute :last_restorable_time,               :aliases => 'LatestRestorableTime', :type => :time
+        attribute :license_model,                      :aliases => 'LicenseModel'
+        attribute :master_username,                    :aliases => 'MasterUsername'
+        attribute :multi_az,                           :aliases => 'MultiAZ', :type => :boolean
+        attribute :pending_modified_values,            :aliases => 'PendingModifiedValues'
+        attribute :preferred_backup_window,            :aliases => 'PreferredBackupWindow'
+        attribute :preferred_maintenance_window,       :aliases => 'PreferredMaintenanceWindow'
+        attribute :publicly_accessible,                :aliases => 'PubliclyAccessible'
+        attribute :read_replica_identifiers,           :aliases => 'ReadReplicaDBInstanceIdentifiers', :type => :array
+        attribute :read_replica_source,                :aliases => 'ReadReplicaSourceDBInstanceIdentifier'
+        attribute :state,                              :aliases => 'DBInstanceStatus'
+        attribute :storage_encrypted,                  :aliases => 'StorageEncrypted', :type => :boolean
+        attribute :storage_type,                       :aliases => 'StorageType'
+        attribute :tde_credential_arn,                 :aliases => 'TdeCredentialArn'
+        attribute :vpc_security_groups,                :aliases => 'VpcSecurityGroups', :type => :array
 
         attr_accessor :password, :parameter_group_name, :security_group_names, :port, :source_snapshot_id
 
@@ -136,32 +137,33 @@ module Fog
         # Converts attributes to a parameter hash suitable for requests
         def attributes_to_params
           options = {
-            'AllocatedStorage'              => allocated_storage,
-            'AutoMinorVersionUpgrade'       => auto_minor_version_upgrade,
-            'AvailabilityZone'              => availability_zone,
-            'BackupRetentionPeriod'         => backup_retention_period,
-            'DBClusterIdentifier'           => cluster_id,
-            'DBInstanceClass'               => flavor_id,
-            'DBInstanceIdentifier'          => id,
-            'DBName'                        => db_name,
-            'DBParameterGroupName'          => parameter_group_name || attributes['DBParameterGroupName'],
-            'DBSecurityGroups'              => security_group_names,
-            'DBSubnetGroupName'             => db_subnet_group_name,
-            'Engine'                        => engine,
-            'EngineVersion'                 => engine_version,
-            'Iops'                          => iops,
-            'KmsKeyId'                      => kms_key_id,
-            'LicenseModel'                  => license_model,
-            'MasterUserPassword'            => password || attributes['MasterUserPassword'],
-            'MasterUsername'                => master_username,
-            'MultiAZ'                       => multi_az,
-            'Port'                          => port || attributes['Port'],
-            'PreferredBackupWindow'         => preferred_backup_window,
-            'PreferredMaintenanceWindow'    => preferred_maintenance_window,
-            'PubliclyAccessible'            => publicly_accessible,
-            'StorageEncrypted'              => storage_encrypted,
-            'StorageType'                   => storage_type,
-            'VpcSecurityGroups'             => vpc_security_groups,
+            'AllocatedStorage'                => allocated_storage,
+            'AutoMinorVersionUpgrade'         => auto_minor_version_upgrade,
+            'AvailabilityZone'                => availability_zone,
+            'BackupRetentionPeriod'           => backup_retention_period,
+            'DBClusterIdentifier'             => cluster_id,
+            'DBInstanceClass'                 => flavor_id,
+            'DBInstanceIdentifier'            => id,
+            'DBName'                          => db_name,
+            'DBParameterGroupName'            => parameter_group_name || attributes['DBParameterGroupName'],
+            'DBSecurityGroups'                => security_group_names,
+            'DBSubnetGroupName'               => db_subnet_group_name,
+            'EnableIAMDatabaseAuthentication' => enable_iam_database_authentication,
+            'Engine'                          => engine,
+            'EngineVersion'                   => engine_version,
+            'Iops'                            => iops,
+            'KmsKeyId'                        => kms_key_id,
+            'LicenseModel'                    => license_model,
+            'MasterUserPassword'              => password || attributes['MasterUserPassword'],
+            'MasterUsername'                  => master_username,
+            'MultiAZ'                         => multi_az,
+            'Port'                            => port || attributes['Port'],
+            'PreferredBackupWindow'           => preferred_backup_window,
+            'PreferredMaintenanceWindow'      => preferred_maintenance_window,
+            'PubliclyAccessible'              => publicly_accessible,
+            'StorageEncrypted'                => storage_encrypted,
+            'StorageType'                     => storage_type,
+            'VpcSecurityGroups'               => vpc_security_groups,
           }
 
           options.delete_if {|key, value| value.nil?}
