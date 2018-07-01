@@ -4,6 +4,7 @@ module Fog
 
       module Both
         TARGET_GROUP_OPTIONS_MAPPING = {
+          :target_type                    => 'TargetType',
           :healthy_threshold_count        => 'HealthyThresholdCount',
           :unhealthy_threshold_count      => 'UnhealthyThresholdCount',
           :health_check_interval_seconds  => 'HealthCheckIntervalSeconds',
@@ -24,6 +25,7 @@ module Fog
         #
         # ==== Optional parameters
         # * options<~Hash> -
+        #   * :target_type<~String> - Type of the targets.
         #   * :matcher<~String> - The HTTP codes to use when checking for a successful response from a target. The default is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299").
         #   * :healthy_threshold_count<~Integer> - The number of consecutive health checks successes required before considering an unhealthy target healthy. The default is 5.
         #   * :unhealthy_threshold_count<~Integer> - The number of consecutive health check failures required before considering a target unhealthy. The default is 2.
@@ -40,6 +42,7 @@ module Fog
         #       * 'RequestId'<~String> - Id of request
         #     * 'ModifyTargetGroupResult'<~Hash>:
         #       * 'TargetGroups'<~Array>:
+        #         * 'TargetType'<~String> - Type of the targets.
         #         * 'HealthCheckIntervalSeconds'<~Integer> - The approximate amount of time, in seconds, between health checks of an individual target.
         #         * 'HealthCheckPath'<~Integer> - The ping path that is the destination on the targets for health checks.
         #         * 'HealthCheckPort'<~String> - The port the load balancer uses when performing health checks on targets. The default is traffic-port, which indicates the port on which each target receives traffic from the load balancer.

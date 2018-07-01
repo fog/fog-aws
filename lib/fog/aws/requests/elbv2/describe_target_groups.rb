@@ -31,6 +31,7 @@ module Fog
         #         * 'HealthyThresholdCount'<~Integer> - The number of consecutive health checks successes required before considering an unhealthy target healthy.
         #         * 'Matcher.HttpCode'<~String> - The HTTP codes to use when checking for a successful response from a target.
         #         * 'Name'<~String> - The name of the target group.
+        #         * 'TargetType'<~String> - Type of the targets.
         #         * 'Port'<~Integer> - The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target.
         #         * 'Protocol'<~String> - The protocol to use for routing traffic to the targets.
         #         * 'UnhealthyThresholdCount'<~Integer> - The number of consecutive health check failures required before considering a target unhealthy. The default is 2.

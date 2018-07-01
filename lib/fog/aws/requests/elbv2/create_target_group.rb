@@ -5,6 +5,7 @@ module Fog
         require 'fog/aws/parsers/elbv2/create_target_group'
 
         TARGET_GROUP_OPTIONS_MAPPING = {
+          :target_type                    => 'TargetType',
           :healthy_threshold_count        => 'HealthyThresholdCount',
           :unhealthy_threshold_count      => 'UnhealthyThresholdCount',
           :health_check_interval_seconds  => 'HealthCheckIntervalSeconds',
@@ -24,6 +25,7 @@ module Fog
         #
         # ==== Optional parameters
         # * options<~Hash>:
+        #   * :target_type<~String> - Type of the targets.
         #   * :protocol<~String> - The protocol to use for routing traffic to the targets. Valid values: "HTTP", "HTTPS"
         #   * :matcher<~String> - The HTTP codes to use when checking for a successful response from a target. The default is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299").
         #   * :healthy_threshold_count<~Integer> - The number of consecutive health checks successes required before considering an unhealthy target healthy. The default is 5.
@@ -49,6 +51,7 @@ module Fog
         #         * 'HealthyThresholdCount'<~Integer> - The number of consecutive health checks successes required before considering an unhealthy target healthy.
         #         * 'Matcher.HttpCode'<~String> - The HTTP codes to use when checking for a successful response from a target.
         #         * 'Name'<~String> - The name of the target group.
+        #         * 'TargetType'<~String> - Type of the targets.
         #         * 'Port'<~Integer> - The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target.
         #         * 'Protocol'<~String> - The protocol to use for routing traffic to the targets.
         #         * 'UnhealthyThresholdCount'<~Integer> - The number of consecutive health check failures required before considering a target unhealthy. The default is 2.
@@ -77,8 +80,9 @@ module Fog
           tg_id = Fog::AWS::Mock.arn('elasticloadbalancing', self.data[:owner_id], "targetgroup/#{name}", @region)
 
           target_group_data = {
-            'TargetGroupArn' => tg_id,
+            'TargetGroupArn'  => tg_id,
             'TargetGroupName' => name,
+            'TargetType'                  => options[:target_type] || 'instance',
             'Matcher.HttpCode'            => options[:matcher] || '200',
             'HealthyThresholdCount'       => options[:healthy_threshold_count] || 5,
             'UnhealthyThresholdCount'     => options[:unhealthy_threshold_count] || 2,
