@@ -16,6 +16,7 @@ module Fog
         attribute :healthy_threshold_count,         :aliases => 'HealthyThresholdCount'
         attribute :unhealthy_threshold_count,       :aliases => 'UnhealthyThresholdCount'
         attribute :load_balancer_arns,              :aliases => 'LoadBalancerArns'
+        attribute :target_type,                     :aliases => 'TargetType'
 
         def register_targets(targets = [], targets_by_port = {})
           requires :id
@@ -99,7 +100,8 @@ module Fog
             :health_check_path => health_check_path,
             :health_check_port => health_check_port,
             :health_check_protocol => health_check_protocol,
-            :health_check_timeout_seconds => health_check_timeout_seconds
+            :health_check_timeout_seconds => health_check_timeout_seconds,
+            :target_type => target_type
           }
           options.delete_if { |k, v| v.nil? }
           resp = service.create_target_group(name, port, vpc_id, options)
