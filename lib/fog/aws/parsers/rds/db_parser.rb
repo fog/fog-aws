@@ -51,7 +51,8 @@ module Fog
               'CharacterSetName', 'DbiResourceId', 'LicenseModel', 'KmsKeyId',
               'DBClusterIdentifier'
               @db_instance[name] = value
-            when 'MultiAZ', 'AutoMinorVersionUpgrade', 'PubliclyAccessible', 'StorageEncrypted'
+            when 'MultiAZ', 'AutoMinorVersionUpgrade', 'PubliclyAccessible',
+              'StorageEncrypted', 'EnableIAMDatabaseAuthentication'
               @db_instance[name] = (value == 'true')
             when 'DBParameterGroups'
               @in_db_parameter_groups = false
