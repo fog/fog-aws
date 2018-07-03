@@ -1,33 +1,44 @@
 # Change Log
 
-All notable changes to this project will be documented in this file. Starting with 3.0.0, 
-the format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
 
-This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.0.0...HEAD)
 
-## [3.0.0](https://github.com/fog/fog-aws/tree/v3.0.0)
+**Closed issues:**
 
-[Compare to v2.0.1](https://github.com/fog/fog-aws/compare/v2.0.1...v3.0.0)
+- add region cn-northwest-1 [\#455](https://github.com/fog/fog-aws/issues/455)
+- Parameterize "RequestLimitExceeded" jitter magnitude [\#448](https://github.com/fog/fog-aws/issues/448)
+- Release new version to RubyGems [\#442](https://github.com/fog/fog-aws/issues/442)
 
-**Changed:**
+**Merged pull requests:**
 
-- fog-core 2.x, fog-json 1.x [\#433](https://github.com/fog/fog-aws/pull/433) ([lanej](https://github.com/lanej))
+- Fix & update aws flavor \(provided in GiB\) to Megabytes \(floor rounded\). [\#454](https://github.com/fog/fog-aws/pull/454) ([xward](https://github.com/xward))
+- Update aws flavors cpu count for gpu oriented flavor. [\#453](https://github.com/fog/fog-aws/pull/453) ([xward](https://github.com/xward))
+- Update aws flavors cpu count. [\#452](https://github.com/fog/fog-aws/pull/452) ([xward](https://github.com/xward))
+- Parameterized retry [\#451](https://github.com/fog/fog-aws/pull/451) ([lvangool](https://github.com/lvangool))
+- Fix c1.xlarge cpu count [\#449](https://github.com/fog/fog-aws/pull/449) ([romaintb](https://github.com/romaintb))
+- Retry if  instance not found when adding EC2 tags [\#446](https://github.com/fog/fog-aws/pull/446) ([tracemeyers](https://github.com/tracemeyers))
+- Support new Paris and AP Osaka load balancers in DNS [\#445](https://github.com/fog/fog-aws/pull/445) ([mattheworiordan](https://github.com/mattheworiordan))
+- Docs: Update changelog for 3.0.0 [\#444](https://github.com/fog/fog-aws/pull/444) ([jaredbeck](https://github.com/jaredbeck))
+- Add encryption to EFS FileSystem creation [\#438](https://github.com/fog/fog-aws/pull/438) ([acant](https://github.com/acant))
+- SetInstanceProtection endpoint for auto scaling groups support [\#436](https://github.com/fog/fog-aws/pull/436) ([thorn](https://github.com/thorn))
 
-**Added:**
-
-- Add c5 and m5 instance types. [\#439](https://github.com/fog/fog-aws/pull/439) ([rogersd](https://github.com/rogersd))
-- Adding g3 flavors [\#440](https://github.com/fog/fog-aws/pull/440) ([AlexLamande](https://github.com/AlexLamande))
-
-**Fixed:**
-
-- attach volume on \#save, remove \#server= [\#443](https://github.com/fog/fog-aws/pull/443) ([lanej](https://github.com/lanej))
-- Include link to full documentation [\#434](https://github.com/fog/fog-aws/pull/434) ([kylefox](https://github.com/kylefox))
+## [v3.0.0](https://github.com/fog/fog-aws/tree/v3.0.0) (2018-04-23)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v2.0.1...v3.0.0)
 
 **Closed issues:**
 
 - Easily Delete S3 directory and it contents? [\#435](https://github.com/fog/fog-aws/issues/435)
 - S3 upload help -- likely user error :\) [\#432](https://github.com/fog/fog-aws/issues/432)
 - Fog not work without pry [\#317](https://github.com/fog/fog-aws/issues/317)
+
+**Merged pull requests:**
+
+- fix: attach volume on \#save, remove \#server= [\#443](https://github.com/fog/fog-aws/pull/443) ([lanej](https://github.com/lanej))
+- Adding g3 flavors [\#440](https://github.com/fog/fog-aws/pull/440) ([AlexLamande](https://github.com/AlexLamande))
+- Add c5 and m5 instance types. [\#439](https://github.com/fog/fog-aws/pull/439) ([rogersd](https://github.com/rogersd))
+- Include link to full documentation [\#434](https://github.com/fog/fog-aws/pull/434) ([kylefox](https://github.com/kylefox))
+- fog-core 2.x, fog-json 1.x [\#433](https://github.com/fog/fog-aws/pull/433) ([lanej](https://github.com/lanej))
 
 ## [v2.0.1](https://github.com/fog/fog-aws/tree/v2.0.1) (2018-02-28)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v2.0.0...v2.0.1)
@@ -663,7 +674,7 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 - \[AWS|Autoscaling\] Support classic link related properties for launch configurations [\#32](https://github.com/fog/fog-aws/pull/32) ([fcheung](https://github.com/fcheung))
 - fix autoscaling activities collection setup [\#31](https://github.com/fog/fog-aws/pull/31) ([fcheung](https://github.com/fcheung))
 - Add PlacementTenancy to launch configuration parser and test case [\#29](https://github.com/fog/fog-aws/pull/29) ([benpillet](https://github.com/benpillet))
-- Use Fog::Formatador [\#27](https://github.com/fog/fog-aws/pull/27) ([starbelly](https://github.com/starbelly))
+- Use Fog::Formatador [\#27](https://github.com/fog/fog-aws/pull/27) ([ghost](https://github.com/ghost))
 
 ## [v0.0.7](https://github.com/fog/fog-aws/tree/v0.0.7) (2015-01-23)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.0.6...v0.0.7)
