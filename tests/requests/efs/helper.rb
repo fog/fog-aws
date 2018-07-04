@@ -10,6 +10,8 @@ class AWS
         "NumberOfMountTargets" => Integer,
         "OwnerId"              => String,
         "PerformanceMode"      => String,
+        "Encrypted"            => Fog::Nullable::Boolean,
+        "KmsKeyId"             => Fog::Nullable::String,
         "SizeInBytes"          => {
           "Timestamp" => Fog::Nullable::Float,
           "Value"     => Integer

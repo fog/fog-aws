@@ -99,6 +99,16 @@ module Fog
           reload
         end
 
+        def set_instance_protection(instance_ids, protected_from_scale_in)
+          requires :id
+          service.set_instance_protection(
+            id,
+            'InstanceIds' => instance_ids,
+            'ProtectedFromScaleIn' => protected_from_scale_in
+          )
+          reload
+        end
+
         def instances
           Fog::AWS::AutoScaling::Instances.new(:service => service).load(attributes[:instances])
         end
