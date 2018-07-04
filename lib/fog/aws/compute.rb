@@ -551,7 +551,7 @@ module Fog
           @instrumentor                 = options[:instrumentor]
           @instrumentor_name            = options[:instrumentor_name] || 'fog.aws.compute'
           @version                      = options[:version]     ||  '2016-11-15'
-          @retry_request_limit_exceeded = options.has_key?(:retry_request_limit_exceeded) ? options[:retry_request_limit_exceeded] : true
+          @retry_request_limit_exceeded = options.fetch(:retry_request_limit_exceeded, true)
           @retry_jitter_magnitude       = options[:retry_jitter_magnitude] || 0.1
 
           @use_iam_profile = options[:use_iam_profile]
