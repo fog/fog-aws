@@ -7,7 +7,7 @@ module Fog
         {
           :id                      => 't1.micro',
           :name                    => 'Micro Instance',
-          :bits                    => 0,
+          :bits                    => 32,
           :cores                   => 1,
           :disk                    => 0,
           :ram                     => 658,
