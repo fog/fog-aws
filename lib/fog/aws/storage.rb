@@ -316,7 +316,8 @@ module Fog
         def params_to_url(params)
           query = params[:query] && params[:query].map do |key, value|
             if value
-              [key, escape(value.to_s)].join('=')
+              # URL parameters need / to be escaped
+              [key, Fog::AWS.escape(value.to_s)].join('=')
             else
               key
             end
