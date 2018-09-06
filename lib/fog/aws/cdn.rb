@@ -1,6 +1,6 @@
 module Fog
-  module CDN
-    class AWS < Fog::Service
+  module AWS
+    class CDN < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
@@ -201,3 +201,6 @@ EOF
     end
   end
 end
+
+# @deprecated
+Fog::CDN::AWS = Fog::AWS::CDN

@@ -14,7 +14,7 @@ module Fog
           when :beanstalk
             Fog::AWS::ElasticBeanstalk
           when :cdn
-            Fog::CDN::AWS
+            Fog::AWS::CDN
           when :cloud_formation
             Fog::AWS::CloudFormation
           when :cloud_watch

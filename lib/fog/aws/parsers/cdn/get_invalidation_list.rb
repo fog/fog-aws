@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module CDN
-      module AWS
+    module AWS
+      module CDN
         class GetInvalidationList < Fog::Parsers::Base
           def reset
             @invalidation_summary = { }

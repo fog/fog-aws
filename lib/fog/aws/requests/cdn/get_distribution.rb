@@ -1,6 +1,6 @@
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       class Real
         require 'fog/aws/parsers/cdn/distribution'
 
@@ -42,7 +42,7 @@ module Fog
             :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::CDN::AWS::Distribution.new,
+            :parser     => Fog::Parsers::AWS::CDN::Distribution.new,
             :path       => "/distribution/#{distribution_id}"
           })
         end
@@ -54,14 +54,14 @@ module Fog
 
           distribution = self.data[:distributions][distribution_id]
           unless distribution
-            Fog::CDN::AWS::Mock.error(:no_such_distribution)
+            Fog::AWS::CDN::Mock.error(:no_such_distribution)
           end
 
           if distribution['Status'] == 'InProgress' && (Time.now - Time.parse(distribution['LastModifiedTime']) >= Fog::Mock.delay * 2)
             distribution['Status'] = 'Deployed'
           end
 
-          etag = Fog::CDN::AWS::Mock.generic_id
+          etag = Fog::AWS::CDN::Mock.generic_id
           response.status = 200
           response.body = {
             'InProgressInvalidationBatches' => 0,
