@@ -200,7 +200,17 @@ EOF
       end
     end
   end
-end
 
-# @deprecated
-Fog::CDN::AWS = Fog::AWS::CDN
+  # @deprecated
+  module CDN
+    # @deprecated
+    class AWS < Fog::AWS::CDN
+      # @deprecated
+      # @overrides Fog::Service.new (from the fog-core gem)
+      def self.new(*)
+        Fog::Logger.deprecation 'Fog::CDN::AWS is deprecated, please use Fog::AWS::CDN.'
+        super
+      end
+    end
+  end
+end
