@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS < Fog::Service
+    class Compute < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       class RequestLimitExceeded < Fog::Errors::Error; end
