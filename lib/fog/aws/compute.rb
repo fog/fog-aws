@@ -656,4 +656,17 @@ module Fog
       end
     end
   end
+
+  # @deprecated
+  module Compute
+    # @deprecated
+    class AWS < Fog::AWS::Compute
+      # @deprecated
+      # @overrides Fog::Service.new (from the fog-core gem)
+      def self.new(*)
+        Fog::Logger.deprecation 'Fog::Compute::AWS is deprecated, please use Fog::AWS::Compute.'
+        super
+      end
+    end
+  end
 end
