@@ -1,7 +1,7 @@
 require 'fog/aws/models/compute/image'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       class Images < Fog::Collection
         attribute :filters

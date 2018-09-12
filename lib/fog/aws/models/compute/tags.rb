@@ -1,7 +1,7 @@
 require 'fog/aws/models/compute/tag'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       class Tags < Fog::Collection
         attribute :filters

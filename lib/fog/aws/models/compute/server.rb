@@ -1,7 +1,7 @@
 require 'fog/compute/models/server'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       class Server < Fog::Compute::Server
         extend Fog::Deprecation

@@ -1,7 +1,7 @@
 require 'fog/aws/models/compute/internet_gateway'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       class InternetGateways < Fog::Collection
         attribute :filters

@@ -1,7 +1,7 @@
 require 'fog/aws/models/compute/spot_request'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       class SpotRequests < Fog::Collection
         attribute :filters

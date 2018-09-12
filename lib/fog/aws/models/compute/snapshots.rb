@@ -1,7 +1,7 @@
 require 'fog/aws/models/compute/snapshot'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       class Snapshots < Fog::Collection
         attribute :filters

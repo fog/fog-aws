@@ -1,7 +1,7 @@
 require 'fog/aws/models/compute/subnet'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       class Subnets < Fog::Collection
         attribute :filters

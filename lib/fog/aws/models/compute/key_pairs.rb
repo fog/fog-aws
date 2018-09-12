@@ -1,7 +1,7 @@
 require 'fog/aws/models/compute/key_pair'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       class KeyPairs < Fog::Collection
         attribute :filters

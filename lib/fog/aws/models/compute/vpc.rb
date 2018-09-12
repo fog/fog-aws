@@ -1,5 +1,5 @@
 module Fog
-  module Compute
+  module AWS
     class AWS
       class VPC < Fog::Model
         identity :id,                :aliases => 'vpcId'

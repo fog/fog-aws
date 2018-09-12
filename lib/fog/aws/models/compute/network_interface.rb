@@ -1,5 +1,5 @@
 module Fog
-  module Compute
+  module AWS
     class AWS
       class NetworkInterface < Fog::Model
         identity  :network_interface_id,        :aliases => 'networkInterfaceId'

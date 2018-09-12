@@ -1,5 +1,5 @@
 module Fog
-  module Compute
+  module AWS
     class AWS
       class SecurityGroup < Fog::Model
         identity  :name,            :aliases => 'groupName'

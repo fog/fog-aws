@@ -1,7 +1,7 @@
 require 'fog/aws/models/compute/dhcp_option'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       class DhcpOptions < Fog::Collection
         attribute :filters

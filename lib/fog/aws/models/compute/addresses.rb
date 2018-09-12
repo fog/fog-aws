@@ -1,7 +1,7 @@
 require 'fog/aws/models/compute/address'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       class Addresses < Fog::Collection
         attribute :filters

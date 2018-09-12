@@ -1,7 +1,7 @@
 require 'fog/aws/models/compute/network_interface'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       class NetworkInterfaces < Fog::Collection
         attribute :filters

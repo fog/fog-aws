@@ -1,7 +1,7 @@
 require 'fog/aws/models/compute/flavor'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       FLAVORS = [
         {

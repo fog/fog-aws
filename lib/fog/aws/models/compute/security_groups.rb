@@ -1,7 +1,7 @@
 require 'fog/aws/models/compute/security_group'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       class SecurityGroups < Fog::Collection
         attribute :filters

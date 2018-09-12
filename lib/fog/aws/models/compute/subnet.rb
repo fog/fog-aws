@@ -1,5 +1,5 @@
 module Fog
-  module Compute
+  module AWS
     class AWS
       class Subnet < Fog::Model
         identity  :subnet_id,                   :aliases => 'subnetId'

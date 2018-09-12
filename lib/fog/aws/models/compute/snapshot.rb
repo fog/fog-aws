@@ -1,5 +1,5 @@
 module Fog
-  module Compute
+  module AWS
     class AWS
       class Snapshot < Fog::Model
         identity  :id,          :aliases => 'snapshotId'

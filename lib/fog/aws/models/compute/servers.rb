@@ -1,7 +1,7 @@
 require 'fog/aws/models/compute/server'
 
 module Fog
-  module Compute
+  module AWS
     class AWS
       class Servers < Fog::Collection
         attribute :filters

@@ -1,5 +1,5 @@
 module Fog
-  module Compute
+  module AWS
     class AWS
       class KeyPair < Fog::Model
         identity  :name,        :aliases => 'keyName'
