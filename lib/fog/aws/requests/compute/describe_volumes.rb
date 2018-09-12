@@ -40,7 +40,7 @@ module Fog
           request({
             'Action'    => 'DescribeVolumes',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeVolumes.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeVolumes.new
           }.merge!(params))
         end
       end

@@ -40,7 +40,7 @@ module Fog
           request({
             'Action'    => 'DescribeReservedInstances',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeReservedInstances.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeReservedInstances.new
           }.merge!(params))
         end
       end

@@ -33,7 +33,7 @@ module Fog
           request({
             'Action' => 'DescribeDhcpOptions',
             :idempotent => true,
-            :parser => Fog::Parsers::Compute::AWS::DescribeDhcpOptions.new
+            :parser => Fog::Parsers::AWS::Compute::DescribeDhcpOptions.new
           }.merge!(params))
         end
       end

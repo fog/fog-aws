@@ -26,7 +26,7 @@ module Fog
           params.merge!(Fog::AWS.indexed_filters(options[:filters])) if options[:filters]
           request({
             'Action'    => 'DescribeVpcClassicLink',
-            :parser     => Fog::Parsers::Compute::AWS::DescribeVpcClassicLink.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeVpcClassicLink.new
           }.merge(params))
         end
       end
@@ -38,7 +38,7 @@ module Fog
           if vpc_ids = options[:vpc_ids]
             vpcs = vpc_ids.collect do |vpc_id|
               vpc = vpcs.find{ |v| v['vpcId'] == vpc_id }
-              raise Fog::Compute::AWS::NotFound.new("The VPC '#{vpc_id}' does not exist") unless vpc
+              raise Fog::AWS::Compute::NotFound.new("The VPC '#{vpc_id}' does not exist") unless vpc
               vpc
             end
           end

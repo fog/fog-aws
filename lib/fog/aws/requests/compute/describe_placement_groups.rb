@@ -24,7 +24,7 @@ module Fog
           request({
             'Action'    => 'DescribePlacementGroups',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribePlacementGroups.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribePlacementGroups.new
           }.merge!(params))
         end
       end

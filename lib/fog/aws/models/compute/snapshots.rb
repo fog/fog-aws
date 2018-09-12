@@ -7,7 +7,7 @@ module Fog
         attribute :filters
         attribute :volume
 
-        model Fog::Compute::AWS::Snapshot
+        model Fog::AWS::Compute::Snapshot
 
         def initialize(attributes)
           self.filters ||= { 'RestorableBy' => 'self' }

@@ -23,7 +23,7 @@ module Fog
           request({
             'Action'    => 'DescribeInstanceStatus',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeInstanceStatus.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeInstanceStatus.new
           }.merge!(params))
         end
       end

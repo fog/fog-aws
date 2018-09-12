@@ -57,7 +57,7 @@ module Fog
           request({
             'Action' => 'DescribeNetworkInterfaces',
             :idempotent => true,
-            :parser => Fog::Parsers::Compute::AWS::DescribeNetworkInterfaces.new
+            :parser => Fog::Parsers::AWS::Compute::DescribeNetworkInterfaces.new
           }.merge!(params))
         end
       end

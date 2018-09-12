@@ -21,7 +21,7 @@ module Fog
             'Action'    => 'DeleteKeyPair',
             'KeyName'   => key_name,
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::Basic.new
+            :parser     => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end

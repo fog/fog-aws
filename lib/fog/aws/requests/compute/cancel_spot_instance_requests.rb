@@ -23,7 +23,7 @@ module Fog
           request({
             'Action'    => 'CancelSpotInstanceRequests',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::CancelSpotInstanceRequests.new
+            :parser     => Fog::Parsers::AWS::Compute::CancelSpotInstanceRequests.new
           }.merge!(params))
         end
       end
@@ -34,7 +34,7 @@ module Fog
           spot_request = self.data[:spot_requests][spot_instance_request_id]
 
           unless spot_request
-            raise Fog::Compute::AWS::NotFound.new("The spot instance request ID '#{spot_instance_request_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The spot instance request ID '#{spot_instance_request_id}' does not exist")
           end
 
           spot_request['fault']['code'] = 'request-cancelled'

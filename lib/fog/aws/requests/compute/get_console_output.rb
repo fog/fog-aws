@@ -23,7 +23,7 @@ module Fog
             'Action'      => 'GetConsoleOutput',
             'InstanceId'  => instance_id,
             :idempotent   => true,
-            :parser       => Fog::Parsers::Compute::AWS::GetConsoleOutput.new
+            :parser       => Fog::Parsers::AWS::Compute::GetConsoleOutput.new
           )
         end
       end
@@ -41,7 +41,7 @@ module Fog
             }
             response
           else;
-            raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_id}' does not exist")
           end
         end
       end

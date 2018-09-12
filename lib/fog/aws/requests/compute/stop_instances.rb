@@ -22,7 +22,7 @@ module Fog
           request({
             'Action'    => 'StopInstances',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::StartStopInstances.new
+            :parser     => Fog::Parsers::AWS::Compute::StartStopInstances.new
           }.merge!(params))
         end
       end
@@ -36,7 +36,7 @@ module Fog
           instance_set = instance_set.select {|x| instance_ids.include?(x["instanceId"]) }
 
           if instance_set.empty?
-            raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_ids.first}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_ids.first}' does not exist")
           else
             response = Excon::Response.new
             response.status = 200

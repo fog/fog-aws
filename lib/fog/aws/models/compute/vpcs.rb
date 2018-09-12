@@ -6,7 +6,7 @@ module Fog
       class Vpcs < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::VPC
+        model Fog::AWS::Compute::VPC
 
         # Creates a new VPC
         #

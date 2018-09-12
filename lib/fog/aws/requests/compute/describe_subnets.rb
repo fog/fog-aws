@@ -37,7 +37,7 @@ module Fog
           request({
             'Action'    => 'DescribeSubnets',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeSubnets.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeSubnets.new
           }.merge!(params))
         end
       end

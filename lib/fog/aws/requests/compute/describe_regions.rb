@@ -27,7 +27,7 @@ module Fog
           request({
             'Action'    => 'DescribeRegions',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeRegions.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeRegions.new
           }.merge!(params))
         end
       end

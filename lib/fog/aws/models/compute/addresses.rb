@@ -7,7 +7,7 @@ module Fog
         attribute :filters
         attribute :server
 
-        model Fog::Compute::AWS::Address
+        model Fog::AWS::Compute::Address
 
         # Used to create an IP address
         #

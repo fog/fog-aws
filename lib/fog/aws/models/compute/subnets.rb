@@ -6,7 +6,7 @@ module Fog
       class Subnets < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::Subnet
+        model Fog::AWS::Compute::Subnet
 
         # Creates a new subnet
         #

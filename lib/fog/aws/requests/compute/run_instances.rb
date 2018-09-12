@@ -142,7 +142,7 @@ module Fog
             'MinCount'  => min_count,
             'MaxCount'  => max_count,
             :idempotent => idempotent,
-            :parser     => Fog::Parsers::Compute::AWS::RunInstances.new
+            :parser     => Fog::Parsers::AWS::Compute::RunInstances.new
           }.merge!(options))
         end
       end
@@ -157,7 +157,7 @@ module Fog
           reservation_id = Fog::AWS::Mock.reservation_id
 
           if options['KeyName'] && describe_key_pairs('key-name' => options['KeyName']).body['keySet'].empty?
-            raise Fog::Compute::AWS::NotFound.new("The key pair '#{options['KeyName']}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The key pair '#{options['KeyName']}' does not exist")
           end
 
           min_count.times do |i|

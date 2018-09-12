@@ -87,7 +87,7 @@ module Fog
             'LaunchSpecification.ImageId'       => image_id,
             'LaunchSpecification.InstanceType'  => instance_type,
             'SpotPrice'                         => spot_price,
-            :parser                             => Fog::Parsers::Compute::AWS::SpotInstanceRequests.new
+            :parser                             => Fog::Parsers::AWS::Compute::SpotInstanceRequests.new
           }.merge!(options))
         end
       end
@@ -103,19 +103,19 @@ module Fog
             all_instance_types = flavors.map { |f| f.id }
             if !all_instance_types.include?(instance_type)
               message = "InvalidParameterValue => Invalid value '#{instance_type}' for InstanceType."
-              raise Fog::Compute::AWS::Error.new(message)
+              raise Fog::AWS::Compute::Error.new(message)
             end
 
             spot_price = spot_price.to_f
             if !(spot_price > 0)
               message = "InvalidParameterValue => Value (#{spot_price}) for parameter price is invalid."
               message << " \"#{spot_price}\" is an invalid spot instance price"
-              raise Fog::Compute::AWS::Error.new(message)
+              raise Fog::AWS::Compute::Error.new(message)
             end
 
             if !image_id.match(/^ami-[a-f0-9]{8}$/)
               message = "The image id '[#{image_id}]' does not exist"
-              raise Fog::Compute::AWS::NotFound.new(message)
+              raise Fog::AWS::Compute::NotFound.new(message)
             end
 
           else
@@ -128,7 +128,7 @@ module Fog
             else
               message << 'spot_price'
             end
-            raise Fog::Compute::AWS::Error.new(message)
+            raise Fog::AWS::Compute::Error.new(message)
           end
 
           for key in %w(AvailabilityZoneGroup LaunchGroup)

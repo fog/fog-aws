@@ -29,7 +29,7 @@ module Fog
             'Action'     => 'DescribeVpcClassicLinkDnsSupport',
             'MaxResults' => options['MaxResults'],
             'NextToken'  => options['NextToken'],
-            :parser      => Fog::Parsers::Compute::AWS::DescribeVpcClassicLinkDnsSupport.new
+            :parser      => Fog::Parsers::AWS::Compute::DescribeVpcClassicLinkDnsSupport.new
           }.merge(params))
         end
       end

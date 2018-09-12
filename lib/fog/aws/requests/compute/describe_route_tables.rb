@@ -47,7 +47,7 @@ module Fog
           params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeRouteTables',
-            :parser     => Fog::Parsers::Compute::AWS::DescribeRouteTables.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeRouteTables.new
           }.merge!(params))
         end
       end

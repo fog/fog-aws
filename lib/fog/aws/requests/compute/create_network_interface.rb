@@ -54,7 +54,7 @@ module Fog
           request({
             'Action'     => 'CreateNetworkInterface',
             'SubnetId'   => subnetId,
-            :parser      => Fog::Parsers::Compute::AWS::CreateNetworkInterface.new
+            :parser      => Fog::Parsers::AWS::Compute::CreateNetworkInterface.new
           }.merge!(options))
         end
       end
@@ -65,7 +65,7 @@ module Fog
           if subnetId
             subnet = self.data[:subnets].find{ |s| s['subnetId'] == subnetId }
             if subnet.nil?
-              raise Fog::Compute::AWS::Error.new("Unknown subnet '#{subnetId}' specified")
+              raise Fog::AWS::Compute::Error.new("Unknown subnet '#{subnetId}' specified")
             else
               id = Fog::AWS::Mock.network_interface_id
               cidr_block = IPAddress.parse(subnet['cidrBlock'])
@@ -75,7 +75,7 @@ module Fog
                 options['GroupSet'].each do |group_id|
                   group_obj = self.data[:security_groups][group_id]
                   if group_obj.nil?
-                    raise Fog::Compute::AWS::Error.new("Unknown security group '#{group_id}' specified")
+                    raise Fog::AWS::Compute::Error.new("Unknown security group '#{group_id}' specified")
                   end
                   groups[group_id] = group_obj['groupName']
                 end
@@ -93,7 +93,7 @@ module Fog
                   end
                 end
               elsif self.data[:network_interfaces].map{ |ni,ni_conf| ni_conf['privateIpAddress'] }.include?options['PrivateIpAddress']
-                raise Fog::Compute::AWS::Error.new('InUse => The specified address is already in use.')
+                raise Fog::AWS::Compute::Error.new('InUse => The specified address is already in use.')
               end
 
               data = {

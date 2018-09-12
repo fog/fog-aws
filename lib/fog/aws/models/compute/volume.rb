@@ -118,7 +118,7 @@ module Fog
         end
 
         def server=(_)
-          raise NoMethodError, 'use Fog::Compute::AWS::Volume#attach(server, device)'
+          raise NoMethodError, 'use Fog::AWS::Compute::Volume#attach(server, device)'
         end
 
         private

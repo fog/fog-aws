@@ -6,7 +6,7 @@ module Fog
       class Tags < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::Tag
+        model Fog::AWS::Compute::Tag
 
         def initialize(attributes)
           self.filters ||= {}

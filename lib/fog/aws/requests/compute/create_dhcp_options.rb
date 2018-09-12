@@ -21,7 +21,7 @@ module Fog
           request({
             'Action'    => 'CreateDhcpOptions',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::CreateDhcpOptions.new
+            :parser     => Fog::Parsers::AWS::Compute::CreateDhcpOptions.new
           }.merge!(params))
         end
         private

@@ -907,7 +907,7 @@ module Fog
       ]
 
       class Flavors < Fog::Collection
-        model Fog::Compute::AWS::Flavor
+        model Fog::AWS::Compute::Flavor
 
         # Returns an array of all flavors that have been created
         #
@@ -1031,7 +1031,7 @@ module Fog
         #        ebs_optimized_available=false,
         #        instance_store_volumes=0
         #      >,
-        #      <Fog::Compute::AWS::Flavor
+        #      <Fog::AWS::Compute::Flavor
         #        id="m3.xlarge",
         #        bits=64,
         #        cores=13,
@@ -1041,7 +1041,7 @@ module Fog
         #        ebs_optimized_available=true,
         #        instance_store_volumes=2
         #      >,
-        #      <Fog::Compute::AWS::Flavor
+        #      <Fog::AWS::Compute::Flavor
         #        id="m3.2xlarge",
         #        bits=64,
         #        cores=26,
@@ -1076,7 +1076,7 @@ module Fog
         #
 
         def all
-          load(Fog::Compute::AWS::FLAVORS)
+          load(Fog::AWS::Compute::FLAVORS)
           self
         end
 

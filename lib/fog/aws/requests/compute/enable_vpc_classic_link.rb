@@ -21,7 +21,7 @@ module Fog
             'Action'    => 'EnableVpcClassicLink',
             'VpcId'     => vpc_id,
             'DryRun'    => dry_run,
-            :parser     => Fog::Parsers::Compute::AWS::Basic.new
+            :parser     => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -38,7 +38,7 @@ module Fog
             vpc['classicLinkEnabled'] = true unless dry_run
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The VPC '#{vpc_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The VPC '#{vpc_id}' does not exist")
           end
         end
       end

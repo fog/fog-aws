@@ -30,7 +30,7 @@ module Fog
             'Bucket'    => bucket,
             'Prefix'    => prefix,
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::SpotDatafeedSubscription.new
+            :parser     => Fog::Parsers::AWS::Compute::SpotDatafeedSubscription.new
           )
         end
       end

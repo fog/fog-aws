@@ -33,7 +33,7 @@ module Fog
           request({
             'Action' => 'DescribeVpcs',
             :idempotent => true,
-            :parser => Fog::Parsers::Compute::AWS::DescribeVpcs.new
+            :parser => Fog::Parsers::AWS::Compute::DescribeVpcs.new
           }.merge!(params))
         end
       end

@@ -6,7 +6,7 @@ module Fog
       class SpotRequests < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::SpotRequest
+        model Fog::AWS::Compute::SpotRequest
 
         def initialize(attributes)
           self.filters ||= {}

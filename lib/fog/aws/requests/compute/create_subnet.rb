@@ -36,7 +36,7 @@ module Fog
             'Action'     => 'CreateSubnet',
             'VpcId'      => vpcId,
             'CidrBlock'  => cidrBlock,
-            :parser      => Fog::Parsers::Compute::AWS::CreateSubnet.new
+            :parser      => Fog::Parsers::AWS::Compute::CreateSubnet.new
           }.merge!(options))
         end
       end
@@ -48,14 +48,14 @@ module Fog
             if cidrBlock && vpcId
               vpc = self.data[:vpcs].find{ |v| v['vpcId'] == vpcId }
               if vpc.nil?
-                raise Fog::Compute::AWS::NotFound.new("The vpc ID '#{vpcId}' does not exist")
+                raise Fog::AWS::Compute::NotFound.new("The vpc ID '#{vpcId}' does not exist")
               end
               if ! ::IPAddress.parse(vpc['cidrBlock']).include?(::IPAddress.parse(cidrBlock))
-                raise Fog::Compute::AWS::Error.new("Range => The CIDR '#{cidrBlock}' is invalid.")
+                raise Fog::AWS::Compute::Error.new("Range => The CIDR '#{cidrBlock}' is invalid.")
               end
               self.data[:subnets].select{ |s| s['vpcId'] == vpcId }.each do |subnet|
                 if ::IPAddress.parse(subnet['cidrBlock']).include?(::IPAddress.parse(cidrBlock))
-                  raise Fog::Compute::AWS::Error.new("Conflict => The CIDR '#{cidrBlock}' conflicts with another subnet")
+                  raise Fog::AWS::Compute::Error.new("Conflict => The CIDR '#{cidrBlock}' conflicts with another subnet")
                 end
               end
 

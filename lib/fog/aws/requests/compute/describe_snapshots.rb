@@ -44,7 +44,7 @@ module Fog
           request({
             'Action'    => 'DescribeSnapshots',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeSnapshots.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeSnapshots.new
           }.merge!(params))
         end
       end

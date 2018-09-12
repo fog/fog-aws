@@ -49,7 +49,7 @@ module Fog
           request({
             'Action'    => 'RevokeSecurityGroupIngress',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::Basic.new
+            :parser     => Fog::Parsers::AWS::Compute::Basic.new
           }.merge!(options))
         end
       end
@@ -60,7 +60,7 @@ module Fog
           group = self.data[:security_groups].values.find { |v| v['groupName'] == group_name }
 
           group ||
-            raise(Fog::Compute::AWS::NotFound.new("The security group '#{group_name}' does not exist"))
+            raise(Fog::AWS::Compute::NotFound.new("The security group '#{group_name}' does not exist"))
           response = Excon::Response.new
 
           verify_permission_options(options, group['vpcId'] != nil)

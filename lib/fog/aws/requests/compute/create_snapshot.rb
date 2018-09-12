@@ -26,7 +26,7 @@ module Fog
             'Action'      => 'CreateSnapshot',
             'Description' => description,
             'VolumeId'    => volume_id,
-            :parser       => Fog::Parsers::Compute::AWS::CreateSnapshot.new
+            :parser       => Fog::Parsers::AWS::Compute::CreateSnapshot.new
           )
         end
       end

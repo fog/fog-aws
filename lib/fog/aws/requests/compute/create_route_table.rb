@@ -27,7 +27,7 @@ module Fog
           request({
             'Action' => 'CreateRouteTable',
             'VpcId' => vpc_id,
-            :parser => Fog::Parsers::Compute::AWS::CreateRouteTable.new
+            :parser => Fog::Parsers::AWS::Compute::CreateRouteTable.new
           })
         end
       end
@@ -60,7 +60,7 @@ module Fog
             }
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The vpc ID '#{vpc_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The vpc ID '#{vpc_id}' does not exist")
           end
         end
       end

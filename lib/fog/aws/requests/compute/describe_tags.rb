@@ -25,7 +25,7 @@ module Fog
           request({
             'Action'    => 'DescribeTags',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeTags.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeTags.new
           }.merge!(params))
         end
       end

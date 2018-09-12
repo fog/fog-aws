@@ -32,7 +32,7 @@ module Fog
           request({
             'Action' => 'DescribeInternetGateways',
             :idempotent => true,
-            :parser => Fog::Parsers::Compute::AWS::DescribeInternetGateways.new
+            :parser => Fog::Parsers::AWS::Compute::DescribeInternetGateways.new
           }.merge!(params))
         end
       end

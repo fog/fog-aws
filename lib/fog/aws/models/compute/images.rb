@@ -6,7 +6,7 @@ module Fog
       class Images < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::Image
+        model Fog::AWS::Compute::Image
 
         # Creates a new Amazon machine image
         #

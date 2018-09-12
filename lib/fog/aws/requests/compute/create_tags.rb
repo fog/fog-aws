@@ -31,7 +31,7 @@ module Fog
           request({
             'Action'    => 'CreateTags',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::Basic.new
+            :parser     => Fog::Parsers::AWS::Compute::Basic.new
           }.merge!(params))
         end
       end

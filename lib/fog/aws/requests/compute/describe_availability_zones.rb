@@ -28,7 +28,7 @@ module Fog
           request({
             'Action'    => 'DescribeAvailabilityZones',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeAvailabilityZones.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeAvailabilityZones.new
           }.merge!(params))
         end
       end

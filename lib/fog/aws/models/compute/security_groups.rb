@@ -6,7 +6,7 @@ module Fog
       class SecurityGroups < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::SecurityGroup
+        model Fog::AWS::Compute::SecurityGroup
 
         # Creates a new security group
         #

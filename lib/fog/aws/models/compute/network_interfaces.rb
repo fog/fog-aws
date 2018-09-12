@@ -6,7 +6,7 @@ module Fog
       class NetworkInterfaces < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::NetworkInterface
+        model Fog::AWS::Compute::NetworkInterface
 
         # Creates a new network interface
         #
@@ -58,7 +58,7 @@ module Fog
         #  <Fog::AWS::Compute::NetworkInterfaces
         #    filters={}
         #    [
-        #      <Fog::Compute::AWS::NetworkInterface
+        #      <Fog::AWS::Compute::NetworkInterface
         #        network_interface_id="eni-da5dc7ca",
         #        state=nil,
         #        request_id=nil,

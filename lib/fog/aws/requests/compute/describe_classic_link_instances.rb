@@ -32,7 +32,7 @@ module Fog
           params.merge!(Fog::AWS.indexed_filters(options[:filters])) if options[:filters]
           request({
             'Action'    => 'DescribeClassicLinkInstances',
-            :parser     => Fog::Parsers::Compute::AWS::DescribeClassicLinkInstances.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeClassicLinkInstances.new
           }.merge(params))
         end
       end

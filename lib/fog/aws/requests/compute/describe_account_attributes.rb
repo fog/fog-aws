@@ -25,7 +25,7 @@ module Fog
           request({
             'Action'    => 'DescribeAccountAttributes',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeAccountAttributes.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeAccountAttributes.new
           }.merge!(params))
         end
       end

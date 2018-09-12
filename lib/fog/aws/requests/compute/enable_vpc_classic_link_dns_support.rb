@@ -21,7 +21,7 @@ module Fog
           request(
             'Action' => 'EnableVpcClassicLinkDnsSupport',
             'VpcId'  => vpc_id,
-            :parser  => Fog::Parsers::Compute::AWS::Basic.new
+            :parser  => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -30,7 +30,7 @@ module Fog
         def enable_vpc_classic_link_dns_support(vpc_id)
           response = Excon::Response.new
           unless vpc = self.data[:vpcs].find { |v| v['vpcId'] == vpc_id }
-            raise Fog::Compute::AWS::NotFound.new("The VPC '#{vpc_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The VPC '#{vpc_id}' does not exist")
           end
           vpc['classicLinkDnsSupport'] = true
           response.body = {
