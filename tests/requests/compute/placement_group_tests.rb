@@ -35,11 +35,11 @@ Shindo.tests('Fog::Compute[:aws] | placement group requests', ['aws']) do
 
     Fog::Compute[:aws].create_placement_group('fog_placement_group', 'cluster')
 
-    tests("duplicate #create_placement_group('fog_placement_group', 'cluster')").raises(Fog::Compute::AWS::Error) do
+    tests("duplicate #create_placement_group('fog_placement_group', 'cluster')").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].create_placement_group('fog_placement_group', 'cluster')
     end
 
-    tests("#delete_placement_group('not_a_group_name')").raises(Fog::Compute::AWS::NotFound) do
+    tests("#delete_placement_group('not_a_group_name')").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].delete_placement_group('not_a_group_name')
     end
 

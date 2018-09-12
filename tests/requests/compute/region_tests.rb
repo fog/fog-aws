@@ -21,7 +21,7 @@ Shindo.tests('Fog::Compute[:aws] | region requests', ['aws']) do
     tests("#incorrect_region") do
 
       raises(ArgumentError, "Unknown region: world-antarctica-1") do
-        Fog::Compute::AWS.new({:aws_access_key_id => 'dummykey',
+        Fog::AWS::Compute.new({:aws_access_key_id => 'dummykey',
                 :aws_secret_access_key => 'dummysecret',
                 :aws_session_token => 'dummytoken',
                 :region => 'world-antarctica-1'})
@@ -30,7 +30,7 @@ Shindo.tests('Fog::Compute[:aws] | region requests', ['aws']) do
     end
 
     tests("#unknown_endpoint").formats(@regions_format) do
-      Fog::Compute::AWS.new({:aws_access_key_id => 'dummykey',
+      Fog::AWS::Compute.new({:aws_access_key_id => 'dummykey',
                              :aws_secret_access_key => 'dummysecret',
                              :aws_session_token => 'dummytoken',
                              :region => 'world-antarctica-1',
@@ -38,8 +38,8 @@ Shindo.tests('Fog::Compute[:aws] | region requests', ['aws']) do
     end
 
     tests("#invalid_endpoint") do
-      raises(Fog::Compute::AWS::InvalidURIError) do
-        Fog::Compute::AWS.new({:aws_access_key_id => 'dummykey',
+      raises(Fog::AWS::Compute::InvalidURIError) do
+        Fog::AWS::Compute.new({:aws_access_key_id => 'dummykey',
                              :aws_secret_access_key => 'dummysecret',
                              :aws_session_token => 'dummytoken',
                              :region => 'world-antarctica-1',

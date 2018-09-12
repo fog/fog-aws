@@ -207,52 +207,52 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
   tests('failure') do
     @volume = Fog::Compute[:aws].volumes.create(:availability_zone => @server.availability_zone, :size => 1)
 
-    tests("#attach_volume('i-00000000', '#{@volume.identity}', '/dev/sdh')").raises(Fog::Compute::AWS::NotFound) do
+    tests("#attach_volume('i-00000000', '#{@volume.identity}', '/dev/sdh')").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].attach_volume('i-00000000', @volume.identity, '/dev/sdh')
     end
 
-    tests("#attach_volume('#{@server.identity}', 'vol-00000000', '/dev/sdh')").raises(Fog::Compute::AWS::NotFound) do
+    tests("#attach_volume('#{@server.identity}', 'vol-00000000', '/dev/sdh')").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].attach_volume(@server.identity, 'vol-00000000', '/dev/sdh')
     end
 
-    tests("#detach_volume('vol-00000000')").raises(Fog::Compute::AWS::NotFound) do
+    tests("#detach_volume('vol-00000000')").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].detach_volume('vol-00000000')
     end
 
-    tests("#modify_volume_attribute('vol-00000000', true)").raises(Fog::Compute::AWS::NotFound) do
+    tests("#modify_volume_attribute('vol-00000000', true)").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].modify_volume_attribute('vol-00000000', true)
     end
 
-    tests("#detach_volume('#{@volume.identity}')").raises(Fog::Compute::AWS::Error) do
+    tests("#detach_volume('#{@volume.identity}')").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].detach_volume(@volume.identity)
     end
 
-    tests("#delete_volume('vol-00000000')").raises(Fog::Compute::AWS::NotFound) do
+    tests("#delete_volume('vol-00000000')").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].delete_volume('vol-00000000')
     end
 
     # Iops required
-    tests("#create_volume('#{@server.availability_zone}', 10, 'VolumeType' => 'io1')").raises(Fog::Compute::AWS::Error) do
+    tests("#create_volume('#{@server.availability_zone}', 10, 'VolumeType' => 'io1')").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].create_volume(@server.availability_zone, 10, 'VolumeType' => 'io1')
     end
 
     # size too small for iops
-    tests("#create_volume('#{@server.availability_zone}', 9, 'VolumeType' => 'io1', 'Iops' => 100)").raises(Fog::Compute::AWS::Error) do
+    tests("#create_volume('#{@server.availability_zone}', 9, 'VolumeType' => 'io1', 'Iops' => 100)").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].create_volume(@server.availability_zone, 9, 'VolumeType' => 'io1', 'Iops' => 100)
     end
 
     # iops:size ratio too big
-    tests("#create_volume('#{@server.availability_zone}', 10, 'VolumeType' => 'io1', 'Iops' => 301)").raises(Fog::Compute::AWS::Error) do
+    tests("#create_volume('#{@server.availability_zone}', 10, 'VolumeType' => 'io1', 'Iops' => 301)").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].create_volume(@server.availability_zone, 10, 'VolumeType' => 'io1', 'Iops' => 301)
     end
 
     # iops invalid value (lower than 100)
-    tests("#create_volume('#{@server.availability_zone}', 10, 'VolumeType' => 'io1', 'Iops' => 99)").raises(Fog::Compute::AWS::Error) do
+    tests("#create_volume('#{@server.availability_zone}', 10, 'VolumeType' => 'io1', 'Iops' => 99)").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].create_volume(@server.availability_zone, 10, 'VolumeType' => 'io1', 'Iops' => 99)
     end
 
     # iops invalid value (greater than 4000)
-    tests("#create_volume('#{@server.availability_zone}', 1024, 'VolumeType' => 'io1', 'Iops' => 4001)").raises(Fog::Compute::AWS::Error) do
+    tests("#create_volume('#{@server.availability_zone}', 1024, 'VolumeType' => 'io1', 'Iops' => 4001)").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].create_volume(@server.availability_zone, 1024, 'VolumeType' => 'io1', 'Iops' => 4001)
     end
 

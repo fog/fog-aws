@@ -38,7 +38,7 @@ Shindo.tests('Fog::Compute[:aws] | spot datafeed subscription requests', ['aws']
   tests('failure') do
     pending if Fog.mocking?
 
-    tests("#describe_spot_datafeed_subscription").raises(Fog::Compute::AWS::NotFound) do
+    tests("#describe_spot_datafeed_subscription").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].describe_spot_datafeed_subscription
     end
   end

@@ -56,7 +56,7 @@ Shindo.tests('Fog::Compute[:aws] | key pair requests', ['aws']) do
 
     @key_pair = Fog::Compute[:aws].key_pairs.create(:name => 'fog_key_pair')
 
-    tests("duplicate #create_key_pair('#{@key_pair.name}')").raises(Fog::Compute::AWS::Error) do
+    tests("duplicate #create_key_pair('#{@key_pair.name}')").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].create_key_pair(@key_pair.name)
     end
 

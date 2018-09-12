@@ -55,7 +55,7 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
     @image_id = 'ami-1aad5273'
 
     if Fog.mocking?
-      @other_account = Fog::Compute::AWS.new(:aws_access_key_id => 'other', :aws_secret_access_key => 'account')
+      @other_account = Fog::AWS::Compute.new(:aws_access_key_id => 'other', :aws_secret_access_key => 'account')
 
       @server = Fog::Compute[:aws].servers.create
       @server.wait_for{state == 'running'}
@@ -151,7 +151,7 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
       Fog::Compute[:aws].modify_image_attribute(nil, { 'Add.Group' => ['all'] }).body
     end
 
-    tests("#modify_image_attribute('ami-00000000', { 'Add.UserId' => ['123456789012'] })").raises(Fog::Compute::AWS::NotFound) do
+    tests("#modify_image_attribute('ami-00000000', { 'Add.UserId' => ['123456789012'] })").raises(Fog::AWS::Compute::NotFound) do
       pending unless Fog.mocking?
 
       Fog::Compute[:aws].modify_image_attribute('ami-00000000', { 'Add.UserId' => ['123456789012'] }).body

@@ -67,17 +67,17 @@ Shindo.tests('Fog::Compute[:aws] | subnet requests', ['aws']) do
   end
 
   tests('failure') do
-    tests("#create_subnet('vpc-00000000', '10.0.10.0/16')").raises(Fog::Compute::AWS::NotFound) do
+    tests("#create_subnet('vpc-00000000', '10.0.10.0/16')").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].create_subnet('vpc-00000000', '10.0.10.0/16')
     end
 
-    tests("#create_subnet('#{@vpc_id}', '10.0.9.16/28')").raises(Fog::Compute::AWS::Error) do
+    tests("#create_subnet('#{@vpc_id}', '10.0.9.16/28')").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].create_subnet(@vpc_id, '10.0.9.16/28')
     end
 
     # Attempt to create two subnets with conflicting CIDRs in the same VPC
     tests("#create_subnet('#{@vpc_id}', '10.0.10.0/24'); " \
-      "#create_subnet('#{@vpc_id}', '10.0.10.64/26'); ").raises(::Fog::Compute::AWS::Error) do
+      "#create_subnet('#{@vpc_id}', '10.0.10.64/26'); ").raises(::Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].create_subnet(@vpc_id, '10.0.10.0/24')
       Fog::Compute[:aws].create_subnet(@vpc_id, '10.0.10.64/26')
     end

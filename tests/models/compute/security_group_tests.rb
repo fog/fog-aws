@@ -85,7 +85,7 @@ Shindo.tests("Fog::Compute[:aws] | security_group", ['aws']) do
       { @other_user_id => @other_users_group_id }
     ].each do |group_arg|
       test("does not authorize port range access by an invalid security group #{group_arg.inspect}") do
-        raises(Fog::Compute::AWS::NotFound, "The security group '#{@other_users_group_id}' does not exist") {
+        raises(Fog::AWS::Compute::NotFound, "The security group '#{@other_users_group_id}' does not exist") {
           @other_group.reload
           @group.authorize_port_range(5000..6000, {:group => group_arg})
         }
