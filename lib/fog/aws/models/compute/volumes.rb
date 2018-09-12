@@ -2,7 +2,7 @@ require 'fog/aws/models/compute/volume'
 
 module Fog
   module AWS
-    class AWS
+    class Compute
       class Volumes < Fog::Collection
         attribute :filters
         attribute :server

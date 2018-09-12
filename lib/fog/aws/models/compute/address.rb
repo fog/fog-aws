@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Compute
       class Address < Fog::Model
         identity  :public_ip,                  :aliases => 'publicIp'
 

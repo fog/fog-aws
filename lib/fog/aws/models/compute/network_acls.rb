@@ -2,7 +2,7 @@ require 'fog/aws/models/compute/network_acl'
 
 module Fog
   module AWS
-    class AWS
+    class Compute
       class NetworkAcls < Fog::Collection
         attribute :filters
 

@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Compute
       class NetworkAcl < Fog::Model
         ICMP = 1
         TCP  = 6

@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Compute
       class Subnet < Fog::Model
         identity  :subnet_id,                   :aliases => 'subnetId'
         attribute :state

@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Compute
       class Flavor < Fog::Model
         identity :id
 

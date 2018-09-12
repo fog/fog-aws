@@ -2,7 +2,7 @@ require 'fog/aws/models/compute/vpc'
 
 module Fog
   module AWS
-    class AWS
+    class Compute
       class Vpcs < Fog::Collection
         attribute :filters
 

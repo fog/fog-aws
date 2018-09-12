@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Compute
       class Tag < Fog::Model
         identity  :key
 

@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Compute
       class Image < Fog::Model
         identity :id,                     :aliases => 'imageId'
 

@@ -2,7 +2,7 @@ require 'fog/aws/models/compute/route_table'
 
 module Fog
   module AWS
-    class AWS
+    class Compute
       class RouteTables < Fog::Collection
         attribute :filters
 
