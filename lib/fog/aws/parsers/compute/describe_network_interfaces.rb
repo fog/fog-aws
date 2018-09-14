@@ -1,6 +1,6 @@
 module Fog
   module Parsers
-    module Compute
+    module AWS
       module AWS
         require 'fog/aws/parsers/compute/network_interface_parser'
 

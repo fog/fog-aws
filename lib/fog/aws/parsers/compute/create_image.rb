@@ -1,6 +1,6 @@
 module Fog
   module Parsers
-    module Compute
+    module AWS
       module AWS
         class CreateImage < Fog::Parsers::Base
           def end_element(name)

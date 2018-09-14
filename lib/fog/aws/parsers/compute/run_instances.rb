@@ -1,6 +1,6 @@
 module Fog
   module Parsers
-    module Compute
+    module AWS
       module AWS
         class RunInstances < Fog::Parsers::Base
           def reset

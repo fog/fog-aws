@@ -1,6 +1,6 @@
 module Fog
   module Parsers
-    module Compute
+    module AWS
       module AWS
         class DescribeReservedInstances < Fog::Parsers::Base
           def get_default_item

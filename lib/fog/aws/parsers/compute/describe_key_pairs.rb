@@ -1,6 +1,6 @@
 module Fog
   module Parsers
-    module Compute
+    module AWS
       module AWS
         class DescribeKeyPairs < Fog::Parsers::Base
           def reset
