@@ -21,7 +21,7 @@ module Fog
             :bucket_name => bucket_name,
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Storage::AWS::GetBucketLocation.new,
+            :parser   => Fog::Parsers::AWS::Storage::GetBucketLocation.new,
             :query    => {'location' => nil},
             :path_style => true
           })

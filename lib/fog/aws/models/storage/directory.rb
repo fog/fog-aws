@@ -40,7 +40,7 @@ module Fog
         end
 
         def files
-          @files ||= Fog::Storage::AWS::Files.new(:directory => self, :service => service)
+          @files ||= Fog::AWS::Storage::Files.new(:directory => self, :service => service)
         end
 
         def payer
@@ -67,7 +67,7 @@ module Fog
         end
 
         def versions
-          @versions ||= Fog::Storage::AWS::Versions.new(:directory => self, :service => service)
+          @versions ||= Fog::AWS::Storage::Versions.new(:directory => self, :service => service)
         end
 
         def public=(new_public)

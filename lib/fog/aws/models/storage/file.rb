@@ -240,11 +240,11 @@ module Fog
         end
 
         # File version if exists or creates new version.
-        # @return [Fog::Storage::AWS::Version]
+        # @return [Fog::AWS::Storage::Version]
         #
         def versions
           @versions ||= begin
-            Fog::Storage::AWS::Versions.new(
+            Fog::AWS::Storage::Versions.new(
               :file         => self,
               :service   => service
             )

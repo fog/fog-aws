@@ -42,7 +42,7 @@ module Fog
             :bucket_name => bucket_name,
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Storage::AWS::ListMultipartUploads.new,
+            :parser   => Fog::Parsers::AWS::Storage::ListMultipartUploads.new,
             :query    => options.merge!({'uploads' => nil})
           })
         end

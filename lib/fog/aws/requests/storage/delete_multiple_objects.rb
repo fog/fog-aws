@@ -56,7 +56,7 @@ module Fog
             :headers    => headers,
             :bucket_name => bucket_name,
             :method     => 'POST',
-            :parser     => Fog::Parsers::Storage::AWS::DeleteMultipleObjects.new,
+            :parser     => Fog::Parsers::AWS::Storage::DeleteMultipleObjects.new,
             :query      => {'delete' => nil}
           })
         end

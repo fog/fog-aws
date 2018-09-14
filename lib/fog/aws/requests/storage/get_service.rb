@@ -24,7 +24,7 @@ module Fog
             :host     => @host,
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Storage::AWS::GetService.new
+            :parser   => Fog::Parsers::AWS::Storage::GetService.new
           })
         end
       end

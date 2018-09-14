@@ -130,7 +130,7 @@ module Fog
         end
 
         def url(params, expires)
-          Fog::Logger.deprecation("Fog::Storage::AWS => #url is deprecated, use #https_url instead [light_black](#{caller.first})[/]")
+          Fog::Logger.deprecation("Fog::AWS::Storage => #url is deprecated, use #https_url instead [light_black](#{caller.first})[/]")
           https_url(params, expires)
         end
 

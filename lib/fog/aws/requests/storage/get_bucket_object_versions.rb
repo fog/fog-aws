@@ -57,7 +57,7 @@ module Fog
             :bucket_name => bucket_name,
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Storage::AWS::GetBucketObjectVersions.new,
+            :parser   => Fog::Parsers::AWS::Storage::GetBucketObjectVersions.new,
             :query    => {'versions' => nil}.merge!(options)          })
         end
       end

@@ -29,7 +29,7 @@ module Fog
           headers = {}
 
           if acl.is_a?(Hash)
-            data = Fog::Storage::AWS.hash_to_acl(acl)
+            data = Fog::AWS::Storage.hash_to_acl(acl)
           else
             if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
               raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
@@ -55,7 +55,7 @@ module Fog
       class Mock
         def put_bucket_acl(bucket_name, acl)
           if acl.is_a?(Hash)
-            self.data[:acls][:bucket][bucket_name] = Fog::Storage::AWS.hash_to_acl(acl)
+            self.data[:acls][:bucket][bucket_name] = Fog::AWS::Storage.hash_to_acl(acl)
           else
             if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
               raise Excon::Errors::BadRequest.new('invalid x-amz-acl')

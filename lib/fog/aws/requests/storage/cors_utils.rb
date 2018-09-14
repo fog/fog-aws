@@ -30,7 +30,7 @@ module Fog
         end
 
         def self.cors_to_hash(cors_xml)
-          parser = Fog::Parsers::Storage::AWS::CorsConfiguration.new
+          parser = Fog::Parsers::AWS::Storage::CorsConfiguration.new
           Nokogiri::XML::SAX::Parser.new(parser).parse(cors_xml)
           parser.response
         end

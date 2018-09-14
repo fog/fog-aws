@@ -21,7 +21,7 @@ module Fog
             :bucket_name => bucket_name,
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Storage::AWS::GetRequestPayment.new,
+            :parser   => Fog::Parsers::AWS::Storage::GetRequestPayment.new,
             :query    => {'requestPayment' => nil}
           })
         end

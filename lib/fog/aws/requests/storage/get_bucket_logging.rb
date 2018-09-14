@@ -35,7 +35,7 @@ module Fog
             :bucket_name => bucket_name,
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::Storage::AWS::GetBucketLogging.new,
+            :parser     => Fog::Parsers::AWS::Storage::GetBucketLogging.new,
             :query      => {'logging' => nil}
           })
         end

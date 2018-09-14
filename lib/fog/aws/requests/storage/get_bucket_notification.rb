@@ -35,7 +35,7 @@ module Fog
             :bucket_name => bucket_name,
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::Storage::AWS::GetBucketNotification.new,
+            :parser     => Fog::Parsers::AWS::Storage::GetBucketNotification.new,
             :query      => {'notification' => nil}
           })
         end

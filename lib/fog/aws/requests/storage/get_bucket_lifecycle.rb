@@ -25,7 +25,7 @@ module Fog
                     :bucket_name => bucket_name,
                     :idempotent => true,
                     :method   => 'GET',
-                    :parser   => Fog::Parsers::Storage::AWS::GetBucketLifecycle.new,
+                    :parser   => Fog::Parsers::AWS::Storage::GetBucketLifecycle.new,
                     :query    => {'lifecycle' => nil}
                   })
         end

@@ -37,7 +37,7 @@ module Fog
 
       class Mock # :nodoc:all
         require 'fog/aws/requests/storage/shared_mock_methods'
-        include Fog::Storage::AWS::SharedMockMethods
+        include Fog::AWS::Storage::SharedMockMethods
 
         def upload_part(bucket_name, object_name, upload_id, part_number, data, options = {})
           data = parse_mock_data(data)

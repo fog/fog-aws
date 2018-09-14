@@ -46,7 +46,7 @@ module Fog
             :bucket_name => bucket_name,
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Storage::AWS::GetBucket.new,
+            :parser   => Fog::Parsers::AWS::Storage::GetBucket.new,
             :query    => options
           })
         end

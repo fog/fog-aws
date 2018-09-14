@@ -7,7 +7,7 @@ module Fog
         attribute :file
         attribute :directory
 
-        model Fog::Storage::AWS::Version
+        model Fog::AWS::Storage::Version
 
         def all(options = {})
           data = if file

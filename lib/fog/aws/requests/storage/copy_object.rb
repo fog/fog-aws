@@ -35,7 +35,7 @@ module Fog
             :bucket_name => target_bucket_name,
             :object_name => target_object_name,
             :method   => 'PUT',
-            :parser   => Fog::Parsers::Storage::AWS::CopyObject.new,
+            :parser   => Fog::Parsers::AWS::Storage::CopyObject.new,
           })
         end
       end

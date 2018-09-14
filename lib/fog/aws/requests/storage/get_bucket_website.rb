@@ -28,7 +28,7 @@ module Fog
             :bucket_name => bucket_name,
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::Storage::AWS::GetBucketWebsite.new,
+            :parser     => Fog::Parsers::AWS::Storage::GetBucketWebsite.new,
             :query      => {'website' => nil}
           })
         end

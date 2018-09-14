@@ -25,7 +25,7 @@ module Fog
             :bucket_name => bucket_name,
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::Storage::AWS::GetBucketTagging.new,
+            :parser     => Fog::Parsers::AWS::Storage::GetBucketTagging.new,
             :query      => {'tagging' => nil}
           })
         end

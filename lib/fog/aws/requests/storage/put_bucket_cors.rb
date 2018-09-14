@@ -19,7 +19,7 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTcors.html
 
         def put_bucket_cors(bucket_name, cors)
-          data = Fog::Storage::AWS.hash_to_cors(cors)
+          data = Fog::AWS::Storage.hash_to_cors(cors)
 
           headers = {}
           headers['Content-MD5'] = Base64.encode64(OpenSSL::Digest::MD5.digest(data)).strip
@@ -39,7 +39,7 @@ module Fog
 
       class Mock
         def put_bucket_cors(bucket_name, cors)
-          self.data[:cors][:bucket][bucket_name] = Fog::Storage::AWS.hash_to_cors(cors)
+          self.data[:cors][:bucket][bucket_name] = Fog::AWS::Storage.hash_to_cors(cors)
         end
       end
     end
