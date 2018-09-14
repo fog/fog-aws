@@ -1,7 +1,7 @@
 require 'fog/aws/models/dns/record'
 
 module Fog
-  module DNS
+  module AWS
     class AWS
       class Records < Fog::Collection
         attribute :is_truncated,            :aliases => ['IsTruncated']

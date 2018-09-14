@@ -1,7 +1,7 @@
 require 'fog/aws/models/dns/zone'
 
 module Fog
-  module DNS
+  module AWS
     class AWS
       class Zones < Fog::Collection
         attribute :marker,    :aliases => 'Marker'

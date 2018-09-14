@@ -1,5 +1,5 @@
 module Fog
-  module DNS
+  module AWS
     class AWS
       class Record < Fog::Model
         extend Fog::Deprecation

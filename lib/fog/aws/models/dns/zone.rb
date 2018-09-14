@@ -1,7 +1,7 @@
 # require 'fog/aws/models/dns/records'
 
 module Fog
-  module DNS
+  module AWS
     class AWS
       class Zone < Fog::Model
         identity :id,                 :aliases => 'Id'
