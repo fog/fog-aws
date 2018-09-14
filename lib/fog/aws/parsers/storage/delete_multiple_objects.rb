@@ -1,6 +1,6 @@
 module Fog
   module Parsers
-    module Storage
+    module AWS
       module AWS
         class DeleteMultipleObjects < Fog::Parsers::Base
           def reset

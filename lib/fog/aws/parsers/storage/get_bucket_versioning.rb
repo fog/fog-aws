@@ -1,6 +1,6 @@
 module Fog
   module Parsers
-    module Storage
+    module AWS
       module AWS
         class GetBucketVersioning < Fog::Parsers::Base
           def reset

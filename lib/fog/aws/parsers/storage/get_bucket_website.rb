@@ -1,6 +1,6 @@
 module Fog
   module Parsers
-    module Storage
+    module AWS
       module AWS
 
         # http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketGETwebsite.html
