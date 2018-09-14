@@ -1,6 +1,6 @@
 module Fog
   module Parsers
-    module DNS
+    module AWS
       module AWS
         class HealthCheck < Fog::Parsers::Base
           def reset
