@@ -17,10 +17,6 @@ module Fog
     autoload :AWS, File.expand_path('../aws/dns', __FILE__)
   end
 
-  module Storage
-    autoload :AWS, File.expand_path('../aws/storage', __FILE__)
-  end
-
   module AWS
     extend Fog::Provider
 
@@ -54,6 +50,7 @@ module Fog
     autoload :SNS,              File.expand_path('../aws/sns', __FILE__)
     autoload :SQS,              File.expand_path('../aws/sqs', __FILE__)
     autoload :STS,              File.expand_path('../aws/sts', __FILE__)
+    autoload :Storage,          File.expand_path('../aws/storage', __FILE__)
     autoload :Support,          File.expand_path('../aws/support', __FILE__)
     autoload :SimpleDB,         File.expand_path('../aws/simpledb', __FILE__)
 
