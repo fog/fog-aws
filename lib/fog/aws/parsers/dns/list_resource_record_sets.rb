@@ -1,7 +1,7 @@
 module Fog
   module Parsers
     module AWS
-      module AWS
+      module DNS
         class ListResourceRecordSets < Fog::Parsers::Base
           def reset
             @resource_record = []

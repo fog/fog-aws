@@ -1,7 +1,7 @@
 module Fog
   module Parsers
     module AWS
-      module AWS
+      module DNS
         class GetChange < Fog::Parsers::Base
           def reset
             @response = {}
