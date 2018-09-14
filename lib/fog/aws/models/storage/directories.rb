@@ -2,7 +2,7 @@ require 'fog/aws/models/storage/directory'
 
 module Fog
   module AWS
-    class AWS
+    class Storage
       class Directories < Fog::Collection
         model Fog::Storage::AWS::Directory
 

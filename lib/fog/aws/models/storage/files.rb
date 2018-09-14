@@ -2,7 +2,7 @@ require 'fog/aws/models/storage/file'
 
 module Fog
   module AWS
-    class AWS
+    class Storage
       class Files < Fog::Collection
         extend Fog::Deprecation
         deprecate :get_url, :get_https_url
