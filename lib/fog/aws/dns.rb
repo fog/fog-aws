@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS < Fog::Service
+    class DNS < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
