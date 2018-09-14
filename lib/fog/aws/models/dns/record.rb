@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class DNS
       class Record < Fog::Model
         extend Fog::Deprecation
         deprecate :ip, :value

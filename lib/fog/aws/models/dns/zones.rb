@@ -2,7 +2,7 @@ require 'fog/aws/models/dns/zone'
 
 module Fog
   module AWS
-    class AWS
+    class DNS
       class Zones < Fog::Collection
         attribute :marker,    :aliases => 'Marker'
         attribute :max_items, :aliases => 'MaxItems'

@@ -2,7 +2,7 @@
 
 module Fog
   module AWS
-    class AWS
+    class DNS
       class Zone < Fog::Model
         identity :id,                 :aliases => 'Id'
 

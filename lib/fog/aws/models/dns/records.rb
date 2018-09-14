@@ -2,7 +2,7 @@ require 'fog/aws/models/dns/record'
 
 module Fog
   module AWS
-    class AWS
+    class DNS
       class Records < Fog::Collection
         attribute :is_truncated,            :aliases => ['IsTruncated']
         attribute :max_items,               :aliases => ['MaxItems']
