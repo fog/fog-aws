@@ -26,7 +26,7 @@ module Fog
           when :ddb, :dynamodb
             Fog::AWS::DynamoDB
           when :dns
-            Fog::DNS::AWS
+            Fog::AWS::DNS
           when :elasticache
             Fog::AWS::Elasticache
           when :elb

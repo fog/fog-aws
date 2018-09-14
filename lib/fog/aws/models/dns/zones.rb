@@ -7,7 +7,7 @@ module Fog
         attribute :marker,    :aliases => 'Marker'
         attribute :max_items, :aliases => 'MaxItems'
 
-        model Fog::DNS::AWS::Zone
+        model Fog::AWS::DNS::Zone
 
         def all(options = {})
           options[:marker]   ||= marker unless marker.nil?
@@ -19,7 +19,7 @@ module Fog
         def get(zone_id)
           data = service.get_hosted_zone(zone_id).body
           new(data)
-        rescue Fog::DNS::AWS::NotFound
+        rescue Fog::AWS::DNS::NotFound
           nil
         end
       end

@@ -30,7 +30,7 @@ module Fog
         def get_health_check(id)
           request({
             :expects => 200,
-            :parser  => Fog::Parsers::DNS::AWS::HealthCheck.new,
+            :parser  => Fog::Parsers::AWS::DNS::HealthCheck.new,
             :method  => 'GET',
             :path    => "healthcheck/#{id}"
           })

@@ -198,7 +198,7 @@ module Fog
           request({
             :body       => body,
             :idempotent => true,
-            :parser     => Fog::Parsers::DNS::AWS::ChangeResourceRecordSets.new,
+            :parser     => Fog::Parsers::AWS::DNS::ChangeResourceRecordSets.new,
             :expects    => 200,
             :method     => 'POST',
             :path       => "hostedzone/#{zone_id}/rrset"
@@ -302,10 +302,10 @@ module Fog
               }
               response
             else
-              raise Fog::DNS::AWS::Error.new("InvalidChangeBatch => #{errors.join(", ")}")
+              raise Fog::AWS::DNS::Error.new("InvalidChangeBatch => #{errors.join(", ")}")
             end
           else
-            raise Fog::DNS::AWS::NotFound.new("NoSuchHostedZone => A hosted zone with the specified hosted zone ID does not exist.")
+            raise Fog::AWS::DNS::NotFound.new("NoSuchHostedZone => A hosted zone with the specified hosted zone ID does not exist.")
           end
         end
       end
