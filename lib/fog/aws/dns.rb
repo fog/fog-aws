@@ -162,4 +162,17 @@ module Fog
       end
     end
   end
+
+  # @deprecated
+  module DNS
+    # @deprecated
+    class AWS < Fog::AWS::DNS
+      # @deprecated
+      # @overrides Fog::Service.new (from the fog-core gem)
+      def self.new(*)
+        Fog::Logger.deprecation 'Fog::DNS::AWS is deprecated, please use Fog::AWS::DNS.'
+        super
+      end
+    end
+  end
 end
