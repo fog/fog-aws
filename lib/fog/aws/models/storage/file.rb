@@ -1,7 +1,7 @@
 require 'fog/aws/models/storage/versions'
 
 module Fog
-  module Storage
+  module AWS
     class AWS
       class File < Fog::Model
         # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html

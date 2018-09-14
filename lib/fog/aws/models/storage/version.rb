@@ -1,5 +1,5 @@
 module Fog
-  module Storage
+  module AWS
     class AWS
       class Version < Fog::Model
         identity  :version,             :aliases => 'VersionId'

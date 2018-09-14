@@ -1,7 +1,7 @@
 require 'fog/aws/models/storage/file'
 
 module Fog
-  module Storage
+  module AWS
     class AWS
       class Files < Fog::Collection
         extend Fog::Deprecation

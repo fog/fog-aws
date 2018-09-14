@@ -2,7 +2,7 @@ require 'fog/aws/models/storage/files'
 require 'fog/aws/models/storage/versions'
 
 module Fog
-  module Storage
+  module AWS
     class AWS
       class Directory < Fog::Model
         VALID_ACLS = ['private', 'public-read', 'public-read-write', 'authenticated-read']

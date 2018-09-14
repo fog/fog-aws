@@ -1,7 +1,7 @@
 require 'fog/aws/models/storage/version'
 
 module Fog
-  module Storage
+  module AWS
     class AWS
       class Versions < Fog::Collection
         attribute :file
