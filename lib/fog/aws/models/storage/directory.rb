@@ -31,7 +31,7 @@ module Fog
         end
 
         def location
-          @location ||= (bucket_location || AWS::DEFAULT_REGION)
+          @location ||= (bucket_location || Storage::DEFAULT_REGION)
         end
 
         # NOTE: you can't change the region once the bucket is created
