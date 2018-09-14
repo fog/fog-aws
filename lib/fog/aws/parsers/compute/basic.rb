@@ -1,7 +1,7 @@
 module Fog
   module Parsers
     module AWS
-      module AWS
+      module Compute
         class Basic < Fog::Parsers::Base
           def end_element(name)
             case name

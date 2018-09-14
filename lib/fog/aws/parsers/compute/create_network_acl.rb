@@ -1,7 +1,7 @@
 module Fog
   module Parsers
     module AWS
-      module AWS
+      module Compute
         require 'fog/aws/parsers/compute/network_acl_parser'
 
         class CreateNetworkAcl < NetworkAclParser

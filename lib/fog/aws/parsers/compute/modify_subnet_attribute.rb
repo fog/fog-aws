@@ -1,7 +1,7 @@
 module Fog
   module Parsers
     module AWS
-      module AWS
+      module Compute
         class ModifySubnetAttribute < Fog::Parsers::Base
           def reset
             @response = {  }

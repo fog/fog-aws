@@ -1,7 +1,7 @@
 module Fog
   module Parsers
     module AWS
-      module AWS
+      module Compute
         class DescribeAvailabilityZones < Fog::Parsers::Base
           def start_element(name, attrs = [])
             case name

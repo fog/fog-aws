@@ -1,7 +1,7 @@
 module Fog
   module Parsers
     module AWS
-      module AWS
+      module Compute
         class DescribeVpcClassicLink < Fog::Parsers::Base
           def reset
             @vpc = { 'tagSet' => {} }
