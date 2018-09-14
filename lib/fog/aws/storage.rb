@@ -764,4 +764,17 @@ DATA
       end
     end
   end
+
+  # @deprecated
+  module Storage
+    # @deprecated
+    class AWS < Fog::AWS::Storage
+      # @deprecated
+      # @overrides Fog::Service.new (from the fog-core gem)
+      def self.new(*)
+        Fog::Logger.deprecation 'Fog::Storage::AWS is deprecated, please use Fog::AWS::Storage.'
+        super
+      end
+    end
+  end
 end
