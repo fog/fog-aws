@@ -1,5 +1,5 @@
 module Fog
-  module Storage
+  module AWS
     class AWS < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
