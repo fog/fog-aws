@@ -1,5 +1,5 @@
 module Fog
-  module DNS
+  module AWS
     class AWS < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
