@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS < Fog::Service
+    class Storage < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       COMPLIANT_BUCKET_NAMES = /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
