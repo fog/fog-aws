@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class DNS
 
       def self.hosted_zone_for_alias_target(dns_name)
         hosted_zones = if dns_name.match(/^dualstack\./)
