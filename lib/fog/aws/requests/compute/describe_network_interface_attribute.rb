@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_network_interface_attribute'
         # Describes a network interface attribute value

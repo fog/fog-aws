@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
         # disavbles classic link for a vpc

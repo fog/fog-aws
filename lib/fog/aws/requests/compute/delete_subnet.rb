@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
         # Deletes a subnet from a VPC. You must terminate all running instances in the subnet before deleting it, otherwise Amazon

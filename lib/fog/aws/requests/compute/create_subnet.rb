@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Compute
       class Real
         require 'ipaddress'
         require 'fog/aws/parsers/compute/create_subnet'

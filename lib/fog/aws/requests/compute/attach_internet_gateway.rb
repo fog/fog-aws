@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
         # Attaches an Internet gateway to a VPC, enabling connectivity between the Internet and the VPC

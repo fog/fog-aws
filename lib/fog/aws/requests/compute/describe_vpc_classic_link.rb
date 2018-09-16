@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_vpc_classic_link'
         # Describes the ClassicLink status of one or more VPCs.
