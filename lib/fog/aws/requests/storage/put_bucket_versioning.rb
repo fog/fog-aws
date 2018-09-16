@@ -1,5 +1,5 @@
 module Fog
-  module Storage
+  module AWS
     class AWS
       class Real
         # Change versioning status for an S3 bucket

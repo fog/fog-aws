@@ -1,5 +1,5 @@
 module Fog
-  module Storage
+  module AWS
     class AWS
       module PostObjectHiddenFields
         # Get a hash of hidden fields for form uploading to S3, in the form {:field_name => :field_value}

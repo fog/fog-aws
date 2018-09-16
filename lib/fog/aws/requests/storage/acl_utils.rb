@@ -1,5 +1,5 @@
 module Fog
-  module Storage
+  module AWS
     class AWS
       require 'fog/aws/parsers/storage/access_control_list'
 

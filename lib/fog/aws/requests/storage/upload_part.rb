@@ -1,5 +1,5 @@
 module Fog
-  module Storage
+  module AWS
     class AWS
       class Real
         # Upload a part for a multipart upload

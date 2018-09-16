@@ -1,5 +1,5 @@
 module Fog
-  module Storage
+  module AWS
     class AWS
       class Real
         # Deletes the cors configuration information set for the bucket.

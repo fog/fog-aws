@@ -1,5 +1,5 @@
 module Fog
-  module Storage
+  module AWS
     class AWS
       module GetObjectHttpsUrl
         def get_object_https_url(bucket_name, object_name, expires, options = {})

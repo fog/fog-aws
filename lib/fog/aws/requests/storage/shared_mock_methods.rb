@@ -1,5 +1,5 @@
 module Fog
-  module Storage
+  module AWS
     class AWS
       module SharedMockMethods
         def define_mock_acl(bucket_name, object_name, options)

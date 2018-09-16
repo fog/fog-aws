@@ -1,5 +1,5 @@
 module Fog
-  module Storage
+  module AWS
     class AWS
       module DeleteObjectUrl
         def delete_object_url(bucket_name, object_name, expires, options = {})

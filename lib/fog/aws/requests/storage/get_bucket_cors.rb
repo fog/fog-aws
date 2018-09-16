@@ -1,5 +1,5 @@
 module Fog
-  module Storage
+  module AWS
     class AWS
       class Real
         require 'fog/aws/parsers/storage/cors_configuration'
