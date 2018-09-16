@@ -1,5 +1,5 @@
 module Fog
-  module Compute
+  module AWS
     class AWS
       class Real
         require 'fog/aws/parsers/compute/create_volume'

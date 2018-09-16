@@ -1,5 +1,5 @@
 module Fog
-  module Compute
+  module AWS
     class AWS
       class Real
         require 'fog/aws/parsers/compute/describe_vpc_classic_link_dns_support'
