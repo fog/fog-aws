@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Storage
       class Real
         # Delete policy for a bucket
         #

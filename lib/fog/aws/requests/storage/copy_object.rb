@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Storage
       class Real
         require 'fog/aws/parsers/storage/copy_object'
 

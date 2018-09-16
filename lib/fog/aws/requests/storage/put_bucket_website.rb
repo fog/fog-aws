@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Storage
       class Real
         # Change website configuration for an S3 bucket
         #

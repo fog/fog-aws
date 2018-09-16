@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Storage
       class Real
         # Get headers for an object from S3
         #

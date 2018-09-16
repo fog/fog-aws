@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Storage
       class Real
         require 'fog/aws/parsers/storage/get_bucket_object_versions'
 

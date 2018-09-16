@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Storage
       class Real
         require 'fog/aws/requests/storage/acl_utils'
 

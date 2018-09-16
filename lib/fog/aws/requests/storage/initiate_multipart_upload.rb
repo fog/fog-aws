@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class AWS
+    class Storage
       class Real
         require 'fog/aws/parsers/storage/initiate_multipart_upload'
 
