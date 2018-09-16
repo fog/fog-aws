@@ -1,5 +1,5 @@
 module Fog
-  module DNS
+  module AWS
     class AWS
       class Real
         require 'fog/aws/parsers/dns/health_check'

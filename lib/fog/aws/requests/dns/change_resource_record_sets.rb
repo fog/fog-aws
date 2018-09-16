@@ -1,5 +1,5 @@
 module Fog
-  module DNS
+  module AWS
     class AWS
 
       def self.hosted_zone_for_alias_target(dns_name)

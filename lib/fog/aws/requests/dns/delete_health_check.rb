@@ -1,5 +1,5 @@
 module Fog
-  module DNS
+  module AWS
     class AWS
       class Real
         # This action deletes a health check.
