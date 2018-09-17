@@ -2,8 +2,8 @@ require 'fog/aws/models/storage/files'
 require 'fog/aws/models/storage/versions'
 
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       class Directory < Fog::Model
         VALID_ACLS = ['private', 'public-read', 'public-read-write', 'authenticated-read']
 
@@ -31,7 +31,7 @@ module Fog
         end
 
         def location
-          @location ||= (bucket_location || AWS::DEFAULT_REGION)
+          @location ||= (bucket_location || Storage::DEFAULT_REGION)
         end
 
         # NOTE: you can't change the region once the bucket is created
@@ -40,7 +40,7 @@ module Fog
         end
 
         def files
-          @files ||= Fog::Storage::AWS::Files.new(:directory => self, :service => service)
+          @files ||= Fog::AWS::Storage::Files.new(:directory => self, :service => service)
         end
 
         def payer
@@ -67,7 +67,7 @@ module Fog
         end
 
         def versions
-          @versions ||= Fog::Storage::AWS::Versions.new(:directory => self, :service => service)
+          @versions ||= Fog::AWS::Storage::Versions.new(:directory => self, :service => service)
         end
 
         def public=(new_public)

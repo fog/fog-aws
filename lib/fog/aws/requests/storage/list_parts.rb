@@ -1,6 +1,6 @@
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       class Real
         require 'fog/aws/parsers/storage/list_parts'
 
@@ -43,7 +43,7 @@ module Fog
             :object_name => object_name,
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Storage::AWS::ListParts.new,
+            :parser   => Fog::Parsers::AWS::Storage::ListParts.new,
             :query    => options.merge!({'uploadId' => upload_id})
           })
         end

@@ -1,6 +1,6 @@
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       module SharedMockMethods
         def define_mock_acl(bucket_name, object_name, options)
           acl = options['x-amz-acl'] || 'private'

@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Storage
-      module AWS
+    module AWS
+      module Storage
         class CorsConfiguration < Fog::Parsers::Base
           def reset
             @in_cors_configuration_list = false

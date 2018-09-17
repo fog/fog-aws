@@ -1,6 +1,6 @@
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       class Real
         require 'fog/aws/parsers/storage/complete_multipart_upload'
 
@@ -40,7 +40,7 @@ module Fog
             :bucket_name => bucket_name,
             :object_name => object_name,
             :method     => 'POST',
-            :parser     => Fog::Parsers::Storage::AWS::CompleteMultipartUpload.new,
+            :parser     => Fog::Parsers::AWS::Storage::CompleteMultipartUpload.new,
             :query      => {'uploadId' => upload_id}
           })
         end
@@ -48,7 +48,7 @@ module Fog
 
       class Mock # :nodoc:all
         require 'fog/aws/requests/storage/shared_mock_methods'
-        include Fog::Storage::AWS::SharedMockMethods
+        include Fog::AWS::Storage::SharedMockMethods
 
         def complete_multipart_upload(bucket_name, object_name, upload_id, parts)
           bucket = verify_mock_bucket_exists(bucket_name)

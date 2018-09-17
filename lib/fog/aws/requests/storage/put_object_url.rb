@@ -1,6 +1,6 @@
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       module PutObjectUrl
         def put_object_url(bucket_name, object_name, expires, headers = {}, options = {})
           unless bucket_name

@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Storage
-      module AWS
+    module AWS
+      module Storage
 
         # http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketGETwebsite.html
         class GetBucketWebsite < Fog::Parsers::Base
