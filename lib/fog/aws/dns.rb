@@ -1,6 +1,6 @@
 module Fog
-  module DNS
-    class AWS < Fog::Service
+  module AWS
+    class DNS < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
@@ -77,7 +77,7 @@ module Fog
         # :aws_secret_access_key in order to create a connection
         #
         # ==== Examples
-        #   dns = Fog::DNS::AWS.new(
+        #   dns = Fog::AWS::DNS.new(
         #     :aws_access_key_id => your_aws_access_key_id,
         #     :aws_secret_access_key => your_aws_secret_access_key
         #   )
@@ -147,9 +147,9 @@ module Fog
           else
             raise case match[:code]
             when 'NoSuchHostedZone', 'NoSuchChange' then
-              Fog::DNS::AWS::NotFound.slurp(error, match[:message])
+              Fog::AWS::DNS::NotFound.slurp(error, match[:message])
             else
-              Fog::DNS::AWS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+              Fog::AWS::DNS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
             end
           end
         end
@@ -159,6 +159,19 @@ module Fog
           signed_string = @hmac.sign(string_to_sign)
           Base64.encode64(signed_string).chomp!
         end
+      end
+    end
+  end
+
+  # @deprecated
+  module DNS
+    # @deprecated
+    class AWS < Fog::AWS::DNS
+      # @deprecated
+      # @overrides Fog::Service.new (from the fog-core gem)
+      def self.new(*)
+        Fog::Logger.deprecation 'Fog::DNS::AWS is deprecated, please use Fog::AWS::DNS.'
+        super
       end
     end
   end

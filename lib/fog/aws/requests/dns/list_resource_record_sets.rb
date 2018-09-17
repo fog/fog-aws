@@ -1,6 +1,6 @@
 module Fog
-  module DNS
-    class AWS
+  module AWS
+    class DNS
       class Real
         require 'fog/aws/parsers/dns/list_resource_record_sets'
 
@@ -51,7 +51,7 @@ module Fog
             :expects => 200,
             :idempotent => true,
             :method  => 'GET',
-            :parser  => Fog::Parsers::DNS::AWS::ListResourceRecordSets.new,
+            :parser  => Fog::Parsers::AWS::DNS::ListResourceRecordSets.new,
             :path    => "hostedzone/#{zone_id}/rrset",
             :query   => parameters
           })
@@ -64,7 +64,7 @@ module Fog
             tmp_records.push(record) if !record[:name].nil? && ( name.nil? || record[:name].gsub(zone[:name],"") >= name)
             record.each do |key,subr|
               if subr.is_a?(Hash) && key.is_a?(String) &&
-                key.start_with?(Fog::DNS::AWS::Mock::SET_PREFIX)
+                key.start_with?(Fog::AWS::DNS::Mock::SET_PREFIX)
                 if name.nil?
                   tmp_records.append(subr)
                 else
@@ -81,7 +81,7 @@ module Fog
           response = Excon::Response.new
 
           zone = self.data[:zones][zone_id] ||
-            raise(Fog::DNS::AWS::NotFound.new("NoSuchHostedZone => A hosted zone with the specified hosted zone ID does not exist."))
+            raise(Fog::AWS::DNS::NotFound.new("NoSuchHostedZone => A hosted zone with the specified hosted zone ID does not exist."))
 
           records = if options[:type]
                       records_type = zone[:records][options[:type]]

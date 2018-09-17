@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module DNS
-      module AWS
+    module AWS
+      module DNS
         class HealthCheck < Fog::Parsers::Base
           def reset
             @health_check = {}

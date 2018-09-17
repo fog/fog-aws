@@ -1,8 +1,8 @@
 # require 'fog/aws/models/dns/records'
 
 module Fog
-  module DNS
-    class AWS
+  module AWS
+    class DNS
       class Zone < Fog::Model
         identity :id,                 :aliases => 'Id'
 
@@ -20,7 +20,7 @@ module Fog
 
         def records
           @records ||= begin
-            Fog::DNS::AWS::Records.new(
+            Fog::AWS::DNS::Records.new(
               :zone       => self,
               :service => service
             )

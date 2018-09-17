@@ -1,6 +1,6 @@
 module Fog
-  module DNS
-    class AWS
+  module AWS
+    class DNS
       class Real
         require 'fog/aws/parsers/dns/get_hosted_zone'
 
@@ -29,7 +29,7 @@ module Fog
             :expects => 200,
             :idempotent => true,
             :method  => 'GET',
-            :parser  => Fog::Parsers::DNS::AWS::GetHostedZone.new,
+            :parser  => Fog::Parsers::AWS::DNS::GetHostedZone.new,
             :path    => "hostedzone/#{zone_id}"
           })
         end
@@ -51,7 +51,7 @@ module Fog
             }
             response
           else
-            raise Fog::DNS::AWS::NotFound.new("NoSuchHostedZone => A hosted zone with the specified hosted zone ID does not exist.")
+            raise Fog::AWS::DNS::NotFound.new("NoSuchHostedZone => A hosted zone with the specified hosted zone ID does not exist.")
           end
         end
       end

@@ -1,6 +1,6 @@
 module Fog
-  module DNS
-    class AWS
+  module AWS
+    class DNS
       class Real
         require 'fog/aws/parsers/dns/get_change'
 
@@ -23,7 +23,7 @@ module Fog
 
           request({
             :expects => 200,
-            :parser  => Fog::Parsers::DNS::AWS::GetChange.new,
+            :parser  => Fog::Parsers::AWS::DNS::GetChange.new,
             :method  => 'GET',
             :path    => "change/#{change_id}"
           })
@@ -36,7 +36,7 @@ module Fog
           # find the record with matching change_id
           # records = data[:zones].values.map{|z| z[:records].values.map{|r| r.values}}.flatten
           change = self.data[:changes][change_id] ||
-            raise(Fog::DNS::AWS::NotFound.new("NoSuchChange => Could not find resource with ID: #{change_id}"))
+            raise(Fog::AWS::DNS::NotFound.new("NoSuchChange => Could not find resource with ID: #{change_id}"))
 
           response.status = 200
           submitted_at = Time.parse(change[:submitted_at])
