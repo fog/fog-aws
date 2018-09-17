@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS < Fog::Service
+  module AWS
+    class Compute < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       class RequestLimitExceeded < Fog::Errors::Error; end
@@ -634,7 +634,7 @@ module Fog
             raise if match.empty?
             raise case match[:code]
                 when 'NotFound', 'Unknown'
-                  Fog::Compute::AWS::NotFound.slurp(error, match[:message])
+                  Fog::AWS::Compute::NotFound.slurp(error, match[:message])
                 when 'RequestLimitExceeded'                  
                   if @retry_request_limit_exceeded && retries < max_retries
                     jitter = rand * 10 * @retry_jitter_magnitude
@@ -644,15 +644,28 @@ module Fog
                     retries += 1
                     retry
                   elsif @retry_request_limit_exceeded
-                    Fog::Compute::AWS::RequestLimitExceeded.slurp(error, "Max retries exceeded (#{max_retries}) #{match[:code]} => #{match[:message]}")
+                    Fog::AWS::Compute::RequestLimitExceeded.slurp(error, "Max retries exceeded (#{max_retries}) #{match[:code]} => #{match[:message]}")
                   else
-                    Fog::Compute::AWS::RequestLimitExceeded.slurp(error, "#{match[:code]} => #{match[:message]}")
+                    Fog::AWS::Compute::RequestLimitExceeded.slurp(error, "#{match[:code]} => #{match[:message]}")
                   end
                 else
-                  Fog::Compute::AWS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                  Fog::AWS::Compute::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                 end
           end
         end
+      end
+    end
+  end
+
+  # @deprecated
+  module Compute
+    # @deprecated
+    class AWS < Fog::AWS::Compute
+      # @deprecated
+      # @overrides Fog::Service.new (from the fog-core gem)
+      def self.new(*)
+        Fog::Logger.deprecation 'Fog::Compute::AWS is deprecated, please use Fog::AWS::Compute.'
+        super
       end
     end
   end

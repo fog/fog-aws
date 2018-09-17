@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Compute
-      module AWS
+    module AWS
+      module Compute
         class CreateRouteTable < Fog::Parsers::Base
           def reset
             @in_route_set = false

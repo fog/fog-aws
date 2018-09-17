@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -26,7 +26,7 @@ module Fog
             'Action'    => 'ReleaseAddress',
             field       => ip_or_allocation,
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::Basic.new
+            :parser     => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -39,7 +39,7 @@ module Fog
 
           if address
             if address['allocationId'] && public_ip_or_allocation_id == address['publicIp']
-              raise Fog::Compute::AWS::Error, "InvalidParameterValue => You must specify an allocation id when releasing a VPC elastic IP address"
+              raise Fog::AWS::Compute::Error, "InvalidParameterValue => You must specify an allocation id when releasing a VPC elastic IP address"
             end
 
             self.data[:addresses].delete(address['publicIp'])
@@ -50,7 +50,7 @@ module Fog
             }
             response
           else
-            raise Fog::Compute::AWS::Error.new("AuthFailure => The address '#{public_ip_or_allocation_id}' does not belong to you.")
+            raise Fog::AWS::Compute::Error.new("AuthFailure => The address '#{public_ip_or_allocation_id}' does not belong to you.")
           end
         end
       end

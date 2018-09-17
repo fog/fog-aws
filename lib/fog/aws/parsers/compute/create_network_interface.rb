@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Compute
-      module AWS
+    module AWS
+      module Compute
         require 'fog/aws/parsers/compute/network_interface_parser'
 
         class CreateNetworkInterface < NetworkInterfaceParser

@@ -1,13 +1,13 @@
 require 'fog/aws/models/compute/address'
 
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Addresses < Fog::Collection
         attribute :filters
         attribute :server
 
-        model Fog::Compute::AWS::Address
+        model Fog::AWS::Compute::Address
 
         # Used to create an IP address
         #

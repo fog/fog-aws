@@ -314,22 +314,22 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
 
   tests('failure') do
 
-    tests("#run_instances(nil, 1, 1, {'SubnetId'=>'subnet-00000000'}").raises(::Fog::Compute::AWS::Error) do
+    tests("#run_instances(nil, 1, 1, {'SubnetId'=>'subnet-00000000'}").raises(::Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].run_instances(nil, 1, 1, {'SubnetId' => 'subnet-000000'})
     end
-    tests("#get_console_output('i-00000000')").raises(Fog::Compute::AWS::NotFound) do
+    tests("#get_console_output('i-00000000')").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].get_console_output('i-00000000')
     end
 
-    tests("#get_password_data('i-00000000')").raises(Fog::Compute::AWS::NotFound) do
+    tests("#get_password_data('i-00000000')").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].get_password_data('i-00000000')
     end
 
-    tests("#reboot_instances('i-00000000')").raises(Fog::Compute::AWS::NotFound) do
+    tests("#reboot_instances('i-00000000')").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].reboot_instances('i-00000000')
     end
 
-    tests("#terminate_instances('i-00000000')").raises(Fog::Compute::AWS::NotFound) do
+    tests("#terminate_instances('i-00000000')").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].terminate_instances('i-00000000')
     end
 

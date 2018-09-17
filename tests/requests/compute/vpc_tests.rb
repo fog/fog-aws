@@ -104,11 +104,11 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
       Fog::Compute[:aws].describe_vpc_attribute(@vpc_id, 'enableDnsHostnames').body["enableDnsHostnames"]
     end
 
-    tests("#modify_vpc_attribute('#{@vpc_id}')").raises(Fog::Compute::AWS::Error) do
+    tests("#modify_vpc_attribute('#{@vpc_id}')").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].modify_vpc_attribute(@vpc_id).body
     end
 
-    tests("#modify_vpc_attribute('#{@vpc_id}', {'EnableDnsSupport.Value' => true, 'EnableDnsHostnames.Value' => true})").raises(Fog::Compute::AWS::Error) do
+    tests("#modify_vpc_attribute('#{@vpc_id}', {'EnableDnsSupport.Value' => true, 'EnableDnsHostnames.Value' => true})").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].modify_vpc_attribute(@vpc_id, {'EnableDnsSupport.Value' => true, 'EnableDnsHostnames.Value' => true}).body
     end
 
@@ -211,6 +211,6 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
     # Clean up
     Fog::Compute[:aws].delete_tags(@another_vpc.id, test_tags)
     @another_vpc.destroy
-    Fog::Compute::AWS::Mock.reset if Fog.mocking?
+    Fog::AWS::Compute::Mock.reset if Fog.mocking?
   end
 end

@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_reserved_instances_offerings'
 
@@ -47,7 +47,7 @@ module Fog
           request({
             'Action'    => 'DescribeReservedInstancesOfferings',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeReservedInstancesOfferings.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeReservedInstancesOfferings.new
           }.merge!(params))
         end
       end

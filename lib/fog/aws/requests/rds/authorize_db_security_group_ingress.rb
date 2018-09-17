@@ -34,7 +34,7 @@ module Fog
           end
 
           if ec2_security_group_id = opts.delete("EC2SecurityGroupId")
-            ec2_security_group = (Fog::Compute::AWS::Mock.data[self.region][self.aws_access_key_id][:security_groups] || {}).values.detect { |sg| sg['groupId'] == ec2_security_group_id }
+            ec2_security_group = (Fog::AWS::Compute::Mock.data[self.region][self.aws_access_key_id][:security_groups] || {}).values.detect { |sg| sg['groupId'] == ec2_security_group_id }
             opts['EC2SecurityGroupName'] = ec2_security_group['groupName']
           end
 

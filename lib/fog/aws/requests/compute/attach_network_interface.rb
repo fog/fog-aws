@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/attach_network_interface'
 
@@ -24,7 +24,7 @@ module Fog
             'NetworkInterfaceId' => nic_id,
             'InstanceId'         => instance_id,
             'DeviceIndex'        => device_index,
-            :parser => Fog::Parsers::Compute::AWS::AttachNetworkInterface.new
+            :parser => Fog::Parsers::AWS::Compute::AttachNetworkInterface.new
           )
         end
       end
@@ -35,9 +35,9 @@ module Fog
           if ! self.data[:instances].find{ |i,i_conf|
             i_conf['instanceId'] == instance_id
           }
-            raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_id}' does not exist")
           elsif self.data[:network_interfaces].find{ |ni,ni_conf| ni_conf['attachment']['instanceId'] == instance_id && ni_conf['attachment']['deviceIndex'] == device_index }
-            raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Instance '#{instance_id}' already has an interface attached at device index '#{device_index}'.")
+            raise Fog::AWS::Compute::Error.new("InvalidParameterValue => Instance '#{instance_id}' already has an interface attached at device index '#{device_index}'.")
           elsif self.data[:network_interfaces][nic_id]
             attachment = self.data[:network_interfaces][nic_id]['attachment']
             attachment['attachmentId'] = Fog::AWS::Mock.request_id
@@ -50,7 +50,7 @@ module Fog
               'attachmentId' => attachment['attachmentId']
             }
           else
-            raise Fog::Compute::AWS::NotFound.new("The network interface '#{nic_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The network interface '#{nic_id}' does not exist")
           end
 
           response

@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/create_internet_gateway'
 
@@ -25,7 +25,7 @@ module Fog
         def create_internet_gateway()
           request({
             'Action'     => 'CreateInternetGateway',
-            :parser      => Fog::Parsers::Compute::AWS::CreateInternetGateway.new
+            :parser      => Fog::Parsers::AWS::Compute::CreateInternetGateway.new
           })
         end
       end

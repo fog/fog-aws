@@ -35,7 +35,7 @@ module Fog
           raise Fog::AWS::ELB::NotFound unless load_balancer = self.data[:load_balancers][lb_name]
           instance_ids = [*instance_ids]
           instances = instance_ids.map do |instance|
-            raise Fog::AWS::ELB::InvalidInstance unless Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id][:instances][instance]
+            raise Fog::AWS::ELB::InvalidInstance unless Fog::AWS::Compute::Mock.data[@region][@aws_access_key_id][:instances][instance]
             {'InstanceId' => instance}
           end
 

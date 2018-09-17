@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/terminate_instances'
 
@@ -28,7 +28,7 @@ module Fog
           request({
             'Action'    => 'TerminateInstances',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::TerminateInstances.new
+            :parser     => Fog::Parsers::AWS::Compute::TerminateInstances.new
           }.merge!(params))
         end
       end
@@ -85,7 +85,7 @@ module Fog
 
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_id}' does not exist")
           end
         end
       end

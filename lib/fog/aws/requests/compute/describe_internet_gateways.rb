@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_internet_gateways'
 
@@ -32,7 +32,7 @@ module Fog
           request({
             'Action' => 'DescribeInternetGateways',
             :idempotent => true,
-            :parser => Fog::Parsers::Compute::AWS::DescribeInternetGateways.new
+            :parser => Fog::Parsers::AWS::Compute::DescribeInternetGateways.new
           }.merge!(params))
         end
       end

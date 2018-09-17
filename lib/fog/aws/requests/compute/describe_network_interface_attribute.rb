@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_network_interface_attribute'
         # Describes a network interface attribute value
@@ -34,7 +34,7 @@ module Fog
             'Action'             => 'DescribeNetworkInterfaceAttribute',
             'NetworkInterfaceId' => network_interface_id,
             'Attribute'          => attribute,
-            :parser              => Fog::Parsers::Compute::AWS::DescribeNetworkInterfaceAttribute.new
+            :parser              => Fog::Parsers::AWS::Compute::DescribeNetworkInterfaceAttribute.new
           )
         end
       end
@@ -46,7 +46,7 @@ module Fog
 
 
           unless network_interface
-            raise Fog::Compute::AWS::NotFound.new("The network interface '#{network_interface_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The network interface '#{network_interface_id}' does not exist")
           end
 
           response.status = 200
@@ -58,7 +58,7 @@ module Fog
           when 'description', 'groupSet', 'sourceDestCheck', 'attachment'
             response.body[attribute] = network_interface[attribute]
           else
-            raise Fog::Compute::AWS::Error.new("Illegal attribute '#{attribute}' specified")
+            raise Fog::AWS::Compute::Error.new("Illegal attribute '#{attribute}' specified")
           end
           response
         end

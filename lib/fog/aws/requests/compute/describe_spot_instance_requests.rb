@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/spot_instance_requests'
 
@@ -37,7 +37,7 @@ module Fog
           request({
             'Action'    => 'DescribeSpotInstanceRequests',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::SpotInstanceRequests.new
+            :parser     => Fog::Parsers::AWS::Compute::SpotInstanceRequests.new
           }.merge!(params))
         end
       end

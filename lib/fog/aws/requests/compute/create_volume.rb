@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/create_volume'
 
@@ -39,7 +39,7 @@ module Fog
             'Action'            => 'CreateVolume',
             'AvailabilityZone'  => availability_zone,
             'Size'              => size,
-            :parser             => Fog::Parsers::Compute::AWS::CreateVolume.new
+            :parser             => Fog::Parsers::AWS::Compute::CreateVolume.new
           }.merge(options))
         end
       end
@@ -55,11 +55,11 @@ module Fog
           if availability_zone && (size || options['SnapshotId'])
             snapshot = self.data[:snapshots][options['SnapshotId']]
             if options['SnapshotId'] && !snapshot
-              raise Fog::Compute::AWS::NotFound.new("The snapshot '#{options['SnapshotId']}' does not exist.")
+              raise Fog::AWS::Compute::NotFound.new("The snapshot '#{options['SnapshotId']}' does not exist.")
             end
 
             if snapshot && size && size < snapshot['volumeSize']
-              raise Fog::Compute::AWS::NotFound.new("The snapshot '#{options['SnapshotId']}' has size #{snapshot['volumeSize']} which is greater than #{size}.")
+              raise Fog::AWS::Compute::NotFound.new("The snapshot '#{options['SnapshotId']}' has size #{snapshot['volumeSize']} which is greater than #{size}.")
             elsif snapshot && !size
               size = snapshot['volumeSize']
             end
@@ -67,28 +67,28 @@ module Fog
             if options['VolumeType'] == 'io1'
               iops = options['Iops']
               if !iops
-                raise Fog::Compute::AWS::Error.new("InvalidParameterCombination => The parameter iops must be specified for io1 volumes.")
+                raise Fog::AWS::Compute::Error.new("InvalidParameterCombination => The parameter iops must be specified for io1 volumes.")
               end
 
               if size < 10
-                raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Volume of #{size}GiB is too small; minimum is 10GiB.")
+                raise Fog::AWS::Compute::Error.new("InvalidParameterValue => Volume of #{size}GiB is too small; minimum is 10GiB.")
               end
 
               if (iops_to_size_ratio = iops.to_f / size.to_f) > 30.0
-                raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Iops to volume size ratio of #{"%.1f" % iops_to_size_ratio} is too high; maximum is 30.0")
+                raise Fog::AWS::Compute::Error.new("InvalidParameterValue => Iops to volume size ratio of #{"%.1f" % iops_to_size_ratio} is too high; maximum is 30.0")
               end
 
               if iops < 100
-                raise Fog::Compute::AWS::Error.new("VolumeIOPSLimit => Volume iops of #{iops} is too low; minimum is 100.")
+                raise Fog::AWS::Compute::Error.new("VolumeIOPSLimit => Volume iops of #{iops} is too low; minimum is 100.")
               end
 
               if iops > 4000
-                raise Fog::Compute::AWS::Error.new("VolumeIOPSLimit => Volume iops of #{iops} is too high; maximum is 4000.")
+                raise Fog::AWS::Compute::Error.new("VolumeIOPSLimit => Volume iops of #{iops} is too high; maximum is 4000.")
               end
             end
 
             if options['KmsKeyId'] && !options['Encrypted']
-              raise Fog::Compute::AWS::Error.new("InvalidParameterDependency => The parameter KmsKeyId requires the parameter Encrypted to be set.")
+              raise Fog::AWS::Compute::Error.new("InvalidParameterDependency => The parameter KmsKeyId requires the parameter Encrypted to be set.")
             end
 
             response.status = 200

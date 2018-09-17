@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -23,7 +23,7 @@ module Fog
             'VolumeId'           => volume_id,
             'AutoEnableIO.Value' => auto_enable_io_value,
             :idempotent          => true,
-            :parser              => Fog::Parsers::Compute::AWS::Basic.new
+            :parser              => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -39,7 +39,7 @@ module Fog
             }
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The volume '#{volume_id}' does not exist.")
+            raise Fog::AWS::Compute::NotFound.new("The volume '#{volume_id}' does not exist.")
           end
         end
       end

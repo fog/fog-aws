@@ -64,7 +64,7 @@ module Fog
         end
 
         def mock_compute
-          @mock_compute ||= Fog::Compute::AWS.new(:aws_access_key_id => @aws_access_key_id, :aws_secret_access_key => @aws_secret_access_key, :region => @region)
+          @mock_compute ||= Fog::AWS::Compute.new(:aws_access_key_id => @aws_access_key_id, :aws_secret_access_key => @aws_secret_access_key, :region => @region)
         end
       end
 

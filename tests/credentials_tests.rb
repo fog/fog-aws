@@ -23,7 +23,7 @@ Shindo.tests('AWS | credentials', ['aws']) do
                 :aws_secret_access_key => 'dummysecret',
                 :aws_session_token => 'dummytoken',
                 :region => "us-west-1",
-                :aws_credentials_expire_at => expires_at}) { Fog::Compute::AWS.fetch_credentials(:use_iam_profile => true) }
+                :aws_credentials_expire_at => expires_at}) { Fog::AWS::Compute.fetch_credentials(:use_iam_profile => true) }
     end
 
     ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"] = '/v1/credentials?id=task_id'
@@ -34,12 +34,12 @@ Shindo.tests('AWS | credentials', ['aws']) do
                 :aws_secret_access_key => 'dummysecret',
                 :aws_session_token => 'dummytoken',
                 :region => "us-west-1",
-                :aws_credentials_expire_at => expires_at}) { Fog::Compute::AWS.fetch_credentials(:use_iam_profile => true) }
+                :aws_credentials_expire_at => expires_at}) { Fog::AWS::Compute.fetch_credentials(:use_iam_profile => true) }
     end
 
     ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"] = nil
 
-    compute = Fog::Compute::AWS.new(:use_iam_profile => true)
+    compute = Fog::AWS::Compute.new(:use_iam_profile => true)
 
     tests("#refresh_credentials_if_expired") do
       returns(nil){compute.refresh_credentials_if_expired}
@@ -58,11 +58,11 @@ Shindo.tests('AWS | credentials', ['aws']) do
     end
     Fog::Time.now = Time.now
 
-    default_credentials = Fog::Compute::AWS.fetch_credentials({})
+    default_credentials = Fog::AWS::Compute.fetch_credentials({})
     tests("#fetch_credentials when the url 404s") do
       Excon.stub({:method => :get, :path => "/latest/meta-data/iam/security-credentials/"}, {:status => 404, :body => 'not bound'})
       Excon.stub({:method => :get, :path => "/latest/meta-data/placement/availability-zone/"}, {:status => 400, :body => 'not found'})
-      returns(default_credentials) {Fog::Compute::AWS.fetch_credentials(:use_iam_profile => true)}
+      returns(default_credentials) {Fog::AWS::Compute.fetch_credentials(:use_iam_profile => true)}
     end
 
     mocked_credentials = {
@@ -73,8 +73,8 @@ Shindo.tests('AWS | credentials', ['aws']) do
     }
     tests("#fetch_credentials when mocking") do
       Fog.mock!
-      Fog::Compute::AWS::Mock.data[:iam_role_based_creds] = mocked_credentials
-      returns(mocked_credentials) {Fog::Compute::AWS.fetch_credentials(:use_iam_profile => true)}
+      Fog::AWS::Compute::Mock.data[:iam_role_based_creds] = mocked_credentials
+      returns(mocked_credentials) {Fog::AWS::Compute.fetch_credentials(:use_iam_profile => true)}
     end
 
   ensure

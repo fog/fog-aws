@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -21,7 +21,7 @@ module Fog
           request({
             'Action'    => 'RebootInstances',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::Basic.new
+            :parser     => Fog::Parsers::AWS::Compute::Basic.new
           }.merge!(params))
         end
       end
@@ -41,7 +41,7 @@ module Fog
             }
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The instance ID #{instance_id.inspect} does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The instance ID #{instance_id.inspect} does not exist")
           end
         end
       end

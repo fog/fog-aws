@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -20,7 +20,7 @@ module Fog
           request(
             'Action'       => 'DeleteNetworkAcl',
             'NetworkAclId' => network_acl_id,
-            :parser        => Fog::Parsers::Compute::AWS::Basic.new
+            :parser        => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -31,7 +31,7 @@ module Fog
           if self.data[:network_acls][network_acl_id]
 
             if self.data[:network_acls][network_acl_id]['associationSet'].any?
-              raise Fog::Compute::AWS::Error.new("ACL is in use")
+              raise Fog::AWS::Compute::Error.new("ACL is in use")
             end
 
             self.data[:network_acls].delete(network_acl_id)
@@ -43,7 +43,7 @@ module Fog
             }
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The network ACL '#{network_acl_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The network ACL '#{network_acl_id}' does not exist")
           end
         end
       end

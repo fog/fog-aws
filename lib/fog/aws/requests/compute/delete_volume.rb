@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -21,7 +21,7 @@ module Fog
             'Action'    => 'DeleteVolume',
             'VolumeId'  => volume_id,
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::Basic.new
+            :parser     => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -32,7 +32,7 @@ module Fog
           if volume = self.data[:volumes][volume_id]
             if volume["attachmentSet"].any?
               attach = volume["attachmentSet"].first
-              raise Fog::Compute::AWS::Error.new("Client.VolumeInUse => Volume #{volume_id} is currently attached to #{attach["instanceId"]}")
+              raise Fog::AWS::Compute::Error.new("Client.VolumeInUse => Volume #{volume_id} is currently attached to #{attach["instanceId"]}")
             end
             self.data[:deleted_at][volume_id] = Time.now
             volume['status'] = 'deleting'
@@ -43,7 +43,7 @@ module Fog
             }
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The volume '#{volume_id}' does not exist.")
+            raise Fog::AWS::Compute::NotFound.new("The volume '#{volume_id}' does not exist.")
           end
         end
       end

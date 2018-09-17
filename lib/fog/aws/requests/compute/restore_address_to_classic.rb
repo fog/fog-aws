@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/restore_address_to_classic'
 
@@ -18,7 +18,7 @@ module Fog
             'Action' => 'RestoreAddressToClassic',
             'PublicIp' => public_ip,
             :idempotent => true,
-            :parser => Fog::Parsers::Compute::AWS::RestoreAddressToClassic.new
+            :parser => Fog::Parsers::AWS::Compute::RestoreAddressToClassic.new
           )
         end
       end
@@ -31,7 +31,7 @@ module Fog
 
           if address
             if address[:origin] == 'vpc'
-              raise Fog::Compute::AWS::Error.new("InvalidState => You cannot migrate an Elastic IP address that was originally allocated for use in EC2-VPC to EC2-Classic.")
+              raise Fog::AWS::Compute::Error.new("InvalidState => You cannot migrate an Elastic IP address that was originally allocated for use in EC2-VPC to EC2-Classic.")
             end
 
             address['domain']       = 'standard'
@@ -46,7 +46,7 @@ module Fog
 
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("Address does not exist")
+            raise Fog::AWS::Compute::NotFound.new("Address does not exist")
           end
         end
       end

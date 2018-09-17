@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_account_attributes'
 
@@ -25,7 +25,7 @@ module Fog
           request({
             'Action'    => 'DescribeAccountAttributes',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeAccountAttributes.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeAccountAttributes.new
           }.merge!(params))
         end
       end

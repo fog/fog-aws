@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class InternetGateway < Fog::Model
         identity  :id,                          :aliases => 'internetGatewayId'
         attribute :attachment_set,              :aliases => 'attachmentSet'

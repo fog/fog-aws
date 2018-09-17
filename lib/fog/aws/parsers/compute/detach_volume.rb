@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Compute
-      module AWS
+    module AWS
+      module Compute
         class DetachVolume < Fog::Parsers::Base
           def end_element(name)
             case name

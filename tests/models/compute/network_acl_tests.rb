@@ -38,7 +38,7 @@ Shindo.tests("Fog::Compute[:aws] | network_acl", ['aws']) do
     default_rules = @new_nacl.entries.dup
 
     test("add a new inbound rule") do
-      @new_nacl.add_inbound_rule(100, Fog::Compute::AWS::NetworkAcl::TCP, 'allow', '0.0.0.0/0', 'PortRange.From' => 22, 'PortRange.To' => 22)
+      @new_nacl.add_inbound_rule(100, Fog::AWS::Compute::NetworkAcl::TCP, 'allow', '0.0.0.0/0', 'PortRange.From' => 22, 'PortRange.To' => 22)
       @new_nacl.reload
       (@new_nacl.entries - default_rules) == [{
         "icmpTypeCode" => {},
@@ -61,7 +61,7 @@ Shindo.tests("Fog::Compute[:aws] | network_acl", ['aws']) do
     end
 
     test("add a new outbound rule") do
-      @new_nacl.add_outbound_rule(100, Fog::Compute::AWS::NetworkAcl::TCP, 'allow', '0.0.0.0/0', 'PortRange.From' => 22, 'PortRange.To' => 22)
+      @new_nacl.add_outbound_rule(100, Fog::AWS::Compute::NetworkAcl::TCP, 'allow', '0.0.0.0/0', 'PortRange.From' => 22, 'PortRange.To' => 22)
       @new_nacl.reload
       (@new_nacl.entries - default_rules) == [{
         "icmpTypeCode" => {},
@@ -84,8 +84,8 @@ Shindo.tests("Fog::Compute[:aws] | network_acl", ['aws']) do
     end
 
     test("update rule") do
-      @new_nacl.add_inbound_rule(100, Fog::Compute::AWS::NetworkAcl::TCP, 'allow', '0.0.0.0/0', 'PortRange.From' => 22, 'PortRange.To' => 22)
-      @new_nacl.update_inbound_rule(100, Fog::Compute::AWS::NetworkAcl::TCP, 'allow', '10.0.0.0/8', 'PortRange.From' => 22, 'PortRange.To' => 22)
+      @new_nacl.add_inbound_rule(100, Fog::AWS::Compute::NetworkAcl::TCP, 'allow', '0.0.0.0/0', 'PortRange.From' => 22, 'PortRange.To' => 22)
+      @new_nacl.update_inbound_rule(100, Fog::AWS::Compute::NetworkAcl::TCP, 'allow', '10.0.0.0/8', 'PortRange.From' => 22, 'PortRange.To' => 22)
       @new_nacl.reload
       (@new_nacl.entries - default_rules) == [{
         "icmpTypeCode" => {},

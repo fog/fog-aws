@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_availability_zones'
 
@@ -28,7 +28,7 @@ module Fog
           request({
             'Action'    => 'DescribeAvailabilityZones',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeAvailabilityZones.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeAvailabilityZones.new
           }.merge!(params))
         end
       end

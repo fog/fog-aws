@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -20,7 +20,7 @@ module Fog
           request(
             'Action'        => 'DisassociateRouteTable',
             'AssociationId' => association_id,
-            :parser         => Fog::Parsers::Compute::AWS::Basic.new
+            :parser         => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -43,9 +43,9 @@ module Fog
             }
             response
           elsif assoc_array.nil?
-            raise Fog::Compute::AWS::NotFound.new("The association ID '#{association_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The association ID '#{association_id}' does not exist")
           elsif assoc_array['main'] == true
-            raise Fog::Compute::AWS::Error, "InvalidParameterValue => cannot disassociate the main route table association #{association_id}"
+            raise Fog::AWS::Compute::Error, "InvalidParameterValue => cannot disassociate the main route table association #{association_id}"
           end
         end
       end

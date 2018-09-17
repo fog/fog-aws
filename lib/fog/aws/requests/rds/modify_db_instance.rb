@@ -68,7 +68,7 @@ module Fog
               end
 
               rds_security_groups = self.data[:security_groups].values
-              ec2_security_groups = Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id][:security_groups].values
+              ec2_security_groups = Fog::AWS::Compute::Mock.data[@region][@aws_access_key_id][:security_groups].values
 
               db_security_group_names = Array(options.delete("DBSecurityGroups"))
               db_security_groups = db_security_group_names.inject([]) do |r, group_name|

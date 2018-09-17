@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -31,13 +31,13 @@ module Fog
             params['Attachment.AttachmentId']        = value['attachmentId']
             params['Attachment.DeleteOnTermination'] = value['deleteOnTermination']
           else
-            raise Fog::Compute::AWS::Error.new("Illegal attribute '#{attribute}' specified")
+            raise Fog::AWS::Compute::Error.new("Illegal attribute '#{attribute}' specified")
           end
 
           request({
             'Action'             => 'ModifyNetworkInterfaceAttribute',
             'NetworkInterfaceId' => network_interface_id,
-            :parser              => Fog::Parsers::Compute::AWS::Basic.new
+            :parser              => Fog::Parsers::AWS::Compute::Basic.new
           }.merge!(params))
         end
       end
@@ -56,7 +56,7 @@ module Fog
               value.each do |group_id|
                 security_group = self.data[:security_groups][group_id]
                 if security_group.nil?
-                  raise Fog::Compute::AWS::Error.new("Unknown security group '#{group_id}' specified")
+                  raise Fog::AWS::Compute::Error.new("Unknown security group '#{group_id}' specified")
                 end
                 groups[group_id] = security_group['groupName']
               end
@@ -65,11 +65,11 @@ module Fog
               nic['sourceDestCheck'] = value
             when 'attachment'
               if nic['attachment'].nil? || value['attachmentId'] != nic['attachment']['attachmentId']
-                raise Fog::Compute::AWS::Error.new("Illegal attachment '#{value['attachmentId']}' specified")
+                raise Fog::AWS::Compute::Error.new("Illegal attachment '#{value['attachmentId']}' specified")
               end
               nic['attachment']['deleteOnTermination'] = value['deleteOnTermination']
             else
-              raise Fog::Compute::AWS::Error.new("Illegal attribute '#{attribute}' specified")
+              raise Fog::AWS::Compute::Error.new("Illegal attribute '#{attribute}' specified")
             end
 
             response.status = 200
@@ -80,7 +80,7 @@ module Fog
 
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The network interface '#{network_interface_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The network interface '#{network_interface_id}' does not exist")
           end
         end
       end

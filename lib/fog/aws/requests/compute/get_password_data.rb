@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/get_password_data'
 
@@ -25,7 +25,7 @@ module Fog
             'Action'      => 'GetPasswordData',
             'InstanceId'  => instance_id,
             :idempotent   => true,
-            :parser       => Fog::Parsers::Compute::AWS::GetPasswordData.new
+            :parser       => Fog::Parsers::AWS::Compute::GetPasswordData.new
           )
         end
       end
@@ -43,7 +43,7 @@ module Fog
             }
             response
           else;
-            raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_id}' does not exist")
           end
         end
       end

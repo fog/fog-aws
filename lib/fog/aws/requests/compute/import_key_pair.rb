@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/import_key_pair'
 
@@ -23,7 +23,7 @@ module Fog
             'Action'  => 'ImportKeyPair',
             'KeyName' => key_name,
             'PublicKeyMaterial' => Base64::encode64(public_key_material),
-            :parser   => Fog::Parsers::Compute::AWS::ImportKeyPair.new
+            :parser   => Fog::Parsers::AWS::Compute::ImportKeyPair.new
           )
         end
       end
@@ -43,7 +43,7 @@ module Fog
             }.merge!(data)
             response
           else
-            raise Fog::Compute::AWS::Error.new("InvalidKeyPair.Duplicate => The keypair '#{key_name}' already exists.")
+            raise Fog::AWS::Compute::Error.new("InvalidKeyPair.Duplicate => The keypair '#{key_name}' already exists.")
           end
         end
       end

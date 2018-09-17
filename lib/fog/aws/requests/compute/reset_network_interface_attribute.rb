@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -19,13 +19,13 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2012-03-01/APIReference/ApiReference-query-DescribeNetworkInterfaceAttribute.html]
         def reset_network_interface_attribute(network_interface_id, attribute)
           if attribute != 'sourceDestCheck'
-            raise Fog::Compute::AWS::Error.new("Illegal attribute '#{attribute}' specified")
+            raise Fog::AWS::Compute::Error.new("Illegal attribute '#{attribute}' specified")
           end
           request(
             'Action'             => 'ResetNetworkInterfaceAttribute',
             'NetworkInterfaceId' => network_interface_id,
             'Attribute'          => attribute,
-            :parser              => Fog::Parsers::Compute::AWS::Basic.new
+            :parser              => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -43,11 +43,11 @@ module Fog
             if attribute == 'sourceDestCheck'
               self.data[:network_interfaces][network_interface_id]['sourceDestCheck'] = true
             else
-              raise Fog::Compute::AWS::Error.new("Illegal attribute '#{attribute}' specified")
+              raise Fog::AWS::Compute::Error.new("Illegal attribute '#{attribute}' specified")
             end
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The network interface '#{network_interface_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The network interface '#{network_interface_id}' does not exist")
           end
         end
       end
