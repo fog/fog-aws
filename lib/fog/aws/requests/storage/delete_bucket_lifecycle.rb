@@ -1,6 +1,6 @@
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       class Real
         # Delete lifecycle configuration for a bucket
         #

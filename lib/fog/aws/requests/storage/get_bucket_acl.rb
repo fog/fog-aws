@@ -1,6 +1,6 @@
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       class Real
         require 'fog/aws/parsers/storage/access_control_list'
 
@@ -35,7 +35,7 @@ module Fog
             :bucket_name => bucket_name,
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::Storage::AWS::AccessControlList.new,
+            :parser     => Fog::Parsers::AWS::Storage::AccessControlList.new,
             :query      => {'acl' => nil}
           })
         end
@@ -49,7 +49,7 @@ module Fog
           if acl = self.data[:acls][:bucket][bucket_name]
             response.status = 200
             if acl.is_a?(String)
-              response.body = Fog::Storage::AWS.acl_to_hash(acl)
+              response.body = Fog::AWS::Storage.acl_to_hash(acl)
             else
               response.body = acl
             end

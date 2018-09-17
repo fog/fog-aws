@@ -1,8 +1,8 @@
 require 'fog/aws/models/storage/versions'
 
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       class File < Fog::Model
         # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html
 
@@ -240,11 +240,11 @@ module Fog
         end
 
         # File version if exists or creates new version.
-        # @return [Fog::Storage::AWS::Version]
+        # @return [Fog::AWS::Storage::Version]
         #
         def versions
           @versions ||= begin
-            Fog::Storage::AWS::Versions.new(
+            Fog::AWS::Storage::Versions.new(
               :file         => self,
               :service   => service
             )

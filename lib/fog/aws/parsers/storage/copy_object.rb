@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Storage
-      module AWS
+    module AWS
+      module Storage
         class CopyObject < Fog::Parsers::Base
           def end_element(name)
             case name

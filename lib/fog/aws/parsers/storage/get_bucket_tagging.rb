@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Storage
-      module AWS
+    module AWS
+      module Storage
         class GetBucketTagging < Fog::Parsers::Base
           def reset
             @in_tag = {}

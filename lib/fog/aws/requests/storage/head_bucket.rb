@@ -1,6 +1,6 @@
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       class Real
         # Get headers for an S3 bucket, used to verify if it exists and if you have permission to access it
         #

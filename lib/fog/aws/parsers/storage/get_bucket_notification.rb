@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Storage
-      module AWS
+    module AWS
+      module Storage
         class GetBucketNotification < Fog::Parsers::Base
           def reset
             @func = {}
