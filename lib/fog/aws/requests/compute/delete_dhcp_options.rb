@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
         #Deletes a set of DHCP options that you specify. Amazon VPC returns an error if the set of options you specify is currently
@@ -21,7 +21,7 @@ module Fog
           request(
             'Action' => 'DeleteDhcpOptions',
             'DhcpOptionsId' => dhcp_options_id,
-            :parser => Fog::Parsers::Compute::AWS::Basic.new
+            :parser => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -40,7 +40,7 @@ module Fog
             else
               message = 'MissingParameter => '
               message << 'The request must contain the parameter dhcp_options_id'
-              raise Fog::Compute::AWS::Error.new(message)
+              raise Fog::AWS::Compute::Error.new(message)
             end
           end
         end

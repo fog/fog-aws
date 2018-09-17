@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Compute
-      module AWS
+    module AWS
+      module Compute
         class NetworkInterfaceParser < Fog::Parsers::Base
           def reset_nic
             @nic = { 'groupSet' => {}, 'attachment' => {}, 'association' => {}, 'tagSet' => {}, 'privateIpAddressesSet' => [] }

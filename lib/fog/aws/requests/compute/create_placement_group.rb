@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -22,7 +22,7 @@ module Fog
             'Action'            => 'CreatePlacementGroup',
             'GroupName'         => name,
             'Strategy'          => strategy,
-            :parser             => Fog::Parsers::Compute::AWS::Basic.new
+            :parser             => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end

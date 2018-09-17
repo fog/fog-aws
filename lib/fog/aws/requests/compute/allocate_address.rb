@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/allocate_address'
 
@@ -20,7 +20,7 @@ module Fog
           request(
             'Action'  => 'AllocateAddress',
             'Domain'  => domain,
-            :parser   => Fog::Parsers::Compute::AWS::AllocateAddress.new
+            :parser   => Fog::Parsers::AWS::Compute::AllocateAddress.new
           )
         end
       end
@@ -28,7 +28,7 @@ module Fog
       class Mock
         def allocate_address(domain = 'standard')
           unless describe_addresses.body['addressesSet'].size < self.data[:limits][:addresses]
-            raise Fog::Compute::AWS::Error, "AddressLimitExceeded => Too many addresses allocated"
+            raise Fog::AWS::Compute::Error, "AddressLimitExceeded => Too many addresses allocated"
           end
 
           response = Excon::Response.new

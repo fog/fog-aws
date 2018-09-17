@@ -1,12 +1,12 @@
 require 'fog/aws/models/compute/spot_request'
 
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class SpotRequests < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::SpotRequest
+        model Fog::AWS::Compute::SpotRequest
 
         def initialize(attributes)
           self.filters ||= {}

@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/monitor_unmonitor_instances'
 
@@ -22,7 +22,7 @@ module Fog
           request({
                           'Action' => 'MonitorInstances',
                           :idempotent => true,
-                          :parser => Fog::Parsers::Compute::AWS::MonitorUnmonitorInstances.new
+                          :parser => Fog::Parsers::AWS::Compute::MonitorUnmonitorInstances.new
                   }.merge!(params))
         end
       end
@@ -35,7 +35,7 @@ module Fog
             if instance = self.data[:instances][instance_id]
               instance['monitoring']['state'] = 'enabled'
             else
-              raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_ids}' does not exist")
+              raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_ids}' does not exist")
             end
           end
           instances_set = [*instance_ids].reduce([]) { |memo, id| memo << {'instanceId' => id, 'monitoring' => 'enabled'} }

@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Compute
-      module AWS
+    module AWS
+      module Compute
         class CancelSpotInstanceRequests < Fog::Parsers::Base
           def reset
             @spot_instance_request = {}

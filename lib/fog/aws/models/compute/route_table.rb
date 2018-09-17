@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class RouteTable < Fog::Model
         identity :id,                :aliases => 'routeTableId'
 

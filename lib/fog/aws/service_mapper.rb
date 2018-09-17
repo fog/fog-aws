@@ -20,7 +20,7 @@ module Fog
           when :cloud_watch
             Fog::AWS::CloudWatch
           when :compute
-            Fog::Compute::AWS
+            Fog::AWS::Compute
           when :data_pipeline
             Fog::AWS::DataPipeline
           when :ddb, :dynamodb

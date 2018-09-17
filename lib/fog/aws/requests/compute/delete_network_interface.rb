@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
         # Deletes a network interface.
@@ -19,7 +19,7 @@ module Fog
           request(
             'Action'             => 'DeleteNetworkInterface',
             'NetworkInterfaceId' => network_interface_id,
-            :parser => Fog::Parsers::Compute::AWS::Basic.new
+            :parser => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -30,7 +30,7 @@ module Fog
           if self.data[:network_interfaces][network_interface_id]
 
             if self.data[:network_interfaces][network_interface_id]['attachment']['attachmentId']
-              raise Fog::Compute::AWS::Error.new("Interface is in use")
+              raise Fog::AWS::Compute::Error.new("Interface is in use")
             end
 
             self.data[:network_interfaces].delete(network_interface_id)
@@ -42,7 +42,7 @@ module Fog
             }
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The network interface '#{network_interface_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The network interface '#{network_interface_id}' does not exist")
           end
         end
       end

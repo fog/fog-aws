@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class NetworkAcl < Fog::Model
         ICMP = 1
         TCP  = 6
@@ -25,7 +25,7 @@ module Fog
 
         # Add a new rule
         #
-        # network_acl.add_rule(100, Fog::Compute::AWS::NetworkAcl::TCP, 'allow', '0.0.0.0/0', true, 'PortRange.From' => 22, 'PortRange.To' => 22)
+        # network_acl.add_rule(100, Fog::AWS::Compute::NetworkAcl::TCP, 'allow', '0.0.0.0/0', true, 'PortRange.From' => 22, 'PortRange.To' => 22)
         #
         # ==== Parameters
         # * rule_number<~Integer>   - The rule number for the entry, between 100 and 32766
@@ -91,7 +91,7 @@ module Fog
 
         # Update a specific rule number
         #
-        # network_acl.update_rule(100, Fog::Compute::AWS::NetworkAcl::TCP, 'allow', '0.0.0.0/0', true, 'PortRange.From' => 22, 'PortRange.To' => 22)
+        # network_acl.update_rule(100, Fog::AWS::Compute::NetworkAcl::TCP, 'allow', '0.0.0.0/0', true, 'PortRange.From' => 22, 'PortRange.To' => 22)
         #
         # ==== Parameters
         # * rule_number<~Integer>   - The rule number for the entry, between 100 and 32766

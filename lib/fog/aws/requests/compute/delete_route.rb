@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -22,7 +22,7 @@ module Fog
             'Action'                => 'DeleteRoute',
             'RouteTableId'          => route_table_id,
             'DestinationCidrBlock'  => destination_cidr_block,
-            :parser                 => Fog::Parsers::Compute::AWS::Basic.new
+            :parser                 => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -43,12 +43,12 @@ module Fog
               response
             elsif route['gatewayId'] == "local"
               # Cannot delete the default route
-              raise Fog::Compute::AWS::Error, "InvalidParameterValue => cannot remove local route #{destination_cidr_block} in route table #{route_table_id}"
+              raise Fog::AWS::Compute::Error, "InvalidParameterValue => cannot remove local route #{destination_cidr_block} in route table #{route_table_id}"
             else
-              raise Fog::Compute::AWS::NotFound.new("no route with destination-cidr-block #{destination_cidr_block} in route table #{route_table_id}")
+              raise Fog::AWS::Compute::NotFound.new("no route with destination-cidr-block #{destination_cidr_block} in route table #{route_table_id}")
             end
           else
-            raise Fog::Compute::AWS::NotFound.new("no route with destination-cidr-block #{destination_cidr_block} in route table #{route_table_id}")
+            raise Fog::AWS::Compute::NotFound.new("no route with destination-cidr-block #{destination_cidr_block} in route table #{route_table_id}")
           end
         end
       end

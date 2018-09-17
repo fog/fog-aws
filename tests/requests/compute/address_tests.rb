@@ -72,7 +72,7 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
       compute.associate_address({:instance_id=>@server.id, :allocation_id=>@vpc_allocation_id}).body
     end
 
-    tests("#disassociate_address('#{@vpc_public_ip}')").raises(Fog::Compute::AWS::Error) do
+    tests("#disassociate_address('#{@vpc_public_ip}')").raises(Fog::AWS::Compute::Error) do
       compute.disassociate_address(@vpc_public_ip)
     end
 
@@ -95,38 +95,38 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
     @address     = compute.addresses.create
     @vpc_address = compute.addresses.create(:domain => 'vpc')
 
-    tests("#associate_addresses({:instance_id =>'i-00000000', :public_ip => '#{@address.identity}')}").raises(Fog::Compute::AWS::NotFound) do
+    tests("#associate_addresses({:instance_id =>'i-00000000', :public_ip => '#{@address.identity}')}").raises(Fog::AWS::Compute::NotFound) do
       compute.associate_address({:instance_id => 'i-00000000', :public_ip => @address.identity})
     end
 
-    tests("#associate_addresses({:instance_id =>'#{@server.identity}', :public_ip => '127.0.0.1'})").raises(Fog::Compute::AWS::Error) do
+    tests("#associate_addresses({:instance_id =>'#{@server.identity}', :public_ip => '127.0.0.1'})").raises(Fog::AWS::Compute::Error) do
       compute.associate_address({:instance_id => @server.identity, :public_ip => '127.0.0.1'})
     end
 
-    tests("#associate_addresses({:instance_id =>'i-00000000', :public_ip => '127.0.0.1'})").raises(Fog::Compute::AWS::NotFound) do
+    tests("#associate_addresses({:instance_id =>'i-00000000', :public_ip => '127.0.0.1'})").raises(Fog::AWS::Compute::NotFound) do
       compute.associate_address({:instance_id =>'i-00000000', :public_ip =>'127.0.0.1'})
     end
 
-    tests("#restore_address_to_classic('#{@vpc_address.identity}')").raises(Fog::Compute::AWS::Error) do
+    tests("#restore_address_to_classic('#{@vpc_address.identity}')").raises(Fog::AWS::Compute::Error) do
       compute.restore_address_to_classic(@vpc_address.identity)
     end
 
-    tests("#disassociate_addresses('127.0.0.1') raises BadRequest error").raises(Fog::Compute::AWS::Error) do
+    tests("#disassociate_addresses('127.0.0.1') raises BadRequest error").raises(Fog::AWS::Compute::Error) do
       compute.disassociate_address('127.0.0.1')
     end
 
-    tests("#release_address('127.0.0.1')").raises(Fog::Compute::AWS::Error) do
+    tests("#release_address('127.0.0.1')").raises(Fog::AWS::Compute::Error) do
       compute.release_address('127.0.0.1')
     end
 
-    tests("#release_address('#{@vpc_address.identity}')").raises(Fog::Compute::AWS::Error) do
+    tests("#release_address('#{@vpc_address.identity}')").raises(Fog::AWS::Compute::Error) do
       compute.release_address(@vpc_address.identity)
     end
 
     if Fog.mocking?
       old_limit = compute.data[:limits][:addresses]
 
-      tests("#allocate_address", "limit exceeded").raises(Fog::Compute::AWS::Error) do
+      tests("#allocate_address", "limit exceeded").raises(Fog::AWS::Compute::Error) do
         compute.data[:limits][:addresses] = 0
         compute.allocate_address
       end

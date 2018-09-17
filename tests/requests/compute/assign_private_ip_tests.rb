@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:aws] | internet_gateway requests', ['aws']) do
 
   tests('success') do
-    Fog::Compute::AWS::Mock.reset if Fog.mocking?
+    Fog::AWS::Compute::Mock.reset if Fog.mocking?
 
     @vpc=Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
     @vpc_id = @vpc.id
@@ -30,7 +30,7 @@ Shindo.tests('Fog::Compute[:aws] | internet_gateway requests', ['aws']) do
   end
 
   tests('failure') do
-    Fog::Compute::AWS::Mock.reset if Fog.mocking?
+    Fog::AWS::Compute::Mock.reset if Fog.mocking?
 
     @vpc=Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
     @vpc_id = @vpc.id
@@ -44,7 +44,7 @@ Shindo.tests('Fog::Compute[:aws] | internet_gateway requests', ['aws']) do
 
     @ip_address = Fog::AWS::Mock.ip_address
 
-    tests("#assign_private_ip_addresses('#{@network_interface_id}', {'PrivateIpAddresses'=>['#{@ip_address}','#{@second_ip_address}'], 'SecondaryPrivateIpAddressCount'=>4 })").raises(Fog::Compute::AWS::Error) do
+    tests("#assign_private_ip_addresses('#{@network_interface_id}', {'PrivateIpAddresses'=>['#{@ip_address}','#{@second_ip_address}'], 'SecondaryPrivateIpAddressCount'=>4 })").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].assign_private_ip_addresses(@network_interface_id, { 'PrivateIpAddresses' =>[@ip_address, @second_ip_address], 'SecondaryPrivateIpAddressCount'=>4 }).body
     end
 

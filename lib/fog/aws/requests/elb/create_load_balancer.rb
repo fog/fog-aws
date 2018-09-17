@@ -80,7 +80,7 @@ module Fog
                    elsif subnet_ids.any?
                      # using Hash here for Rubt 1.8.7 support.
                      Hash[
-                       Fog::Compute::AWS::Mock.data.select do |_, region_data|
+                       Fog::AWS::Compute::Mock.data.select do |_, region_data|
                          region_data[@aws_access_key_id][:subnets].any? do |region_subnets|
                            subnet_ids.include? region_subnets['subnetId']
                          end
@@ -89,8 +89,8 @@ module Fog
                    else
                      'us-east-1'
                    end
-          supported_platforms = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:account_attributes].find { |h| h["attributeName"] == "supported-platforms" }["values"]
-          subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select {|e| subnet_ids.include?(e["subnetId"]) }
+          supported_platforms = Fog::AWS::Compute::Mock.data[region][@aws_access_key_id][:account_attributes].find { |h| h["attributeName"] == "supported-platforms" }["values"]
+          subnets = Fog::AWS::Compute::Mock.data[region][@aws_access_key_id][:subnets].select {|e| subnet_ids.include?(e["subnetId"]) }
 
           # http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/default-vpc.html
           elb_location = if supported_platforms.include?("EC2")
@@ -109,21 +109,21 @@ module Fog
 
           security_group = case elb_location
                            when 'EC2-Classic'
-                             Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups]['amazon-elb-sg']
+                             Fog::AWS::Compute::Mock.data[region][@aws_access_key_id][:security_groups]['amazon-elb-sg']
                            when 'EC2-VPC-Default'
-                             compute = Fog::Compute::AWS::new(:aws_access_key_id => @aws_access_key_id, :aws_secret_access_key => @aws_secret_access_key)
+                             compute = Fog::AWS::Compute::new(:aws_access_key_id => @aws_access_key_id, :aws_secret_access_key => @aws_secret_access_key)
 
                              vpc = compute.vpcs.all.first ||
                                compute.vpcs.create('cidr_block' => '10.0.0.0/24')
 
-                             Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
+                             Fog::AWS::Compute::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
                                sg['groupName'] =~ /^default_elb/ &&
                                  sg["vpcId"] == vpc.id
                              }
                            when 'EC2-VPC'
                              vpc_id = subnets.first["vpcId"]
 
-                             Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
+                             Fog::AWS::Compute::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
                                sg['groupName'] == 'default' &&
                                  sg["vpcId"] == vpc_id
                              }

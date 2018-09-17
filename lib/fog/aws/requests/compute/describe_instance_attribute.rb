@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_instance_attribute'
         # Describes an instance attribute value
@@ -46,7 +46,7 @@ module Fog
             'Action'       => 'DescribeInstanceAttribute',
             'InstanceId'   => instance_id,
             'Attribute'    => attribute,
-            :parser        => Fog::Parsers::Compute::AWS::DescribeInstanceAttribute.new
+            :parser        => Fog::Parsers::AWS::Compute::DescribeInstanceAttribute.new
           )
         end
       end
@@ -78,7 +78,7 @@ module Fog
             end
           response
           else
-            raise Fog::Compute::AWS::NotFound.new("The Instance '#{instance_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The Instance '#{instance_id}' does not exist")
           end
         end
       end

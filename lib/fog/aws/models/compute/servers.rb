@@ -1,12 +1,12 @@
 require 'fog/aws/models/compute/server'
 
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Servers < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::Server
+        model Fog::AWS::Compute::Server
 
         # Creates a new server
         #
@@ -166,7 +166,7 @@ module Fog
               Fog.wait_for {
                 begin
                   service.create_tags(server.identity, tags)
-                rescue Fog::Compute::AWS::NotFound
+                rescue Fog::AWS::Compute::NotFound
                   false
                 end
               }
@@ -191,7 +191,7 @@ module Fog
 
           security_group = service.security_groups.get(server.groups.first)
           if security_group.nil?
-            raise Fog::Compute::AWS::Error, "The security group" \
+            raise Fog::AWS::Compute::Error, "The security group" \
               " #{server.groups.first} doesn't exist."
           end
 

@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_tags'
 
@@ -25,7 +25,7 @@ module Fog
           request({
             'Action'    => 'DescribeTags',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeTags.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeTags.new
           }.merge!(params))
         end
       end

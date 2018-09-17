@@ -318,11 +318,11 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     @security_group = Fog::Compute[:aws].security_groups.create(:description => 'tests group', :name => 'fog_security_group')
     @other_security_group = Fog::Compute[:aws].security_groups.create(:description => 'tests group', :name => 'fog_other_security_group')
 
-    tests("duplicate #create_security_group(#{@security_group.name}, #{@security_group.description})").raises(Fog::Compute::AWS::Error) do
+    tests("duplicate #create_security_group(#{@security_group.name}, #{@security_group.description})").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].create_security_group(@security_group.name, @security_group.description)
     end
 
-    tests("#authorize_security_group_ingress('not_a_group_name', {'FromPort' => 80, 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::Compute::AWS::NotFound) do
+    tests("#authorize_security_group_ingress('not_a_group_name', {'FromPort' => 80, 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].authorize_security_group_ingress(
         'not_a_group_name',
         {
@@ -333,7 +333,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       )
     end
 
-    tests("#authorize_security_group_ingress('not_a_group_name', {'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Fog::Compute::AWS::NotFound) do
+    tests("#authorize_security_group_ingress('not_a_group_name', {'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].authorize_security_group_ingress(
         'not_a_group_name',
         {
@@ -347,7 +347,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}]}).body
     end
 
-    tests("#authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}]})").raises(Fog::Compute::AWS::Error) do
+    tests("#authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}]})").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}]})
     end
 
@@ -355,7 +355,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'Groups' => [{'GroupName' => @other_security_group.name}], 'FromPort' => 80, 'ToPort' => 80, 'IpProtocol' => 'tcp'}]}).body
     end
 
-    tests("#delete_security_group('#{@other_security_group.name}')").raises(Fog::Compute::AWS::Error) do
+    tests("#delete_security_group('#{@other_security_group.name}')").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].delete_security_group(@other_security_group.name)
     end
 
@@ -374,16 +374,16 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     ]
 
     broken_params.each do |broken_params_item|
-      tests("#authorize_security_group_ingress('fog_security_group', #{broken_params_item.inspect})").raises(Fog::Compute::AWS::Error) do
+      tests("#authorize_security_group_ingress('fog_security_group', #{broken_params_item.inspect})").raises(Fog::AWS::Compute::Error) do
         Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', broken_params_item)
       end
 
-      tests("#revoke_security_group_ingress('fog_security_group', #{broken_params_item.inspect})").raises(Fog::Compute::AWS::Error) do
+      tests("#revoke_security_group_ingress('fog_security_group', #{broken_params_item.inspect})").raises(Fog::AWS::Compute::Error) do
         Fog::Compute[:aws].revoke_security_group_ingress('fog_security_group', broken_params_item)
       end
     end
 
-    tests("#revoke_security_group_ingress('not_a_group_name', {'FromPort' => 80, 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::Compute::AWS::NotFound) do
+    tests("#revoke_security_group_ingress('not_a_group_name', {'FromPort' => 80, 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].revoke_security_group_ingress(
         'not_a_group_name',
         {
@@ -394,7 +394,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       )
     end
 
-    tests("#revoke_security_group_ingress('not_a_group_name', {'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Fog::Compute::AWS::NotFound) do
+    tests("#revoke_security_group_ingress('not_a_group_name', {'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].revoke_security_group_ingress(
         'not_a_group_name',
         {
@@ -404,13 +404,13 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       )
     end
 
-    tests("#delete_security_group('not_a_group_name')").raises(Fog::Compute::AWS::NotFound) do
+    tests("#delete_security_group('not_a_group_name')").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].delete_security_group('not_a_group_name')
     end
 
     @rds_security_group = Fog::AWS[:rds].security_groups.create(:id => "rdsgroup", :description => 'fog rds test')
 
-    tests("#delete_security_group('when authorized to an rds firewall')").raises(Fog::Compute::AWS::Error) do
+    tests("#delete_security_group('when authorized to an rds firewall')").raises(Fog::AWS::Compute::Error) do
       @rds_security_group.authorize_ec2_security_group(@security_group.name)
       Fog::Compute[:aws].delete_security_group(@security_group.name)
     end
@@ -420,7 +420,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     @security_group.destroy
     @other_security_group.destroy
 
-    tests("#delete_security_group('default')").raises(Fog::Compute::AWS::Error) do
+    tests("#delete_security_group('default')").raises(Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].delete_security_group('default')
     end
 
@@ -432,11 +432,11 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
                     ]
 
     broken_params.each do |list_elem|
-      tests("#authorize_security_group_ingress(#{list_elem[0].inspect}, #{list_elem[1].inspect})").raises(Fog::Compute::AWS::Error) do
+      tests("#authorize_security_group_ingress(#{list_elem[0].inspect}, #{list_elem[1].inspect})").raises(Fog::AWS::Compute::Error) do
         Fog::Compute[:aws].authorize_security_group_ingress(list_elem[0], list_elem[1])
       end
 
-      tests("#revoke_security_group_ingress(#{list_elem[0].inspect}, #{list_elem[1].inspect})").raises(Fog::Compute::AWS::Error) do
+      tests("#revoke_security_group_ingress(#{list_elem[0].inspect}, #{list_elem[1].inspect})").raises(Fog::AWS::Compute::Error) do
         Fog::Compute[:aws].revoke_security_group_ingress(list_elem[0], list_elem[1])
       end
     end

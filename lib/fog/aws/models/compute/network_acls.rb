@@ -1,12 +1,12 @@
 require 'fog/aws/models/compute/network_acl'
 
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class NetworkAcls < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::NetworkAcl
+        model Fog::AWS::Compute::NetworkAcl
 
         # Creates a new network ACL
         #
@@ -16,7 +16,7 @@ module Fog
         #
         # Returns the details of the new network ACL
         #
-        #>> <Fog::Compute::AWS::NetworkAcl
+        #>> <Fog::AWS::Compute::NetworkAcl
         #     network_acl_id=nil,
         #     vpc_id=nil,
         #     default=nil,
@@ -42,7 +42,7 @@ module Fog
         #  <Fog::AWS::Compute::NetworkAcls
         #    filters={}
         #    [
-        #      <Fog::Compute::AWS::NetworkAcl
+        #      <Fog::AWS::Compute::NetworkAcl
         #        network_acl_id="acl-abcdefgh",
         #        vpc_id="vpc-abcdefgh",
         #        default=true,
@@ -93,7 +93,7 @@ module Fog
         # ==== Returns
         #
         #>> AWS.network_acls.get("acl-abcdefgh")
-        #  <Fog::Compute::AWS::NetworkAcl
+        #  <Fog::AWS::Compute::NetworkAcl
         #    network_acl_id="acl-abcdefgh",
         #    vpc_id="vpc-abcdefgh",
         #    default=true,

@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_volume_status'
 
@@ -20,7 +20,7 @@ module Fog
           request({
             'Action'    => 'DescribeVolumeStatus',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeVolumeStatus.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeVolumeStatus.new
           }.merge!(params))
         end
       end

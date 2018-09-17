@@ -36,7 +36,7 @@ Shindo.tests("Fog::Compute[:aws] | address", ['aws']) do
   end
 
   model_tests(Fog::Compute[:aws].addresses, { :domain => "vpc" }, true) do
-    tests("#change_scope").raises(Fog::Compute::AWS::Error) do
+    tests("#change_scope").raises(Fog::AWS::Compute::Error) do
       @instance.change_scope
     end
   end

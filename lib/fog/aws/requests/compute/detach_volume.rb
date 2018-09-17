@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/detach_volume'
 
@@ -29,7 +29,7 @@ module Fog
             'Action'    => 'DetachVolume',
             'VolumeId'  => volume_id,
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DetachVolume.new
+            :parser     => Fog::Parsers::AWS::Compute::DetachVolume.new
           }.merge!(options))
         end
       end
@@ -49,10 +49,10 @@ module Fog
               response
             else
               # real response has spacing issue below
-              raise Fog::Compute::AWS::Error.new("IncorrectState => Volume '#{volume_id}'is in the 'available' state.")
+              raise Fog::AWS::Compute::Error.new("IncorrectState => Volume '#{volume_id}'is in the 'available' state.")
             end
           else
-            raise Fog::Compute::AWS::NotFound.new("The volume '#{volume_id}' does not exist.")
+            raise Fog::AWS::Compute::NotFound.new("The volume '#{volume_id}' does not exist.")
           end
         end
       end

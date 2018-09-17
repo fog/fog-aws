@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/associate_address'
 
@@ -48,7 +48,7 @@ module Fog
             'PrivateIpAddress'   => params[:private_ip_address],
             'AllowReassociation' => params[:allow_reassociation],
             :idempotent          => true,
-            :parser              => Fog::Parsers::Compute::AWS::AssociateAddress.new
+            :parser              => Fog::Parsers::AWS::Compute::AssociateAddress.new
           )
         end
       end
@@ -119,13 +119,13 @@ module Fog
             end
             response
           elsif !instance
-            raise Fog::Compute::AWS::NotFound.new("You must specify either an InstanceId or a NetworkInterfaceID")
+            raise Fog::AWS::Compute::NotFound.new("You must specify either an InstanceId or a NetworkInterfaceID")
           elsif !address
-            raise Fog::Compute::AWS::Error.new("AuthFailure => The address '#{public_ip}' does not belong to you.")
+            raise Fog::AWS::Compute::Error.new("AuthFailure => The address '#{public_ip}' does not belong to you.")
           elsif params[:network_interface_id].nil? && params[:allocation_id].nil?
-            raise Fog::Compute::AWS::NotFound.new("You must specify an AllocationId when specifying a NetworkInterfaceID")
+            raise Fog::AWS::Compute::NotFound.new("You must specify an AllocationId when specifying a NetworkInterfaceID")
           else (!instance.nil? && params[:network_interface_id].nil?) || (params[:instance_id].nil? && !params[:network_interface_id].nil?)
-            raise Fog::Compute::AWS::Error.new("You must specify either an InstanceId or a NetworkInterfaceID")
+            raise Fog::AWS::Compute::Error.new("You must specify either an InstanceId or a NetworkInterfaceID")
           end
         end
       end

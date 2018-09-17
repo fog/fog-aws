@@ -1,12 +1,12 @@
 require 'fog/aws/models/compute/tag'
 
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Tags < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::Tag
+        model Fog::AWS::Compute::Tag
 
         def initialize(attributes)
           self.filters ||= {}

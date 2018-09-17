@@ -1,5 +1,5 @@
 Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
-  Fog::Compute::AWS::Mock.reset if Fog.mocking?
+  Fog::AWS::Compute::Mock.reset if Fog.mocking?
 
   @tags_format = {
     'tagSet'    => [{
@@ -18,7 +18,7 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
 
   tests('success') do
     if Fog.mocking?
-      @other_account = Fog::Compute::AWS.new(:aws_access_key_id => 'other', :aws_secret_access_key => 'account')
+      @other_account = Fog::AWS::Compute.new(:aws_access_key_id => 'other', :aws_secret_access_key => 'account')
       @image_id = Fog::Compute[:aws].register_image('image', 'image', '/dev/sda1').body['imageId']
     end
 
@@ -97,5 +97,5 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
       Fog::Compute[:aws].create_tags('vpc-123', 'type' => 'bad_resource_id')
     end
   end
-  Fog::Compute::AWS::Mock.reset if Fog.mocking?
+  Fog::AWS::Compute::Mock.reset if Fog.mocking?
 end

@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -25,7 +25,7 @@ module Fog
             'Action'                => 'CreateRoute',
             'RouteTableId'          => route_table_id,
             'DestinationCidrBlock'  => destination_cidr_block,
-            :parser                 => Fog::Parsers::Compute::AWS::Basic.new
+            :parser                 => Fog::Parsers::AWS::Compute::Basic.new
           }
           if internet_gateway_id
             request_vars['GatewayId'] = internet_gateway_id
@@ -45,13 +45,13 @@ module Fog
           if !route_table.nil? && destination_cidr_block
             if !internet_gateway_id.nil? || !instance_id.nil? || !network_interface_id.nil?
               if !internet_gateway_id.nil? && self.internet_gateways.all('internet-gateway-id'=>internet_gateway_id).first.nil?
-                raise Fog::Compute::AWS::NotFound.new("The gateway ID '#{internet_gateway_id}' does not exist")
+                raise Fog::AWS::Compute::NotFound.new("The gateway ID '#{internet_gateway_id}' does not exist")
               elsif !instance_id.nil? && self.servers.all('instance-id'=>instance_id).first.nil?
-                raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_id}' does not exist")
+                raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_id}' does not exist")
               elsif !network_interface_id.nil? && self.network_interfaces.all('networkInterfaceId'=>network_interface_id).first.nil?
-                raise Fog::Compute::AWS::NotFound.new("The networkInterface ID '#{network_interface_id}' does not exist")
+                raise Fog::AWS::Compute::NotFound.new("The networkInterface ID '#{network_interface_id}' does not exist")
               elsif !route_table['routeSet'].find { |route| route['destinationCidrBlock'].eql? destination_cidr_block }.nil?
-                raise Fog::Compute::AWS::Error, "RouteAlreadyExists => The route identified by #{destination_cidr_block} already exists."
+                raise Fog::AWS::Compute::Error, "RouteAlreadyExists => The route identified by #{destination_cidr_block} already exists."
               else
                 response = Excon::Response.new
                 route_table['routeSet'].push({
@@ -73,12 +73,12 @@ module Fog
             else
               message = 'MissingParameter => '
               message << 'The request must contain either a gateway id, a network interface id, or an instance id'
-              raise Fog::Compute::AWS::Error.new(message)
+              raise Fog::AWS::Compute::Error.new(message)
             end
           elsif route_table.nil?
-            raise Fog::Compute::AWS::NotFound.new("The routeTable ID '#{route_table_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The routeTable ID '#{route_table_id}' does not exist")
           elsif destination_cidr_block.empty?
-            raise Fog::Compute::AWS::InvalidParameterValue.new("Value () for parameter destinationCidrBlock is invalid. This is not a valid CIDR block.")
+            raise Fog::AWS::Compute::InvalidParameterValue.new("Value () for parameter destinationCidrBlock is invalid. This is not a valid CIDR block.")
           end
         end
       end

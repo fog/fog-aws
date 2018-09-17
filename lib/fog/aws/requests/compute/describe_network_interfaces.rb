@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_network_interfaces'
 
@@ -57,7 +57,7 @@ module Fog
           request({
             'Action' => 'DescribeNetworkInterfaces',
             :idempotent => true,
-            :parser => Fog::Parsers::Compute::AWS::DescribeNetworkInterfaces.new
+            :parser => Fog::Parsers::AWS::Compute::DescribeNetworkInterfaces.new
           }.merge!(params))
         end
       end

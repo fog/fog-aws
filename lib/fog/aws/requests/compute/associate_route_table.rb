@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/associate_route_table'
         # Associates a subnet with a route table.
@@ -21,7 +21,7 @@ module Fog
             'Action'       => 'AssociateRouteTable',
             'RouteTableId' => routeTableId,
             'SubnetId'     => subnetId,
-            :parser        => Fog::Parsers::Compute::AWS::AssociateRouteTable.new
+            :parser        => Fog::Parsers::AWS::Compute::AssociateRouteTable.new
           )
         end
       end
@@ -42,9 +42,9 @@ module Fog
             }
             response
           elsif routetable.nil?
-            raise Fog::Compute::AWS::NotFound.new("The routeTable ID '#{routeTableId}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The routeTable ID '#{routeTableId}' does not exist")
           else
-            raise Fog::Compute::AWS::NotFound.new("The subnet ID '#{subnetId}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The subnet ID '#{subnetId}' does not exist")
           end
         end
 

@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_spot_price_history'
 
@@ -52,7 +52,7 @@ module Fog
           request({
             'Action'    => 'DescribeSpotPriceHistory',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeSpotPriceHistory.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeSpotPriceHistory.new
           }.merge!(params))
         end
       end
@@ -82,14 +82,14 @@ module Fog
           zones = params['AvailabilityZone']
           if (!zones.nil? && !all_zones.include?([*zones].shuffle.first))
             az_error = "InvalidParameterValue => Invalid availability zone: [#{zones}]"
-            raise Fog::Compute::AWS::Error, az_error
+            raise Fog::AWS::Compute::Error, az_error
           end
           zones = all_zones if zones.nil?
 
           max_results = params['MaxResults'] || Fog::Mock.random_numbers(3).to_i
           if !(max_results.is_a?(Integer) && max_results > 0)
             max_results_error = "InvalidParameterValue => Invalid value '#{max_results}' for maxResults"
-            raise Fog::Compute::AWS::Error, max_results_error
+            raise Fog::AWS::Compute::Error, max_results_error
           end
 
           all_instance_types = flavors.map { |f| f.id }

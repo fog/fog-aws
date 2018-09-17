@@ -61,13 +61,13 @@ module Fog
           supported_actions = [ "InsufficientDataActions", "OKActions", "AlarmActions" ]
           found_actions = options.keys.select {|key| supported_actions.include? key }
           if found_actions.empty?
-            raise Fog::Compute::AWS::Error.new("The request must contain at least one of #{supported_actions.join(", ")}'")
+            raise Fog::AWS::Compute::Error.new("The request must contain at least one of #{supported_actions.join(", ")}'")
           end
 
           requirements = [ "AlarmName", "ComparisonOperator", "EvaluationPeriods", "Namespace", "Period", "Statistic", "Threshold" ]
           requirements.each do |req|
             unless options.key?(req)
-              raise Fog::Compute::AWS::Error.new("The request must contain a the parameter '%s'" % req)
+              raise Fog::AWS::Compute::Error.new("The request must contain a the parameter '%s'" % req)
             end
           end
 

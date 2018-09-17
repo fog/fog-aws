@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/copy_snapshot'
 
@@ -33,7 +33,7 @@ module Fog
             'SourceSnapshotId' => source_snapshot_id,
             'SourceRegion'     => source_region,
             'Description'      => options['Description'],
-            :parser            => Fog::Parsers::Compute::AWS::CopySnapshot.new
+            :parser            => Fog::Parsers::AWS::Compute::CopySnapshot.new
           }
           params['Encrypted'] = true if options['Encrypted']
           params['KmsKeyId']  = options['KmsKeyId'] if options['Encrypted'] && options['KmsKeyId']

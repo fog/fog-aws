@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/purchase_reserved_instances_offering'
 
@@ -23,7 +23,7 @@ module Fog
             'ReservedInstancesOfferingId' => reserved_instances_offering_id,
             'InstanceCount'               => instance_count,
             :idempotent                   => true,
-            :parser                       => Fog::Parsers::Compute::AWS::PurchaseReservedInstancesOffering.new
+            :parser                       => Fog::Parsers::AWS::Compute::PurchaseReservedInstancesOffering.new
           })
         end
       end

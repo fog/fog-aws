@@ -9,10 +9,6 @@ module Fog
     autoload :AWS,  File.expand_path('../aws/cdn', __FILE__)
   end
 
-  module Compute
-    autoload :AWS, File.expand_path('../aws/compute', __FILE__)
-  end
-
   module Storage
     autoload :AWS, File.expand_path('../aws/storage', __FILE__)
   end
@@ -30,6 +26,7 @@ module Fog
     autoload :AutoScaling,      File.expand_path('../aws/auto_scaling', __FILE__)
     autoload :CloudFormation,   File.expand_path('../aws/cloud_formation', __FILE__)
     autoload :CloudWatch,       File.expand_path('../aws/cloud_watch', __FILE__)
+    autoload :Compute,          File.expand_path('../aws/compute', __FILE__)
     autoload :DataPipeline,     File.expand_path('../aws/data_pipeline', __FILE__)
     autoload :DNS,              File.expand_path('../aws/dns', __FILE__)
     autoload :DynamoDB,         File.expand_path('../aws/dynamodb', __FILE__)
@@ -204,7 +201,7 @@ module Fog
         options = group_name
       elsif group_name
         if options.key?('GroupName')
-          raise Fog::Compute::AWS::Error, 'Arguments specified both group_name and GroupName in options'
+          raise Fog::AWS::Compute::Error, 'Arguments specified both group_name and GroupName in options'
         end
         options = options.clone
         options['GroupName'] = group_name
@@ -212,7 +209,7 @@ module Fog
       name_specified = options.key?('GroupName') && !options['GroupName'].nil?
       group_id_specified = options.key?('GroupId') && !options['GroupId'].nil?
       unless name_specified || group_id_specified
-        raise Fog::Compute::AWS::Error, 'Neither GroupName nor GroupId specified'
+        raise Fog::AWS::Compute::Error, 'Neither GroupName nor GroupId specified'
       end
       if name_specified && group_id_specified
         options.delete('GroupName')

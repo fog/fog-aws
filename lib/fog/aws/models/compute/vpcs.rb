@@ -1,12 +1,12 @@
 require 'fog/aws/models/compute/vpc'
 
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Vpcs < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::VPC
+        model Fog::AWS::Compute::VPC
 
         # Creates a new VPC
         #

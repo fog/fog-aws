@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -49,7 +49,7 @@ module Fog
           request({
             'Action'    => 'AuthorizeSecurityGroupEgress',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::Basic.new
+            :parser     => Fog::Parsers::AWS::Compute::Basic.new
           }.merge!(options))
         end
       end
@@ -66,7 +66,7 @@ module Fog
 
           response = Excon::Response.new
           group ||
-            raise(Fog::Compute::AWS::NotFound.new("The security group '#{group_name}' does not exist"))
+            raise(Fog::AWS::Compute::NotFound.new("The security group '#{group_name}' does not exist"))
 
           verify_permission_options(options, group['vpcId'] != nil)
 
@@ -75,11 +75,11 @@ module Fog
           normalized_permissions.each do |permission|
             if matching_group_permission = find_matching_permission_egress(group, permission)
               if permission['groups'].any? {|pg| matching_group_permission['groups'].include?(pg) }
-                raise Fog::Compute::AWS::Error, "InvalidPermission.Duplicate => The permission '123' has already been authorized in the specified group"
+                raise Fog::AWS::Compute::Error, "InvalidPermission.Duplicate => The permission '123' has already been authorized in the specified group"
               end
 
               if permission['ipRanges'].any? {|pr| matching_group_permission['ipRanges'].include?(pr) }
-                raise Fog::Compute::AWS::Error, "InvalidPermission.Duplicate => The permission '123' has already been authorized in the specified group"
+                raise Fog::AWS::Compute::Error, "InvalidPermission.Duplicate => The permission '123' has already been authorized in the specified group"
               end
             end
           end

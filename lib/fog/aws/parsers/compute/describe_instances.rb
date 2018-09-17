@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Compute
-      module AWS
+    module AWS
+      module Compute
         class DescribeInstances < Fog::Parsers::Base
           def reset
             @block_device_mapping = {}

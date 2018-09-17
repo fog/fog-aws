@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Compute
-      module AWS
+    module AWS
+      module Compute
         class DescribeReservedInstances < Fog::Parsers::Base
           def get_default_item
             {'tagSet' => {}, 'recurringCharges' => []}

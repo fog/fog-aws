@@ -159,7 +159,7 @@ Shindo.tests('Fog::Compute[:aws] | describe_instance_attribute request', ['aws']
 
   tests('failure') do
     @instance_attributes.each do |attrib|
-      tests("#describe_instance_attribute('i-00000000', #{attrib})").raises(Fog::Compute::AWS::NotFound) do
+      tests("#describe_instance_attribute('i-00000000', #{attrib})").raises(Fog::AWS::Compute::NotFound) do
         Fog::Compute[:aws].describe_instance_attribute('i-00000000', attrib)
       end
     end

@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/create_vpc'
 
@@ -31,7 +31,7 @@ module Fog
           request({
             'Action' => 'CreateVpc',
             'CidrBlock' => cidrBlock,
-            :parser => Fog::Parsers::Compute::AWS::CreateVpc.new
+            :parser => Fog::Parsers::AWS::Compute::CreateVpc.new
           }.merge!(options))
         end
       end
@@ -82,7 +82,7 @@ module Fog
               default_elb_group_name = "default_elb_#{Fog::Mock.random_hex(6)}"
               default_elb_group_id = Fog::AWS::Mock.security_group_id
 
-              Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups][default_elb_group_id] = {
+              Fog::AWS::Compute::Mock.data[region][@aws_access_key_id][:security_groups][default_elb_group_id] = {
                 'groupDescription'    => 'default_elb security group',
                 'groupName'           => default_elb_group_name,
                 'groupId'             => default_elb_group_id,
@@ -94,7 +94,7 @@ module Fog
               default_group_name = 'default'
               default_group_id = Fog::AWS::Mock.security_group_id
 
-              Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups][default_group_id] = {
+              Fog::AWS::Compute::Mock.data[region][@aws_access_key_id][:security_groups][default_group_id] = {
                 'groupDescription'    => default_group_name,
                 'groupName'           => default_group_name,
                 'groupId'             => default_group_id,
