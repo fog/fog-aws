@@ -1,6 +1,6 @@
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       class Real
         # Delete a distribution from CloudFront.
         #
@@ -26,13 +26,13 @@ module Fog
 
           if distribution
             if distribution['ETag'] != etag
-              Fog::CDN::AWS::Mock.error(:invalid_if_match_version)
+              Fog::AWS::CDN::Mock.error(:invalid_if_match_version)
             end
             unless distribution['DistributionConfig']['CallerReference']
-              Fog::CDN::AWS::Mock.error(:illegal_update)
+              Fog::AWS::CDN::Mock.error(:illegal_update)
             end
             if distribution['DistributionConfig']['Enabled']
-              Fog::CDN::AWS::Mock.error(:distribution_not_disabled)
+              Fog::AWS::CDN::Mock.error(:distribution_not_disabled)
             end
 
             self.data[:distributions].delete(distribution_id)
@@ -43,7 +43,7 @@ module Fog
             response.body = "x-amz-request-id: #{Fog::AWS::Mock.request_id}"
             response
           else
-            Fog::CDN::AWS::Mock.error(:no_such_distribution)
+            Fog::AWS::CDN::Mock.error(:no_such_distribution)
           end
         end
       end

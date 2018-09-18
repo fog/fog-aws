@@ -2,10 +2,10 @@ require 'fog/aws/models/cdn/invalidations'
 require 'fog/aws/models/cdn/distribution_helper'
 
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       class Distribution < Fog::Model
-        include Fog::CDN::AWS::DistributionHelper
+        include Fog::AWS::CDN::DistributionHelper
 
         identity :id,                 :aliases => 'Id'
 
@@ -33,7 +33,7 @@ module Fog
 
         def invalidations
           @invalidations ||= begin
-            Fog::CDN::AWS::Invalidations.new(
+            Fog::AWS::CDN::Invalidations.new(
               :distribution => self,
               :service => service
             )

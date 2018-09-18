@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module CDN
-      module AWS
+    module AWS
+      module CDN
         class GetDistributionList < Fog::Parsers::Base
           def reset
             @distribution_summary = { 'CNAME' => [], 'TrustedSigners' => [] }

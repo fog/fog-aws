@@ -2,12 +2,12 @@ require 'fog/aws/models/cdn/streaming_distribution'
 require 'fog/aws/models/cdn/distributions_helper'
 
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       class StreamingDistributions < Fog::Collection
-        include Fog::CDN::AWS::DistributionsHelper
+        include Fog::AWS::CDN::DistributionsHelper
 
-        model Fog::CDN::AWS::StreamingDistribution
+        model Fog::AWS::CDN::StreamingDistribution
 
         attribute :marker,    :aliases => 'Marker'
         attribute :max_items, :aliases => 'MaxItems'

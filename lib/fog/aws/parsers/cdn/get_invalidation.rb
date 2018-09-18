@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module CDN
-      module AWS
+    module AWS
+      module CDN
         class GetInvalidation < Fog::Parsers::Base
           def reset
             @response = { 'InvalidationBatch' => { 'Path' => [] } }

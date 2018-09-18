@@ -1,6 +1,6 @@
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       class Real
         require 'fog/aws/parsers/cdn/get_streaming_distribution_list'
 
@@ -42,7 +42,7 @@ module Fog
             :expects    => 200,
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::CDN::AWS::GetStreamingDistributionList.new,
+            :parser   => Fog::Parsers::AWS::CDN::GetStreamingDistributionList.new,
             :path       => "/streaming-distribution",
             :query      => options
           })

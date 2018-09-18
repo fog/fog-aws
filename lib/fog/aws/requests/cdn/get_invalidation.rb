@@ -1,6 +1,6 @@
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       class Real
         require 'fog/aws/parsers/cdn/get_invalidation'
 
@@ -24,7 +24,7 @@ module Fog
             :expects    => 200,
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::CDN::AWS::GetInvalidation.new,
+            :parser   => Fog::Parsers::AWS::CDN::GetInvalidation.new,
             :path       => "/distribution/#{distribution_id}/invalidation/#{invalidation_id}"
           })
         end
@@ -34,12 +34,12 @@ module Fog
         def get_invalidation(distribution_id, invalidation_id)
           distribution = self.data[:distributions][distribution_id]
           unless distribution
-            Fog::CDN::AWS::Mock.error(:no_such_distribution)
+            Fog::AWS::CDN::Mock.error(:no_such_distribution)
           end
 
           invalidation = self.data[:invalidations][distribution_id][invalidation_id]
           unless invalidation
-            Fog::CDN::AWS::Mock.error(:no_such_invalidation)
+            Fog::AWS::CDN::Mock.error(:no_such_invalidation)
           end
 
           if invalidation['Status'] == 'InProgress' && (Time.now - Time.parse(invalidation['CreateTime']) >= Fog::Mock.delay * 2)

@@ -1,6 +1,6 @@
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       class Invalidation < Fog::Model
         identity :id,                :aliases => 'Id'
 

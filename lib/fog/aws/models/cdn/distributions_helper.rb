@@ -1,6 +1,6 @@
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       module DistributionsHelper
 
         def all(options = {})

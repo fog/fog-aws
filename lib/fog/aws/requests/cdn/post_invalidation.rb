@@ -1,6 +1,6 @@
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       class Real
         require 'fog/aws/parsers/cdn/post_invalidation'
 
@@ -35,7 +35,7 @@ module Fog
             :headers    => {'Content-Type' => 'text/xml'},
             :idempotent => true,
             :method     => 'POST',
-            :parser     => Fog::Parsers::CDN::AWS::PostInvalidation.new,
+            :parser     => Fog::Parsers::AWS::CDN::PostInvalidation.new,
             :path       => "/distribution/#{distribution_id}/invalidation"
           })
         end
@@ -45,7 +45,7 @@ module Fog
         def post_invalidation(distribution_id, paths, caller_reference = Time.now.to_i.to_s)
           distribution = self.data[:distributions][distribution_id]
           if distribution
-            invalidation_id = Fog::CDN::AWS::Mock.distribution_id
+            invalidation_id = Fog::AWS::CDN::Mock.distribution_id
             invalidation = {
               'Id' => invalidation_id,
               'Status' => 'InProgress',
@@ -66,7 +66,7 @@ module Fog
             response.body = invalidation
             response
           else
-            Fog::CDN::AWS::Mock.error(:no_such_distribution)
+            Fog::AWS::CDN::Mock.error(:no_such_distribution)
           end
         end
       end

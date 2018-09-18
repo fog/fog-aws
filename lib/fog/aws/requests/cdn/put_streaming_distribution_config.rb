@@ -1,6 +1,6 @@
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       class Real
         require 'fog/aws/parsers/cdn/streaming_distribution'
 
@@ -69,7 +69,7 @@ module Fog
             },
             :idempotent => true,
             :method     => 'PUT',
-            :parser     => Fog::Parsers::CDN::AWS::StreamingDistribution.new,
+            :parser     => Fog::Parsers::AWS::CDN::StreamingDistribution.new,
             :path       => "/streaming-distribution/#{distribution_id}/config"
           })
         end
@@ -81,10 +81,10 @@ module Fog
 
           if distribution
             if distribution['ETag'] != etag
-              Fog::CDN::AWS::Mock.error(:invalid_if_match_version)
+              Fog::AWS::CDN::Mock.error(:invalid_if_match_version)
             end
             unless distribution['StreamingDistributionConfig']['CallerReference']
-              Fog::CDN::AWS::Mock.error(:illegal_update)
+              Fog::AWS::CDN::Mock.error(:illegal_update)
             end
 
             distribution['StreamingDistributionConfig'].merge!(options)
@@ -92,11 +92,11 @@ module Fog
 
             response = Excon::Response.new
             response.status = 200
-            response.headers['ETag'] = Fog::CDN::AWS::Mock.generic_id
+            response.headers['ETag'] = Fog::AWS::CDN::Mock.generic_id
             response.body = distribution.merge({ 'LastModifiedTime' => Time.now.utc.iso8601 }).reject{ |k,v| k == 'ETag' }
             response
           else
-            Fog::CDN::AWS::Mock.error(:no_such_streaming_distribution)
+            Fog::AWS::CDN::Mock.error(:no_such_streaming_distribution)
           end
         end
       end

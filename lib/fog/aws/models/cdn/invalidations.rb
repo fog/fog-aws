@@ -1,8 +1,8 @@
 require 'fog/aws/models/cdn/invalidation'
 
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       class Invalidations < Fog::Collection
         attribute :is_truncated,            :aliases => ['IsTruncated']
         attribute :max_items,               :aliases => ['MaxItems']
@@ -11,7 +11,7 @@ module Fog
 
         attribute :distribution
 
-        model Fog::CDN::AWS::Invalidation
+        model Fog::AWS::CDN::Invalidation
 
         def all(options = {})
           requires :distribution

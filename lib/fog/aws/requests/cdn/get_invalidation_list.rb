@@ -1,6 +1,6 @@
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       class Real
         require 'fog/aws/parsers/cdn/get_invalidation_list'
 
@@ -27,7 +27,7 @@ module Fog
             :expects    => 200,
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::CDN::AWS::GetInvalidationList.new,
+            :parser   => Fog::Parsers::AWS::CDN::GetInvalidationList.new,
             :path       => "/distribution/#{distribution_id}/invalidation",
             :query      => options
           })
@@ -38,7 +38,7 @@ module Fog
         def get_invalidation_list(distribution_id, options = {})
           distribution = self.data[:distributions][distribution_id]
           unless distribution
-            Fog::CDN::AWS::Mock.error(:no_such_distribution)
+            Fog::AWS::CDN::Mock.error(:no_such_distribution)
           end
 
           invalidations = (self.data[:invalidations][distribution_id] || {}).values

@@ -1,6 +1,6 @@
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       class Real
         require 'fog/aws/parsers/cdn/distribution'
 
@@ -77,7 +77,7 @@ module Fog
             :headers    => { 'Content-Type' => 'text/xml' },
             :idempotent => true,
             :method     => 'POST',
-            :parser     => Fog::Parsers::CDN::AWS::Distribution.new,
+            :parser     => Fog::Parsers::AWS::CDN::Distribution.new,
             :path       => "/distribution"
           })
         end
@@ -88,7 +88,7 @@ module Fog
 
         def post_distribution(options = {})
           if self.data[:distributions].values.any? { |d| (d['CNAME'] & (options['CNAME']||[])).empty? }
-            Fog::CDN::AWS::Mock.error(:invalid_argument, 'CNAME is already in use')
+            Fog::AWS::CDN::Mock.error(:invalid_argument, 'CNAME is already in use')
           end
 
           response = Excon::Response.new
@@ -96,10 +96,10 @@ module Fog
           response.status = 201
           options['CallerReference'] = Time.now.to_i.to_s
 
-          dist_id = Fog::CDN::AWS::Mock.distribution_id
+          dist_id = Fog::AWS::CDN::Mock.distribution_id
 
           distribution = {
-            'DomainName' => Fog::CDN::AWS::Mock.domain_name,
+            'DomainName' => Fog::AWS::CDN::Mock.domain_name,
             'Id' => dist_id,
             'Status' => 'InProgress',
             'LastModifiedTime' => Time.now.utc.iso8601,

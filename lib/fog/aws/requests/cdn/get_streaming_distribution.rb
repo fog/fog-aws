@@ -1,6 +1,6 @@
 module Fog
-  module CDN
-    class AWS
+  module AWS
+    class CDN
       class Real
         require 'fog/aws/parsers/cdn/streaming_distribution'
 
@@ -35,7 +35,7 @@ module Fog
             :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::CDN::AWS::StreamingDistribution.new,
+            :parser     => Fog::Parsers::AWS::CDN::StreamingDistribution.new,
             :path       => "/streaming-distribution/#{distribution_id}"
           })
         end
@@ -47,14 +47,14 @@ module Fog
 
           distribution = self.data[:streaming_distributions][distribution_id]
           unless distribution
-            Fog::CDN::AWS::Mock.error(:no_such_streaming_distribution)
+            Fog::AWS::CDN::Mock.error(:no_such_streaming_distribution)
           end
 
           if distribution['Status'] == 'InProgress' && (Time.now - Time.parse(distribution['LastModifiedTime']) >= Fog::Mock.delay * 2)
             distribution['Status'] = 'Deployed'
           end
 
-          etag = Fog::CDN::AWS::Mock.generic_id
+          etag = Fog::AWS::CDN::Mock.generic_id
           response.status = 200
           response.body = distribution.reject { |k,v| k == 'ETag' }
 

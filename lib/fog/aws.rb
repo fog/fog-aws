@@ -5,10 +5,6 @@ require 'fog/json'
 require File.expand_path('../aws/version', __FILE__)
 
 module Fog
-  module CDN
-    autoload :AWS,  File.expand_path('../aws/cdn', __FILE__)
-  end
-
   module AWS
     extend Fog::Provider
 
@@ -20,6 +16,7 @@ module Fog
 
     # Services
     autoload :AutoScaling,      File.expand_path('../aws/auto_scaling', __FILE__)
+    autoload :CDN,              File.expand_path('../aws/cdn', __FILE__)
     autoload :CloudFormation,   File.expand_path('../aws/cloud_formation', __FILE__)
     autoload :CloudWatch,       File.expand_path('../aws/cloud_watch', __FILE__)
     autoload :Compute,          File.expand_path('../aws/compute', __FILE__)

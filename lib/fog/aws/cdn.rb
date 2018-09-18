@@ -1,6 +1,6 @@
 module Fog
-  module CDN
-    class AWS < Fog::Service
+  module AWS
+    class CDN < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
@@ -197,6 +197,19 @@ EOF
           signed_string = @hmac.sign(string_to_sign)
           Base64.encode64(signed_string).chomp!
         end
+      end
+    end
+  end
+
+  # @deprecated
+  module CDN
+    # @deprecated
+    class AWS < Fog::AWS::CDN
+      # @deprecated
+      # @overrides Fog::Service.new (from the fog-core gem)
+      def self.new(*)
+        Fog::Logger.deprecation 'Fog::CDN::AWS is deprecated, please use Fog::AWS::CDN.'
+        super
       end
     end
   end
