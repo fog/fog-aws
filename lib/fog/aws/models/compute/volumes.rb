@@ -1,13 +1,13 @@
 require 'fog/aws/models/compute/volume'
 
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Volumes < Fog::Collection
         attribute :filters
         attribute :server
 
-        model Fog::Compute::AWS::Volume
+        model Fog::AWS::Compute::Volume
 
         # Used to create a volume.  There are 3 arguments and availability_zone and size are required.  You can generate a new key_pair as follows:
         # AWS.volumes.create(:availability_zone => 'us-east-1a', :size => 10)

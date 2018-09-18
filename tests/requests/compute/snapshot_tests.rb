@@ -66,7 +66,7 @@ Shindo.tests('Fog::Compute[:aws] | snapshot requests', ['aws']) do
   end
   tests('failure') do
 
-    tests("#delete_snapshot('snap-00000000')").raises(Fog::Compute::AWS::NotFound) do
+    tests("#delete_snapshot('snap-00000000')").raises(Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].delete_snapshot('snap-00000000')
     end
 

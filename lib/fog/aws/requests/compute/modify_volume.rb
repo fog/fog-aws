@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/modify_volume'
 
@@ -32,7 +32,7 @@ module Fog
           request({
             'Action'   => "ModifyVolume",
             'VolumeId' => volume_id,
-            :parser    => Fog::Parsers::Compute::AWS::ModifyVolume.new
+            :parser    => Fog::Parsers::AWS::Compute::ModifyVolume.new
           }.merge(options))
         end
       end
@@ -43,7 +43,7 @@ module Fog
           volume   = self.data[:volumes][volume_id]
 
           if volume["volumeType"] == 'standard' && options['VolumeType']
-            raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Volume type EBS Magnetic is not supported.")
+            raise Fog::AWS::Compute::Error.new("InvalidParameterValue => Volume type EBS Magnetic is not supported.")
           end
 
           volume_modification = {
@@ -69,7 +69,7 @@ module Fog
 
           if options['VolumeType']
             if options["VolumeType"] == 'standard'
-              raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Volume type EBS Magnetic is not supported.")
+              raise Fog::AWS::Compute::Error.new("InvalidParameterValue => Volume type EBS Magnetic is not supported.")
             end
             volume_modification.merge!(
               'originalVolumeType' => volume['volumeType'],

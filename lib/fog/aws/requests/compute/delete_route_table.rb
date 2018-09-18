@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -20,7 +20,7 @@ module Fog
           request(
             'Action'    => 'DeleteRouteTable',
             'RouteTableId'  => route_table_id,
-            :parser     => Fog::Parsers::Compute::AWS::Basic.new
+            :parser     => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -38,9 +38,9 @@ module Fog
               }
               response
           elsif route_table.nil?
-            raise Fog::Compute::AWS::NotFound.new("The routeTable ID '#{route_table_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The routeTable ID '#{route_table_id}' does not exist")
           elsif !route_table['associationSet'].empty?
-            raise Fog::Compute::AWS::Error, "DependencyViolation => The routeTable '#{route_table_id}' has dependencies and cannot be deleted."
+            raise Fog::AWS::Compute::Error, "DependencyViolation => The routeTable '#{route_table_id}' has dependencies and cannot be deleted."
           end
         end
       end

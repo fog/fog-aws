@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class DhcpOption < Fog::Model
         identity  :id,                          :aliases => 'dhcpOptionsId'
         attribute :dhcp_configuration_set,      :aliases => 'dhcpConfigurationSet'

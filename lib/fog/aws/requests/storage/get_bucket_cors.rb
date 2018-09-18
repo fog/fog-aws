@@ -1,6 +1,6 @@
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       class Real
         require 'fog/aws/parsers/storage/cors_configuration'
 
@@ -31,7 +31,7 @@ module Fog
             :bucket_name => bucket_name,
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::Storage::AWS::CorsConfiguration.new,
+            :parser     => Fog::Parsers::AWS::Storage::CorsConfiguration.new,
             :query      => {'cors' => nil}
           })
         end
@@ -45,7 +45,7 @@ module Fog
           if cors = self.data[:cors][:bucket][bucket_name]
             response.status = 200
             if cors.is_a?(String)
-              response.body = Fog::Storage::AWS.cors_to_hash(cors)
+              response.body = Fog::AWS::Storage.cors_to_hash(cors)
             else
               response.body = cors
             end

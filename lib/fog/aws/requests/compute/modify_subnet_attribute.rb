@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/modify_subnet_attribute'
 
@@ -26,7 +26,7 @@ module Fog
           request({
             'Action' => 'ModifySubnetAttribute',
             'SubnetId' => subnet_id,
-            :parser => Fog::Parsers::Compute::AWS::ModifySubnetAttribute.new
+            :parser => Fog::Parsers::AWS::Compute::ModifySubnetAttribute.new
           }.merge(params))
         end
       end

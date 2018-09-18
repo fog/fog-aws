@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_vpc_classic_link_dns_support'
 
@@ -29,7 +29,7 @@ module Fog
             'Action'     => 'DescribeVpcClassicLinkDnsSupport',
             'MaxResults' => options['MaxResults'],
             'NextToken'  => options['NextToken'],
-            :parser      => Fog::Parsers::Compute::AWS::DescribeVpcClassicLinkDnsSupport.new
+            :parser      => Fog::Parsers::AWS::Compute::DescribeVpcClassicLinkDnsSupport.new
           }.merge(params))
         end
       end

@@ -36,7 +36,7 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
   }
 
   tests('success') do
-    Fog::Compute::AWS::Mock.reset if Fog.mocking?
+    Fog::AWS::Compute::Mock.reset if Fog.mocking?
 
     # Create environment
     @vpc            = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
@@ -197,7 +197,7 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
   tests('failure') do
 
     # Attempt to attach a nonexistent interface
-    tests("#attach_network_interface('eni-00000000', 'i-00000000', '1')").raises(::Fog::Compute::AWS::NotFound) do
+    tests("#attach_network_interface('eni-00000000', 'i-00000000', '1')").raises(::Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].attach_network_interface('eni-00000000', 'i-00000000', '1')
     end
 
@@ -213,12 +213,12 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
     # Attempt to re-use an existing IP for another ENI
     tests("#create_network_interface('#{@subnet_id}', " \
       "{'PrivateIpAddress' => " \
-      "'#{data['networkInterface']['privateIpAddress']}'}").raises(::Fog::Compute::AWS::Error) do
+      "'#{data['networkInterface']['privateIpAddress']}'}").raises(::Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].create_network_interface(@subnet_id, {'PrivateIpAddress' => data['networkInterface']['privateIpAddress']})
     end
 
     # Attempt to attach a valid ENI to a nonexistent instance.
-    tests("#attach_network_interface('#{@nic_id}', 'i-00000000', '0')").raises(::Fog::Compute::AWS::NotFound) do
+    tests("#attach_network_interface('#{@nic_id}', 'i-00000000', '0')").raises(::Fog::AWS::Compute::NotFound) do
       Fog::Compute[:aws].attach_network_interface(@nic_id, 'i-00000000', '0')
     end
 
@@ -230,10 +230,10 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
 
     # Attempt to attach two ENIs to the same instance with the same device
     # index.
-    tests("#attach_network_interface('#{@nic_id}', '#{@instance_id}', '#{@device_index}')").raises(::Fog::Compute::AWS::Error) do
+    tests("#attach_network_interface('#{@nic_id}', '#{@instance_id}', '#{@device_index}')").raises(::Fog::AWS::Compute::Error) do
       Fog::Compute[:aws].attach_network_interface(@nic_id, @instance_id, @device_index)
     end
 
-    Fog::Compute::AWS::Mock.reset if Fog.mocking?
+    Fog::AWS::Compute::Mock.reset if Fog.mocking?
   end
 end

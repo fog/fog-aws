@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -28,7 +28,7 @@ module Fog
             'Action'        => 'ModifyInstanceAttribute',
             'InstanceId'    => instance_id,
             :idempotent     => true,
-            :parser         => Fog::Parsers::Compute::AWS::Basic.new
+            :parser         => Fog::Parsers::AWS::Compute::Basic.new
           }.merge!(params))
         end
 

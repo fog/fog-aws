@@ -1,8 +1,8 @@
 require 'fog/aws/models/dns/record'
 
 module Fog
-  module DNS
-    class AWS
+  module AWS
+    class DNS
       class Records < Fog::Collection
         attribute :is_truncated,            :aliases => ['IsTruncated']
         attribute :max_items,               :aliases => ['MaxItems']
@@ -15,7 +15,7 @@ module Fog
 
         attribute :zone
 
-        model Fog::DNS::AWS::Record
+        model Fog::AWS::DNS::Record
 
         def all(options = {})
           requires :zone
@@ -99,7 +99,7 @@ module Fog
               record
             end
           end.compact.first
-        rescue Fog::DNS::AWS::NotFound
+        rescue Fog::AWS::DNS::NotFound
           nil
         end
 

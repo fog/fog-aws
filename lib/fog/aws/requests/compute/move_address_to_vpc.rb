@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/move_address_to_vpc'
 
@@ -18,7 +18,7 @@ module Fog
             'Action' => 'MoveAddressToVpc',
             'PublicIp' => public_ip,
             :idempotent => true,
-            :parser => Fog::Parsers::Compute::AWS::MoveAddressToVpc.new
+            :parser => Fog::Parsers::AWS::Compute::MoveAddressToVpc.new
           )
         end
       end
@@ -43,7 +43,7 @@ module Fog
 
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("Address does not exist")
+            raise Fog::AWS::Compute::NotFound.new("Address does not exist")
           end
         end
       end

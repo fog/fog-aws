@@ -1,6 +1,6 @@
 module Fog
-  module DNS
-    class AWS
+  module AWS
+    class DNS
       class Real
         # This action deletes a health check.
         # http://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteHealthCheck.html

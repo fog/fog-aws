@@ -1,6 +1,6 @@
 module Fog
-  module DNS
-    class AWS
+  module AWS
+    class DNS
       class Real
         require 'fog/aws/parsers/dns/delete_hosted_zone'
 
@@ -24,7 +24,7 @@ module Fog
 
           request({
             :expects => 200,
-            :parser  => Fog::Parsers::DNS::AWS::DeleteHostedZone.new,
+            :parser  => Fog::Parsers::AWS::DNS::DeleteHostedZone.new,
             :method  => 'DELETE',
             :path    => "hostedzone/#{zone_id}"
           })
@@ -37,7 +37,7 @@ module Fog
         def delete_hosted_zone(zone_id)
           response = Excon::Response.new
           key = [zone_id, "/hostedzone/#{zone_id}"].find { |k| !self.data[:zones][k].nil? } ||
-            raise(Fog::DNS::AWS::NotFound.new("NoSuchHostedZone => A hosted zone with the specified hosted zone does not exist."))
+            raise(Fog::AWS::DNS::NotFound.new("NoSuchHostedZone => A hosted zone with the specified hosted zone does not exist."))
 
             change = {
               :id => Fog::AWS::Mock.change_id,

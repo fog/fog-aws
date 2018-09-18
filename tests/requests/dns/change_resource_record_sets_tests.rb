@@ -1,8 +1,8 @@
 Shindo.tests('Fog::DNS[:aws] | change_resource_record_sets', ['aws', 'dns']) do
   tests('success') do
     test('#elb_hosted_zone_mapping from DNS name') do
-      zone_id = Fog::DNS::AWS.hosted_zone_for_alias_target('arbitrary-sub-domain.eu-west-1.elb.amazonaws.com')
-      zone_id == Fog::DNS::AWS.elb_hosted_zone_mapping['eu-west-1']
+      zone_id = Fog::AWS::DNS.hosted_zone_for_alias_target('arbitrary-sub-domain.eu-west-1.elb.amazonaws.com')
+      zone_id == Fog::AWS::DNS.elb_hosted_zone_mapping['eu-west-1']
     end
   end
 
@@ -18,7 +18,7 @@ Shindo.tests('Fog::DNS[:aws] | change_resource_record_sets', ['aws', 'dns']) do
         }]
 
     version = '2013-04-01'
-    result = Fog::DNS::AWS.change_resource_record_sets_data('zone_id123', change_batch, version)
+    result = Fog::AWS::DNS.change_resource_record_sets_data('zone_id123', change_batch, version)
     doc = Nokogiri::XML(result)
 
     returns("https://route53.amazonaws.com/doc/#{version}/") { doc.namespaces['xmlns'] }

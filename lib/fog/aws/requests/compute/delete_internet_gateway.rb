@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
         #Deletes an Internet gateway from your AWS account. The gateway must not be attached to a VPC
@@ -19,7 +19,7 @@ module Fog
           request(
             'Action' => 'DeleteInternetGateway',
             'InternetGatewayId' => internet_gateway_id,
-            :parser => Fog::Parsers::Compute::AWS::Basic.new
+            :parser => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -38,7 +38,7 @@ module Fog
             else
               message = 'MissingParameter => '
               message << 'The request must contain the parameter internet_gateway_id'
-              raise Fog::Compute::AWS::Error.new(message)
+              raise Fog::AWS::Compute::Error.new(message)
             end
           end
         end

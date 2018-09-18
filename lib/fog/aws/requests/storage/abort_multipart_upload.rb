@@ -1,6 +1,6 @@
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       class Real
         #
         # Abort a multipart upload
@@ -25,7 +25,7 @@ module Fog
 
       class Mock # :nodoc:all
         require 'fog/aws/requests/storage/shared_mock_methods'
-        include Fog::Storage::AWS::SharedMockMethods
+        include Fog::AWS::Storage::SharedMockMethods
 
         def abort_multipart_upload(bucket_name, object_name, upload_id)
           verify_mock_bucket_exists(bucket_name)

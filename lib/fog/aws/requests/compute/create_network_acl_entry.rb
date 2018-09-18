@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -35,7 +35,7 @@ module Fog
             'RuleAction'   => rule_action,
             'Egress'       => egress,
             'CidrBlock'    => cidr_block,
-            :parser        => Fog::Parsers::Compute::AWS::Basic.new
+            :parser        => Fog::Parsers::AWS::Compute::Basic.new
           }.merge!(options))
         end
       end
@@ -46,7 +46,7 @@ module Fog
           if self.data[:network_acls][network_acl_id]
 
             if self.data[:network_acls][network_acl_id]['entrySet'].find { |r| r['ruleNumber'] == rule_number && r['egress'] == egress }
-              raise Fog::Compute::AWS::Error.new("Already a rule with that number")
+              raise Fog::AWS::Compute::Error.new("Already a rule with that number")
             end
 
             data = {
@@ -71,7 +71,7 @@ module Fog
             }
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The network ACL '#{network_acl_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The network ACL '#{network_acl_id}' does not exist")
           end
         end
       end

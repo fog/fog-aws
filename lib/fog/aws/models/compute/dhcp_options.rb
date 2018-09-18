@@ -1,12 +1,12 @@
 require 'fog/aws/models/compute/dhcp_option'
 
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class DhcpOptions < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::DhcpOption
+        model Fog::AWS::Compute::DhcpOption
 
         # Creates a new dhcp option
         #
@@ -17,7 +17,7 @@ module Fog
         # Returns the details of the new DHCP options
         #
         #>> AWS.dhcp_options.new
-        #=>   <Fog::Compute::AWS::DhcpOption
+        #=>   <Fog::AWS::Compute::DhcpOption
         #id=nil,
         #dhcp_configuration_set=nil,
         #tag_set=nil
@@ -38,10 +38,10 @@ module Fog
         # Returns an array of all DhcpOptions
         #
         #>> AWS.dhcp_options.all
-        #<Fog::Compute::AWS::DhcpOptions
+        #<Fog::AWS::Compute::DhcpOptions
         #filters={}
         #[
-        #<Fog::Compute::AWS::DhcpOption
+        #<Fog::AWS::Compute::DhcpOption
         #id="dopt-some-id",
         #dhcp_configuration_set={"vpcId"=>"vpc-some-id", "state"=>"available"},
         #tag_set={}
@@ -68,7 +68,7 @@ module Fog
         # ==== Returns
         #
         #>> AWS.dhcp_options.get("dopt-12345678")
-        #=>   <Fog::Compute::AWS::DhcpOption
+        #=>   <Fog::AWS::Compute::DhcpOption
         #id="dopt-12345678",
         #dhcp_configuration_set={"vpcId"=>"vpc-12345678", "state"=>"available"},
         #tag_set={}

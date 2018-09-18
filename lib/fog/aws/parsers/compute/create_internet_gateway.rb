@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Compute
-      module AWS
+    module AWS
+      module Compute
         class CreateInternetGateway < Fog::Parsers::Base
           def reset
             @internet_gateway = { 'attachmentSet' => {}, 'tagSet' => {} }

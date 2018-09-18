@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
         # Detaches an Internet gateway to a VPC, enabling connectivity between the Internet and the VPC
@@ -22,7 +22,7 @@ module Fog
             'InternetGatewayId'    => internet_gateway_id,
             'VpcId'                => vpc_id,
             :idempotent   => true,
-            :parser       => Fog::Parsers::Compute::AWS::Basic.new
+            :parser       => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -43,7 +43,7 @@ module Fog
             elsif !vpc_id
               message << 'The request must contain the parameter vpc_id'
             end
-            raise Fog::Compute::AWS::Error.new(message)
+            raise Fog::AWS::Compute::Error.new(message)
           end
         end
       end

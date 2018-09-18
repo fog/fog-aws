@@ -1,12 +1,12 @@
 require 'fog/aws/models/compute/route_table'
 
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class RouteTables < Fog::Collection
         attribute :filters
 
-        model Fog::Compute::AWS::RouteTable
+        model Fog::AWS::Compute::RouteTable
 
         # Creates a new route table
         #
@@ -17,7 +17,7 @@ module Fog
         # Returns the details of the new route table
         #
         #>> AWS.route_tables.new
-        # <Fog::Compute::AWS::RouteTable
+        # <Fog::AWS::Compute::RouteTable
         # id=nil,
         # vpc_id=nil,
         # routes=nil,
@@ -40,10 +40,10 @@ module Fog
         # Returns an array of all route tables
         #
         #>> AWS.route_tables.all
-        # <Fog::Compute::AWS::RouteTables
+        # <Fog::AWS::Compute::RouteTables
         # filters={}
         # [
-        # <Fog::Compute::AWS::RouteTable
+        # <Fog::AWS::Compute::RouteTable
         # id="rtb-41e8552f",
         # TODO
         # >
@@ -70,7 +70,7 @@ module Fog
         # ==== Returns
         #
         #>> AWS.route_tables.get("rtb-41e8552f")
-        # <Fog::Compute::AWS::RouteTable
+        # <Fog::AWS::Compute::RouteTable
         # id="rtb-41e8552f",
         # TODO
         # >

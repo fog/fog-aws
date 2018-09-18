@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_network_acls'
 
@@ -43,7 +43,7 @@ module Fog
           request({
             'Action' => 'DescribeNetworkAcls',
             :idempotent => true,
-            :parser => Fog::Parsers::Compute::AWS::DescribeNetworkAcls.new
+            :parser => Fog::Parsers::AWS::Compute::DescribeNetworkAcls.new
           }.merge!(params))
         end
       end

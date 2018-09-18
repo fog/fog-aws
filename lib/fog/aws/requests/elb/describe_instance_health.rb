@@ -38,7 +38,7 @@ module Fog
           instance_ids = [*instance_ids]
           instance_ids = load_balancer['Instances'].map { |i| i['InstanceId'] } unless instance_ids.any?
           data = instance_ids.map do |id|
-            unless Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id][:instances][id]
+            unless Fog::AWS::Compute::Mock.data[@region][@aws_access_key_id][:instances][id]
               raise Fog::AWS::ELB::InvalidInstance
             end
 

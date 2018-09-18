@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/copy_image'
 
@@ -28,7 +28,7 @@ module Fog
             'Name'            => name,
             'Description'     => description,
             'ClientToken'     => client_token,
-            :parser           => Fog::Parsers::Compute::AWS::CopyImage.new
+            :parser           => Fog::Parsers::AWS::Compute::CopyImage.new
           )
         end
       end

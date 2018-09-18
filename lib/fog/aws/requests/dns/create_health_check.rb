@@ -1,6 +1,6 @@
 module Fog
-  module DNS
-    class AWS
+  module AWS
+    class DNS
       class Real
         require 'fog/aws/parsers/dns/health_check'
 
@@ -55,7 +55,7 @@ module Fog
             :expects => 201,
             :method  => 'POST',
             :path    => 'healthcheck',
-            :parser  => Fog::Parsers::DNS::AWS::HealthCheck.new
+            :parser  => Fog::Parsers::AWS::DNS::HealthCheck.new
           })
         end
       end

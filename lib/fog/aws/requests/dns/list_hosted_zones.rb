@@ -1,6 +1,6 @@
 module Fog
-  module DNS
-    class AWS
+  module AWS
+    class DNS
       class Real
         require 'fog/aws/parsers/dns/list_hosted_zones'
 
@@ -38,7 +38,7 @@ module Fog
 
           request({
             :query   => parameters,
-            :parser  => Fog::Parsers::DNS::AWS::ListHostedZones.new,
+            :parser  => Fog::Parsers::AWS::DNS::ListHostedZones.new,
             :expects => 200,
             :method  => 'GET',
             :path    => "hostedzone"

@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/create_security_group'
 
@@ -25,7 +25,7 @@ module Fog
             'GroupName'         => name,
             'GroupDescription'  => description,
             'VpcId'             => vpc_id,
-            :parser             => Fog::Parsers::Compute::AWS::CreateSecurityGroup.new
+            :parser             => Fog::Parsers::AWS::Compute::CreateSecurityGroup.new
           )
         end
       end
@@ -38,7 +38,7 @@ module Fog
           group_id = Fog::AWS::Mock.security_group_id
 
           if self.data[:security_groups].find { |_,v| v['groupName'] == name }
-            raise Fog::Compute::AWS::Error,
+            raise Fog::AWS::Compute::Error,
               "InvalidGroup.Duplicate => The security group '#{name}' already exists"
           end
 

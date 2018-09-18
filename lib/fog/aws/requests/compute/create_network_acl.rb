@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/create_network_acl'
 
@@ -42,7 +42,7 @@ module Fog
           request({
             'Action' => 'CreateNetworkAcl',
             'VpcId'  => vpcId,
-            :parser  => Fog::Parsers::Compute::AWS::CreateNetworkAcl.new
+            :parser  => Fog::Parsers::AWS::Compute::CreateNetworkAcl.new
           }.merge!(options))
         end
       end
@@ -54,7 +54,7 @@ module Fog
             id = Fog::AWS::Mock.network_acl_id
 
             unless self.data[:vpcs].find { |s| s['vpcId'] == vpcId }
-              raise Fog::Compute::AWS::Error.new("Unknown VPC '#{vpcId}' specified")
+              raise Fog::AWS::Compute::Error.new("Unknown VPC '#{vpcId}' specified")
             end
 
             data = {

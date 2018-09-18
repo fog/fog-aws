@@ -83,7 +83,7 @@ module Fog
             raise Fog::AWS::RDS::InvalidParameterCombination.new('Requesting a specific availability zone is not valid for Multi-AZ instances.')
           end
 
-          ec2 = Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id]
+          ec2 = Fog::AWS::Compute::Mock.data[@region][@aws_access_key_id]
 
           db_parameter_groups     = if pg_name = options.delete("DBParameterGroupName")
                                       group = self.data[:parameter_groups][pg_name]

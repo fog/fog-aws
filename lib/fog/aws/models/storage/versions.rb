@@ -1,13 +1,13 @@
 require 'fog/aws/models/storage/version'
 
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       class Versions < Fog::Collection
         attribute :file
         attribute :directory
 
-        model Fog::Storage::AWS::Version
+        model Fog::AWS::Storage::Version
 
         def all(options = {})
           data = if file

@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_dhcp_options'
 
@@ -33,7 +33,7 @@ module Fog
           request({
             'Action' => 'DescribeDhcpOptions',
             :idempotent => true,
-            :parser => Fog::Parsers::Compute::AWS::DescribeDhcpOptions.new
+            :parser => Fog::Parsers::AWS::Compute::DescribeDhcpOptions.new
           }.merge!(params))
         end
       end

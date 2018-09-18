@@ -1,6 +1,6 @@
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       module GetObjectHttpUrl
         def get_object_http_url(bucket_name, object_name, expires, options = {})
           get_object_url(bucket_name, object_name, expires, options.merge(:scheme => 'http'))

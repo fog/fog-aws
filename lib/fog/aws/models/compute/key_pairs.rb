@@ -1,13 +1,13 @@
 require 'fog/aws/models/compute/key_pair'
 
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class KeyPairs < Fog::Collection
         attribute :filters
         attribute :key_name
 
-        model Fog::Compute::AWS::KeyPair
+        model Fog::AWS::Compute::KeyPair
 
         # Used to create a key pair.  There are 3 arguments and only name is required.  You can generate a new key_pair as follows:
         # AWS.key_pairs.create(:name => "test", :fingerprint => "123", :private_key => '234234')

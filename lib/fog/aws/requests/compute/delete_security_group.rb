@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -19,7 +19,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DeleteSecurityGroup.html]
         def delete_security_group(name, id = nil)
           if name && id
-            raise Fog::Compute::AWS::Error.new("May not specify both group_name and group_id")
+            raise Fog::AWS::Compute::Error.new("May not specify both group_name and group_id")
           end
           if name
             type_id    = 'GroupName'
@@ -32,7 +32,7 @@ module Fog
             'Action'    => 'DeleteSecurityGroup',
             type_id     => identifier,
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::Basic.new
+            :parser     => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -40,11 +40,11 @@ module Fog
       class Mock
         def delete_security_group(name, id = nil)
           if name == 'default'
-            raise Fog::Compute::AWS::Error.new("InvalidGroup.Reserved => The security group 'default' is reserved")
+            raise Fog::AWS::Compute::Error.new("InvalidGroup.Reserved => The security group 'default' is reserved")
           end
 
           if name && id
-            raise Fog::Compute::AWS::Error.new("May not specify both group_name and group_id")
+            raise Fog::AWS::Compute::Error.new("May not specify both group_name and group_id")
           end
 
           if name
@@ -52,7 +52,7 @@ module Fog
           end
 
           unless self.data[:security_groups][id]
-            raise Fog::Compute::AWS::NotFound.new("The security group '#{id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The security group '#{id}' does not exist")
           end
 
           response = Excon::Response.new
@@ -93,11 +93,11 @@ module Fog
           end
 
           unless used_by_groups.empty?
-            raise Fog::Compute::AWS::Error.new("InvalidGroup.InUse => Group #{self.data[:owner_id]}:#{name} is used by groups: #{used_by_groups.uniq.join(" ")}")
+            raise Fog::AWS::Compute::Error.new("InvalidGroup.InUse => Group #{self.data[:owner_id]}:#{name} is used by groups: #{used_by_groups.uniq.join(" ")}")
           end
 
           if active_instances.any?
-            raise Fog::Compute::AWS::Error.new("InUse => There are active instances using security group '#{name}'")
+            raise Fog::AWS::Compute::Error.new("InUse => There are active instances using security group '#{name}'")
           end
 
           self.data[:security_groups].delete(id)

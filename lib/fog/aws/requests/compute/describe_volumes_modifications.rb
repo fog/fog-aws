@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_volumes_modifications'
 
@@ -34,7 +34,7 @@ module Fog
           request({
             'Action'    => 'DescribeVolumesModifications',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeVolumesModifications.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeVolumesModifications.new
           }.merge(params))
         end
       end

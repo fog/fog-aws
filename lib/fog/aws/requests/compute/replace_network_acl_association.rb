@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/replace_network_acl_association'
 
@@ -22,7 +22,7 @@ module Fog
             'Action'        => 'ReplaceNetworkAclAssociation',
             'AssociationId' => association_id,
             'NetworkAclId'  => network_acl_id,
-            :parser         => Fog::Parsers::Compute::AWS::ReplaceNetworkAclAssociation.new
+            :parser         => Fog::Parsers::AWS::Compute::ReplaceNetworkAclAssociation.new
           })
         end
       end
@@ -37,7 +37,7 @@ module Fog
             end
 
             unless old_nacl
-              raise Fog::Compute::AWS::Error.new("Invalid association_id #{association_id}")
+              raise Fog::AWS::Compute::Error.new("Invalid association_id #{association_id}")
             end
 
             subnet_id = old_nacl['associationSet'].find { |assoc| assoc['networkAclAssociationId'] == association_id }['subnetId']
@@ -57,7 +57,7 @@ module Fog
             }
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The network ACL '#{network_acl_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The network ACL '#{network_acl_id}' does not exist")
           end
         end
       end

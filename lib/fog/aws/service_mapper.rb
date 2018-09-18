@@ -20,13 +20,13 @@ module Fog
           when :cloud_watch
             Fog::AWS::CloudWatch
           when :compute
-            Fog::Compute::AWS
+            Fog::AWS::Compute
           when :data_pipeline
             Fog::AWS::DataPipeline
           when :ddb, :dynamodb
             Fog::AWS::DynamoDB
           when :dns
-            Fog::DNS::AWS
+            Fog::AWS::DNS
           when :elasticache
             Fog::AWS::Elasticache
           when :elb
@@ -46,7 +46,7 @@ module Fog
           when :sqs
             Fog::AWS::SQS
           when :eu_storage, :storage
-            Fog::Storage::AWS
+            Fog::AWS::Storage
           when :rds
             Fog::AWS::RDS
           when :sns

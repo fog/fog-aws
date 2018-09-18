@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
 
@@ -27,7 +27,7 @@ module Fog
             'Action'             => 'ModifyVpcAttribute',
             'VpcId'              => vpc_id,
             :idempotent          => true,
-            :parser              => Fog::Parsers::Compute::AWS::Basic.new
+            :parser              => Fog::Parsers::AWS::Compute::Basic.new
           }.merge!(options))
         end
       end
@@ -36,9 +36,9 @@ module Fog
         def modify_vpc_attribute(vpc_id, options = {})
           response = Excon::Response.new
           if options.size == 0
-            raise Fog::Compute::AWS::Error.new("InvalidParameterCombination => No attributes specified.")
+            raise Fog::AWS::Compute::Error.new("InvalidParameterCombination => No attributes specified.")
           elsif options.size > 1
-            raise Fog::Compute::AWS::Error.new("InvalidParameterCombination =>  InvalidParameterCombination => Fields for multiple attribute types specified: #{options.keys.join(', ')}")
+            raise Fog::AWS::Compute::Error.new("InvalidParameterCombination =>  InvalidParameterCombination => Fields for multiple attribute types specified: #{options.keys.join(', ')}")
           elsif vpc = self.data[:vpcs].find{ |v| v['vpcId'] == vpc_id }
             response.status = 200
             response.body = {
@@ -53,11 +53,11 @@ module Fog
             when 'EnableDnsHostnames.Value'
               vpc['enableDnsHostnames'] = options[attribute]
             else
-              raise Fog::Compute::AWS::Error.new("Illegal attribute '#{attribute}' specified")
+              raise Fog::AWS::Compute::Error.new("Illegal attribute '#{attribute}' specified")
             end
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The VPC '#{vpc_id}' does not exist.")
+            raise Fog::AWS::Compute::NotFound.new("The VPC '#{vpc_id}' does not exist.")
           end
         end
       end

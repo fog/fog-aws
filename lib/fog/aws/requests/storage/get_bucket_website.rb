@@ -1,6 +1,6 @@
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       class Real
         require 'fog/aws/parsers/storage/get_bucket_website'
 
@@ -28,7 +28,7 @@ module Fog
             :bucket_name => bucket_name,
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::Storage::AWS::GetBucketWebsite.new,
+            :parser     => Fog::Parsers::AWS::Storage::GetBucketWebsite.new,
             :query      => {'website' => nil}
           })
         end

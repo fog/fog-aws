@@ -1,6 +1,6 @@
 module Fog
-  module DNS
-    class AWS
+  module AWS
+    class DNS
       class Real
         require 'fog/aws/parsers/dns/create_hosted_zone'
 
@@ -48,7 +48,7 @@ module Fog
 
           request({
             :body    => %Q{<?xml version="1.0" encoding="UTF-8"?><CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/"><Name>#{name}</Name>#{optional_tags}</CreateHostedZoneRequest>},
-            :parser  => Fog::Parsers::DNS::AWS::CreateHostedZone.new,
+            :parser  => Fog::Parsers::AWS::DNS::CreateHostedZone.new,
             :expects => 201,
             :method  => 'POST',
             :path    => "hostedzone"
@@ -102,7 +102,7 @@ module Fog
             }
             response
           else
-            raise Fog::DNS::AWS::Error.new("DelegationSetNotAvailable => Amazon Route 53 allows some duplication, but Amazon Route 53 has a maximum threshold of duplicated domains. This error is generated when you reach that threshold. In this case, the error indicates that too many hosted zones with the given domain name exist. If you want to create a hosted zone and Amazon Route 53 generates this error, contact Customer Support.")
+            raise Fog::AWS::DNS::Error.new("DelegationSetNotAvailable => Amazon Route 53 allows some duplication, but Amazon Route 53 has a maximum threshold of duplicated domains. This error is generated when you reach that threshold. In this case, the error indicates that too many hosted zones with the given domain name exist. If you want to create a hosted zone and Amazon Route 53 generates this error, contact Customer Support.")
           end
         end
       end

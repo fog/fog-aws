@@ -1,6 +1,6 @@
 module Fog
-  module Storage
-    class AWS
+  module AWS
+    class Storage
       module PostObjectHiddenFields
         # Get a hash of hidden fields for form uploading to S3, in the form {:field_name => :field_value}
         # Form should look like: <form action="http://#{bucket_name}.s3.amazonaws.com/" method="post" enctype="multipart/form-data">

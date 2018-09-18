@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/create_image'
 
@@ -39,7 +39,7 @@ module Fog
             'Name'              => name,
             'Description'       => description,
             'NoReboot'          => no_reboot.to_s,
-            :parser             => Fog::Parsers::Compute::AWS::CreateImage.new
+            :parser             => Fog::Parsers::AWS::Compute::CreateImage.new
           }.merge!(params))
         end
       end

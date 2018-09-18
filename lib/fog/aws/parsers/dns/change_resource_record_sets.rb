@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module DNS
-      module AWS
+    module AWS
+      module DNS
         class ChangeResourceRecordSets < Fog::Parsers::Base
           def reset
             @response = {}

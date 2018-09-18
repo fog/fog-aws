@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_images'
 
@@ -51,7 +51,7 @@ module Fog
           request({
             'Action'    => 'DescribeImages',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeImages.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeImages.new
           }.merge!(params))
         end
       end

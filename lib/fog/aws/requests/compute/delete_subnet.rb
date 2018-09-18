@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/basic'
         # Deletes a subnet from a VPC. You must terminate all running instances in the subnet before deleting it, otherwise Amazon
@@ -20,7 +20,7 @@ module Fog
           request(
             'Action' => 'DeleteSubnet',
             'SubnetId' => subnet_id,
-            :parser => Fog::Parsers::Compute::AWS::Basic.new
+            :parser => Fog::Parsers::AWS::Compute::Basic.new
           )
         end
       end
@@ -39,7 +39,7 @@ module Fog
             else
               message = 'MissingParameter => '
               message << 'The request must contain the parameter subnet_id'
-              raise Fog::Compute::AWS::Error.new(message)
+              raise Fog::AWS::Compute::Error.new(message)
             end
           end
         end

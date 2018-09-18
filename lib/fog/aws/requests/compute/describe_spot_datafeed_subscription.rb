@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/spot_datafeed_subscription'
 
@@ -24,7 +24,7 @@ module Fog
           request({
             'Action'    => 'DescribeSpotDatafeedSubscription',
             :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::SpotDatafeedSubscription.new
+            :parser     => Fog::Parsers::AWS::Compute::SpotDatafeedSubscription.new
           })
         end
       end

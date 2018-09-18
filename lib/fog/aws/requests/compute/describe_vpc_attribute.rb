@@ -1,6 +1,6 @@
 module Fog
-  module Compute
-    class AWS
+  module AWS
+    class Compute
       class Real
         require 'fog/aws/parsers/compute/describe_vpc_attribute'
         # Describes a vpc attribute value
@@ -23,7 +23,7 @@ module Fog
             'Action'    => 'DescribeVpcAttribute',
             'VpcId'     => vpc_id,
             'Attribute' => attribute,
-            :parser     => Fog::Parsers::Compute::AWS::DescribeVpcAttribute.new
+            :parser     => Fog::Parsers::AWS::Compute::DescribeVpcAttribute.new
           )
         end
       end
@@ -42,11 +42,11 @@ module Fog
             when 'enableDnsSupport', 'enableDnsHostnames'
               response.body[attribute] = vpc[attribute]
             else
-              raise Fog::Compute::AWS::Error.new("Illegal attribute '#{attribute}' specified")
+              raise Fog::AWS::Compute::Error.new("Illegal attribute '#{attribute}' specified")
             end
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The VPC '#{vpc_id}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The VPC '#{vpc_id}' does not exist")
           end
         end
       end

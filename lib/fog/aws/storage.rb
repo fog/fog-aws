@@ -1,6 +1,6 @@
 module Fog
-  module Storage
-    class AWS < Fog::Service
+  module AWS
+    class Storage < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       COMPLIANT_BUCKET_NAMES = /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
@@ -130,7 +130,7 @@ module Fog
         end
 
         def url(params, expires)
-          Fog::Logger.deprecation("Fog::Storage::AWS => #url is deprecated, use #https_url instead [light_black](#{caller.first})[/]")
+          Fog::Logger.deprecation("Fog::AWS::Storage => #url is deprecated, use #https_url instead [light_black](#{caller.first})[/]")
           https_url(params, expires)
         end
 
@@ -761,6 +761,19 @@ DATA
         def stringify_query_keys(params)
           params[:query] = Hash[params[:query].map { |k,v| [k.to_s, v] }] if params[:query]
         end
+      end
+    end
+  end
+
+  # @deprecated
+  module Storage
+    # @deprecated
+    class AWS < Fog::AWS::Storage
+      # @deprecated
+      # @overrides Fog::Service.new (from the fog-core gem)
+      def self.new(*)
+        Fog::Logger.deprecation 'Fog::Storage::AWS is deprecated, please use Fog::AWS::Storage.'
+        super
       end
     end
   end
