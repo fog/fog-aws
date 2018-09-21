@@ -1,3 +1,50 @@
+# For SD team: how to contribute
+
+## I want to suggest the diff to fog team:
+
+1. **make sure you've got the remotes**
+  ```
+  git remove -v
+  ```
+  You should have 2 remotes, one for `git@github.com:SelfDeploy/fog-aws.git` and an other for `git@github.com:fog/fog-aws.git`
+  If not, add it:
+  ```
+  git remote add [REMOTE NAME YOU WANT] [REMOTE ADDRESS]
+  ```
+  We strongly recommand:
+* REMOTE NAME YOU WANT: origin, REMOTE ADDRESS: `git@github.com:SelfDeploy/fog-aws.git`
+* REMOTE NAME YOU WANT: upstream, REMOTE ADDRESS: `git@github.com:fog/fog-aws.git`
+
+2. **make sure your remotes are up to date**
+  ```
+  git fetch -p --all
+  ```
+
+3. **make sure your branch is based on upstream's master**
+  ```
+	git rebase upstream/master
+  ```
+
+4. **push your branch and create PR on base fog/fog-aws:master**
+
+## I want to create a new release for SD until my diff is merged on fog
+
+1. **Ensure that branch `selfDeploy` is up to date with the tag used by SD's API's gemfile**
+
+2. **create your diff branch based on sd**
+  ```
+  gco -b [branch name]
+	# for each commit on your diff
+	git cherry-pick [commit's sha]
+  ```
+  Then push the branch
+
+3. **Open pr from this new branch to base SelfDeploy/fog-aws:selfdeploy**
+
+4. **tag la release sd**
+	go to gh, tag selfdeploy's branch latest to new release called sd-v[X.Y.Z]
+
+
 # Fog::Aws
 
 ![Gem Version](https://badge.fury.io/rb/fog-aws.svg)
