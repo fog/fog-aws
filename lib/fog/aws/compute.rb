@@ -101,6 +101,7 @@ module Fog
       request :describe_classic_link_instances
       request :describe_dhcp_options
       request :describe_images
+      request :describe_image_attribute
       request :describe_instances
       request :describe_instance_attribute
       request :describe_internet_gateways
