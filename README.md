@@ -4,7 +4,7 @@
 
 1. **make sure you've got the remotes**
   ```
-  git remove -v
+  git remote -v
   ```
   You should have 2 remotes, one for `git@github.com:SelfDeploy/fog-aws.git` and an other for `git@github.com:fog/fog-aws.git`
   If not, add it:
