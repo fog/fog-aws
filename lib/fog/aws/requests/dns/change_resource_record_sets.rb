@@ -194,7 +194,7 @@ module Fog
         #     change_resource_record_sets("ABCDEFGHIJKLMN", change_batch_options)
         #
         def change_resource_record_sets(zone_id, change_batch, options = {})
-          body = AWS.change_resource_record_sets_data(zone_id, change_batch, @version, options)
+          body = Fog::AWS::DNS.change_resource_record_sets_data(zone_id, change_batch, @version, options)
           request({
             :body       => body,
             :idempotent => true,
