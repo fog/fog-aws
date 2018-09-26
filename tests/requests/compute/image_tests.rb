@@ -37,6 +37,11 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
     'return'                => Fog::Boolean,
     'requestId'             => String
   }
+  @describe_image_attribute_format = {
+    'requestId'             => String,
+    'imageId'               => String,
+    'launchPermission'      => [Fog::Nullable::String]
+  }
   @create_image_format = {
     'requestId'             => String,
     'imageId'               => String
@@ -111,6 +116,10 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
 
       tests("#modify_image_attribute('#{@image_id}', 'Add.UserId' => ['#{@other_account.data[:owner_id]}'])").formats(@modify_image_attribute_format) do
         Fog::Compute[:aws].modify_image_attribute(@image_id, { 'Add.UserId' => [@other_account.data[:owner_id]] }).body
+      end
+
+      tests("#describe_image_attribute('#{@image_id}', 'launchPermission'])").formats(@describe_image_attribute_format) do
+        Fog::Compute[:aws].describe_image_attribute(@image_id, 'launchPermission' ).body
       end
 
       tests("other_account#describe_images('image-id' => '#{@image_id}')").returns([@image_id]) do
