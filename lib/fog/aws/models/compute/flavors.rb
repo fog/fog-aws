@@ -688,7 +688,7 @@ module Fog
           :id                      => "m4.16xlarge",
           :name                    => "M4 Sixteen Extra Large",
           :bits                    => 64,
-          :cores                   => 40,
+          :cores                   => 64,
           :ram                     => 262144,
           :disk                    => 0,
           :ebs_optimized_available => true,
