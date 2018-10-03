@@ -685,6 +685,16 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
+          :id                      => "m4.16xlarge",
+          :name                    => "M4 Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 40,
+          :ram                     => 262144,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
           :id                      => "p2.xlarge",
           :name                    => "General Purpose GPU Extra Large",
           :bits                    => 64,
