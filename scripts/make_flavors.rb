@@ -25,6 +25,9 @@ instance_data = JSON.parse(file.read())
 
 instances = {}
 instance_data.each do |item|
+    if item['vCPU'] == 'N/A'
+        next
+    end
     h = {
       :id                   => item['instance_type'],
       :name                 => item['pretty_name'],

@@ -525,16 +525,6 @@ module Fog
           :instance_store_volumes  => 1
         },
         {
-          :id                      => 'i3.metal',
-          :name                    => 'I3 High I/O Metal',
-          :bits                    => 64,
-          :cores                   => N/A,
-          :disk                    => 1900,
-          :ram                     => 549755,
-          :ebs_optimized_available => true,
-          :instance_store_volumes  => 8
-        },
-        {
           :id                      => 'i3.xlarge',
           :name                    => 'I3 High I/O Extra Large',
           :bits                    => 64,
