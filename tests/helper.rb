@@ -1,7 +1,7 @@
 begin
   require 'simplecov'
   SimpleCov.start
-  SimpleCov.command_name "Shindo"
+  SimpleCov.command_name 'Shindo'
 rescue LoadError => e
   $stderr.puts "not recording test coverage: #{e.inspect}"
 end
@@ -10,7 +10,7 @@ require File.expand_path('../../lib/fog/aws', __FILE__)
 
 Bundler.require(:test)
 
-Excon.defaults.merge!(:debug_request => true, :debug_response => true)
+Excon.defaults.merge!(debug_request: true, debug_response: true)
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'mock_helper'))
 

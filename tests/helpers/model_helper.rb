@@ -1,9 +1,8 @@
 def model_tests(collection, params = {}, mocks_implemented = true)
   tests('success') do
-
     @instance = collection.new(params)
 
-    tests("#save").succeeds do
+    tests('#save').succeeds do
       pending if Fog.mocking? && !mocks_implemented
       @instance.save
     end
@@ -12,7 +11,7 @@ def model_tests(collection, params = {}, mocks_implemented = true)
       yield(@instance)
     end
 
-    tests("#destroy").succeeds do
+    tests('#destroy').succeeds do
       pending if Fog.mocking? && !mocks_implemented
       @instance.destroy
     end
@@ -26,6 +25,6 @@ end
 # E.g. 'fog-test-1234'
 def uniq_id(base_name = 'fog-test')
   # random_differentiator
-  suffix = rand(65536).to_s(16).rjust(4, '0')
-  [base_name, suffix] * '-'
+  suffix = rand(65_536).to_s(16).rjust(4, '0')
+  [base_name, suffix].join('-')
 end

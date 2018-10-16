@@ -24,7 +24,7 @@ DESCRIBE_IMAGES_RESULT = <<-EOF
 </DescribeImagesResponse>
 EOF
 
-Shindo.tests('AWS::Compute | parsers | describe_images', ['compute', 'aws', 'parser']) do
+Shindo.tests('AWS::Compute | parsers | describe_images', %w[compute aws parser]) do
   tests('parses the xml').formats(AWS::Compute::Formats::DESCRIBE_IMAGES) do
     parser = Nokogiri::XML::SAX::Parser.new(Fog::Parsers::AWS::Compute::DescribeImages.new)
     parser.parse(DESCRIBE_IMAGES_RESULT)
