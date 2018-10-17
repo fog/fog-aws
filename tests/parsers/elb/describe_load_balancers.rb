@@ -56,7 +56,7 @@ xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
 </DescribeLoadBalancersResponse>
 EOF
 
-Shindo.tests('AWS::ELB | parsers | describe_load_balancers', ['aws', 'elb', 'parser']) do
+Shindo.tests('AWS::ELB | parsers | describe_load_balancers', %w[aws elb parser]) do
   tests('parses the xml').formats(AWS::ELB::Formats::DESCRIBE_LOAD_BALANCERS) do
     parser = Nokogiri::XML::SAX::Parser.new(Fog::Parsers::AWS::ELB::DescribeLoadBalancers.new)
     parser.parse(DESCRIBE_LOAD_BALANCERS_RESULT)

@@ -1,6 +1,5 @@
 def collection_tests(collection, params = {}, mocks_implemented = true)
   tests('success') do
-
     tests("#new(#{params.inspect})").succeeds do
       pending if Fog.mocking? && !mocks_implemented
       collection.new(params)
@@ -34,7 +33,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
       pending if Fog.mocking? && !mocks_implemented
 
       methods = [
-        'all?', 'any?', 'find',  'detect', 'collect', 'map',
+        'all?', 'any?', 'find', 'detect', 'collect', 'map',
         'find_index', 'flat_map', 'collect_concat', 'group_by',
         'none?', 'one?'
       ]
@@ -43,7 +42,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
         if collection.respond_to?(enum_method)
           tests("##{enum_method}").succeeds do
             block_called = false
-            collection.send(enum_method) {|x| block_called = true }
+            collection.send(enum_method) { block_called = true }
             block_called
           end
         end
@@ -55,7 +54,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
         if collection.respond_to?(enum_method)
           tests("##{enum_method}").succeeds do
             block_called = false
-            collection.send(enum_method) {|x| block_called = true; 0 }
+            collection.send(enum_method) { block_called = true; 0 }
             block_called
           end
         end
