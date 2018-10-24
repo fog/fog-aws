@@ -54,6 +54,7 @@ module Fog
 
       request_path 'fog/aws/requests/storage'
       request :abort_multipart_upload
+      request :clear_and_delete_bucket
       request :complete_multipart_upload
       request :copy_object
       request :delete_bucket
