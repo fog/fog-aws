@@ -22,12 +22,47 @@ module Fog
           end
         end
 
+        def clear!
+          requires :key
+          bucket_query = s3_bucket.service.get_bucket(key)
+          objects = bucket_query.body["Contents"].map {|c| c["Key"]}
+          service.delete_multiple_objects(key, objects) if objects.size > 0
+        end
+
         def destroy
           requires :key
           service.delete_bucket(key)
           true
         rescue Excon::Errors::NotFound
           false
+        end
+
+        # @param options [Hash] (defaults to: {}) — a customizable set of options
+        # @option options max_attempts [Integer] — default: 3 — Maximum number of
+        #   times to attempt to delete the empty bucket.
+        # @option options initial_wait [Float] — default: 1.3 — Seconds to wait before
+        #   retrying the call to delete the bucket, exponentially increased for each attempt.
+        def destroy!(options = {})
+          requires :key
+          options = {
+            initial_wait: 1.3,
+            max_attempts: 3,
+          }.merge(options)
+
+          attempts = 0
+          begin
+            clear!
+            service.delete_bucket(key)
+            true
+          rescue Errors::BucketNotEmpty
+            attempts += 1
+            if attempts >= options[:max_attempts]
+              raise
+            else
+              Kernel.sleep(options[:initial_wait] ** attempts)
+              retry
+            end
+          end
         end
 
         def location
