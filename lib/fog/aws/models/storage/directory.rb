@@ -24,7 +24,7 @@ module Fog
 
         def clear!
           requires :key
-          bucket_query = s3_bucket.service.get_bucket(key)
+          bucket_query = service.get_bucket(key)
           objects = bucket_query.body["Contents"].map {|c| c["Key"]}
           service.delete_multiple_objects(key, objects) if objects.size > 0
         end
@@ -54,13 +54,17 @@ module Fog
             clear!
             service.delete_bucket(key)
             true
-          rescue Errors::BucketNotEmpty
-            attempts += 1
-            if attempts >= options[:max_attempts]
-              raise
-            else
-              Kernel.sleep(options[:initial_wait] ** attempts)
-              retry
+          rescue Excon::Errors::HTTPStatusError => error
+            match = Fog::AWS::Errors.match_error(error)
+            raise if match.empty?
+            if match[:code] == 'BucketNotEmpty'
+              attempts += 1
+              if attempts >= options[:max_attempts]
+                raise
+              else
+                Kernel.sleep(options[:initial_wait] ** attempts)
+                retry
+              end
             end
           end
         end
