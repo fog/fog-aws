@@ -91,7 +91,7 @@ module Fog
           :cores                   => 2,
           :disk                    => 0,
           :ram                     => 536,
-          :ebs_optimized_available => false,
+          :ebs_optimized_available => true,
           :instance_store_volumes  => 0
         },
         {
@@ -101,7 +101,7 @@ module Fog
           :cores                   => 2,
           :disk                    => 0,
           :ram                     => 1073,
-          :ebs_optimized_available => false,
+          :ebs_optimized_available => true,
           :instance_store_volumes  => 0
         },
         {
@@ -111,7 +111,7 @@ module Fog
           :cores                   => 2,
           :disk                    => 0,
           :ram                     => 2147,
-          :ebs_optimized_available => false,
+          :ebs_optimized_available => true,
           :instance_store_volumes  => 0
         },
         {
@@ -121,7 +121,7 @@ module Fog
           :cores                   => 2,
           :disk                    => 0,
           :ram                     => 4294,
-          :ebs_optimized_available => false,
+          :ebs_optimized_available => true,
           :instance_store_volumes  => 0
         },
         {
@@ -131,7 +131,7 @@ module Fog
           :cores                   => 2,
           :disk                    => 0,
           :ram                     => 8589,
-          :ebs_optimized_available => false,
+          :ebs_optimized_available => true,
           :instance_store_volumes  => 0
         },
         {
@@ -141,7 +141,7 @@ module Fog
           :cores                   => 4,
           :disk                    => 0,
           :ram                     => 17179,
-          :ebs_optimized_available => false,
+          :ebs_optimized_available => true,
           :instance_store_volumes  => 0
         },
         {
@@ -151,7 +151,7 @@ module Fog
           :cores                   => 8,
           :disk                    => 0,
           :ram                     => 34359,
-          :ebs_optimized_available => false,
+          :ebs_optimized_available => true,
           :instance_store_volumes  => 0
         },
         {
