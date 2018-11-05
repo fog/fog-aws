@@ -85,6 +85,76 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
+          :id                      => 't3.nano',
+          :name                    => 'T3 Nano',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 536,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't3.micro',
+          :name                    => 'T3 Micro',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 1073,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't3.small',
+          :name                    => 'T3 Small',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 2147,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't3.medium',
+          :name                    => 'T3 Medium',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 4294,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't3.large',
+          :name                    => 'T3 Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 8589,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't3.xlarge',
+          :name                    => 'T3 Extra Large',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 0,
+          :ram                     => 17179,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't3.2xlarge',
+          :name                    => 'T3 Double Extra Large',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 0,
+          :ram                     => 34359,
+          :ebs_optimized_available => false,
+          :instance_store_volumes  => 0
+        },
+        {
           :id                      => 'm1.small',
           :name                    => 'Small Instance',
           :bits                    => 32,
