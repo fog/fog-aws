@@ -795,6 +795,126 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
+          :id                      => "r5.large",
+          :name                    => "R5 Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 17179,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r5.xlarge",
+          :name                    => "R5 Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 34359,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r5.2xlarge",
+          :name                    => "R5 Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 68719,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r5.4xlarge",
+          :name                    => "R5 Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 137438,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r5.12xlarge",
+          :name                    => "R5 Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 412316,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r5.24xlarge",
+          :name                    => "R5 Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 824633,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r5d.large",
+          :name                    => "R5d Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 17179,
+          :disk                    => 75,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r5d.xlarge",
+          :name                    => "R5d Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 34359,
+          :disk                    => 150,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r5d.2xlarge",
+          :name                    => "R5d Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 68719,
+          :disk                    => 300,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r5d.4xlarge",
+          :name                    => "R5d Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 137438,
+          :disk                    => 600,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "r5d.12xlarge",
+          :name                    => "R5d Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 412316,
+          :disk                    => 1800,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "r5d.24xlarge",
+          :name                    => "R5d Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 824633,
+          :disk                    => 3600,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
           :id                      => "d2.xlarge",
           :name                    => "D2 Extra Large",
           :bits                    => 64,
