@@ -23,4 +23,6 @@ Shindo.tests('AWS::STS | assume role with web identity', ['aws']) do
   tests("#assume_role_with_web_identity('#{@role['Arn']}', '#{@token}', 'fog')").formats(@response_format) do
     @sts.assume_role_with_web_identity(@role['Arn'], @token, 'fog', :iam => @iam).body
   end
+
+  @iam.roles.get('sts').destroy
 end
