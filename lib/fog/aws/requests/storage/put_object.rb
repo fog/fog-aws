@@ -18,8 +18,10 @@ module Fog
         # @option options x-amz-acl [String] Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
         # @option options x-amz-storage-class [String] Default is 'STANDARD', set to 'REDUCED_REDUNDANCY' for non-critical, reproducable data
         # @option options x-amz-meta-#{name} Headers to be returned with object, note total size of request without body must be less than 8 KB. Each name, value pair must conform to US-ASCII.
-        # @option options encryption [String] Sets HTTP header for server-side encryption. Set to 'AES256' for SSE-S3 and SSE-C. Set to 'aws:kms' for SSE-KMS
-        # @option options encryption_key [String] Encryption customer key for SSE-C
+        # @option options x-amz-server-side-encryption [String] Sets HTTP header for server-side encryption. Set to 'AES256' for SSE-S3 and SSE-C. Set to 'aws:kms' for SSE-KMS
+        # @option options x-amz-server-side​-encryption​-customer-algorithm [String] Algorithm to use to when encrypting the object for SSE-C.
+        # @option options x-amz-server-side​-encryption​-customer-key [String] Encryption customer key for SSE-C
+        # @option options x-amz-server-side​-encryption​-customer-key-MD5 [String] MD5 digest of the encryption key for SSE-C
         # @option options x-amz-server-side-encryption-aws-kms-key-id [String] KMS key ID of the encryption key for SSE-KMS
         # @option options x-amz-server-side-encryption-context [String] Encryption context for SSE-KMS
         #
@@ -27,7 +29,7 @@ module Fog
         #   * headers [Hash]:
         #     * ETag [String] etag of new object
         #
-        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPUT.html
+        # @see https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html
 
         def self.conforming_to_us_ascii!(keys, hash)
           keys.each do |k|
