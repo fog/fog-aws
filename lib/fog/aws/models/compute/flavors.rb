@@ -915,6 +915,66 @@ module Fog
           :instance_store_volumes  => 4
         },
         {
+          :id                      => "r5a.large",
+          :name                    => "R5 (AMD) Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 17179,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r5a.xlarge",
+          :name                    => "R5 (AMD) Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 34359,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r5a.2xlarge",
+          :name                    => "R5 (AMD) Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 68719,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r5a.4xlarge",
+          :name                    => "R5 (AMD) Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 137438,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r5a.12xlarge",
+          :name                    => "R5 (AMD) Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 412316,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r5a.24xlarge",
+          :name                    => "R5 (AMD) Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 824633,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
           :id                      => "d2.xlarge",
           :name                    => "D2 Extra Large",
           :bits                    => 64,
@@ -1000,6 +1060,16 @@ module Fog
           :bits                    => 64,
           :cores                   => 40,
           :ram                     => 171798,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m4.16xlarge",
+          :name                    => "M4 Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 262144,
           :disk                    => 0,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
@@ -1125,11 +1195,61 @@ module Fog
           :instance_store_volumes  => 4
         },
         {
-          :id                      => "m4.16xlarge",
-          :name                    => "M4 Sixteen Extra Large",
+          :id                      => "m5a.large",
+          :name                    => "M5 (AMD) Large",
           :bits                    => 64,
-          :cores                   => 64,
-          :ram                     => 262144,
+          :cores                   => 2,
+          :ram                     => 8589,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m5a.xlarge",
+          :name                    => "M5 (AMD) Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 17179,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m5a.2xlarge",
+          :name                    => "M5 (AMD) Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 34359,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m5a.4xlarge",
+          :name                    => "M5 (AMD) Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 68719,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m5a.12xlarge",
+          :name                    => "M5 (AMD) Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 206158,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m5a.24xlarge",
+          :name                    => "M5 (AMD) Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 412316,
           :disk                    => 0,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
