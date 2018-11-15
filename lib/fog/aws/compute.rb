@@ -144,6 +144,7 @@ module Fog
       request :import_key_pair
       request :modify_image_attribute
       request :modify_instance_attribute
+      request :modify_instance_placement
       request :modify_network_interface_attribute
       request :modify_snapshot_attribute
       request :modify_subnet_attribute
