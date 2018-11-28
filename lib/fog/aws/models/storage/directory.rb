@@ -22,13 +22,6 @@ module Fog
           end
         end
 
-        def clear!
-          requires :key
-          bucket_query = service.get_bucket(key)
-          objects = bucket_query.body["Contents"].map {|c| c["Key"]}
-          service.delete_multiple_objects(key, objects) if objects.size > 0
-        end
-
         def destroy
           requires :key
           service.delete_bucket(key)
@@ -37,35 +30,27 @@ module Fog
           false
         end
 
-        # @param options [Hash] (defaults to: {}) — a customizable set of options
-        # @option options max_attempts [Integer] — default: 3 — Maximum number of
-        #   times to attempt to delete the empty bucket.
-        # @option options initial_wait [Float] — default: 1.3 — Seconds to wait before
-        #   retrying the call to delete the bucket, exponentially increased for each attempt.
+        # @param options [Hash] (defaults to: {}) — a customizable set of options.
+        #   Consider tuning this values for big buckets.
+        # @option options timeout [Integer] — default: Fog.timeout — Maximum number of
+        #   seconds to wait for the bucket to be empty.
+        # @option options interval [Proc|Integer] — default: Fog.interval — Seconds to wait before
+        #   retrying to check if the bucket is empty.
         def destroy!(options = {})
           requires :key
           options = {
-            initial_wait: 1.3,
-            max_attempts: 3,
+            timeout: Fog.timeout,
+            interval: Fog.interval,
           }.merge(options)
 
           attempts = 0
           begin
             clear!
+            Fog.wait_for(options[:timeout], options[:interval]) { objects_keys.size == 0 }
             service.delete_bucket(key)
             true
-          rescue Excon::Errors::HTTPStatusError => error
-            match = Fog::AWS::Errors.match_error(error)
-            raise if match.empty?
-            if match[:code] == 'BucketNotEmpty'
-              attempts += 1
-              if attempts >= options[:max_attempts]
-                raise
-              else
-                Kernel.sleep(options[:initial_wait] ** attempts)
-                retry
-              end
-            end
+          rescue Excon::Errors::HTTPStatusError
+            false
           end
         end
 
@@ -157,6 +142,17 @@ module Fog
           return nil unless persisted?
           data = service.get_bucket_location(key)
           data.body['LocationConstraint']
+        end
+
+        def objects_keys
+          requires :key
+          bucket_query = service.get_bucket(key)
+          bucket_query.body["Contents"].map {|c| c["Key"]}
+        end
+
+        def clear!
+          requires :key
+          service.delete_multiple_objects(key, objects_keys) if objects_keys.size > 0
         end
       end
     end
