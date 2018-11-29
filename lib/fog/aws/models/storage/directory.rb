@@ -30,6 +30,30 @@ module Fog
           false
         end
 
+        # @param options [Hash] (defaults to: {}) — a customizable set of options.
+        #   Consider tuning this values for big buckets.
+        # @option options timeout [Integer] — default: Fog.timeout — Maximum number of
+        #   seconds to wait for the bucket to be empty.
+        # @option options interval [Proc|Integer] — default: Fog.interval — Seconds to wait before
+        #   retrying to check if the bucket is empty.
+        def destroy!(options = {})
+          requires :key
+          options = {
+            timeout: Fog.timeout,
+            interval: Fog.interval,
+          }.merge(options)
+
+          attempts = 0
+          begin
+            clear!
+            Fog.wait_for(options[:timeout], options[:interval]) { objects_keys.size == 0 }
+            service.delete_bucket(key)
+            true
+          rescue Excon::Errors::HTTPStatusError
+            false
+          end
+        end
+
         def location
           @location ||= (bucket_location || Storage::DEFAULT_REGION)
         end
@@ -118,6 +142,17 @@ module Fog
           return nil unless persisted?
           data = service.get_bucket_location(key)
           data.body['LocationConstraint']
+        end
+
+        def objects_keys
+          requires :key
+          bucket_query = service.get_bucket(key)
+          bucket_query.body["Contents"].map {|c| c["Key"]}
+        end
+
+        def clear!
+          requires :key
+          service.delete_multiple_objects(key, objects_keys) if objects_keys.size > 0
         end
       end
     end
