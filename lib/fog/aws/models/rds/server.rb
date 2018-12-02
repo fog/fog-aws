@@ -55,7 +55,7 @@ module Fog
         end
 
         def ready?
-          state == 'available'
+          state == 'available' || state == 'active'
         end
 
         def destroy(snapshot_identifier=nil)
