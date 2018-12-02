@@ -23,7 +23,7 @@ module Fog
         attr_accessor :storage_encrypted #not in the response
 
         def ready?
-          state == "available"
+          state == "available" || state == 'active'
         end
 
         def snapshots
