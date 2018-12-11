@@ -41,8 +41,7 @@ module Fog
         website
       ]
 
-      requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :instrumentor, :instrumentor_name, :aws_signature_version
+      recognizes :aws_access_key_id, :aws_secret_access_key, :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :instrumentor, :instrumentor_name, :aws_signature_version
 
       secrets    :aws_secret_access_key, :hmac
 
