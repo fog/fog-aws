@@ -23,7 +23,15 @@ module Fog
         attr_accessor :storage_encrypted #not in the response
 
         def ready?
-          state == "available" || state == 'active'
+          # [2019.01] I don't think this is going to work, at least not with Aurora
+          # clusters. In my testing, the state reported by Fog for an Aurora cluster
+          # is "active" as soon as the cluster is retrievable from AWS, and the
+          # value doesn't change after that. Contrast that with the AWS Console UI,
+          # which reports the cluster as "Creating" while it's being created. I don't
+          # know where Fog is getting the state value from, but I don't think it's
+          # correct, at least not for the purpose of knowing if the Cluster is ready
+          # to have individual instances added to it.
+          state == 'available' || state == 'active'
         end
 
         def snapshots
