@@ -118,14 +118,14 @@ module Fog
           else
             requires :engine
 
-            if engine == 'aurora'
+            if engine.start_with?('aurora')
               requires :cluster_id
-              self.flavor_id ||= 'db.r3.large'
+              self.flavor_id ||= 'db.r4.large'
             else
               requires :master_username
               requires :password
               requires :allocated_storage
-              self.flavor_id ||= 'db.m1.small'
+              self.flavor_id ||= 'db.m4.large'
             end
 
             data = service.create_db_instance(id, attributes_to_params)
