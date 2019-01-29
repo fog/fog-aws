@@ -97,7 +97,7 @@ module Fog
                   @response['securityGroupInfo'] << @security_group
                   @security_group = { 'ipPermissions' => [], 'ipPermissionsEgress' => [], 'tagSet' => {} }
                 end
-              when 'requestId'
+              when 'requestId', 'nextToken'
                 @response[name] = value
               when 'userId'
                 @group[name] = value
