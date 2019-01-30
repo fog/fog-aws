@@ -8,6 +8,8 @@ module Fog
         #
         # ==== Parameters
         # * filters<~Hash> - List of filters to limit results with
+        #   * 'MaxResults'<~Integer> - The maximum number of results to return for the request in a single page
+        #   * 'NextToken'<~String> - The token to retrieve the next page of results
         #
         # === Returns
         # * response<~Excon::Response>:
@@ -27,6 +29,7 @@ module Fog
         #           * 'cidrIp'<~String> - CIDR range
         #         * 'toPort'<~Integer> - End of port range (or -1 for ICMP wildcard)
         #       * 'ownerId'<~String> - AWS Access Key Id of the owner of the security group
+        #     * 'NextToken'<~String> - The token to retrieve the next page of results
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSecurityGroups.html]
         def describe_security_groups(filters = {})
@@ -34,7 +37,15 @@ module Fog
             Fog::Logger.deprecation("describe_security_groups with #{filters.class} param is deprecated, use describe_security_groups('group-name' => []) instead [light_black](#{caller.first})[/]")
             filters = {'group-name' => [*filters]}
           end
-          params = Fog::AWS.indexed_filters(filters)
+
+          options = {}
+          for key in %w[MaxResults NextToken]
+            if filters.is_a?(Hash) && filters.key?(key)
+              options[key] = filters.delete(key)
+            end
+          end
+
+          params = Fog::AWS.indexed_filters(filters).merge!(options)
           request({
             'Action'    => 'DescribeSecurityGroups',
             :idempotent => true,
