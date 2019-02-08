@@ -29,13 +29,14 @@ module Fog
           if deprecated_attribute_updates
             raise DeprecatedAttributeUpdates, "The `20111205` DynamoDB API is deprecated. You need to use `ExpressionAttributeValues` instead of `AttributeUpdates`."
             attribute_updates = options
-            options = deprecated_attribute_updates
+            options = deprecated_attribute_updates.merge(
+              'AttributeUpdates'  => attribute_updates,
+            )
           end
 
           body = {
             'Key'               => key,
             'TableName'         => table_name,
-            'AttributeUpdates'  => attribute_updates,
           }.merge(options)
 
           request(
