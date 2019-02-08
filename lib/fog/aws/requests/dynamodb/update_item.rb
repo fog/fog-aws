@@ -7,15 +7,15 @@ module Fog
         #
         # ==== Parameters
         # * 'table_name'<~String> - name of table for item
-        # * 'key'<~Hash> - list of elements to be updated and their value
+        # * 'key'<~Hash> - list of Key attributes
         #   {
         #     "ForumName": {"S": "Amazon DynamoDB"},
         #     "Subject": {"S": "Maximum number of items?"}
         #   }
         #
         # * 'options'<~Hash>:
-        #   * 'KeyConditionExpression'<~String> - the condition elements need to match
-        #   * 'ExpressionAttributeValues'<~Hash> - values to be used in the key condition expression
+        #   * 'UpdateExpression'<~String> - the expression that will update the item
+        #   * 'ExpressionAttributeValues'<~Hash> - values to be used in the update expression
         #   * 'ReturnValues'<~String> - data to return in %w{ALL_NEW ALL_OLD NONE UPDATED_NEW UPDATED_OLD}, defaults to NONE
         #
         # ==== Returns
