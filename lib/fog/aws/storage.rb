@@ -6,6 +6,7 @@ module Fog
       COMPLIANT_BUCKET_NAMES = /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
 
       DEFAULT_REGION = 'us-east-1'
+      ACCELERATION_HOST = 's3-accelerate.amazonaws.com'
 
       DEFAULT_SCHEME = 'https'
       DEFAULT_SCHEME_PORT = {
@@ -42,7 +43,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :instrumentor, :instrumentor_name, :aws_signature_version
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -499,6 +500,7 @@ module Fog
           @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.storage'
           @connection_options     = options[:connection_options] || {}
           @persistent = options.fetch(:persistent, false)
+          @acceleration = options.fetch(:acceleration, false)
           @signature_version = options.fetch(:aws_signature_version, 4)
           validate_signature_version!
           @path_style = options[:path_style]  || false
@@ -516,6 +518,7 @@ module Fog
             @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
           end
 
+          @host = ACCELERATION_HOST if @acceleration
           setup_credentials(options)
         end
 
