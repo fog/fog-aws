@@ -12,7 +12,7 @@ module Fog
         #   * body [Hash]:
         #     * LocationConstraint [String] - Location constraint of the bucket
         #
-        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETlocation.html
+        # @see https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketGETlocation.html
 
         def get_bucket_location(bucket_name)
           request({
@@ -22,8 +22,7 @@ module Fog
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::AWS::Storage::GetBucketLocation.new,
-            :query    => {'location' => nil},
-            :path_style => true
+            :query    => {'location' => nil}
           })
         end
       end
