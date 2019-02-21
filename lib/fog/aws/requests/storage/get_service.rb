@@ -15,13 +15,13 @@ module Fog
         #       * DisplayName [String] - Display name of bucket owner
         #       * ID [String] - Id of bucket owner
         #
-        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTServiceGET.html
+        # @see https://docs.aws.amazon.com/AmazonS3/latest/API/RESTServiceGET.html
         #
         def get_service
           request({
             :expects  => 200,
             :headers  => {},
-            :host     => @host,
+            :host     => 's3.amazonaws.com',
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::AWS::Storage::GetService.new
