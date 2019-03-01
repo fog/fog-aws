@@ -292,7 +292,7 @@ module Fog
               if path_style
                 path = bucket_to_path bucket_name, path
               else
-                host = [bucket_name, host].join('.')
+                host = [bucket_name, host].join('.') unless params[:host]
               end
             end
           end
