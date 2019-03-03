@@ -289,10 +289,14 @@ module Fog
                 end
               end
 
-              if path_style
+              # uses the bucket name as host if `virtual_host: true`, you can also
+              # manually specify the cname if required.
+              if params[:virtual_host]
+                host = params.fetch(:cname, bucket_name)
+              elsif path_style
                 path = bucket_to_path bucket_name, path
               else
-                host = [bucket_name, host].join('.') unless params[:host]
+                host = [bucket_name, host].join('.')
               end
             end
           end
