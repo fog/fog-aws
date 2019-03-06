@@ -43,7 +43,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :virtual_host, :cname
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -289,7 +289,11 @@ module Fog
                 end
               end
 
-              if path_style
+              # uses the bucket name as host if `virtual_host: true`, you can also
+              # manually specify the cname if required.
+              if params[:virtual_host]
+                host = params.fetch(:cname, bucket_name)
+              elsif path_style
                 path = bucket_to_path bucket_name, path
               else
                 host = [bucket_name, host].join('.')
