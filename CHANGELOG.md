@@ -1,17 +1,79 @@
 # Change Log
 
-## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
-
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.0.0...HEAD)
+## [v3.4.0](https://github.com/fog/fog-aws/tree/v3.4.0) (2019-03-11)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.3.0...v3.4.0)
 
 **Closed issues:**
 
-- add region cn-northwest-1 [\#455](https://github.com/fog/fog-aws/issues/455)
-- Parameterize "RequestLimitExceeded" jitter magnitude [\#448](https://github.com/fog/fog-aws/issues/448)
-- Release new version to RubyGems [\#442](https://github.com/fog/fog-aws/issues/442)
+- Warning: possibly useless use of == in void context [\#498](https://github.com/fog/fog-aws/issues/498)
+- Cluster.ready? returns false  [\#496](https://github.com/fog/fog-aws/issues/496)
+- With out AWS access key & secrect AWS services not working\(IAM Role associated\) [\#495](https://github.com/fog/fog-aws/issues/495)
+- "AWS::STS | assume role with web identity \(aws\)" interferes with "Fog::Compute\[:iam\] | roles \(aws, iam\)" [\#491](https://github.com/fog/fog-aws/issues/491)
+- Access S3 using a proxy [\#486](https://github.com/fog/fog-aws/issues/486)
+- Warning that doesn't make sense [\#479](https://github.com/fog/fog-aws/issues/479)
+- Undefined method `change\_resource\_record\_sets\_data' for Fog::AWS:Module called from fog/aws/requests/dns/change\_resource\_record\_sets.rb when attempting to modify a DNS record. [\#477](https://github.com/fog/fog-aws/issues/477)
+- Is DescribeImageAttribute support missing? [\#473](https://github.com/fog/fog-aws/issues/473)
+- How to fix deprecation warning: "The format Fog::CDN::AWS is deprecated" [\#466](https://github.com/fog/fog-aws/issues/466)
+- Test suite failures in "Fog::Compute\[:iam\] | roles" [\#296](https://github.com/fog/fog-aws/issues/296)
+- Support Amazon S3 Transfer Acceleration [\#250](https://github.com/fog/fog-aws/issues/250)
+- Creating VPC instances in AWS [\#116](https://github.com/fog/fog-aws/issues/116)
 
 **Merged pull requests:**
 
+- Avoid using bucket\_name.host if host is overriden. [\#507](https://github.com/fog/fog-aws/pull/507) ([deepfryed](https://github.com/deepfryed))
+- Fix some requests when S3 acceleration is enabled [\#506](https://github.com/fog/fog-aws/pull/506) ([NARKOZ](https://github.com/NARKOZ))
+- Add support for S3 transfer acceleration [\#505](https://github.com/fog/fog-aws/pull/505) ([NARKOZ](https://github.com/NARKOZ))
+- Correct DynamoDB update\_item method [\#503](https://github.com/fog/fog-aws/pull/503) ([postmodern](https://github.com/postmodern))
+- Add MaxResults filter to describe security groups [\#502](https://github.com/fog/fog-aws/pull/502) ([KevinLoiseau](https://github.com/KevinLoiseau))
+- Fix for Aurora Server Provisioning. [\#501](https://github.com/fog/fog-aws/pull/501) ([lockstone](https://github.com/lockstone))
+- Fixes/fog/aws/rds/ready [\#497](https://github.com/fog/fog-aws/pull/497) ([villemuittari](https://github.com/villemuittari))
+- Feature/adding modify instance placement [\#494](https://github.com/fog/fog-aws/pull/494) ([loperaja](https://github.com/loperaja))
+- Add AMD CPU instance types [\#493](https://github.com/fog/fog-aws/pull/493) ([jfuechsl](https://github.com/jfuechsl))
+- Update documentation for x-amz headers [\#492](https://github.com/fog/fog-aws/pull/492) ([knapo](https://github.com/knapo))
+- Add missing generation 5 compute instance flavors [\#490](https://github.com/fog/fog-aws/pull/490) ([jfuechsl](https://github.com/jfuechsl))
+- Add ability to force delete a bucket with objects [\#488](https://github.com/fog/fog-aws/pull/488) ([ramonpm](https://github.com/ramonpm))
+- Modernize various tests to Ruby 2.x syntax [\#485](https://github.com/fog/fog-aws/pull/485) ([teancom](https://github.com/teancom))
+- EYPP-6850 add m4.16xlarge flavor [\#480](https://github.com/fog/fog-aws/pull/480) ([thorn](https://github.com/thorn))
+- pull request in attempt at fix for undefined method issue mentioned in fog/fog-aws\#477 [\#478](https://github.com/fog/fog-aws/pull/478) ([klarrimore](https://github.com/klarrimore))
+- Changes to add describe\_image\_attribute support [\#476](https://github.com/fog/fog-aws/pull/476) ([keithjpaulson](https://github.com/keithjpaulson))
+- add tags for describe address  [\#474](https://github.com/fog/fog-aws/pull/474) ([toubs13](https://github.com/toubs13))
+
+## [v3.3.0](https://github.com/fog/fog-aws/tree/v3.3.0) (2018-09-18)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.2.0...v3.3.0)
+
+**Merged pull requests:**
+
+- Rename CDN::AWS to AWS::CDN [\#467](https://github.com/fog/fog-aws/pull/467) ([jaredbeck](https://github.com/jaredbeck))
+
+## [v3.2.0](https://github.com/fog/fog-aws/tree/v3.2.0) (2018-09-17)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.1.0...v3.2.0)
+
+**Merged pull requests:**
+
+- Rename Storage::AWS to AWS::Storage [\#470](https://github.com/fog/fog-aws/pull/470) ([sue445](https://github.com/sue445))
+- Rename DNS::AWS to AWS::DNS [\#469](https://github.com/fog/fog-aws/pull/469) ([sue445](https://github.com/sue445))
+- Rename Compute::AWS to AWS::Compute [\#468](https://github.com/fog/fog-aws/pull/468) ([sue445](https://github.com/sue445))
+
+## [v3.1.0](https://github.com/fog/fog-aws/tree/v3.1.0) (2018-09-17)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.0.0...v3.1.0)
+
+**Closed issues:**
+
+- Option to disable ssl verification [\#465](https://github.com/fog/fog-aws/issues/465)
+- s3: fog returns bad URL \(with correct signature\) [\#462](https://github.com/fog/fog-aws/issues/462)
+- Getting permanent link without X-Amz-Expires=600 [\#459](https://github.com/fog/fog-aws/issues/459)
+- add region cn-northwest-1 [\#455](https://github.com/fog/fog-aws/issues/455)
+- Parameterize "RequestLimitExceeded" jitter magnitude [\#448](https://github.com/fog/fog-aws/issues/448)
+- Release new version to RubyGems [\#442](https://github.com/fog/fog-aws/issues/442)
+- Fog::Compute::AWS::Vpcs returns VPCs with nil ids [\#387](https://github.com/fog/fog-aws/issues/387)
+
+**Merged pull requests:**
+
+- Escape / in presigned URLs [\#463](https://github.com/fog/fog-aws/pull/463) ([alexcern](https://github.com/alexcern))
+- Fix t1.micro bits [\#460](https://github.com/fog/fog-aws/pull/460) ([tas50](https://github.com/tas50))
+- Storage region support for cn-northwest-1 [\#458](https://github.com/fog/fog-aws/pull/458) ([deepfryed](https://github.com/deepfryed))
+- Simplify constructor [\#457](https://github.com/fog/fog-aws/pull/457) ([lvangool](https://github.com/lvangool))
+- Add missing attribute to RDS server [\#456](https://github.com/fog/fog-aws/pull/456) ([brianknight10](https://github.com/brianknight10))
 - Fix & update aws flavor \(provided in GiB\) to Megabytes \(floor rounded\). [\#454](https://github.com/fog/fog-aws/pull/454) ([xward](https://github.com/xward))
 - Update aws flavors cpu count for gpu oriented flavor. [\#453](https://github.com/fog/fog-aws/pull/453) ([xward](https://github.com/xward))
 - Update aws flavors cpu count. [\#452](https://github.com/fog/fog-aws/pull/452) ([xward](https://github.com/xward))
