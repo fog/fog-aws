@@ -39,6 +39,7 @@ module Fog
         attribute :storage_type,                       :aliases => 'StorageType'
         attribute :tde_credential_arn,                 :aliases => 'TdeCredentialArn'
         attribute :vpc_security_groups,                :aliases => 'VpcSecurityGroups', :type => :array
+        attribute :db_subnet_group,                    :aliases => 'DBSubnetGroup'
 
         attr_accessor :password, :parameter_group_name, :security_group_names, :port, :source_snapshot_id
 
