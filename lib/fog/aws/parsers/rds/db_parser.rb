@@ -8,7 +8,7 @@ module Fog
           end
 
           def fresh_instance
-            {'PendingModifiedValues' => [], 'DBSecurityGroups' => [], 'ReadReplicaDBInstanceIdentifiers' => [], 'Endpoint' => {}}
+            {'PendingModifiedValues' => [], 'DBSecurityGroups' => [], 'ReadReplicaDBInstanceIdentifiers' => [], 'Endpoint' => {}, 'DBSubnetGroup' => {}}
           end
 
           def start_element(name, attrs = [])
@@ -35,6 +35,17 @@ module Fog
             when 'VpcSecurityGroups'
               @in_vpc_security_groups = true
               @vpc_security_groups = []
+            when 'DBSubnetGroup'
+              @in_db_subnet_group = true
+              @db_subnet_group = {}
+            when 'Subnets'
+              @in_subnets = true
+              @subnets = []
+            when 'Subnet'
+              @subnet = {}
+            when 'SubnetAvailabilityZone'
+              @in_subnet_availability_zone = true
+              @subnet_availability_zone = {}
             end
           end
 
@@ -122,6 +133,33 @@ module Fog
               @db_instance['ReadReplicaSourceDBInstanceIdentifier'] = value
             when 'DBInstance'
               @db_instance = fresh_instance
+            when 'DBSubnetGroup'
+              @in_db_subnet_group = false
+              @db_instance['DBSubnetGroup'] = @db_subnet_group
+            when 'VpcId'
+              if @in_db_subnet_group
+                @db_subnet_group[name] = value
+              end
+            when 'Subnets'
+              @in_subnets = false
+              if @in_db_subnet_group
+                @db_subnet_group['Subnets'] = @subnets
+              end
+            when 'Subnet'
+              if @in_subnets
+                @subnets << @subnet
+              end
+            when 'SubnetIdentifier', 'SubnetStatus'
+              if @in_subnets
+                @subnet[name] = value
+              end
+            when 'SubnetAvailabilityZone'
+              @in_subnet_availability_zone = false
+              @subnet['SubnetAvailabilityZone'] = @subnet_availability_zone
+            when 'Name'
+              if @in_subnet_availability_zone
+                @subnet_availability_zone[name] = value
+              end
             end
           end
         end
