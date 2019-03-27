@@ -101,7 +101,8 @@ module Fog
                 @listener_description['Listener'][name] = value.to_i
               end
 
-            when 'CanonicalHostedZoneName', 'CanonicalHostedZoneNameID', 'LoadBalancerName', 'DNSName', 'Scheme'
+            when 'CanonicalHostedZoneName', 'CanonicalHostedZoneNameID', 'LoadBalancerName', 'DNSName', 'Scheme', 'Type', 'State',
+                 'LoadBalancerArn', 'IpAddressType', 'CanonicalHostedZoneId'
               @load_balancer[name] = value
             when 'CreatedTime'
               @load_balancer[name] = Time.parse(value)
@@ -119,9 +120,8 @@ module Fog
               @in_instances = false
             when 'InstanceId'
               @load_balancer['Instances'] << value
-            when 'VPCId'
+            when 'VPCId', 'VpcId'
               @load_balancer[name] = value
-
             when 'AvailabilityZones'
               @in_availability_zones = false
             when 'SecurityGroups'
