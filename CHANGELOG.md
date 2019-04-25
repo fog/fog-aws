@@ -1,5 +1,19 @@
 # Change Log
 
+## [v3.5.0](https://github.com/fog/fog-aws/tree/v3.5.0) (2019-04-25)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.4.0...v3.5.0)
+
+**Closed issues:**
+
+- Missing AWS region: EU \(Stockholm\) eu-north-1 [\#514](https://github.com/fog/fog-aws/issues/514)
+- Support for AWS fargate [\#510](https://github.com/fog/fog-aws/issues/510)
+
+**Merged pull requests:**
+
+- Add AWS Stockholm region [\#515](https://github.com/fog/fog-aws/pull/515) ([fred-secludit](https://github.com/fred-secludit))
+- Enhance/handle ELBv2 api version [\#512](https://github.com/fog/fog-aws/pull/512) ([KevinLoiseau](https://github.com/KevinLoiseau))
+- Enhance/add attribute db subnet group for db instance [\#511](https://github.com/fog/fog-aws/pull/511) ([KevinLoiseau](https://github.com/KevinLoiseau))
+
 ## [v3.4.0](https://github.com/fog/fog-aws/tree/v3.4.0) (2019-03-11)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.3.0...v3.4.0)
 
@@ -184,7 +198,6 @@
 - Fog::AWS::IAM::Error: InvalidAction =\> Could not find operation "ReplaceIamInstanceProfileAssociation" for version 2010-05-08 [\#368](https://github.com/fog/fog-aws/issues/368)
 - Multipart upload fails on empty files [\#364](https://github.com/fog/fog-aws/issues/364)
 - The action `ModifyVolume` is not valid for this web service. [\#363](https://github.com/fog/fog-aws/issues/363)
-- Tag instances upon creation of new instance [\#359](https://github.com/fog/fog-aws/issues/359)
 - Cache/read local amazon data [\#354](https://github.com/fog/fog-aws/issues/354)
 
 **Merged pull requests:**
