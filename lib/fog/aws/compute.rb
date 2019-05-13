@@ -454,7 +454,7 @@ module Fog
 
         def tagged_resources(resources)
           Array(resources).map do |resource_id|
-            if match = resource_id.match(/^(\w+)-[a-z0-9]{8}/i)
+            if match = resource_id.match(/^(\w+)-[a-z0-9]{8,17}/i)
               id = match.captures.first
             else
               raise(Fog::Service::NotFound.new("Unknown resource id #{resource_id}"))
