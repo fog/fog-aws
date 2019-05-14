@@ -43,7 +43,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :virtual_host, :cname
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :virtual_host, :cname
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -278,15 +278,13 @@ module Fog
             if params[:bucket_cname]
               host = bucket_name
             else
-              path_style = params.fetch(:path_style, @path_style)
-              if !path_style
-                if COMPLIANT_BUCKET_NAMES !~ bucket_name
-                  Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) is not a valid dns name, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
-                  path_style = true
-                elsif scheme == 'https' && !path_style && bucket_name =~ /\./
-                  Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) contains a '.' so is not accessible over https as a virtual hosted bucket, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
-                  path_style = true
-                end
+              path_style = false
+              if COMPLIANT_BUCKET_NAMES !~ bucket_name
+                Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) is not a valid dns name, which will negatively impact performance. For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
+                path_style = true
+              elsif scheme == 'https' && !path_style && bucket_name =~ /\./
+                Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) contains a '.' so is not accessible over https as a virtual hosted bucket, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
+                path_style = true
               end
 
               # uses the bucket name as host if `virtual_host: true`, you can also
@@ -310,7 +308,6 @@ module Fog
           })
 
           #
-          ret.delete(:path_style)
           ret.delete(:bucket_name)
           ret.delete(:object_name)
           ret.delete(:region)
@@ -446,7 +443,6 @@ module Fog
           end
 
 
-          @path_style = options[:path_style] || false
           @signature_version = options.fetch(:aws_signature_version, 4)
           validate_signature_version!
           setup_credentials(options)
@@ -507,7 +503,6 @@ module Fog
           @acceleration = options.fetch(:acceleration, false)
           @signature_version = options.fetch(:aws_signature_version, 4)
           validate_signature_version!
-          @path_style = options[:path_style]  || false
 
           @region = options[:region] || DEFAULT_REGION
 
