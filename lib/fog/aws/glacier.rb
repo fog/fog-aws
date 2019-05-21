@@ -39,52 +39,109 @@ module Fog
           new.add_part(body)
         end
 
-        def reduce_digests(digests)
-          while digests.length > 1
-            digests = digests.each_slice(2).map do |pair|
-              if pair.length == 2
-                OpenSSL::Digest::SHA256.digest(pair[0]+pair[1])
-              else
-                pair.first
-              end
-            end
-          end
-          digests.first
+        def initialize
+          @last_chunk_digest = nil
+          @last_chunk_digest_temp = nil
+          @last_chunk_length = 0
+          @digest_stack = []
         end
 
-        def initialize
-          @digests = []
+        def update_digest_stack(digest, stack)
+          stack.each_with_index{|s,i|
+            if s
+              digest = Digest::SHA256.digest(s + digest)
+              stack[i] = nil
+            else
+              stack[i] = digest
+              digest = nil
+              break
+            end
+          }
+          stack << digest if digest
+        end
+
+        def reduce_digest_stack(digest, stack)
+          stack.each_with_index{|s,i|
+            unless digest
+              digest = stack[i]
+              next
+            end
+            if stack[i]
+              digest = Digest::SHA256.digest(stack[i] + digest)
+            end
+          }
+          digest
         end
 
         def add_part(bytes)
           part = self.digest_for_part(bytes)
-          @digests << part
           part.unpack('H*').first
         end
 
-        def digest_for_part(body)
-          chunk_count = [body.bytesize / MEGABYTE + (body.bytesize % MEGABYTE > 0 ? 1 : 0), 1].max
+        def prepare_body_for_slice(body)
           if body.respond_to? :byteslice
-            digests_for_part = chunk_count.times.map {|chunk_index| OpenSSL::Digest::SHA256.digest(body.byteslice(chunk_index * MEGABYTE, MEGABYTE))}
+            r = yield(body, :byteslice)
           else
             if body.respond_to? :encoding
               old_encoding = body.encoding
               body.force_encoding('BINARY')
             end
-            digests_for_part = chunk_count.times.map {|chunk_index| OpenSSL::Digest::SHA256.digest(body.slice(chunk_index * MEGABYTE, MEGABYTE))}
+            r = yield(body, :slice)
             if body.respond_to? :encoding
               body.force_encoding(old_encoding)
             end
           end
-          reduce_digests(digests_for_part)
+          r
+        end
+
+        def digest_for_part(body)
+          part_stack = []
+          part_temp = nil
+          body_size = body.bytesize
+          prepare_body_for_slice(body) {|body, slice|
+            start_offset = 0
+            if @last_chunk_length != 0
+              start_offset = MEGABYTE - @last_chunk_length
+              @last_chunk_hash.update(body.send(slice, 0, start_offset))
+              hash = @last_chunk_hash.digest
+              @last_chunk_digest_temp = hash
+              if body_size > start_offset
+                @last_chunk_length = 0
+                @last_chunk_hash = nil
+                @last_chunk_digest_temp = nil
+                update_digest_stack(hash, @digest_stack)
+              else
+                part_temp = hash
+                @last_chunk_digest_temp = hash
+                @last_chunk_length += body_size
+                next
+              end
+            end
+            whole_chunk_count = (body_size - start_offset) / MEGABYTE
+            whole_chunk_count.times.each {|chunk_index|
+              hash = Digest::SHA256.digest(body.send(slice, start_offset + chunk_index * MEGABYTE, MEGABYTE))
+              update_digest_stack(hash, part_stack)
+              update_digest_stack(hash, @digest_stack)
+            }
+            rest_size = body_size - start_offset - whole_chunk_count * MEGABYTE
+            if rest_size > 0 || whole_chunk_count == 0
+              @last_chunk_hash = Digest::SHA256.new
+              @last_chunk_length = rest_size
+              @last_chunk_hash.update(body.send(slice, start_offset + whole_chunk_count * MEGABYTE, rest_size))
+              hash = @last_chunk_hash.digest
+              @last_chunk_digest_temp = hash
+              part_temp = hash
+            end
+          }
+          reduce_digest_stack(part_temp, part_stack)
+        end
+
+        def digest
+          reduce_digest_stack(@last_chunk_digest_temp, @digest_stack)
         end
 
         def hexdigest
           digest.unpack('H*').first
-        end
-
-        def digest
-          reduce_digests(@digests)
         end
       end
 

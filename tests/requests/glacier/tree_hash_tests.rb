@@ -59,4 +59,26 @@ Shindo.tests('AWS::Glacier | glacier tree hash calcuation', ['aws']) do
 
   end
 
+  tests('multipart with unaligned parts') do
+    tree_hash = Fog::AWS::Glacier::TreeHash.new
+    part = ('x' * 512*1024)
+    returns(Fog::AWS::Glacier::TreeHash.digest(part)) { tree_hash.add_part part }
+
+    part2 = ('x' * 512*1024) + ('y'*1024*1024) + ('z'* 512*1024)
+    returns(Fog::AWS::Glacier::TreeHash.digest(part + part2)) { tree_hash.add_part part2 ; tree_hash.hexdigest }
+
+    tree_hash.add_part('z'* 512*1024 + 't'*1024*1024)
+
+    expected = OpenSSL::Digest::SHA256.hexdigest(
+                 OpenSSL::Digest::SHA256.digest(
+                    OpenSSL::Digest::SHA256.digest('x' * 1024*1024) + OpenSSL::Digest::SHA256.digest('y' * 1024*1024)
+                 ) +
+                 OpenSSL::Digest::SHA256.digest(
+                   OpenSSL::Digest::SHA256.digest('z' * 1024*1024) + OpenSSL::Digest::SHA256.digest('t' * 1024*1024)
+                 )
+               )
+    returns(expected) { tree_hash.hexdigest}
+
+  end
+
 end
