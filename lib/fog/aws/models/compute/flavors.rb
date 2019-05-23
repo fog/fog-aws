@@ -155,6 +155,76 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
+          :id                      => 't3a.nano ',
+          :name                    => 'T3a Nano',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 536,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't3a.micro',
+          :name                    => 'T3a Micro',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 1073,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't3a.small',
+          :name                    => 'T3a Small',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 2147,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't3a.medium',
+          :name                    => 'T3a Medium',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 4294,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't3a.large',
+          :name                    => 'T3a Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 8589,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't3a.xlarge',
+          :name                    => 'T3a Extra Large',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 0,
+          :ram                     => 17179,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't3a.2xlarge',
+          :name                    => 'T3a Double Extra Large',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 0,
+          :ram                     => 34359,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
           :id                      => 'm1.small',
           :name                    => 'Small Instance',
           :bits                    => 32,
