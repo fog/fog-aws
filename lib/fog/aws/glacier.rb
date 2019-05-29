@@ -40,10 +40,15 @@ module Fog
         end
 
         def initialize
-          @last_chunk_digest = nil
-          @last_chunk_digest_temp = nil
-          @last_chunk_length = 0
+          @last_chunk_digest = nil	# Digest OBJECT for last chunk (Digest::SHA256)
+          @last_chunk_digest_temp = nil	# Digest VALUE for last chunk
+          @last_chunk_length = 0	# Length of last chunk, always smaller than 1MB.
           @digest_stack = []
+          # First position on stack corresponds to 1MB, second 2MB, third 4MB, fourt 8MB and so on.
+          # In any time, the size of all already added parts is equal to sum of all existing (non-nil)
+          # positions multiplied by that number, plus last_chunk_length for the remainder smaller than
+          # one megabyte. So, if last_chunk_length is half megabyte, stack[0] is filled, stack[1] and 
+          # stack[2] empty and stack[3] filled, the size is 0.5MB + 1x1MB + 0x2MB + 0x4MB + 1x8MB = 9.5MB.
         end
 
         def update_digest_stack(digest, stack)
@@ -52,7 +57,7 @@ module Fog
               digest = Digest::SHA256.digest(s + digest)
               stack[i] = nil
             else
-              stack[i] = digest
+              stack[i] = digest # Update this position with value obtained in previous run of cycle.
               digest = nil
               break
             end
