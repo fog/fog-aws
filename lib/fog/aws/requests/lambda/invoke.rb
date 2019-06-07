@@ -20,8 +20,8 @@ module Fog
             headers['X-Amz-Client-Context'] =
               Base64::encode64(Fog::JSON.encode(client_context))
           end
-          if client_type = params.delete('InvocationType')
-            headers['X-Amz-Client-Type'] = client_type
+          if invocation_type = params.delete('InvocationType')
+            headers['X-Amz-Invocation-Type'] = invocation_type
           end
           if log_type = params.delete('LogType')
             headers['X-Amz-Log-Type'] = log_type
@@ -51,12 +51,12 @@ module Fog
             raise Fog::AWS::Lambda::Error, message
           end
 
-          client_context = params.delete('ClientContext')
-          client_type    = params.delete('InvocationType')
-          log_type       = params.delete('LogType')
-          payload        = params.delete('Payload')
+          client_context  = params.delete('ClientContext')
+          invocation_type = params.delete('InvocationType')
+          log_type        = params.delete('LogType')
+          payload         = params.delete('Payload')
 
-          if (client_context || client_type || log_type)
+          if (client_context || invocation_type || log_type)
             message = "invoke parameters handling are not yet mocked [light_black](#{caller.first})[/]"
             Fog::Logger.warning message
             Fog::Mock.not_implemented
