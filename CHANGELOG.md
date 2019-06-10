@@ -1,5 +1,14 @@
 # Change Log
 
+## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.5.0...HEAD)
+
+**Merged pull requests:**
+
+- Fixed issue with InvocationType header for AWS Lambda [\#524](https://github.com/fog/fog-aws/pull/524) ([GarrisonD](https://github.com/GarrisonD))
+- Add support for generating tree hash tests by adding unaligned parts. [\#521](https://github.com/fog/fog-aws/pull/521) ([hkmaly](https://github.com/hkmaly))
+
 ## [v3.5.0](https://github.com/fog/fog-aws/tree/v3.5.0) (2019-04-25)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.4.0...v3.5.0)
 
