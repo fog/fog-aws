@@ -43,7 +43,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :virtual_host, :cname
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :enable_signature_v4_streaming, :virtual_host, :cname
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -506,6 +506,7 @@ module Fog
           @persistent = options.fetch(:persistent, false)
           @acceleration = options.fetch(:acceleration, false)
           @signature_version = options.fetch(:aws_signature_version, 4)
+          @enable_signature_v4_streaming = options.fetch(:enable_signature_v4_streaming, true)
           validate_signature_version!
           @path_style = options[:path_style]  || false
 
@@ -587,20 +588,24 @@ module Fog
           if @signature_version == 4
             params[:headers]['x-amz-date'] = date.to_iso8601_basic
             if params[:body].respond_to?(:read)
-              # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
-              # We ignore the bit about setting the content-encoding to aws-chunked because
-              # this can cause s3 to serve files with a blank content encoding which causes problems with some CDNs
-              # AWS have confirmed that s3 can infer that the content-encoding is aws-chunked from the x-amz-content-sha256 header
-              #
-              params[:headers]['x-amz-content-sha256'] = 'STREAMING-AWS4-HMAC-SHA256-PAYLOAD'
-              params[:headers]['x-amz-decoded-content-length'] = params[:headers].delete 'Content-Length'
+              if @enable_signature_v4_streaming
+                # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
+                # We ignore the bit about setting the content-encoding to aws-chunked because
+                # this can cause s3 to serve files with a blank content encoding which causes problems with some CDNs
+                # AWS have confirmed that s3 can infer that the content-encoding is aws-chunked from the x-amz-content-sha256 header
+                #
+                params[:headers]['x-amz-content-sha256'] = 'STREAMING-AWS4-HMAC-SHA256-PAYLOAD'
+                params[:headers]['x-amz-decoded-content-length'] = params[:headers].delete 'Content-Length'
+              else
+                params[:headers]['x-amz-content-sha256'] = 'UNSIGNED-PAYLOAD'
+              end
             else
               params[:headers]['x-amz-content-sha256'] ||= OpenSSL::Digest::SHA256.hexdigest(params[:body] || '')
             end
             signature_components = @signer.signature_components(params, date, params[:headers]['x-amz-content-sha256'])
             params[:headers]['Authorization'] = @signer.components_to_header(signature_components)
 
-            if params[:body].respond_to?(:read)
+            if params[:body].respond_to?(:read) && @enable_signature_v4_streaming
               body = params.delete :body
               params[:request_block] = S3Streamer.new(body, signature_components['X-Amz-Signature'], @signer, date)
             end
