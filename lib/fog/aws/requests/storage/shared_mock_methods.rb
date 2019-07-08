@@ -4,7 +4,7 @@ module Fog
       module SharedMockMethods
         def define_mock_acl(bucket_name, object_name, options)
           acl = options['x-amz-acl'] || 'private'
-          if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
+          if !['private', 'public-read', 'public-read-write', 'authenticated-read', 'bucket-owner-read', 'bucket-owner-full-control'].include?(acl)
             raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
           else
             self.data[:acls][:object][bucket_name] ||= {}
