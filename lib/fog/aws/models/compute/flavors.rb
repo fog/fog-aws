@@ -155,7 +155,7 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
-          :id                      => 't3a.nano ',
+          :id                      => 't3a.nano',
           :name                    => 'T3a Nano',
           :bits                    => 64,
           :cores                   => 2,
