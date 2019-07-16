@@ -1,8 +1,21 @@
 # Change Log
 
-## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
+## [v3.5.2](https://github.com/fog/fog-aws/tree/v3.5.2) (2019-07-16)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.5.1...v3.5.2)
 
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.5.0...HEAD)
+**Closed issues:**
+
+- Support for Hong Kong Region \(ap-east-1\)? [\#527](https://github.com/fog/fog-aws/issues/527)
+- Make S3 Signature v4 Streaming Optional [\#523](https://github.com/fog/fog-aws/issues/523)
+
+**Merged pull requests:**
+
+- Add ap-east-1 \(Hong Kong\) to Fog::AWS.regions [\#528](https://github.com/fog/fog-aws/pull/528) ([tisba](https://github.com/tisba))
+- Update shared\_mock\_methods.rb [\#526](https://github.com/fog/fog-aws/pull/526) ([MiWieczo](https://github.com/MiWieczo))
+- WIP: Make S3 Signature v4 streaming optional [\#525](https://github.com/fog/fog-aws/pull/525) ([stanhu](https://github.com/stanhu))
+
+## [v3.5.1](https://github.com/fog/fog-aws/tree/v3.5.1) (2019-06-10)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.5.0...v3.5.1)
 
 **Merged pull requests:**
 
@@ -215,7 +228,7 @@
 - Add a top-level require that matches the gem name [\#367](https://github.com/fog/fog-aws/pull/367) ([lanej](https://github.com/lanej))
 - Fixed credential refresh when instance metadata host is inaccessible [\#366](https://github.com/fog/fog-aws/pull/366) ([ankane](https://github.com/ankane))
 - Handle multipart upload of empty files [\#365](https://github.com/fog/fog-aws/pull/365) ([fcheung](https://github.com/fcheung))
-- Add p2 instance types [\#362](https://github.com/fog/fog-aws/pull/362) ([Caged](https://github.com/Caged))
+- Add p2 instance types [\#362](https://github.com/fog/fog-aws/pull/362) ([caged](https://github.com/caged))
 - Exponential backoff [\#361](https://github.com/fog/fog-aws/pull/361) ([VVMichaelSawyer](https://github.com/VVMichaelSawyer))
 - Skip call to instance metadata host if region is specified [\#360](https://github.com/fog/fog-aws/pull/360) ([ankane](https://github.com/ankane))
 
