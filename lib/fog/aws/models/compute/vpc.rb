@@ -106,7 +106,13 @@ module Fog
 
         def save
           requires :cidr_block
-          data = service.create_vpc(cidr_block, { 'AmazonProvidedIpv6CidrBlock' => amazon_provided_ipv_6_cidr_block }).body['vpcSet'].first
+
+          options = {
+            'AmazonProvidedIpv6CidrBlock' => amazon_provided_ipv_6_cidr_block,
+            'InstanceTenancy' => tenancy
+          }
+
+          data = service.create_vpc(cidr_block, options).body['vpcSet'].first
           new_attributes = data.reject {|key,value| key == 'requestId'}
           new_attributes = data.reject {|key,value| key == 'requestId' || key == 'tagSet' }
           merge_attributes(new_attributes)
