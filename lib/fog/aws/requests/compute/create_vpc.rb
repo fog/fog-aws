@@ -11,7 +11,6 @@ module Fog
         # * options<~Hash>:
         #   * InstanceTenancy<~String> - The allowed tenancy of instances launched into the VPC. A value of default
         #     means instances can be launched with any tenancy; a value of dedicated means instances must be launched with tenancy as dedicated.
-        #     please not that the documentation is incorrect instanceTenancy will not work while InstanceTenancy will
         #
         # === Returns
         # * response<~Excon::Response>:
@@ -54,7 +53,8 @@ module Fog
                 'classicLinkEnabled'          => false,
                 'classicLinkDnsSupport'       => false,
                 'cidrBlockAssociationSet'     => [{ 'cidrBlock' => cidrBlock, 'state' => 'associated', 'associationId' => "vpc-cidr-assoc-#{vpc_id}" }],
-                'ipv6CidrBlockAssociationSet' => []
+                'ipv6CidrBlockAssociationSet' => [],
+                'instanceTenancy'             => options['InstanceTenancy'] || 'default'
               }
               self.data[:vpcs].push(vpc)
 
