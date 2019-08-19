@@ -13,8 +13,10 @@ module Fog
             case name
             when 'Id'
               @zone[name] = value.sub('/hostedzone/', '')
-            when 'Name', 'CallerReference', 'Comment'
+            when 'Name', 'CallerReference', 'Comment', 'PrivateZone'
               @zone[name] = value
+            when 'ResourceRecordSetCount'
+              @zone['ResourceRecordSetCount'] = value.to_i
             when 'HostedZone'
               @hosted_zones << @zone
               @zone = {}
