@@ -16,7 +16,7 @@ module Fog
               case name
               when 'Id'
                 @hosted_zone[name] = value.sub('/hostedzone/', '')
-              when 'Name', 'CallerReference', 'Comment'
+              when 'Name', 'CallerReference', 'Comment', 'PrivateZone'
                 @hosted_zone[name]= value
               when 'HostedZone'
                 @response['HostedZone'] = @hosted_zone
