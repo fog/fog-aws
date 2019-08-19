@@ -17,14 +17,14 @@ module Fog
               case name
               when 'Id'
                 @hosted_zone[name]= value.sub('/hostedzone/', '')
-              when 'Name', 'CallerReference', 'Comment', 'PrivateZone', 'Config', 'ResourceRecordSetCount'
+              when 'Name', 'CallerReference', 'Comment', 'PrivateZone', 'Config'
                 @hosted_zone[name]= value
+              when 'ResourceRecordSetCount'
+                @hosted_zone['ResourceRecordSetCount'] = value.to_i
               when 'HostedZone'
                 @response['HostedZone'] = @hosted_zone
                 @hosted_zone = {}
                 @section = :name_servers
-              when 'ResourceRecordSetCount'
-                @response['ResourceRecordSetCount'] = value.to_i
               end
             elsif @section == :name_servers
               case name
