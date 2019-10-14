@@ -1,5 +1,7 @@
 require 'fog/aws/models/compute/flavor'
 
+# To compute RAM from AWS doc https://aws.amazon.com/fr/ec2/instance-types
+# we can use this formula: RAM (in MB) = AWS_RAM (in GiB) * 1073.742 MB/GiB
 module Fog
   module AWS
     class Compute
@@ -1235,11 +1237,31 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
+          :id                      => "m5a.8xlarge",
+          :name                    => "M5 (AMD) Eight Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 137438,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
           :id                      => "m5a.12xlarge",
           :name                    => "M5 (AMD) Twelve Extra Large",
           :bits                    => 64,
           :cores                   => 48,
           :ram                     => 206158,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m5a.16xlarge",
+          :name                    => "M5 (AMD) Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 274877,
           :disk                    => 0,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
@@ -1251,6 +1273,66 @@ module Fog
           :cores                   => 96,
           :ram                     => 412316,
           :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m5ad.large",
+          :name                    => "M5ad (AMD) Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 8589,
+          :disk                    => 75,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m5ad.xlarge",
+          :name                    => "M5ad (AMD) Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 17179,
+          :disk                    => 150,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m5ad.2xlarge",
+          :name                    => "M5ad (AMD) Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 34359,
+          :disk                    => 300,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m5ad.4xlarge",
+          :name                    => "M5ad (AMD) Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 68719,
+          :disk                    => 600,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m5ad.12xlarge",
+          :name                    => "M5ad (AMD) Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 206158,
+          :disk                    => 1800,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m5ad.24xlarge",
+          :name                    => "M5ad (AMD) Twenty-four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 412316,
+          :disk                    => 3600,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
         },
