@@ -3,6 +3,7 @@ module Fog
     class ELBV2 < ELB
       request_path 'fog/aws/requests/elbv2'
       request :describe_load_balancers
+      request :describe_listeners
 
       class Real < ELB::Real
         def initialize(options={})
