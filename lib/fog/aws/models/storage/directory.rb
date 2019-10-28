@@ -12,7 +12,6 @@ module Fog
         identity  :key,           :aliases => ['Name', 'name']
 
         attribute :creation_date, :aliases => 'CreationDate', :type => 'time'
-        attribute :location,      :aliases => 'LocationConstraint', :type => 'string'
 
         def acl=(new_acl)
           unless VALID_ACLS.include?(new_acl)
