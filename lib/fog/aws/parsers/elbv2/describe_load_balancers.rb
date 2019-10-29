@@ -5,7 +5,7 @@ module Fog
         class DescribeLoadBalancers < Fog::Parsers::Base
           def reset
             reset_load_balancer
-            @availability_zone = { 'LoadBalancerAddresses' => [] }
+            reset_availability_zone
             @load_balancer_addresses = {}
             @state = {}
             @results = { 'LoadBalancers' => [] }
@@ -14,6 +14,10 @@ module Fog
 
           def reset_load_balancer
             @load_balancer = { 'SecurityGroups' => [], 'AvailabilityZones' => [] }
+          end
+
+          def reset_availability_zone
+            @availability_zone = { 'LoadBalancerAddresses' => [] }
           end
 
           def start_element(name, attrs = [])
@@ -37,7 +41,7 @@ module Fog
                 @availability_zone['LoadBalancerAddresses'] << @load_balancer_addresses
               elsif @in_availability_zones
                 @load_balancer['AvailabilityZones'] << @availability_zone
-                @availability_zone = {}
+                reset_availability_zone
               elsif @in_security_groups
                 @load_balancer['SecurityGroups'] << value
               else
