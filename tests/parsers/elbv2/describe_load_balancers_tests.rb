@@ -20,6 +20,12 @@ DESCRIBE_LOAD_BALANCERS_RESULT = <<-EOF
           <member>
             <SubnetId>subnet-b7d581c0</SubnetId>
             <ZoneName>us-west-2b</ZoneName>
+            <LoadBalancerAddresses>
+              <member>
+                <IpAddress>127.0.0.1</IpAddress>
+                <AllocationId>eipalloc-1c2ab192c131q2377</AllocationId>
+              </member>
+            </LoadBalancerAddresses>
           </member>
         </AvailabilityZones>
         <SecurityGroups>
