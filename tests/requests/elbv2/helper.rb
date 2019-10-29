@@ -6,7 +6,10 @@ class AWS
       }
 
       LOAD_BALANCER = {
-        "AvailabilityZones" => Array,
+        "AvailabilityZones" => [{
+          "SubnetId" => String, "ZoneName" => String,
+          "LoadBalancerAddresses" => [Fog::Nullable::Hash]
+        }],
         "LoadBalancerArn" => String,
         "DNSName" => String,
         "CreatedTime" => Time,
