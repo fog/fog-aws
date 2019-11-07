@@ -84,6 +84,7 @@ module Fog
       request :get_object_http_url
       request :get_object_https_url
       request :get_object_url
+      request :get_object_tagging
       request :get_request_payment
       request :get_service
       request :head_bucket
@@ -107,6 +108,7 @@ module Fog
       request :put_object
       request :put_object_acl
       request :put_object_url
+      request :put_object_tagging
       request :put_request_payment
       request :sync_clock
       request :upload_part
