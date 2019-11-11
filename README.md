@@ -75,7 +75,7 @@ instance = ec2.servers.get("i-02db5af4")
 instance.destroy
 ```
 
-`Fog::AWS` is more than EC2 since it supports many services provided by AWS. The best way to learn and to know about how many services are supported is to take a look at the source code. To review the tests directory and to play with the library in ```irb``` can be very helpful resources as well.
+`Fog::AWS` is more than EC2 since it supports many services provided by AWS. The best way to learn and to know about how many services are supported is to take a look at the source code. To review the tests directory and to play with the library in ```bin/console``` can be very helpful resources as well.
 
 ### S3
 
@@ -108,6 +108,10 @@ directory.files.new(key: 'user/1/Gemfile').url(Time.now + 60)
 ## Documentation
 
 See the [online documentation](http://www.rubydoc.info/github/fog/fog-aws) for a complete API reference.
+
+## Development
+
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 ## Contributing
 
