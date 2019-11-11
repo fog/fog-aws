@@ -25,6 +25,7 @@ module Fog
         attribute :encryption_key,      :aliases => 'x-amz-server-side-encryption-customer-key'
         attribute :version,             :aliases => 'x-amz-version-id'
         attribute :kms_key_id,          :aliases => 'x-amz-server-side-encryption-aws-kms-key-id'
+        attribute :tags,                :aliases => 'x-amz-tagging'
 
         # @note Chunk size to use for multipart uploads.
         #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
@@ -192,6 +193,7 @@ module Fog
         # @option options [String] expires sets number of seconds before AWS Object expires.
         # @option options [String] storage_class sets x-amz-storage-class HTTP header. Defaults to 'STANDARD'. Or, 'REDUCED_REDUNDANCY'
         # @option options [String] encryption sets HTTP encryption header. Set to 'AES256' to encrypt files at rest on S3
+        # @option options [String] tags sets x-amz-tagging HTTP header. For example, 'Org-Id=1' or 'Org-Id=1&Service=MyService'
         # @return [Boolean] true if no errors
         #
         def save(options = {})
@@ -208,6 +210,7 @@ module Fog
           options['Expires'] = expires if expires
           options.merge!(metadata)
           options['x-amz-storage-class'] = storage_class if storage_class
+          options['x-amz-tagging'] = tags if tags
           options.merge!(encryption_headers)
 
           # With a single PUT operation you can upload objects up to 5 GB in size. Automatically set MP for larger objects.
