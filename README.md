@@ -2,10 +2,8 @@
 
 ![Gem Version](https://badge.fury.io/rb/fog-aws.svg)
 [![Build Status](https://travis-ci.org/fog/fog-aws.svg?branch=master)](https://travis-ci.org/fog/fog-aws)
-[![Dependency Status](https://gemnasium.com/fog/fog-aws.svg)](https://gemnasium.com/fog/fog-aws)
 [![Test Coverage](https://codeclimate.com/github/fog/fog-aws/badges/coverage.svg)](https://codeclimate.com/github/fog/fog-aws)
 [![Code Climate](https://codeclimate.com/github/fog/fog-aws.svg)](https://codeclimate.com/github/fog/fog-aws)
-
 
 ## Installation
 
@@ -39,7 +37,10 @@ default:
   aws_secret_access_key: <YOUR_SECRET_ACCESS_KEY>
 ```
 
-### Connecting to EC2 service
+### EC2
+
+#### Connecting to the EC2 Service:
+
 ```ruby
 ec2 = Fog::Compute.new :provider => 'AWS', :region => 'us-west-2'
 ```
@@ -50,7 +51,7 @@ You can review all the requests available with this service using ```#requests``
 ec2.requests # => [:allocate_address, :assign_private_ip_addresses, :associate_address, ...]
 ```
 
-### Launch an EC2 on-demand instance:
+#### Launch an EC2 on-demand instance:
 
 ```ruby
 response = ec2.run_instances(
@@ -67,14 +68,42 @@ instance.wait_for { ready? }
 puts instance.public_ip_address # => "356.300.501.20"
 ```
 
-### Terminate an EC2 instance:
+#### Terminate an EC2 instance:
 
 ```ruby
 instance = ec2.servers.get("i-02db5af4")
 instance.destroy
 ```
 
-Fog::AWS is more than EC2 since it supports many services provided by AWS. The best way to learn and to know about how many services are supported is to take a look at the source code. To review the tests directory and to play with the library in ```irb``` can be very helpful resources as well.
+`Fog::AWS` is more than EC2 since it supports many services provided by AWS. The best way to learn and to know about how many services are supported is to take a look at the source code. To review the tests directory and to play with the library in ```irb``` can be very helpful resources as well.
+
+### S3
+
+#### Connecting to the S3 Service:
+
+```ruby
+s3 = Fog::Storage.new(provider: 'AWS', region: 'eu-central-1')
+```
+
+#### Creating a file:
+
+```ruby
+directory = s3.directories.new(key: 'gaudi-portal-dev')
+file = directory.files.create(key: 'user/1/Gemfile', body: File.open('Gemfile'), tags: 'Org-Id=1&Service-Name=My-Service')
+```
+
+#### Listing files:
+
+```ruby
+directory = s3.directories.get('gaudi-portal-dev', prefix: 'user/1/')
+directory.files
+```
+
+#### Generating a URL for a file:
+
+```ruby
+directory.files.new(key: 'user/1/Gemfile').url(Time.now + 60)
+```
 
 ## Documentation
 
