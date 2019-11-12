@@ -8,6 +8,7 @@ module Fog
       request :add_tags
       request :create_load_balancer
       request :describe_tags
+      request :remove_tags
       request :describe_load_balancers
       request :describe_listeners
 
