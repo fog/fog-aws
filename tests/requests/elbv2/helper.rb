@@ -26,12 +26,17 @@ class AWS
         'DescribeLoadBalancersResult' => {'LoadBalancers' => [LOAD_BALANCER], 'NextMarker' => Fog::Nullable::String}
       })
 
+      CREATE_LOAD_BALANCER = BASIC.merge({
+        'CreateLoadBalancerResult' => {'LoadBalancers' => [LOAD_BALANCER], 'NextMarker' => Fog::Nullable::String}
+      })
+
       LISTENER = {
         "LoadBalancerArn" => String,
         "Protocol" => String,
         "Port" => String,
         "ListenerArn" => String,
-        "DefaultActions" => [{"Type" => String, "TargetGroupArn" => String}]
+        "DefaultActions" => [{"Type" => String, "TargetGroupArn" => String}],
+        "Certificates" => [{"CertificateArn" => String}]
       }
 
       DESCRIBE_LISTENERS = BASIC.merge({
