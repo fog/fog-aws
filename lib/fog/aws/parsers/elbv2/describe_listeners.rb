@@ -7,7 +7,10 @@ module Fog
             reset_listener
             @default_action = {}
             @certificate = {}
-            @redirect_config = {}
+            @config = {}
+            @target_groups = []
+            @target_group = {}
+            @target_group_stickiness_config = {}
             @results = { 'Listeners' => [] }
             @response = { 'DescribeListenersResult' => {}, 'ResponseMetadata' => {} }
           end
@@ -23,6 +26,10 @@ module Fog
               @in_default_actions = true
             when 'Certificates'
               @in_certificates = true
+            when 'TargetGroups'
+              @in_target_groups = true
+            when 'TargetGroupStickinessConfig'
+              @in_target_group_stickiness_config = true
             end
           end
 
@@ -30,17 +37,42 @@ module Fog
             if @in_default_actions
               case name
               when 'member'
-                @listener['DefaultActions'] << @default_action
-                @default_action = {}
-              when 'Type', 'TargetGroupArn'
+                if @in_target_groups
+                  @target_groups << @target_group
+                  @target_group = {}
+                else
+                  @listener['DefaultActions'] << @default_action
+                  @default_action = {}
+                end
+              when 'TargetGroupArn'
+                if @in_target_groups
+                  @target_group[name] = value
+                else
+                  @default_action[name] = value
+                end
+              when 'Weight'
+                @target_group[name] = value
+              when 'Type'
                 @default_action[name] = value
               when 'Path', 'Protocol', 'Port', 'Query', 'Host', 'StatusCode'
-                @redirect_config[name] = value
-              when 'RedirectConfig'
-                @default_action[name] = @redirect_config
-                @redirect_config = {}
+                @config[name] = value
+              when 'RedirectConfig', 'ForwardConfig'
+                @default_action[name] = @config
+                @config = {}
+              when 'DurationSeconds', 'Enabled'
+                @target_group_stickiness_config[name] = value
               when 'DefaultActions'
                 @in_default_actions = false
+              when 'TargetGroupStickinessConfig'
+                if @in_target_group_stickiness_config
+                  @config['TargetGroupStickinessConfig'] = @target_group_stickiness_config
+                  @in_target_group_stickiness_config = false
+                  @target_group_stickiness_config = {}
+                end
+              when 'TargetGroups'
+                @config['TargetGroups'] = @target_groups
+                @in_target_groups = false
+                @target_groups = []
               end
             else
               case name
