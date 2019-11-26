@@ -33,7 +33,8 @@ class AWS
       LISTENER_DEFAULT_ACTIONS = [{
         "Type" => String,
         "TargetGroupArn" => String,
-        "RedirectConfig" => Fog::Nullable::Hash
+        "RedirectConfig" => Fog::Nullable::Hash,
+        "ForwardConfig" => Fog::Nullable::Hash
       }]
 
       LISTENER = {
