@@ -30,12 +30,18 @@ class AWS
         'CreateLoadBalancerResult' => {'LoadBalancers' => [LOAD_BALANCER], 'NextMarker' => Fog::Nullable::String}
       })
 
+      LISTENER_DEFAULT_ACTIONS = [{
+        "Type" => String,
+        "TargetGroupArn" => String,
+        "RedirectConfig" => Fog::Nullable::Hash
+      }]
+
       LISTENER = {
         "LoadBalancerArn" => String,
         "Protocol" => String,
         "Port" => String,
         "ListenerArn" => String,
-        "DefaultActions" => [{"Type" => String, "TargetGroupArn" => String}],
+        "DefaultActions" => LISTENER_DEFAULT_ACTIONS,
         "Certificates" => [{"CertificateArn" => String}]
       }
 

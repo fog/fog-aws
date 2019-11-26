@@ -7,6 +7,7 @@ module Fog
             reset_listener
             @default_action = {}
             @certificate = {}
+            @redirect_config = {}
             @results = { 'Listeners' => [] }
             @response = { 'DescribeListenersResult' => {}, 'ResponseMetadata' => {} }
           end
@@ -26,38 +27,47 @@ module Fog
           end
 
           def end_element(name)
-            case name
-            when 'member'
-              if @in_default_actions
+            if @in_default_actions
+              case name
+              when 'member'
                 @listener['DefaultActions'] << @default_action
                 @default_action = {}
-              elsif @in_certificates
-                @listener['Certificates'] << @certificate
-                @certificate = {}
-              else
-                @results['Listeners'] << @listener
-                reset_listener
+              when 'Type', 'TargetGroupArn'
+                @default_action[name] = value
+              when 'Path', 'Protocol', 'Port', 'Query', 'Host', 'StatusCode'
+                @redirect_config[name] = value
+              when 'RedirectConfig'
+                @default_action[name] = @redirect_config
+                @redirect_config = {}
+              when 'DefaultActions'
+                @in_default_actions = false
               end
-            when 'LoadBalancerArn', 'Protocol', 'Port', 'ListenerArn'
-              @listener[name] = value
-            when 'Type', 'TargetGroupArn'
-              @default_action[name] = value
-            when 'CertificateArn'
-              @certificate[name] = value
+            else
+              case name
+              when 'member'
+                if @in_certificates
+                  @listener['Certificates'] << @certificate
+                  @certificate = {}
+                else
+                  @results['Listeners'] << @listener
+                  reset_listener
+                end
+              when 'LoadBalancerArn', 'Protocol', 'Port', 'ListenerArn'
+                @listener[name] = value
+              when 'CertificateArn'
+                @certificate[name] = value
+              when 'Certificates'
+                @in_certificates = false
 
-            when 'DefaultActions'
-              @in_default_actions = false
-            when 'Certificates'
-              @in_certificates = false
+              when 'RequestId'
+                @response['ResponseMetadata'][name] = value
 
-            when 'RequestId'
-              @response['ResponseMetadata'][name] = value
+              when 'NextMarker'
+                @results['NextMarker'] = value
 
-            when 'NextMarker'
-              @results['NextMarker'] = value
-
-            when 'DescribeListenersResponse'
-              @response['DescribeListenersResult'] = @results
+              when 'DescribeListenersResponse'
+                @response['DescribeListenersResult'] = @results
+              end
             end
           end
         end
