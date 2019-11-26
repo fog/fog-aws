@@ -14,6 +14,15 @@ DESCRIBE_LISTENERS_RESULT = <<-EOF
           <member>
             <Type>forward</Type>
             <TargetGroupArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067</TargetGroupArn>
+            <RedirectConfig>
+              <Protocol>HTTPS</Protocol>
+              <Port>443</Port>
+              <Path>\#{path}</Path>
+              <Query>\#{query}</Query>
+              <Host>\#{host}</Host>
+              <StatusCode>HTTP_301</StatusCode>
+              <Type>redirect</Type>
+            </RedirectConfig>
           </member>
         </DefaultActions>
         <Certificates>
