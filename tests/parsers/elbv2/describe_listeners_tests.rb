@@ -10,9 +10,11 @@ DESCRIBE_LISTENERS_RESULT = <<-EOF
         <Protocol>HTTPS</Protocol>
         <Port>80</Port>
         <ListenerArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/app/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2</ListenerArn>
+        <SslPolicy>polucy</SslPolicy>
         <DefaultActions>
           <member>
             <Type>forward</Type>
+            <Order>1</Order>
             <TargetGroupArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067</TargetGroupArn>
             <RedirectConfig>
               <Protocol>HTTPS</Protocol>
@@ -36,9 +38,11 @@ DESCRIBE_LISTENERS_RESULT = <<-EOF
         <Protocol>HTTPS</Protocol>
         <Port>80</Port>
         <ListenerArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/app/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2</ListenerArn>
+        <SslPolicy>polucy</SslPolicy>
         <DefaultActions>
           <member>
             <Type>forward</Type>
+            <Order>2</Order>
             <TargetGroupArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067</TargetGroupArn>
             <ForwardConfig>
               <TargetGroupStickinessConfig><Enable>true</Enable></TargetGroupStickinessConfig>

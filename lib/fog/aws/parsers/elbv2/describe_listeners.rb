@@ -52,7 +52,7 @@ module Fog
                 end
               when 'Weight'
                 @target_group[name] = value
-              when 'Type'
+              when 'Type', 'Order'
                 @default_action[name] = value
               when 'Path', 'Protocol', 'Port', 'Query', 'Host', 'StatusCode'
                 @config[name] = value
@@ -84,7 +84,7 @@ module Fog
                   @results['Listeners'] << @listener
                   reset_listener
                 end
-              when 'LoadBalancerArn', 'Protocol', 'Port', 'ListenerArn'
+              when 'LoadBalancerArn', 'Protocol', 'Port', 'ListenerArn', 'SslPolicy'
                 @listener[name] = value
               when 'CertificateArn'
                 @certificate[name] = value

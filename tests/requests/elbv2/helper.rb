@@ -32,6 +32,7 @@ class AWS
 
       LISTENER_DEFAULT_ACTIONS = [{
         "Type" => String,
+        "Order" => String,
         "TargetGroupArn" => String,
         "RedirectConfig" => Fog::Nullable::Hash,
         "ForwardConfig" => Fog::Nullable::Hash
@@ -42,6 +43,7 @@ class AWS
         "Protocol" => String,
         "Port" => String,
         "ListenerArn" => String,
+        "SslPolicy" => String,
         "DefaultActions" => LISTENER_DEFAULT_ACTIONS,
         "Certificates" => [{"CertificateArn" => String}]
       }
