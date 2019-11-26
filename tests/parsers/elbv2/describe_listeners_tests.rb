@@ -7,15 +7,57 @@ DESCRIBE_LISTENERS_RESULT = <<-EOF
     <Listeners>
       <member>
         <LoadBalancerArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188</LoadBalancerArn>
-        <Protocol>HTTP</Protocol>
+        <Protocol>HTTPS</Protocol>
         <Port>80</Port>
         <ListenerArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/app/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2</ListenerArn>
+        <SslPolicy>polucy</SslPolicy>
         <DefaultActions>
           <member>
             <Type>forward</Type>
+            <Order>1</Order>
             <TargetGroupArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067</TargetGroupArn>
+            <RedirectConfig>
+              <Protocol>HTTPS</Protocol>
+              <Port>443</Port>
+              <Path>\#{path}</Path>
+              <Query>\#{query}</Query>
+              <Host>\#{host}</Host>
+              <StatusCode>HTTP_301</StatusCode>
+              <Type>redirect</Type>
+            </RedirectConfig>
           </member>
         </DefaultActions>
+        <Certificates>
+          <member>
+            <CertificateArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:certificate/56d36256-1245-40d6-916e-6f5a95e2b4c6</CertificateArn>
+          </member>
+        </Certificates>
+      </member>
+      <member>
+        <LoadBalancerArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188</LoadBalancerArn>
+        <Protocol>HTTPS</Protocol>
+        <Port>80</Port>
+        <ListenerArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/app/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2</ListenerArn>
+        <SslPolicy>polucy</SslPolicy>
+        <DefaultActions>
+          <member>
+            <Type>forward</Type>
+            <Order>2</Order>
+            <TargetGroupArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067</TargetGroupArn>
+            <ForwardConfig>
+              <TargetGroupStickinessConfig><Enable>true</Enable></TargetGroupStickinessConfig>
+              <TargetGroups>
+                <Weight>1</Weight>
+                <TargetGroupArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067</TargetGroupArn>
+              </TargetGroups>
+            </ForwardConfig>
+          </member>
+        </DefaultActions>
+        <Certificates>
+          <member>
+            <CertificateArn>arn:aws:elasticloadbalancing:us-west-2:123456789012:certificate/56d36256-1245-40d6-916e-6f5a95e2b4c6</CertificateArn>
+          </member>
+        </Certificates>
       </member>
     </Listeners>
   </DescribeListenersResult>
