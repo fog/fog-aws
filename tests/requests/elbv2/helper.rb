@@ -35,7 +35,8 @@ class AWS
         "Order" => String,
         "TargetGroupArn" => String,
         "RedirectConfig" => Fog::Nullable::Hash,
-        "ForwardConfig" => Fog::Nullable::Hash
+        "ForwardConfig" => Fog::Nullable::Hash,
+        "FixedResponseConfig" => Fog::Nullable::Hash
       }]
 
       LISTENER = {

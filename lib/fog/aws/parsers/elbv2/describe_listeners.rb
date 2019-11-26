@@ -54,9 +54,10 @@ module Fog
                 @target_group[name] = value
               when 'Type', 'Order'
                 @default_action[name] = value
-              when 'Path', 'Protocol', 'Port', 'Query', 'Host', 'StatusCode'
+              when 'Path', 'Protocol', 'Port', 'Query', 'Host', 'StatusCode', 'ContentType',
+                   'MessageBody', 'StatusCode'
                 @config[name] = value
-              when 'RedirectConfig', 'ForwardConfig'
+              when 'RedirectConfig', 'ForwardConfig', 'FixedResponseConfig'
                 @default_action[name] = @config
                 @config = {}
               when 'DurationSeconds', 'Enabled'
