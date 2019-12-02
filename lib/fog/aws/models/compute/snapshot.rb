@@ -7,12 +7,13 @@ module Fog
         attribute :description
         attribute :encrypted
         attribute :progress
-        attribute :created_at,  :aliases => 'startTime'
-        attribute :owner_id,    :aliases => 'ownerId'
-        attribute :state,       :aliases => 'status'
-        attribute :tags,        :aliases => 'tagSet'
-        attribute :volume_id,   :aliases => 'volumeId'
-        attribute :volume_size, :aliases => 'volumeSize'
+        attribute :created_at,     :aliases => 'startTime'
+        attribute :owner_id,       :aliases => 'ownerId'
+        attribute :state,          :aliases => 'status'
+        attribute :tags,           :aliases => 'tagSet'
+        attribute :volume_id,      :aliases => 'volumeId'
+        attribute :volume_size,    :aliases => 'volumeSize'
+        attribute :status_message, :aliases => 'statusMessage'
 
         def destroy
           requires :id
