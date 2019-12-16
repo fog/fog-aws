@@ -1027,11 +1027,31 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
+          :id                      => "r5a.8xlarge",
+          :name                    => "R5 (AMD) Eight Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 274876,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
           :id                      => "r5a.12xlarge",
           :name                    => "R5 (AMD) Twelve Extra Large",
           :bits                    => 64,
           :cores                   => 48,
           :ram                     => 412316,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r5a.16xlarge",
+          :name                    => "R5 (AMD) Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 549752,
           :disk                    => 0,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
