@@ -11,5 +11,13 @@ Shindo.tests('AWS::ELBV2 | load_balancer_tests', ['aws', 'elb']) do
       }
       Fog::AWS[:elbv2].create_load_balancer(@load_balancer_id, options).body
     end
+
+    tests("#describe_load_balancers").formats(AWS::ELBV2::Formats::DESCRIBE_LOAD_BALANCERS) do
+      Fog::AWS[:elbv2].describe_load_balancers.body
+    end
+
+    tests('#describe_load_balancers with bad name') do
+      raises(Fog::AWS::ELBV2::NotFound) { Fog::AWS[:elbv2].describe_load_balancers('LoadBalancerNames' => 'none-such-lb') }
+    end
   end
 end

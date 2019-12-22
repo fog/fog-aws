@@ -47,6 +47,54 @@ module Fog
           }.merge!(options))
         end
       end
+
+      class Mock
+        def describe_load_balancers(options = {})
+          unless options.is_a?(Hash)
+            Fog::Logger.deprecation("describe_load_balancers with #{options.class} is deprecated, use all('LoadBalancerNames' => []) instead [light_black](#{caller.first})[/]")
+            options = { 'LoadBalancerNames' => [options].flatten }
+          end
+
+          lb_names = options['LoadBalancerNames'] || []
+
+          lb_names = [*lb_names]
+          load_balancers = if lb_names.any?
+            lb_names.map do |lb_name|
+              lb = self.data[:load_balancers_v2].find { |name, data| name == lb_name }
+              raise Fog::AWS::ELBV2::NotFound unless lb
+              lb[1].dup
+            end.compact
+          else
+            self.data[:load_balancers_v2].map { |lb, values| values.dup }
+          end
+
+          marker = options.fetch('Marker', 0).to_i
+          if load_balancers.count - marker > 400
+            next_marker = marker + 400
+            load_balancers = load_balancers[marker...next_marker]
+          else
+            next_marker = nil
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+
+          response.body = {
+            'ResponseMetadata' => {
+              'RequestId' => Fog::AWS::Mock.request_id
+            },
+            'DescribeLoadBalancersResult' => {
+              'LoadBalancers' => load_balancers
+            }
+          }
+
+          if next_marker
+            response.body['DescribeLoadBalancersResult']['NextMarker'] = next_marker.to_s
+          end
+
+          response
+        end
+      end
     end
   end
 end
