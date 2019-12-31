@@ -27,7 +27,7 @@ class AWS
       })
 
       CREATE_LOAD_BALANCER = BASIC.merge({
-        'CreateLoadBalancerResult' => {'LoadBalancers' => [LOAD_BALANCER], 'NextMarker' => Fog::Nullable::String}
+        'CreateLoadBalancerResult' => {'LoadBalancers' => [LOAD_BALANCER]}
       })
 
       LISTENER_DEFAULT_ACTIONS = [{
