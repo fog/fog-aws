@@ -102,6 +102,7 @@ module Fog
 
           dns_name = Fog::AWS::ELBV2::Mock.dns_name(name, @region)
           type = options[:type] || 'application'
+          load_balancer_arn = Fog::AWS::Mock.arn('elasticloadbalancing', self.data[:owner_id], "loadbalancer/#{type[0..2]}/#{name}/#{Fog::AWS::Mock.key_id}")
 
           subnet_ids = options[:subnets] || []
           region = if subnet_ids.any?
@@ -126,7 +127,7 @@ module Fog
           vpc_id = subnets.first['vpcId']
 
           self.data[:tags] ||= {}
-          self.data[:tags][name] = options[:tags] || {}
+          self.data[:tags][load_balancer_arn] = options[:tags] || {}
 
           load_balancer = {
             'AvailabilityZones' => availability_zones || [],
@@ -138,10 +139,10 @@ module Fog
             'VpcId' => vpc_id,
             'Type' => type,
             'State' => {'Code' => 'provisioning'},
-            'LoadBalancerArn' => Fog::AWS::Mock.arn('elasticloadbalancing', self.data[:owner_id], "loadbalancer/#{type[0..2]}/#{name}/#{Fog::AWS::Mock.key_id}"),
+            'LoadBalancerArn' => load_balancer_arn,
             'LoadBalancerName' => name
           }
-          self.data[:load_balancers_v2][name] = load_balancer
+          self.data[:load_balancers_v2][load_balancer_arn] = load_balancer
           response.body = {
             'ResponseMetadata' => {
               'RequestId' => Fog::AWS::Mock.request_id

@@ -5,7 +5,10 @@ module Fog
       recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :version, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/elbv2'
+      request :add_tags
       request :create_load_balancer
+      request :describe_tags
+      request :remove_tags
       request :describe_load_balancers
       request :describe_listeners
 

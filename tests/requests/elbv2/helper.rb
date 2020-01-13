@@ -52,6 +52,15 @@ class AWS
       DESCRIBE_LISTENERS = BASIC.merge({
         'DescribeListenersResult' => {'Listeners' => [LISTENER], 'NextMarker' => Fog::Nullable::String}
       })
+
+      TAG_DESCRIPTIONS = [{
+        "Tags" => Hash,
+        "ResourceArn" => String
+      }]
+
+      DESCRIBE_TAGS = BASIC.merge({
+        'DescribeTagsResult' => {'TagDescriptions' => TAG_DESCRIPTIONS}
+      })
     end
   end
 end
