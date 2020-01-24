@@ -52,8 +52,12 @@ module Fog
                 end
               when 'groups'
                 @in_groups = false
-              when 'groupDescription', 'ownerId', 'vpcId'
+              when 'groupDescription', 'ownerId'
                 @security_group[name] = value
+              when 'vpcId'
+                unless @in_ip_permissions_egress || @in_ip_permissions
+                  @security_group[name] = value
+                end
               when 'groupId','groupName'
                 if @in_groups
                   @group[name] = value
