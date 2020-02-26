@@ -2,7 +2,7 @@ module Fog
   module Parsers
     module AWS
       module STS
-        class AssumeRoleWithWithWebIdentity < Fog::Parsers::Base
+        class AssumeRoleWithWebIdentity < Fog::Parsers::Base
           def reset
             @response = {}
           end
