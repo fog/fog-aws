@@ -6,12 +6,13 @@ module Fog
 
         def assume_role_with_web_identity(role_arn, web_identity_token, role_session_name, options={})
           request_unsigned(
-            'Action'          => 'AssumeRoleWithWebIdentity',
-            'RoleArn'         => role_arn,
-            'RoleSessionName' => role_session_name,
-            'DurationSeconds' => options[:duration] || 3600,
-            :idempotent       => true,
-            :parser           => Fog::Parsers::AWS::STS::AssumeRoleWithWebIdentity.new
+            'Action'            => 'AssumeRoleWithWebIdentity',
+            'RoleArn'           => role_arn,
+            'RoleSessionName'   => role_session_name,
+            'WebIdentityToken'  => web_identity_token,
+            'DurationSeconds'   => options[:duration] || 3600,
+            :idempotent         => true,
+            :parser             => Fog::Parsers::AWS::STS::AssumeRoleWithWebIdentity.new
           )
         end
       end
