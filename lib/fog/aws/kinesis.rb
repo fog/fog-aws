@@ -125,23 +125,26 @@ module Fog
       end
 
       class Mock
-        def self.mutex
-          @mutex ||= Mutex.new
-        end
-        def mutex; self.class.mutex; end
+        @mutex = Mutex.new
 
         def self.data
-          @data ||= Hash.new do |hash, region|
-            hash[region] = Hash.new do |region_hash, key|
-              region_hash[key] = {
-                :kinesis_streams => {}
-              }
+          @mutex.synchronize do
+            @data ||= Hash.new do |hash, region|
+              hash[region] = Hash.new do |region_hash, key|
+                region_hash[key] = {
+                  :kinesis_streams => {}
+                }
+              end
             end
+            
+            yield @data if block_given?
           end
         end
 
         def self.reset
-          @data = nil
+          @mutex.synchronize do
+            @data = nil
+          end
         end
 
         def initialize(options={})
@@ -153,31 +156,36 @@ module Fog
         end
 
         def data
-          self.class.data[@region][@aws_access_key_id]
+          self.class.data do |data|
+            data[@region][@aws_access_key_id]
+          end
         end
 
         def reset_data
-          self.class.data[@region].delete(@aws_access_key_id)
+          self.class.data do |data|
+            data[@region].delete(@aws_access_key_id)
+          end
         end
 
         def self.next_sequence_number
-          mutex.synchronize do
+          @mutex.synchronize do
             @sequence_number ||= -1
             @sequence_number += 1
             @sequence_number.to_s
           end
         end
+        
         def next_sequence_number; self.class.next_sequence_number; end
 
         def self.next_shard_id
-          mutex.synchronize do
+          @mutex.synchronize do
             @shard_id ||= -1
             @shard_id += 1
             "shardId-#{@shard_id.to_s.rjust(12, "0")}"
           end
         end
+        
         def next_shard_id; self.class.next_shard_id; end
-
       end
 
     end
