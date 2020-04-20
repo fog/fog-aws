@@ -1276,6 +1276,16 @@ module Fog
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
         },
+	{
+          :id                      => 'r5.8xlarge',
+          :name                    => 'R5 Eight Extra Large',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 0,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
         {
           :id                      => "r5.8xlarge",
           :name                    => "R5 Octuple Extra Large",
@@ -1292,6 +1302,16 @@ module Fog
           :bits                    => 64,
           :cores                   => 48,
           :ram                     => 412316,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+	{
+          :id                      => "r5.12xlarge",
+          :name                    => "R5 Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 549756,
           :disk                    => 0,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
