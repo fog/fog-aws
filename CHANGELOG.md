@@ -1,5 +1,35 @@
 # Change Log
 
+## [v3.6.2](https://github.com/fog/fog-aws/tree/v3.6.2) (2020-03-24)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.5.2...v3.6.2)
+
+**Closed issues:**
+
+- config.assets.prefix is being looked at as a bucket name [\#551](https://github.com/fog/fog-aws/issues/551)
+- Class name typo: AssumeRoleWithWithWebIdentity [\#548](https://github.com/fog/fog-aws/issues/548)
+- filename too long [\#544](https://github.com/fog/fog-aws/issues/544)
+
+**Merged pull requests:**
+
+- Adding two missing regions to Fog::AWS.regions [\#552](https://github.com/fog/fog-aws/pull/552) ([lvangool](https://github.com/lvangool))
+- Adds missing param WebIdentityToken for the request to the AWS api [\#550](https://github.com/fog/fog-aws/pull/550) ([dgoradia](https://github.com/dgoradia))
+- Fixes type in class name for STS assume\_role\_with\_web\_identity parser [\#549](https://github.com/fog/fog-aws/pull/549) ([dgoradia](https://github.com/dgoradia))
+- Add missing AWS flavors [\#547](https://github.com/fog/fog-aws/pull/547) ([ybart](https://github.com/ybart))
+- Update elasticache mocking regions [\#545](https://github.com/fog/fog-aws/pull/545) ([yads](https://github.com/yads))
+- Feature/elbv2 creation endpoint [\#542](https://github.com/fog/fog-aws/pull/542) ([KevinLoiseau](https://github.com/KevinLoiseau))
+- Fix/sd 8581/retrieve provider snapshot status from provider [\#541](https://github.com/fog/fog-aws/pull/541) ([toubs13](https://github.com/toubs13))
+- Fix/missing implementation in listener parser [\#540](https://github.com/fog/fog-aws/pull/540) ([KevinLoiseau](https://github.com/KevinLoiseau))
+- Enhance/elbv2 tag endpoints [\#539](https://github.com/fog/fog-aws/pull/539) ([KevinLoiseau](https://github.com/KevinLoiseau))
+- Improve documentation and development setup [\#538](https://github.com/fog/fog-aws/pull/538) ([gustavosobral](https://github.com/gustavosobral))
+- Add object tagging [\#537](https://github.com/fog/fog-aws/pull/537) ([gustavosobral](https://github.com/gustavosobral))
+- Fix load balancers parser to handle more than one availability zone with addresses [\#536](https://github.com/fog/fog-aws/pull/536) ([KevinLoiseau](https://github.com/KevinLoiseau))
+- Remove useless attribute location from directory model [\#535](https://github.com/fog/fog-aws/pull/535) ([KevinLoiseau](https://github.com/KevinLoiseau))
+- Create service ELBV2 to handle specificities of 2015-12-01 API version [\#534](https://github.com/fog/fog-aws/pull/534) ([KevinLoiseau](https://github.com/KevinLoiseau))
+- Add missing m5a flavors [\#533](https://github.com/fog/fog-aws/pull/533) ([ybart](https://github.com/ybart))
+- Enhance/add some attributes to hosted zone parsers [\#531](https://github.com/fog/fog-aws/pull/531) ([KevinLoiseau](https://github.com/KevinLoiseau))
+- Fix VPC tenancy on creation [\#530](https://github.com/fog/fog-aws/pull/530) ([ramonpm](https://github.com/ramonpm))
+- Fix subnet's parsings [\#529](https://github.com/fog/fog-aws/pull/529) ([KevinLoiseau](https://github.com/KevinLoiseau))
+
 ## [v3.5.2](https://github.com/fog/fog-aws/tree/v3.5.2) (2019-07-16)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.5.1...v3.5.2)
 
@@ -12,7 +42,7 @@
 
 - Add ap-east-1 \(Hong Kong\) to Fog::AWS.regions [\#528](https://github.com/fog/fog-aws/pull/528) ([tisba](https://github.com/tisba))
 - Update shared\_mock\_methods.rb [\#526](https://github.com/fog/fog-aws/pull/526) ([MiWieczo](https://github.com/MiWieczo))
-- WIP: Make S3 Signature v4 streaming optional [\#525](https://github.com/fog/fog-aws/pull/525) ([stanhu](https://github.com/stanhu))
+- Make S3 Signature v4 streaming optional [\#525](https://github.com/fog/fog-aws/pull/525) ([stanhu](https://github.com/stanhu))
 
 ## [v3.5.1](https://github.com/fog/fog-aws/tree/v3.5.1) (2019-06-10)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.5.0...v3.5.1)
