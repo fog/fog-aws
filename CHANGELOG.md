@@ -1,5 +1,14 @@
 # Change Log
 
+## [v3.6.3](https://github.com/fog/fog-aws/tree/v3.6.3) (2020-04-22)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.6.2...v3.6.3)
+
+**Merged pull requests:**
+
+- Add South Africa \(Cape Town\) Region [\#556](https://github.com/fog/fog-aws/pull/556) ([lvangool](https://github.com/lvangool))
+- Adds Instance Type r5.16xlarge and r5.8xlarge [\#555](https://github.com/fog/fog-aws/pull/555) ([rupikakapoor](https://github.com/rupikakapoor))
+- Update kinesis.rb [\#553](https://github.com/fog/fog-aws/pull/553) ([ioquatix](https://github.com/ioquatix))
+
 ## [v3.6.2](https://github.com/fog/fog-aws/tree/v3.6.2) (2020-03-24)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.5.2...v3.6.2)
 
