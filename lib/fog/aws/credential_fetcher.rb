@@ -3,6 +3,7 @@ module Fog
     module CredentialFetcher
 
       INSTANCE_METADATA_HOST = "http://169.254.169.254"
+      INSTANCE_METADATA_TOKEN = "/latest/api/token"
       INSTANCE_METADATA_PATH = "/latest/meta-data/iam/security-credentials/"
       INSTANCE_METADATA_AZ = "/latest/meta-data/placement/availability-zone/"
 
@@ -25,13 +26,17 @@ module Fog
 
                 if region.nil?
                   connection = options[:metadata_connection] || Excon.new(INSTANCE_METADATA_HOST)
-                  region = connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200).body[0..-2]
+                  token = connection.put(:path => INSTANCE_METADATA_TOKEN, :idempotent => true, :expects => 200, :headers => { "X-aws-ec2-metadata-token-ttl-seconds" => "300" }).body
+                  token_header = { "X-aws-ec2-metadata-token" => token }
+                  region = connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200, :headers => token_header).body[0..-2]
                 end
               else
                 connection = options[:connection] || Excon.new(INSTANCE_METADATA_HOST)
-                role_name = connection.get(:path => INSTANCE_METADATA_PATH, :idempotent => true, :expects => 200).body
-                role_data = connection.get(:path => INSTANCE_METADATA_PATH+role_name, :idempotent => true, :expects => 200).body
-                region ||= connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200).body[0..-2]
+                token = connection.put(:path => INSTANCE_METADATA_TOKEN, :idempotent => true, :expects => 200, :headers => { "X-aws-ec2-metadata-token-ttl-seconds" => "300" }).body
+                token_header = { "X-aws-ec2-metadata-token" => token }
+                role_name = connection.get(:path => INSTANCE_METADATA_PATH, :idempotent => true, :expects => 200, :headers => token_header).body
+                role_data = connection.get(:path => INSTANCE_METADATA_PATH+role_name, :idempotent => true, :expects => 200, :headers => token_header).body
+                region ||= connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200, :headers => token_header).body[0..-2]
               end
 
               session = Fog::JSON.decode(role_data)
