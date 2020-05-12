@@ -7,6 +7,8 @@ Shindo.tests('AWS | credentials', ['aws']) do
   Fog.unmock!
   begin
     Excon.defaults[:mock] = true
+    Excon.stub({ method: :put, path: '/latest/api/token' }, { status: 200, body: 'token1234' })
+
     Excon.stub({ method: :get, path: '/latest/meta-data/iam/security-credentials/' }, { status: 200, body: 'arole' })
     Excon.stub({ method: :get, path: '/latest/meta-data/placement/availability-zone/' }, { status: 200, body: 'us-west-1a' })
 
@@ -62,6 +64,7 @@ Shindo.tests('AWS | credentials', ['aws']) do
 
     default_credentials = Fog::AWS::Compute.fetch_credentials({})
     tests('#fetch_credentials when the url 404s') do
+      Excon.stub({ method: :put, path: '/latest/api/token' }, { status: 404, body: 'not found' })
       Excon.stub({ method: :get, path: '/latest/meta-data/iam/security-credentials/' }, { status: 404, body: 'not bound' })
       Excon.stub({ method: :get, path: '/latest/meta-data/placement/availability-zone/' }, { status: 400, body: 'not found' })
       returns(default_credentials) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
