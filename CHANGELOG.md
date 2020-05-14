@@ -1,5 +1,17 @@
 # Change Log
 
+## [v3.6.4](https://github.com/fog/fog-aws/tree/v3.6.4) (2020-05-14)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.6.3...v3.6.4)
+
+**Closed issues:**
+
+- Is fog-aws compatible with AWS Trust Services? [\#558](https://github.com/fog/fog-aws/issues/558)
+
+**Merged pull requests:**
+
+- Add support for IMDSv2 in CredentialFetcher [\#559](https://github.com/fog/fog-aws/pull/559) ([atyndall](https://github.com/atyndall))
+- Don’t install development scripts [\#557](https://github.com/fog/fog-aws/pull/557) ([amarshall](https://github.com/amarshall))
+
 ## [v3.6.3](https://github.com/fog/fog-aws/tree/v3.6.3) (2020-04-22)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.6.2...v3.6.3)
 
