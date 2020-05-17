@@ -26,14 +26,12 @@ module Fog
 
                 if region.nil?
                   connection = options[:metadata_connection] || Excon.new(INSTANCE_METADATA_HOST)
-                  token = connection.put(:path => INSTANCE_METADATA_TOKEN, :idempotent => true, :expects => 200, :headers => { "X-aws-ec2-metadata-token-ttl-seconds" => "300" }).body
-                  token_header = { "X-aws-ec2-metadata-token" => token }
+                  token_header = fetch_credentials_token_header(connection, options[:disable_imds_v2])
                   region = connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200, :headers => token_header).body[0..-2]
                 end
               else
                 connection = options[:connection] || Excon.new(INSTANCE_METADATA_HOST)
-                token = connection.put(:path => INSTANCE_METADATA_TOKEN, :idempotent => true, :expects => 200, :headers => { "X-aws-ec2-metadata-token-ttl-seconds" => "300" }).body
-                token_header = { "X-aws-ec2-metadata-token" => token }
+                token_header = fetch_credentials_token_header(connection, options[:disable_imds_v2])
                 role_name = connection.get(:path => INSTANCE_METADATA_PATH, :idempotent => true, :expects => 200, :headers => token_header).body
                 role_data = connection.get(:path => INSTANCE_METADATA_PATH+role_name, :idempotent => true, :expects => 200, :headers => token_header).body
                 region ||= connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200, :headers => token_header).body[0..-2]
@@ -57,6 +55,23 @@ module Fog
           else
             super
           end
+        end
+
+        def fetch_credentials_token_header(connection, disable_imds_v2)
+          return nil if disable_imds_v2
+
+          token = connection.put(
+            :path => INSTANCE_METADATA_TOKEN,
+            :idempotent => true,
+            :expects => 200,
+            :retry_interval => 1,
+            :retry_limit => 3,
+            :headers => { "X-aws-ec2-metadata-token-ttl-seconds" => "300" }
+          ).body
+
+          { "X-aws-ec2-metadata-token" => token }
+        rescue Excon::Error
+          nil
         end
       end
 

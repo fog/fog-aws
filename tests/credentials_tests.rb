@@ -30,6 +30,23 @@ Shindo.tests('AWS | credentials', ['aws']) do
               aws_credentials_expire_at: expires_at) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
     end
 
+    tests('#fetch_credentials when the v2 token 404s') do
+      Excon.stub({ method: :put, path: '/latest/api/token' }, { status: 404, body: 'not found' })
+      returns(aws_access_key_id: 'dummykey',
+              aws_secret_access_key: 'dummysecret',
+              aws_session_token: 'dummytoken',
+              region: 'us-west-1',
+              aws_credentials_expire_at: expires_at) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
+    end
+
+    tests('#fetch_credentials when the v2 disabled') do
+      returns(aws_access_key_id: 'dummykey',
+              aws_secret_access_key: 'dummysecret',
+              aws_session_token: 'dummytoken',
+              region: 'us-west-1',
+              aws_credentials_expire_at: expires_at) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true, disable_imds_v2: true) }
+    end
+
     ENV['AWS_CONTAINER_CREDENTIALS_RELATIVE_URI'] = '/v1/credentials?id=task_id'
     Excon.stub({ method: :get, path: '/v1/credentials?id=task_id' }, { status: 200, body: Fog::JSON.encode(credentials) })
 
