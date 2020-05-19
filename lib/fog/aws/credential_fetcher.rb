@@ -66,6 +66,9 @@ module Fog
             :expects => 200,
             :retry_interval => 1,
             :retry_limit => 3,
+            :read_timeout => 1,
+            :write_timeout => 1,
+            :connect_timeout => 1,
             :headers => { "X-aws-ec2-metadata-token-ttl-seconds" => "300" }
           ).body
 
