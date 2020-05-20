@@ -68,7 +68,7 @@ module Fog
         },
         {
           :id                      => 't1.micro',
-          :name                    => 'Micro Instance',
+          :name                    => 'T1 Micro Instance',
           :bits                    => 32,
           :cores                   => 1,
           :disk                    => 0,
@@ -88,7 +88,7 @@ module Fog
         },
         {
           :id                      => 't2.micro',
-          :name                    => 'Micro Instance',
+          :name                    => 'T2 Micro Instance',
           :bits                    => 64,
           :cores                   => 1,
           :disk                    => 0,
@@ -98,7 +98,7 @@ module Fog
         },
         {
           :id                      => 't2.small',
-          :name                    => 'Small Instance',
+          :name                    => 'T2 Small Instance',
           :bits                    => 64,
           :cores                   => 1,
           :disk                    => 0,
@@ -108,7 +108,7 @@ module Fog
         },
         {
           :id                      => 't2.medium',
-          :name                    => 'Medium Instance',
+          :name                    => 'T2 Medium Instance',
           :bits                    => 64,
           :cores                   => 2,
           :disk                    => 0,
@@ -118,7 +118,7 @@ module Fog
         },
         {
           :id                      => 't2.large',
-          :name                    => 'Large Instance',
+          :name                    => 'T2 Large Instance',
           :bits                    => 64,
           :cores                   => 2,
           :disk                    => 0,
@@ -128,7 +128,7 @@ module Fog
         },
         {
           :id                      => 't2.xlarge',
-          :name                    => 'Extra Large Instance',
+          :name                    => 'T2 Extra Large Instance',
           :bits                    => 64,
           :cores                   => 4,
           :disk                    => 0,
@@ -138,7 +138,7 @@ module Fog
         },
         {
           :id                      => 't2.2xlarge',
-          :name                    => 'Double Extra Large Instance',
+          :name                    => 'T2 Double Extra Large Instance',
           :bits                    => 64,
           :cores                   => 8,
           :disk                    => 0,
@@ -368,7 +368,7 @@ module Fog
         },
         {
           :id                      => 'm1.small',
-          :name                    => 'Small Instance',
+          :name                    => 'M1 Small Instance',
           :bits                    => 32,
           :cores                   => 1,
           :disk                    => 160,
@@ -378,7 +378,7 @@ module Fog
         },
         {
           :id                      => 'm1.medium',
-          :name                    => 'Medium Instance',
+          :name                    => 'M1 Medium Instance',
           :bits                    => 32,
           :cores                   => 1,
           :disk                    => 400,
@@ -388,7 +388,7 @@ module Fog
         },
         {
           :id                      => 'm1.large',
-          :name                    => 'Large Instance',
+          :name                    => 'M1 Large Instance',
           :bits                    => 64,
           :cores                   => 2,
           :disk                    => 850,
@@ -398,7 +398,7 @@ module Fog
         },
         {
           :id                      => 'm1.xlarge',
-          :name                    => 'Extra Large Instance',
+          :name                    => 'M1 Extra Large Instance',
           :bits                    => 64,
           :cores                   => 4,
           :disk                    => 1690,
@@ -1276,16 +1276,6 @@ module Fog
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
         },
-	{
-          :id                      => 'r5.8xlarge',
-          :name                    => 'R5 Eight Extra Large',
-          :bits                    => 64,
-          :cores                   => 32,
-          :disk                    => 0,
-          :ram                     => 274878,
-          :ebs_optimized_available => true,
-          :instance_store_volumes  => 0
-        },
         {
           :id                      => "r5.8xlarge",
           :name                    => "R5 Octuple Extra Large",
@@ -1302,16 +1292,6 @@ module Fog
           :bits                    => 64,
           :cores                   => 48,
           :ram                     => 412316,
-          :disk                    => 0,
-          :ebs_optimized_available => true,
-          :instance_store_volumes  => 0
-        },
-	{
-          :id                      => "r5.12xlarge",
-          :name                    => "R5 Sixteen Extra Large",
-          :bits                    => 64,
-          :cores                   => 64,
-          :ram                     => 549756,
           :disk                    => 0,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
@@ -1798,7 +1778,7 @@ module Fog
         },
         {
           :id                      => "u-6tb1.metal",
-          :name                    => "X1e Sixteen Extra Large",
+          :name                    => "U 6TB Metal",
           :bits                    => 64,
           :cores                   => 448,
           :ram                     => 6597071,
