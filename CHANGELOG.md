@@ -1,5 +1,19 @@
 # Change Log
 
+## [v3.6.5](https://github.com/fog/fog-aws/tree/v3.6.5) (2020-05-22)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.6.4...v3.6.5)
+
+**Closed issues:**
+
+- Fog::Compute::AWS is deprecated, please use Fog::AWS::Compute warning [\#565](https://github.com/fog/fog-aws/issues/565)
+- Duplicate compute flavours [\#563](https://github.com/fog/fog-aws/issues/563)
+- 3.6.4 does not fetch iam credentials using IMDSv2 when running from inside containers with IMDSv2 Defaults [\#560](https://github.com/fog/fog-aws/issues/560)
+
+**Merged pull requests:**
+
+- Fix naming of various AWS compute flavors [\#564](https://github.com/fog/fog-aws/pull/564) ([abrom](https://github.com/abrom))
+- Gracefully handle failure of IMDSv2 and allow fallback to IMDSv1 [\#562](https://github.com/fog/fog-aws/pull/562) ([atyndall](https://github.com/atyndall))
+
 ## [v3.6.4](https://github.com/fog/fog-aws/tree/v3.6.4) (2020-05-14)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.6.3...v3.6.4)
 
@@ -427,6 +441,7 @@
 - Expanding IAM support [\#274](https://github.com/fog/fog-aws/pull/274) ([MrPrimate](https://github.com/MrPrimate))
 - Rds snapshot improvements [\#269](https://github.com/fog/fog-aws/pull/269) ([tekken](https://github.com/tekken))
 - add default region to use\_iam\_profile [\#268](https://github.com/fog/fog-aws/pull/268) ([shaiguitar](https://github.com/shaiguitar))
+- autoscaler attach/detatch [\#229](https://github.com/fog/fog-aws/pull/229) ([shaiguitar](https://github.com/shaiguitar))
 
 ## [v0.9.4](https://github.com/fog/fog-aws/tree/v0.9.4) (2016-06-28)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.9.3...v0.9.4)
@@ -480,10 +495,6 @@
 
 ## [v0.8.2](https://github.com/fog/fog-aws/tree/v0.8.2) (2016-03-04)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.9.0...v0.8.2)
-
-**Merged pull requests:**
-
-- autoscaler attach/detatch [\#229](https://github.com/fog/fog-aws/pull/229) ([shaiguitar](https://github.com/shaiguitar))
 
 ## [v0.9.0](https://github.com/fog/fog-aws/tree/v0.9.0) (2016-03-03)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.8.1...v0.9.0)
