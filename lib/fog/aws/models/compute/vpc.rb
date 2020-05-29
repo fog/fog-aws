@@ -39,7 +39,7 @@ module Fog
         end
 
         def is_default?
-          require :is_default
+          requires :is_default
           is_default
         end
 
