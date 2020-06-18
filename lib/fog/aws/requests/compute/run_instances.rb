@@ -30,6 +30,8 @@ module Fog
         #     * 'Ebs.Encrypted'<~Boolean> - specifies whether or not the volume is to be encrypted unless snapshot is specified
         #     * 'Ebs.VolumeType'<~String> - Type of EBS volue. Valid options in ['standard', 'io1'] default is 'standard'.
         #     * 'Ebs.Iops'<~String> - The number of I/O operations per second (IOPS) that the volume supports. Required when VolumeType is 'io1'
+        #   * 'HibernationOptions'<~Array>: array of hashes
+        #     * 'Configured'<~Boolean> - specifies whether or not the instance is configued for hibernation.  This parameter is valid only if the instance meets the hibernation prerequisites.  
         #   * 'NetworkInterfaces'<~Array>: array of hashes
         #     * 'NetworkInterfaceId'<~String> - An existing interface to attach to a single instance
         #     * 'DeviceIndex'<~String> - The device index. Applies both to attaching an existing network interface and creating a network interface
@@ -75,6 +77,8 @@ module Fog
         #           * 'deviceName'<~String> - specifies how volume is exposed to instance
         #           * 'status'<~String> - status of attached volume
         #           * 'volumeId'<~String> - Id of attached volume
+        #         * 'hibernationOptions'<~Array>
+        #           * 'configured'<~Boolean> - whether or not the instance is enabled for hibernation               
         #         * 'dnsName'<~String> - public dns name, blank until instance is running
         #         * 'imageId'<~String> - image id of ami used to launch instance
         #         * 'instanceId'<~String> - id of the instance
@@ -108,6 +112,13 @@ module Fog
             block_device_mapping.each_with_index do |mapping, index|
               for key, value in mapping
                 options.merge!({ format("BlockDeviceMapping.%d.#{key}", index) => value })
+              end
+            end
+          end
+          if hibernation_options = options.delete('HibernationOptions')
+            hibernation_options.each_with_index do |mapping, index|
+              for key, value in mapping
+                options.merge!({ format("HibernationOptions.%d.#{key}", index) => value })
               end
             end
           end
@@ -221,6 +232,7 @@ module Fog
               'associatePublicIP'     => options['associatePublicIP'] || false,
               'architecture'          => 'i386',
               'blockDeviceMapping'    => block_device_mapping,
+              'hibernationOptions'    => hibernation_options,
               'networkInterfaces'     => network_interfaces,
               'clientToken'           => options['clientToken'],
               'dnsName'               => nil,

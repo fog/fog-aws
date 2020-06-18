@@ -14,6 +14,7 @@ module Fog
         attribute :associate_public_ip,      :aliases => 'associatePublicIP'
         attribute :availability_zone,        :aliases => 'availabilityZone'
         attribute :block_device_mapping,     :aliases => 'blockDeviceMapping'
+        attribute :hibernation_options,      :aliases => 'hibernationOptions'
         attribute :network_interfaces,       :aliases => 'networkInterfaces'
         attribute :client_token,             :aliases => 'clientToken'
         attribute :disable_api_termination,  :aliases => 'disableApiTermination'
@@ -144,6 +145,7 @@ module Fog
 
           options = {
             'BlockDeviceMapping'          => block_device_mapping,
+            'HibernationOptions'          => hibernation_options,
             'NetworkInterfaces'           => network_interfaces,
             'ClientToken'                 => client_token,
             'DisableApiTermination'       => disable_api_termination,
@@ -227,9 +229,9 @@ module Fog
           true
         end
 
-        def stop(force = false)
+        def stop(options = {})
           requires :id
-          service.stop_instances(id, force)
+          service.stop_instances(id, options)
           true
         end
 
