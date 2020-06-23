@@ -1,5 +1,19 @@
 # Change Log
 
+## [v3.6.6](https://github.com/fog/fog-aws/tree/v3.6.6) (2020-06-23)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.6.5...v3.6.6)
+
+**Closed issues:**
+
+- max\_keys param in storage.directories.get.... what am I missing? [\#568](https://github.com/fog/fog-aws/issues/568)
+- Fog Logs? [\#561](https://github.com/fog/fog-aws/issues/561)
+
+**Merged pull requests:**
+
+- added missing region EU South \(Milan\) [\#570](https://github.com/fog/fog-aws/pull/570) ([saldan](https://github.com/saldan))
+- hibernation option to compute [\#569](https://github.com/fog/fog-aws/pull/569) ([taniahagan](https://github.com/taniahagan))
+- Fix VPC model is\_default requires [\#567](https://github.com/fog/fog-aws/pull/567) ([biinari](https://github.com/biinari))
+
 ## [v3.6.5](https://github.com/fog/fog-aws/tree/v3.6.5) (2020-05-22)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.6.4...v3.6.5)
 
@@ -441,7 +455,6 @@
 - Expanding IAM support [\#274](https://github.com/fog/fog-aws/pull/274) ([MrPrimate](https://github.com/MrPrimate))
 - Rds snapshot improvements [\#269](https://github.com/fog/fog-aws/pull/269) ([tekken](https://github.com/tekken))
 - add default region to use\_iam\_profile [\#268](https://github.com/fog/fog-aws/pull/268) ([shaiguitar](https://github.com/shaiguitar))
-- autoscaler attach/detatch [\#229](https://github.com/fog/fog-aws/pull/229) ([shaiguitar](https://github.com/shaiguitar))
 
 ## [v0.9.4](https://github.com/fog/fog-aws/tree/v0.9.4) (2016-06-28)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.9.3...v0.9.4)
@@ -495,6 +508,10 @@
 
 ## [v0.8.2](https://github.com/fog/fog-aws/tree/v0.8.2) (2016-03-04)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.9.0...v0.8.2)
+
+**Merged pull requests:**
+
+- autoscaler attach/detatch [\#229](https://github.com/fog/fog-aws/pull/229) ([shaiguitar](https://github.com/shaiguitar))
 
 ## [v0.9.0](https://github.com/fog/fog-aws/tree/v0.9.0) (2016-03-03)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.8.1...v0.9.0)
@@ -599,10 +616,6 @@
 ## [v0.7.4](https://github.com/fog/fog-aws/tree/v0.7.4) (2015-07-30)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.7.3...v0.7.4)
 
-**Fixed bugs:**
-
-- Route53 zone listing fix and support for private hosted zones [\#154](https://github.com/fog/fog-aws/pull/154) ([solud](https://github.com/solud))
-
 **Merged pull requests:**
 
 - AutoScaling attach/detach ELB support + tests [\#156](https://github.com/fog/fog-aws/pull/156) ([nbfowler](https://github.com/nbfowler))
@@ -639,6 +652,10 @@
 
 ## [v0.7.0](https://github.com/fog/fog-aws/tree/v0.7.0) (2015-07-07)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.6.0...v0.7.0)
+
+**Fixed bugs:**
+
+- Route53 zone listing fix and support for private hosted zones [\#154](https://github.com/fog/fog-aws/pull/154) ([solud](https://github.com/solud))
 
 **Closed issues:**
 
