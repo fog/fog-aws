@@ -16,9 +16,17 @@ module Fog
         #     * TODO: fill in the blanks
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-StopInstances.html]
-        def stop_instances(instance_id, force = false)
+        def stop_instances(instance_id, options = {})
           params = Fog::AWS.indexed_param('InstanceId', instance_id)
-          params.merge!('Force' => 'true') if force
+          unless options.is_a?(Hash)
+            Fog::Logger.warning("stop_instances with #{options.class} param is deprecated, use stop_instances('force' => boolean) instead [light_black](#{caller.first})[/]")
+            options = {'force' => options}
+          end
+          params.merge!('Force' => 'true') if options['force']
+          if options['hibernate']
+            params.merge!('Hibernate' => 'true')
+            params.merge!('Force' => 'false')
+          end
           request({
             'Action'    => 'StopInstances',
             :idempotent => true,
@@ -28,7 +36,7 @@ module Fog
       end
 
       class Mock
-        def stop_instances(instance_id, force = false)
+        def stop_instances(instance_id, options = {})
           instance_ids = Array(instance_id)
 
           instance_set = self.data[:instances].values
