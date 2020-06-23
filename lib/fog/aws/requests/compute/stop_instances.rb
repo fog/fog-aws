@@ -36,7 +36,7 @@ module Fog
       end
 
       class Mock
-        def stop_instances(instance_id, force = false)
+        def stop_instances(instance_id, options = {})
           instance_ids = Array(instance_id)
 
           instance_set = self.data[:instances].values

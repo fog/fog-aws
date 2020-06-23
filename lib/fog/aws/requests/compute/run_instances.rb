@@ -193,6 +193,14 @@ module Fog
               }
             end
 
+	    hibernation_options = (options['HibernationOptions'] || []).reduce([]) do |mapping, device|
+              configure = device.fetch("Configure", true)
+
+              mapping << {
+                "Configure" => configure,
+              }
+            end
+
             if options['SubnetId']
               if options['PrivateIpAddress']
                 ni_options = {'PrivateIpAddress' => options['PrivateIpAddress']}
