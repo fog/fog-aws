@@ -386,7 +386,7 @@ module Fog
         },
         {
           :id                      => 'c5.24xlarge',
-          :name                    => 'C5 TweentyFour Extra Large',
+          :name                    => 'C5 Twenty Four Extra Large',
           :bits                    => 64,
           :cores                   => 96,
           :disk                    => 0,
@@ -466,7 +466,7 @@ module Fog
         },
         {
           :id                      => 'c5d.24xlarge',
-          :name                    => 'C5d Twentyfour Extra Large',
+          :name                    => 'C5d Twenty Four Extra Large',
           :bits                    => 64,
           :cores                   => 96,
           :disk                    => 3600,
