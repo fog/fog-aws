@@ -34,7 +34,7 @@ module Fog
           if version_id = options.delete('versionId')
             query = {'versionId' => version_id}
           end
-          headers = {}
+          headers = (options[:headers] || {}).dup
           headers['If-Modified-Since'] = Fog::Time.at(options['If-Modified-Since'].to_i).to_date_header if options['If-Modified-Since']
           headers['If-Unmodified-Since'] = Fog::Time.at(options['If-Unmodified-Since'].to_i).to_date_header if options['If-Modified-Since']
           headers.merge!(options)
