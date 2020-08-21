@@ -227,7 +227,7 @@ module Fog
           when %r{\Acn-.*}
             "s3.#{region}.amazonaws.com.cn"
           else
-            "s3-#{region}.amazonaws.com"
+            "s3.#{region}.amazonaws.com"
           end
         end
 
