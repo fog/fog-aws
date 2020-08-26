@@ -1,5 +1,13 @@
 # Change Log
 
+## [v3.6.7](https://github.com/fog/fog-aws/tree/HEAD)(2020-08-26)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.6.6...HEAD)
+
+**Merged pull requests:**
+
+- S3 dot Region endpoint structure applied [\#574](https://github.com/fog/fog-aws/pull/574) ([gharutyunyan-vineti](https://github.com/gharutyunyan-vineti))
+
 ## [v3.6.6](https://github.com/fog/fog-aws/tree/v3.6.6) (2020-06-23)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.6.5...v3.6.6)
 
@@ -285,7 +293,6 @@
 
 - Update changelog for 1.4.0 [\#383](https://github.com/fog/fog-aws/pull/383) ([greysteil](https://github.com/greysteil))
 - Allow specifying kms key id to use [\#382](https://github.com/fog/fog-aws/pull/382) ([fcheung](https://github.com/fcheung))
-- added support to retrieve and create vpc with ipv6 cidr block [\#381](https://github.com/fog/fog-aws/pull/381) ([chanakyacool](https://github.com/chanakyacool))
 - Add MaxResults filter to describe reserved instances offerings [\#376](https://github.com/fog/fog-aws/pull/376) ([KevinLoiseau](https://github.com/KevinLoiseau))
 - Fix Fog::Compute::AWS::Images\#all [\#375](https://github.com/fog/fog-aws/pull/375) ([eddiej](https://github.com/eddiej))
 - Fix AWS credential mocking [\#374](https://github.com/fog/fog-aws/pull/374) ([v-yarotsky](https://github.com/v-yarotsky))
@@ -303,6 +310,7 @@
 
 **Merged pull requests:**
 
+- added support to retrieve and create vpc with ipv6 cidr block [\#381](https://github.com/fog/fog-aws/pull/381) ([chanakyacool](https://github.com/chanakyacool))
 - add NextContinuationToken support to GetBucket operation [\#370](https://github.com/fog/fog-aws/pull/370) ([khoan](https://github.com/khoan))
 - Add a top-level require that matches the gem name [\#367](https://github.com/fog/fog-aws/pull/367) ([lanej](https://github.com/lanej))
 - Fixed credential refresh when instance metadata host is inaccessible [\#366](https://github.com/fog/fog-aws/pull/366) ([ankane](https://github.com/ankane))
@@ -573,7 +581,7 @@
 - make net/ssh require optional [\#197](https://github.com/fog/fog-aws/pull/197) ([geemus](https://github.com/geemus))
 - Cache cluster security group parser [\#190](https://github.com/fog/fog-aws/pull/190) ([eherot](https://github.com/eherot))
 - Allow region to be set for STS [\#189](https://github.com/fog/fog-aws/pull/189) ([fcheung](https://github.com/fcheung))
-- add cn support for s3 [\#187](https://github.com/fog/fog-aws/pull/187) ([ming-relax](https://github.com/ming-relax))
+- add cn support for s3 [\#187](https://github.com/fog/fog-aws/pull/187) ([ming535](https://github.com/ming535))
 - mock instance stop and start properly [\#184](https://github.com/fog/fog-aws/pull/184) ([ehowe](https://github.com/ehowe))
 - Disable idempotent option when block is passed to get\_object [\#183](https://github.com/fog/fog-aws/pull/183) ([ghost](https://github.com/ghost))
 - Yield arguments to Mock\#get\_object block more similar to Excon [\#182](https://github.com/fog/fog-aws/pull/182) ([tdg5](https://github.com/tdg5))
@@ -616,6 +624,10 @@
 ## [v0.7.4](https://github.com/fog/fog-aws/tree/v0.7.4) (2015-07-30)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.7.3...v0.7.4)
 
+**Fixed bugs:**
+
+- Route53 zone listing fix and support for private hosted zones [\#154](https://github.com/fog/fog-aws/pull/154) ([solud](https://github.com/solud))
+
 **Merged pull requests:**
 
 - AutoScaling attach/detach ELB support + tests [\#156](https://github.com/fog/fog-aws/pull/156) ([nbfowler](https://github.com/nbfowler))
@@ -652,10 +664,6 @@
 
 ## [v0.7.0](https://github.com/fog/fog-aws/tree/v0.7.0) (2015-07-07)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.6.0...v0.7.0)
-
-**Fixed bugs:**
-
-- Route53 zone listing fix and support for private hosted zones [\#154](https://github.com/fog/fog-aws/pull/154) ([solud](https://github.com/solud))
 
 **Closed issues:**
 
