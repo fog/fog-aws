@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "nokogiri"
-
 module Fog
   module AWS
     module CredentialFetcher
