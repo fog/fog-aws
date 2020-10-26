@@ -6,6 +6,7 @@ gemspec
 group :test, :default do
   gem 'pry-nav'
   gem 'mime-types', '~> 3.1'
+  gem 'nokogiri', '~> 1.10.10'
 end
 
 group :test do

@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+require "nokogiri"
+
 module Fog
   module AWS
     module CredentialFetcher
@@ -8,6 +12,8 @@ module Fog
       INSTANCE_METADATA_AZ = "/latest/meta-data/placement/availability-zone/"
 
       CONTAINER_CREDENTIALS_HOST = "http://169.254.170.2"
+
+      STS_GLOBAL_ENDPOINT = "https://sts.amazonaws.com"
 
       module ServiceMethods
         def fetch_credentials(options)
@@ -23,6 +29,30 @@ module Fog
                 connection = options[:connection] || Excon.new(CONTAINER_CREDENTIALS_HOST)
                 credential_path = options[:credential_path] || ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
                 role_data = connection.get(:path => credential_path, :idempotent => true, :expects => 200).body
+                session = Fog::JSON.decode(role_data)
+
+                if region.nil?
+                  connection = options[:metadata_connection] || Excon.new(INSTANCE_METADATA_HOST)
+                  token_header = fetch_credentials_token_header(connection, options[:disable_imds_v2])
+                  region = connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200, :headers => token_header).body[0..-2]
+                end
+              elsif ENV["AWS_WEB_IDENTITY_TOKEN_FILE"]
+                params = {
+                  :Action => "AssumeRoleWithWebIdentity",
+                  :RoleArn => options[:role_arn] || ENV.fetch("AWS_ROLE_ARN"),
+                  :RoleSessionName => options[:role_session_name] || ENV.fetch("AWS_ROLE_SESSION_NAME"),
+                  :WebIdentityToken => File.read(options[:aws_web_identity_token_file] || ENV.fetch("AWS_WEB_IDENTITY_TOKEN_FILE")),
+                  :Version => "2011-06-15",
+                }
+                connection = options[:connection] || Excon.new(STS_GLOBAL_ENDPOINT, :query => params)
+                document = Nokogiri::XML(connection.get(:idempotent => true, :expects => 200).body)
+
+                session = {
+                  "AccessKeyId" => document.css("AccessKeyId").children.text,
+                  "SecretAccessKey" => document.css("SecretAccessKey").children.text,
+                  "Token" => document.css("SessionToken").children.text,
+                  "Expiration" => document.css("Expiration").children.text,
+                }
 
                 if region.nil?
                   connection = options[:metadata_connection] || Excon.new(INSTANCE_METADATA_HOST)
@@ -34,16 +64,17 @@ module Fog
                 token_header = fetch_credentials_token_header(connection, options[:disable_imds_v2])
                 role_name = connection.get(:path => INSTANCE_METADATA_PATH, :idempotent => true, :expects => 200, :headers => token_header).body
                 role_data = connection.get(:path => INSTANCE_METADATA_PATH+role_name, :idempotent => true, :expects => 200, :headers => token_header).body
+                session = Fog::JSON.decode(role_data)
+                
                 region ||= connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200, :headers => token_header).body[0..-2]
               end
-
-              session = Fog::JSON.decode(role_data)
+              
               credentials = {}
               credentials[:aws_access_key_id] = session['AccessKeyId']
               credentials[:aws_secret_access_key] = session['SecretAccessKey']
               credentials[:aws_session_token] = session['Token']
               credentials[:aws_credentials_expire_at] = Time.xmlschema session['Expiration']
-
+              
               # set region by default to the one the instance is in.
               credentials[:region] = region
               #these indicate the metadata service is unavailable or has no profile setup
