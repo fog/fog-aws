@@ -60,6 +60,35 @@ Shindo.tests('AWS | credentials', ['aws']) do
 
     ENV['AWS_CONTAINER_CREDENTIALS_RELATIVE_URI'] = nil
 
+    ENV['AWS_WEB_IDENTITY_TOKEN_FILE'] = File.dirname(__FILE__) + '/lorem.txt'
+    ENV['AWS_ROLE_ARN'] = "dummyrole"
+    ENV['AWS_ROLE_SESSION_NAME'] = "dummyrolesessionname"
+    document = 
+      '<AssumeRoleWithWebIdentityResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">'\
+        '<AssumeRoleWithWebIdentityResult>'\
+          '<Credentials>'\
+            '<SessionToken>dummytoken</SessionToken>'\
+            '<SecretAccessKey>dummysecret</SecretAccessKey>'\
+            "<Expiration>#{expires_at.xmlschema}</Expiration>"\
+            '<AccessKeyId>dummykey</AccessKeyId>'\
+          '</Credentials>'\
+        '</AssumeRoleWithWebIdentityResult>'\
+      '</AssumeRoleWithWebIdentityResponse>'
+    
+    Excon.stub({method: :get, path: "/", idempotent: true}, { status: 200, body: document})
+
+    tests('#fetch_credentials token based') do
+      returns(
+        aws_access_key_id: 'dummykey',
+        aws_secret_access_key: 'dummysecret',
+        aws_session_token: 'dummytoken',
+        region: 'us-west-1',
+        aws_credentials_expire_at: expires_at
+      ) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
+    end
+
+    ENV['AWS_WEB_IDENTITY_TOKEN_FILE'] = nil
+
     compute = Fog::AWS::Compute.new(use_iam_profile: true)
 
     tests('#refresh_credentials_if_expired') do
@@ -100,6 +129,7 @@ Shindo.tests('AWS | credentials', ['aws']) do
     end
   ensure
     ENV['AWS_CONTAINER_CREDENTIALS_RELATIVE_URI'] = nil
+    ENV['AWS_WEB_IDENTITY_TOKEN_FILE'] = nil
     Excon.stubs.clear
     Excon.defaults[:mock] = old_mock_value
     Fog.mock! if fog_was_mocked
