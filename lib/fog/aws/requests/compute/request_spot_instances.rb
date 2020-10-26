@@ -113,7 +113,7 @@ module Fog
               raise Fog::AWS::Compute::Error.new(message)
             end
 
-            if !image_id.match(/^ami-[a-f0-9]{8}$/)
+            if !image_id.match(/^ami-[a-f0-9]{8,17}$/)
               message = "The image id '[#{image_id}]' does not exist"
               raise Fog::AWS::Compute::NotFound.new(message)
             end
