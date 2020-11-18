@@ -1,4 +1,5 @@
 require 'fog/aws/models/storage/versions'
+require 'concurrent-ruby'
 
 module Fog
   module AWS
@@ -30,6 +31,15 @@ module Fog
         attribute :version,             :aliases => 'x-amz-version-id'
         attribute :kms_key_id,          :aliases => 'x-amz-server-side-encryption-aws-kms-key-id'
         attribute :tags,                :aliases => 'x-amz-tagging'
+
+        class UploadPartData
+          attr_reader :part_number, :upload_options
+
+          def initialize(part_number, upload_options)
+            @part_number = part_number
+            @upload_options = upload_options
+          end
+        end
 
         # @note Chunk size to use for multipart uploads.
         #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
@@ -315,22 +325,15 @@ module Fog
 
           # Store ETags of upload parts
           part_tags = []
+          pending = create_part_list(upload_part_options)
 
-          current_pos = 0
+          thread_count = options['concurrency'] || 10
+          completed = Concurrent::Hash.new
+          errors = upload_in_threads(target_directory_key, target_file_key, upload_id, pending, completed, thread_count)
 
-          # Upload each part
-          # TODO: optionally upload chunks in parallel using threads
-          # (may cause network performance problems with many small chunks)
-          while current_pos < self.content_length do
-            start_pos = current_pos
-            end_pos = [current_pos + self.multipart_chunk_size, self.content_length - 1].min
-            range = "bytes=#{start_pos}-#{end_pos}"
+          raise error.first if errors.any?
 
-            upload_part_options['x-amz-copy-source-range'] = range
-            part_upload = service.upload_part_copy(target_directory_key, target_file_key, upload_id, part_tags.size + 1, upload_part_options)
-            part_tags << part_upload.body['ETag']
-            current_pos = end_pos + 1
-          end
+          part_tags = completed.sort.map { |_, value| value }
         rescue => e
           # Abort the upload & reraise
           service.abort_multipart_upload(target_directory_key, target_file_key, upload_id) if upload_id
@@ -363,6 +366,49 @@ module Fog
             'x-amz-server-side-encryption-customer-key' => Base64.encode64(encryption_key.to_s).chomp!,
             'x-amz-server-side-encryption-customer-key-md5' => Base64.encode64(OpenSSL::Digest::MD5.digest(encryption_key.to_s)).chomp!
           }
+        end
+
+        def create_part_list(upload_part_options)
+          current_pos = 0
+          count = 0
+          pending = Concurrent::Array.new
+
+          while current_pos < self.content_length do
+            start_pos = current_pos
+            end_pos = [current_pos + self.multipart_chunk_size, self.content_length - 1].min
+            range = "bytes=#{start_pos}-#{end_pos}"
+            part_options = upload_part_options.dup
+            part_options['x-amz-copy-source-range'] = range
+            pending << UploadPartData.new(count + 1, part_options)
+            count += 1
+            current_pos = end_pos + 1
+          end
+
+          pending
+        end
+
+        def upload_in_threads(target_directory_key, target_file_key, upload_id, pending, completed, thread_count)
+          threads = []
+
+          thread_count.times do
+            thread = Thread.new do
+              begin
+                while part = pending.shift
+                  part_upload = service.upload_part_copy(target_directory_key, target_file_key, upload_id, part.part_number, part.upload_options)
+                  etag = part_upload.body['ETag']
+                  completed[part.part_number] = etag
+                end
+              rescue => error
+                pending.clear
+                error
+              end
+            end
+
+            thread.abort_on_exception = true
+            threads << thread
+          end
+
+          threads.map(&:value).compact
         end
       end
     end
