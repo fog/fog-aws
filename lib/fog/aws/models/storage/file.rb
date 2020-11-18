@@ -331,12 +331,6 @@ module Fog
             part_tags << part_upload.body['ETag']
             current_pos = end_pos + 1
           end
-
-          if part_tags.empty? #it is an error to have a multipart upload with no parts
-            part_upload = service.upload_part_copy(directory.key, key, upload_id, 1, upload_part_options)
-            part_tags << part_upload.body["ETag"]
-          end
-
         rescue => e
           # Abort the upload & reraise
           service.abort_multipart_upload(target_directory_key, target_file_key, upload_id) if upload_id
