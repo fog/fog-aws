@@ -1,3 +1,5 @@
+require 'securerandom'
+
 Shindo.tests('Fog::Storage[:aws] | copy requests', ["aws"]) do
 
   @directory = Fog::Storage[:aws].directories.create(:key => uniq_id('fogmultipartcopytests'))
@@ -16,11 +18,11 @@ Shindo.tests('Fog::Storage[:aws] | copy requests', ["aws"]) do
   end
 
   tests('copies a file needing a single part') do
-    data = '*' * 5242880
+    data = '*' * Fog::AWS::Storage::File::MIN_MULTIPART_CHUNK_SIZE
     Fog::Storage[:aws].put_object(@directory.identity, '1_part_object', data)
 
     file = Fog::Storage[:aws].directories.new(key: @directory.identity).files.get('1_part_object')
-    file.multipart_chunk_size = 5242880
+    file.multipart_chunk_size = Fog::AWS::Storage::File::MIN_MULTIPART_CHUNK_SIZE
 
     tests("#copy_object('#{@directory.identity}', '1_part_copied_object'").succeeds do
       file.copy(@directory.identity, '1_part_copied_object')
@@ -35,7 +37,7 @@ Shindo.tests('Fog::Storage[:aws] | copy requests', ["aws"]) do
     Fog::Storage[:aws].put_object(@directory.identity, 'large_object', data)
 
     file = Fog::Storage[:aws].directories.new(key: @directory.identity).files.get('large_object')
-    file.multipart_chunk_size = 5242880
+    file.multipart_chunk_size = Fog::AWS::Storage::File::MIN_MULTIPART_CHUNK_SIZE
 
     tests("#copy_object('#{@directory.identity}', 'large_copied_object'").succeeds do
       file.copy(@directory.identity, 'large_copied_object')
