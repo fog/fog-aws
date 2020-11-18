@@ -112,6 +112,7 @@ module Fog
       request :put_request_payment
       request :sync_clock
       request :upload_part
+      request :upload_part_copy
 
       module Utils
         attr_accessor :region
