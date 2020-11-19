@@ -1,5 +1,4 @@
 require 'fog/aws/models/storage/versions'
-require 'concurrent-ruby'
 
 module Fog
   module AWS
@@ -32,12 +31,32 @@ module Fog
         attribute :kms_key_id,          :aliases => 'x-amz-server-side-encryption-aws-kms-key-id'
         attribute :tags,                :aliases => 'x-amz-tagging'
 
-        class UploadPartData
-          attr_reader :part_number, :upload_options
+        UploadPartData = Struct.new(:part_number, :upload_options, :etag)
 
-          def initialize(part_number, upload_options)
-            @part_number = part_number
-            @upload_options = upload_options
+        class PartList
+          def initialize(parts = [])
+            @parts = parts
+            @mutex = Mutex.new
+          end
+
+          def push(part)
+            @mutex.synchronize { @parts.push(part) }
+          end
+
+          def shift
+            @mutex.synchronize { @parts.shift }
+          end
+
+          def clear!
+            @mutex.synchronize { @parts.clear }
+          end
+
+          def size
+            @mutex.synchronize { @parts.size }
+          end
+
+          def to_a
+            @mutex.synchronize { @parts.dup }
           end
         end
 
@@ -325,15 +344,14 @@ module Fog
 
           # Store ETags of upload parts
           part_tags = []
-          pending = create_part_list(upload_part_options)
-
-          thread_count = options['concurrency'] || 10
-          completed = Concurrent::Hash.new
+          pending = PartList.new(create_part_list(upload_part_options))
+          thread_count = options['concurrency'] || 1
+          completed = PartList.new
           errors = upload_in_threads(target_directory_key, target_file_key, upload_id, pending, completed, thread_count)
 
           raise error.first if errors.any?
 
-          part_tags = completed.sort.map { |_, value| value }
+          part_tags = completed.to_a.sort_by { |part| part.part_number }.map(&:etag)
         rescue => e
           # Abort the upload & reraise
           service.abort_multipart_upload(target_directory_key, target_file_key, upload_id) if upload_id
@@ -371,7 +389,7 @@ module Fog
         def create_part_list(upload_part_options)
           current_pos = 0
           count = 0
-          pending = Concurrent::Array.new
+          pending = []
 
           while current_pos < self.content_length do
             start_pos = current_pos
@@ -379,7 +397,7 @@ module Fog
             range = "bytes=#{start_pos}-#{end_pos}"
             part_options = upload_part_options.dup
             part_options['x-amz-copy-source-range'] = range
-            pending << UploadPartData.new(count + 1, part_options)
+            pending << UploadPartData.new(count + 1, part_options, nil)
             count += 1
             current_pos = end_pos + 1
           end
@@ -395,11 +413,11 @@ module Fog
               begin
                 while part = pending.shift
                   part_upload = service.upload_part_copy(target_directory_key, target_file_key, upload_id, part.part_number, part.upload_options)
-                  etag = part_upload.body['ETag']
-                  completed[part.part_number] = etag
+                  part.etag = part_upload.body['ETag']
+                  completed.push(part)
                 end
               rescue => error
-                pending.clear
+                pending.clear!
                 error
               end
             end
