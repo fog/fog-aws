@@ -381,7 +381,7 @@ module Fog
           :name                    => 'M6GD Medium',
           :bits                    => 64,
           :cores                   => 1,
-          :disk                    => 0,
+          :disk                    => 59,
           :ram                     => 4295,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 1
@@ -391,7 +391,7 @@ module Fog
           :name                    => 'M6GD Large',
           :bits                    => 64,
           :cores                   => 2,
-          :disk                    => 0,
+          :disk                    => 118,
           :ram                     => 8590,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 1
@@ -401,7 +401,7 @@ module Fog
           :name                    => 'M6GD Extra Large',
           :bits                    => 64,
           :cores                   => 4,
-          :disk                    => 0,
+          :disk                    => 237,
           :ram                     => 17180,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 1
@@ -411,7 +411,7 @@ module Fog
           :name                    => 'M6GD Double Extra Large',
           :bits                    => 64,
           :cores                   => 8,
-          :disk                    => 0,
+          :disk                    => 474,
           :ram                     => 34360,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 1
@@ -421,7 +421,7 @@ module Fog
           :name                    => 'M6GD Quadruple Extra Large',
           :bits                    => 64,
           :cores                   => 16,
-          :disk                    => 0,
+          :disk                    => 950,
           :ram                     => 68719,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 1
@@ -431,7 +431,7 @@ module Fog
           :name                    => 'M6GD Octuple Extra Large',
           :bits                    => 64,
           :cores                   => 32,
-          :disk                    => 0,
+          :disk                    => 1900,
           :ram                     => 137439,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 1
@@ -441,7 +441,7 @@ module Fog
           :name                    => 'M6GD Twelve Extra Large',
           :bits                    => 64,
           :cores                   => 48,
-          :disk                    => 0,
+          :disk                    => 2850,
           :ram                     => 206158,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 2
@@ -451,7 +451,7 @@ module Fog
           :name                    => 'M6GD Sixteen Extra Large',
           :bits                    => 64,
           :cores                   => 64,
-          :disk                    => 0,
+          :disk                    => 3800,
           :ram                     => 274878,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 2
@@ -461,7 +461,7 @@ module Fog
           :name                    => 'M6GD Metal',
           :bits                    => 64,
           :cores                   => 64,
-          :disk                    => 0,
+          :disk                    => 3800,
           :ram                     => 274878,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 2
