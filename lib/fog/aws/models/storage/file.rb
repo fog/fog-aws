@@ -4,6 +4,10 @@ module Fog
   module AWS
     class Storage
       class File < Fog::Model
+        MIN_MULTIPART_CHUNK_SIZE = 5242880
+        MAX_SINGLE_PUT_SIZE = 5368709120
+        MULTIPART_COPY_THRESHOLD = 15728640
+
         # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html
 
         identity  :key,             :aliases => 'Key'
@@ -31,7 +35,7 @@ module Fog
         #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
         attr_reader :multipart_chunk_size
         def multipart_chunk_size=(mp_chunk_size)
-          raise ArgumentError.new("minimum multipart_chunk_size is 5242880") if mp_chunk_size < 5242880
+          raise ArgumentError.new("minimum multipart_chunk_size is #{MIN_MULTIPART_CHUNK_SIZE}") if mp_chunk_size < MIN_MULTIPART_CHUNK_SIZE
           @multipart_chunk_size = mp_chunk_size
         end
 
@@ -99,7 +103,17 @@ module Fog
         #
         def copy(target_directory_key, target_file_key, options = {})
           requires :directory, :key
-          service.copy_object(directory.key, key, target_directory_key, target_file_key, options)
+
+          # With a single PUT operation you can upload objects up to 5 GB in size. Automatically set MP for larger objects.
+          self.multipart_chunk_size = MIN_MULTIPART_CHUNK_SIZE if !multipart_chunk_size && self.content_length.to_i > MAX_SINGLE_PUT_SIZE
+
+          if multipart_chunk_size && self.content_length.to_i >= multipart_chunk_size
+            upload_part_options = options.merge({ 'x-amz-copy-source' => "#{directory.key}/#{key}" })
+            multipart_copy(options, upload_part_options, target_directory_key, target_file_key)
+          else
+            service.copy_object(directory.key, key, target_directory_key, target_file_key, options)
+          end
+
           target_directory = service.directories.new(:key => target_directory_key)
           target_directory.files.head(target_file_key)
         end
@@ -214,7 +228,7 @@ module Fog
           options.merge!(encryption_headers)
 
           # With a single PUT operation you can upload objects up to 5 GB in size. Automatically set MP for larger objects.
-          self.multipart_chunk_size = 5242880 if !multipart_chunk_size && Fog::Storage.get_body_size(body) > 5368709120
+          self.multipart_chunk_size = MIN_MULTIPART_CHUNK_SIZE if !multipart_chunk_size && Fog::Storage.get_body_size(body) > MAX_SINGLE_PUT_SIZE
 
           if multipart_chunk_size && Fog::Storage.get_body_size(body) >= multipart_chunk_size && body.respond_to?(:read)
             data = multipart_save(options)
@@ -292,6 +306,38 @@ module Fog
         else
           # Complete the upload
           service.complete_multipart_upload(directory.key, key, upload_id, part_tags)
+        end
+
+        def multipart_copy(options, upload_part_options, target_directory_key, target_file_key)
+          # Initiate the upload
+          res = service.initiate_multipart_upload(target_directory_key, target_file_key, options)
+          upload_id = res.body["UploadId"]
+
+          # Store ETags of upload parts
+          part_tags = []
+
+          current_pos = 0
+
+          # Upload each part
+          # TODO: optionally upload chunks in parallel using threads
+          # (may cause network performance problems with many small chunks)
+          while current_pos < self.content_length do
+            start_pos = current_pos
+            end_pos = [current_pos + self.multipart_chunk_size, self.content_length - 1].min
+            range = "bytes=#{start_pos}-#{end_pos}"
+
+            upload_part_options['x-amz-copy-source-range'] = range
+            part_upload = service.upload_part_copy(target_directory_key, target_file_key, upload_id, part_tags.size + 1, upload_part_options)
+            part_tags << part_upload.body['ETag']
+            current_pos = end_pos + 1
+          end
+        rescue => e
+          # Abort the upload & reraise
+          service.abort_multipart_upload(target_directory_key, target_file_key, upload_id) if upload_id
+          raise
+        else
+          # Complete the upload
+          service.complete_multipart_upload(target_directory_key, target_file_key, upload_id, part_tags)
         end
 
         def encryption_headers
