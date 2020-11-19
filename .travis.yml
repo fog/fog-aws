@@ -19,6 +19,14 @@ matrix:
     gemfile: Gemfile
   - rvm: 2.5.0
     gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.6.6
+    gemfile: Gemfile
+  - rvm: 2.6.6
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.7.2
+    gemfile: Gemfile
+  - rvm: 2.7.2
+    gemfile: gemfiles/Gemfile-edge
   - rvm: jruby-head
     gemfile: Gemfile
   allow_failures:
@@ -31,6 +39,10 @@ matrix:
   - rvm: 2.4.0
     gemfile: gemfiles/Gemfile-edge
   - rvm: 2.5.0
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.6.6
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.7.2
     gemfile: gemfiles/Gemfile-edge
 notifications:
   email: false
