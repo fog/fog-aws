@@ -68,6 +68,17 @@ module Fog
           @multipart_chunk_size = mp_chunk_size
         end
 
+        # @note Number of threads used to copy files.
+        def concurrency=(concurrency)
+          raise ArgumentError.new('minimum concurrency is 1') if concurrency.to_i < 1
+
+          @concurrency = concurrency.to_i
+        end
+
+        def concurrency
+          @concurrency || 1
+        end
+
         def acl
           requires :directory, :key
           service.get_object_acl(directory.key, key).body['AccessControlList']
@@ -345,7 +356,7 @@ module Fog
           # Store ETags of upload parts
           part_tags = []
           pending = PartList.new(create_part_list(upload_part_options))
-          thread_count = options['concurrency'] || 1
+          thread_count = self.concurrency
           completed = PartList.new
           errors = upload_in_threads(target_directory_key, target_file_key, upload_id, pending, completed, thread_count)
 

@@ -58,15 +58,19 @@ Shindo.tests('Fog::Storage[:aws] | copy requests', ["aws"]) do
 
     copied = Fog::Storage[:aws].directories.new(key: @directory.identity).files.get('large_copied_object')
 
+    test("concurrency defaults to 1") { file.concurrency == 1 }
     test("copied is the same") { copied.body == file.body }
   end
 
   tests('copies a file with many parts with 10 threads') do
     file = Fog::Storage[:aws].directories.new(key: @directory.identity).files.get('large_object')
     file.multipart_chunk_size = Fog::AWS::Storage::File::MIN_MULTIPART_CHUNK_SIZE
+    file.concurrency = 10
+
+    test("concurrency is set to 10") { file.concurrency == 10 }
 
     tests("#copy_object('#{@directory.identity}', 'copied_object_with_10_threads'").succeeds do
-      file.copy(@directory.identity, 'copied_object_with_10_threads', { concurrency: 10 })
+      file.copy(@directory.identity, 'copied_object_with_10_threads')
     end
 
     copied = Fog::Storage[:aws].directories.new(key: @directory.identity).files.get('copied_object_with_10_threads')
