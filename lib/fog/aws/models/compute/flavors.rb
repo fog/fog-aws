@@ -367,6 +367,106 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
+          :id                      => 'm6g.metal',
+          :name                    => 'M6G Metal',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 0,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'm6gd.medium',
+          :name                    => 'M6GD Medium',
+          :bits                    => 64,
+          :cores                   => 1,
+          :disk                    => 59,
+          :ram                     => 4295,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'm6gd.large',
+          :name                    => 'M6GD Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 118,
+          :ram                     => 8590,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'm6gd.xlarge',
+          :name                    => 'M6GD Extra Large',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 237,
+          :ram                     => 17180,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'm6gd.2xlarge',
+          :name                    => 'M6GD Double Extra Large',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 474,
+          :ram                     => 34360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'm6gd.4xlarge',
+          :name                    => 'M6GD Quadruple Extra Large',
+          :bits                    => 64,
+          :cores                   => 16,
+          :disk                    => 950,
+          :ram                     => 68719,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'm6gd.8xlarge',
+          :name                    => 'M6GD Octuple Extra Large',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 1900,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'm6gd.12xlarge',
+          :name                    => 'M6GD Twelve Extra Large',
+          :bits                    => 64,
+          :cores                   => 48,
+          :disk                    => 2850,
+          :ram                     => 206158,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'm6gd.16xlarge',
+          :name                    => 'M6GD Sixteen Extra Large',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 3800,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'm6gd.metal',
+          :name                    => 'M6GD Metal',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 3800,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
           :id                      => 'm1.small',
           :name                    => 'M1 Small Instance',
           :bits                    => 32,
@@ -775,6 +875,186 @@ module Fog
           :ram                     => 206158,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6g.medium',
+          :name                    => 'C6G Medium',
+          :bits                    => 64,
+          :cores                   => 1,
+          :disk                    => 0,
+          :ram                     => 2147,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6g.large',
+          :name                    => 'C6G Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 4295,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6g.xlarge',
+          :name                    => 'C6G Extra Large',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 0,
+          :ram                     => 8590,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6g.2xlarge',
+          :name                    => 'C6G Double Extra Large',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 0,
+          :ram                     => 17180,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6g.4xlarge',
+          :name                    => 'C6G Quadruple Extra Large',
+          :bits                    => 64,
+          :cores                   => 16,
+          :disk                    => 0,
+          :ram                     => 34360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6g.8xlarge',
+          :name                    => 'C6G Octuple Extra Large',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 0,
+          :ram                     => 68719,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6g.12xlarge',
+          :name                    => 'C6G Twelve Extra Large',
+          :bits                    => 64,
+          :cores                   => 48,
+          :disk                    => 0,
+          :ram                     => 103079,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6g.16xlarge',
+          :name                    => 'C6G Sixteen Extra Large',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 0,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6g.metal',
+          :name                    => 'C6G Metal',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 0,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6gd.medium',
+          :name                    => 'C6GD Medium',
+          :bits                    => 64,
+          :cores                   => 1,
+          :disk                    => 59,
+          :ram                     => 2147,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6gd.large',
+          :name                    => 'C6GD Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 118,
+          :ram                     => 4295,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6gd.xlarge',
+          :name                    => 'C6GD Extra Large',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 237,
+          :ram                     => 8590,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6gd.2xlarge',
+          :name                    => 'C6GD Double Extra Large',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 474,
+          :ram                     => 17180,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6gd.4xlarge',
+          :name                    => 'C6GD Quadruple Extra Large',
+          :bits                    => 64,
+          :cores                   => 16,
+          :disk                    => 950,
+          :ram                     => 34360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6gd.8xlarge',
+          :name                    => 'C6GD Octuple Extra Large',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 1900,
+          :ram                     => 68719,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6gd.12xlarge',
+          :name                    => 'C6GD Twelve Extra Large',
+          :bits                    => 64,
+          :cores                   => 48,
+          :disk                    => 2850,
+          :ram                     => 103079,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'c6gd.16xlarge',
+          :name                    => 'C6GD Sixteen Extra Large',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 3800,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'c6gd.metal',
+          :name                    => 'C6GD Metal',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 3800,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
         },
         {
           :id                      => 'g2.2xlarge',
@@ -1695,6 +1975,186 @@ module Fog
           :disk                    => 3600,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 4
+        },
+        {
+          :id                      => 'r6g.medium',
+          :name                    => 'R6G Medium',
+          :bits                    => 64,
+          :cores                   => 1,
+          :disk                    => 0,
+          :ram                     => 8590,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'r6g.large',
+          :name                    => 'R6G Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 17180,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'r6g.xlarge',
+          :name                    => 'R6G Extra Large',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 0,
+          :ram                     => 34360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'r6g.2xlarge',
+          :name                    => 'R6G Double Extra Large',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 0,
+          :ram                     => 68719,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'r6g.4xlarge',
+          :name                    => 'R6G Quadruple Extra Large',
+          :bits                    => 64,
+          :cores                   => 16,
+          :disk                    => 0,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'r6g.8xlarge',
+          :name                    => 'R6G Octuple Extra Large',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 0,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'r6g.12xlarge',
+          :name                    => 'R6G Twelve Extra Large',
+          :bits                    => 64,
+          :cores                   => 48,
+          :disk                    => 0,
+          :ram                     => 412317,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'r6g.16xlarge',
+          :name                    => 'R6G Sixteen Extra Large',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 0,
+          :ram                     => 549756,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'r6g.metal',
+          :name                    => 'R6G Metal',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 0,
+          :ram                     => 549756,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'r6gd.medium',
+          :name                    => 'R6GD Medium',
+          :bits                    => 64,
+          :cores                   => 1,
+          :disk                    => 59,
+          :ram                     => 8590,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'r6gd.large',
+          :name                    => 'R6GD Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 118,
+          :ram                     => 17180,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'r6gd.xlarge',
+          :name                    => 'R6GD Extra Large',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 237,
+          :ram                     => 34360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'r6gd.2xlarge',
+          :name                    => 'R6GD Double Extra Large',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 474,
+          :ram                     => 68719,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'r6gd.4xlarge',
+          :name                    => 'R6GD Quadruple Extra Large',
+          :bits                    => 64,
+          :cores                   => 16,
+          :disk                    => 950,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'r6gd.8xlarge',
+          :name                    => 'R6GD Octuple Extra Large',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 1900,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'r6gd.12xlarge',
+          :name                    => 'R6GD Twelve Extra Large',
+          :bits                    => 64,
+          :cores                   => 48,
+          :disk                    => 2850,
+          :ram                     => 412317,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'r6gd.16xlarge',
+          :name                    => 'R6GD Sixteen Extra Large',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 3800,
+          :ram                     => 549756,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'r6gd.metal',
+          :name                    => 'R6GD Metal',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 3800,
+          :ram                     => 549756,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
         },
         {
           :id                      => "x1.16xlarge",
