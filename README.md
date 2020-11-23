@@ -105,6 +105,26 @@ directory.files
 directory.files.new(key: 'user/1/Gemfile').url(Time.now + 60)
 ```
 
+#### Copying a file
+
+```ruby
+directory = s3.directories.new(key: 'gaudi-portal-dev')
+file = directory.files.get('user/1/Gemfile')
+file.copy("target-bucket", "user/2/Gemfile.copy")
+```
+
+To speed transfers of large files, the `concurrency` option can be used
+to spawn multiple threads. Note that the file must be at least 5 MB for
+multipart uploads to work. For example:
+
+```ruby
+directory = s3.directories.new(key: 'gaudi-portal-dev')
+file = directory.files.get('user/1/Gemfile')
+file.multipart_chunk_size = 10 * 1024 * 1024
+file.concurrency = 10
+file.copy("target-bucket", "user/2/Gemfile.copy")
+```
+
 ## Documentation
 
 See the [online documentation](http://www.rubydoc.info/github/fog/fog-aws) for a complete API reference.
