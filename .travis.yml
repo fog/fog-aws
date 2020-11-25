@@ -29,8 +29,12 @@ matrix:
     gemfile: gemfiles/Gemfile-edge
   - rvm: jruby-head
     gemfile: Gemfile
+  - rvm: truffleruby-head
+    gemfile: Gemfile
   allow_failures:
   - rvm: jruby-head
+    gemfile: Gemfile
+  - rvm: truffleruby-head
     gemfile: Gemfile
   - rvm: 2.2.0
     gemfile: gemfiles/Gemfile-edge
