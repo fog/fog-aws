@@ -1,8 +1,23 @@
 # Change Log
 
-## [v3.6.7](https://github.com/fog/fog-aws/tree/HEAD)(2020-08-26)
+## [v3.7.0](https://github.com/fog/fog-aws/tree/v3.7.0) (2020-12-01)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.7.0...HEAD)
 
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.6.6...HEAD)
+**Closed issues:**
+
+- File\#copy does not support files above 5 GB [\#577](https://github.com/fog/fog-aws/issues/577)
+- fog-aws: AWS extended length resource ID issues \(8-\>18\) [\#517](https://github.com/fog/fog-aws/issues/517)
+
+**Merged pull requests:**
+
+- Add all m6gd, r6g, r6gd, c6g, and c6gd instance classes [\#582](https://github.com/fog/fog-aws/pull/582) ([calebwoofenden](https://github.com/calebwoofenden))
+- Test Ruby v2.6.6 and v2.7.2 in CI [\#581](https://github.com/fog/fog-aws/pull/581) ([stanhu](https://github.com/stanhu))
+- Add multi-threaded support for File\#copy [\#579](https://github.com/fog/fog-aws/pull/579) ([stanhu](https://github.com/stanhu))
+- Add support for multipart Fog::AWS::Storage::File\#copy [\#578](https://github.com/fog/fog-aws/pull/578) ([stanhu](https://github.com/stanhu))
+- Add AssumeRoleWithWebIdentity to fetch\_credentials [\#576](https://github.com/fog/fog-aws/pull/576) ([jpac-run](https://github.com/jpac-run))
+
+## [v3.6.7](https://github.com/fog/fog-aws/tree/v3.6.7) (2020-08-26)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.6.6...v3.6.7)
 
 **Merged pull requests:**
 
@@ -293,6 +308,7 @@
 
 - Update changelog for 1.4.0 [\#383](https://github.com/fog/fog-aws/pull/383) ([greysteil](https://github.com/greysteil))
 - Allow specifying kms key id to use [\#382](https://github.com/fog/fog-aws/pull/382) ([fcheung](https://github.com/fcheung))
+- added support to retrieve and create vpc with ipv6 cidr block [\#381](https://github.com/fog/fog-aws/pull/381) ([chanakyacool](https://github.com/chanakyacool))
 - Add MaxResults filter to describe reserved instances offerings [\#376](https://github.com/fog/fog-aws/pull/376) ([KevinLoiseau](https://github.com/KevinLoiseau))
 - Fix Fog::Compute::AWS::Images\#all [\#375](https://github.com/fog/fog-aws/pull/375) ([eddiej](https://github.com/eddiej))
 - Fix AWS credential mocking [\#374](https://github.com/fog/fog-aws/pull/374) ([v-yarotsky](https://github.com/v-yarotsky))
@@ -310,7 +326,6 @@
 
 **Merged pull requests:**
 
-- added support to retrieve and create vpc with ipv6 cidr block [\#381](https://github.com/fog/fog-aws/pull/381) ([chanakyacool](https://github.com/chanakyacool))
 - add NextContinuationToken support to GetBucket operation [\#370](https://github.com/fog/fog-aws/pull/370) ([khoan](https://github.com/khoan))
 - Add a top-level require that matches the gem name [\#367](https://github.com/fog/fog-aws/pull/367) ([lanej](https://github.com/lanej))
 - Fixed credential refresh when instance metadata host is inaccessible [\#366](https://github.com/fog/fog-aws/pull/366) ([ankane](https://github.com/ankane))
