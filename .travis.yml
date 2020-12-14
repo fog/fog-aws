@@ -29,6 +29,41 @@ matrix:
     gemfile: gemfiles/Gemfile-edge
   - rvm: jruby-head
     gemfile: Gemfile
+# ppc64le specific changes
+  - rvm: 2.3.0
+    gemfile: Gemfile
+    arch: ppc64le
+  - rvm: 2.3.0
+    arch: ppc64le
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.4.0
+    arch: ppc64le
+    gemfile: Gemfile
+  - rvm: 2.4.0
+    arch: ppc64le
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.5.0
+    arch: ppc64le
+    gemfile: Gemfile
+  - rvm: 2.5.0
+    arch: ppc64le
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.6.6
+    arch: ppc64le
+    gemfile: Gemfile
+  - rvm: 2.6.6
+    arch: ppc64le
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.7.2
+    arch: ppc64le
+    gemfile: Gemfile
+  - rvm: 2.7.2
+    arch: ppc64le
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: jruby-head
+    arch: ppc64le
+    gemfile: Gemfile
+    
   allow_failures:
   - rvm: jruby-head
     gemfile: Gemfile
@@ -43,6 +78,28 @@ matrix:
   - rvm: 2.6.6
     gemfile: gemfiles/Gemfile-edge
   - rvm: 2.7.2
+    gemfile: gemfiles/Gemfile-edge
+# ppc64le specific changes
+  - rvm: jruby-head
+    arch: ppc64le
+    gemfile: Gemfile
+  - rvm: 2.2.0
+    arch: ppc64le
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.3.0
+    arch: ppc64le
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.4.0
+    arch: ppc64le
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.5.0
+    arch: ppc64le
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.6.6
+    arch: ppc64le
+    gemfile: gemfiles/Gemfile-edge
+  - rvm: 2.7.2
+    arch: ppc64le
     gemfile: gemfiles/Gemfile-edge
 notifications:
   email: false
