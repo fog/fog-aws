@@ -15,6 +15,7 @@ module Fog
         def parse_mock_data(data)
           data = Fog::Storage.parse_data(data)
           unless data[:body].is_a?(String)
+            data[:body].rewind if data[:body].eof?
             data[:body] = data[:body].read
           end
           data
