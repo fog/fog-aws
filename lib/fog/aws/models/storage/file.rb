@@ -360,7 +360,7 @@ module Fog
           completed = PartList.new
           errors = upload_in_threads(target_directory_key, target_file_key, upload_id, pending, completed, thread_count)
 
-          raise error.first if errors.any?
+          raise errors.first if errors.any?
 
           part_tags = completed.to_a.sort_by { |part| part.part_number }.map(&:etag)
         rescue => e
