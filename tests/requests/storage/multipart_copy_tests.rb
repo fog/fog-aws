@@ -3,7 +3,7 @@ require 'securerandom'
 Shindo.tests('Fog::Storage[:aws] | copy requests', ["aws"]) do
 
   @directory = Fog::Storage[:aws].directories.create(:key => uniq_id('fogmultipartcopytests'))
-  @large_data = SecureRandom.hex * 19 * 1024 * 1024
+  @large_data = SecureRandom.hex * 600000
   @large_blob = Fog::Storage[:aws].put_object(@directory.identity, 'large_object', @large_data)
 
   tests('copies an empty object') do
