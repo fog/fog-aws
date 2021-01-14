@@ -10,7 +10,7 @@
 
 **Merged pull requests:**
 
-- Filter unknown UploadPartCopy paramaters [\#589](https://github.com/fog/fog-aws/pull/589) ([stanhu](https://github.com/stanhu))
+- Filter unknown UploadPartCopy parameters [\#589](https://github.com/fog/fog-aws/pull/589) ([stanhu](https://github.com/stanhu))
 - Fix NameError in multipart copy [\#588](https://github.com/fog/fog-aws/pull/588) ([stanhu](https://github.com/stanhu))
 - Rewind pointer if file is eof on put\_object mock [\#587](https://github.com/fog/fog-aws/pull/587) ([ekulz](https://github.com/ekulz))
 - Update .travis.yml [\#584](https://github.com/fog/fog-aws/pull/584) ([nageshlop](https://github.com/nageshlop))
