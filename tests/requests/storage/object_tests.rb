@@ -18,6 +18,13 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].put_object(@directory.identity, 'fog_object', lorem_file)
     end
 
+    tests("#put_object('#{@directory.identity}', 'fog_object', lorem_file at EOF)").returns(lorem_file.read) do
+      file = lorem_file
+      file.read
+      Fog::Storage[:aws].put_object(@directory.identity, 'fog_object', file)
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object').body
+    end
+
     tests("#copy_object('#{@directory.identity}', 'fog_object', '#{@directory.identity}', 'fog_other_object')").succeeds do
       Fog::Storage[:aws].copy_object(@directory.identity, 'fog_object', @directory.identity, 'fog_other_object')
     end

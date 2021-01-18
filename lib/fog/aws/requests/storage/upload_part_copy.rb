@@ -1,6 +1,25 @@
 module Fog
   module AWS
     class Storage
+      # From https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html
+      ALLOWED_UPLOAD_PART_OPTIONS = %i(
+        x-amz-copy-source
+        x-amz-copy-source-if-match
+        x-amz-copy-source-if-modified-since
+        x-amz-copy-source-if-none-match
+        x-amz-copy-source-if-unmodified-since
+        x-amz-copy-source-range
+        x-amz-copy-source-server-side-encryption-customer-algorithm
+        x-amz-copy-source-server-side-encryption-customer-key
+        x-amz-copy-source-server-side-encryption-customer-key-MD5
+        x-amz-expected-bucket-owner
+        x-amz-request-payer
+        x-amz-server-side-encryption-customer-algorithm
+        x-amz-server-side-encryption-customer-key
+        x-amz-server-side-encryption-customer-key-MD5
+        x-amz-source-expected-bucket-owner
+      ).freeze
+
       class Real
         require 'fog/aws/parsers/storage/upload_part_copy_object'
 
@@ -45,6 +64,8 @@ module Fog
         include Fog::AWS::Storage::SharedMockMethods
 
         def upload_part_copy(target_bucket_name, target_object_name, upload_id, part_number, options = {})
+          validate_options!(options)
+
           copy_source = options['x-amz-copy-source']
           copy_range = options['x-amz-copy-source-range']
 
@@ -85,6 +106,12 @@ module Fog
           end_pos = [matches[2].to_i, size].min
 
           [matches[1].to_i, end_pos]
+        end
+
+        def validate_options!(options)
+          options.keys.each do |key|
+            raise "Invalid UploadPart option: #{key}" unless ::Fog::AWS::Storage::ALLOWED_UPLOAD_PART_OPTIONS.include?(key.to_sym)
+          end
         end
       end # Mock
     end # Storage

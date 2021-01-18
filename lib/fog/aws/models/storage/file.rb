@@ -148,7 +148,8 @@ module Fog
           self.multipart_chunk_size = MIN_MULTIPART_CHUNK_SIZE * 2 if !multipart_chunk_size && self.content_length.to_i > MAX_SINGLE_PUT_SIZE
 
           if multipart_chunk_size && self.content_length.to_i >= multipart_chunk_size
-            upload_part_options = options.merge({ 'x-amz-copy-source' => "#{directory.key}/#{key}" })
+            upload_part_options = options.select { |key, _| ALLOWED_UPLOAD_PART_OPTIONS.include?(key.to_sym) }
+            upload_part_options = upload_part_options.merge({ 'x-amz-copy-source' => "#{directory.key}/#{key}" })
             multipart_copy(options, upload_part_options, target_directory_key, target_file_key)
           else
             service.copy_object(directory.key, key, target_directory_key, target_file_key, options)
@@ -360,7 +361,7 @@ module Fog
           completed = PartList.new
           errors = upload_in_threads(target_directory_key, target_file_key, upload_id, pending, completed, thread_count)
 
-          raise error.first if errors.any?
+          raise errors.first if errors.any?
 
           part_tags = completed.to_a.sort_by { |part| part.part_number }.map(&:etag)
         rescue => e
