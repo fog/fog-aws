@@ -27,6 +27,8 @@ matrix:
     gemfile: Gemfile
   - rvm: 2.7.2
     gemfile: gemfiles/Gemfile-edge
+  - rvm: 3.0.0
+    gemfile: gemfiles/Gemfile-edge
   - rvm: jruby-head
     gemfile: Gemfile
 # ppc64le specific changes
