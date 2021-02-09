@@ -87,6 +87,18 @@ Shindo.tests('AWS | credentials', ['aws']) do
       ) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
     end
 
+    ENV['AWS_ROLE_SESSION_NAME'] = nil
+
+    tests('#fetch_credentials token based without session name') do
+      returns(
+        aws_access_key_id: 'dummykey',
+        aws_secret_access_key: 'dummysecret',
+        aws_session_token: 'dummytoken',
+        region: 'us-west-1',
+        aws_credentials_expire_at: expires_at
+      ) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
+    end
+
     ENV['AWS_WEB_IDENTITY_TOKEN_FILE'] = nil
 
     compute = Fog::AWS::Compute.new(use_iam_profile: true)
