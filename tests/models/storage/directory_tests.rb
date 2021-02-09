@@ -1,3 +1,5 @@
+require 'securerandom'
+
 Shindo.tests("Storage[:aws] | directory", ["aws"]) do
 
   directory_attributes = {
@@ -22,6 +24,21 @@ Shindo.tests("Storage[:aws] | directory", ["aws"]) do
       else
         @instance.public_url
       end
+    end
+  end
+
+  directory_attributes = {
+    :key => "fogdirectorytests-#{key=SecureRandom.hex(4)}",
+    :host => "fogdirectorytests-#{key}.s3.amazonaws.com",
+    :path_style => false
+  }
+
+  model_tests(Fog::Storage[:aws].directories, directory_attributes, Fog.mocking?) do
+    @instance.acl = 'public-read'
+    @instance.save
+
+    tests("#public_url does not duplicate bucket name in subdomain").returns(true) do
+      (@instance.public_url =~ %r[\Ahttps://fogdirectorytests-[\da-f]+\.s3\.amazonaws\.com/\z]) == 0
     end
   end
 

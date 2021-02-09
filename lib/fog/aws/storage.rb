@@ -298,7 +298,7 @@ module Fog
                 host = params.fetch(:cname, bucket_name)
               elsif path_style
                 path = bucket_to_path bucket_name, path
-              else
+              elsif !host.include?(bucket_name)
                 host = [bucket_name, host].join('.')
               end
             end
