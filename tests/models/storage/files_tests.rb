@@ -50,6 +50,38 @@ Shindo.tests("Storage[:aws] | files", ["aws"]) do
       end
     end
 
+    tests('#normalize_headers') do
+      files = @directory.files
+      response = Excon::Response.new
+      current_time = Time.new(2021, 02, 21)
+
+      response.headers['last-modified'] = current_time.to_s
+      response.headers['etag'] = '12345'
+      response.headers['ETAG'] = '12345'
+      response.headers['Cache-Control'] = 'no-cache'
+      response.headers['Content-disposition'] = 'attachment'
+      response.headers['content-length'] = 100
+      response.headers['content-Encoding'] = 'gzip'
+      response.headers['content-md5'] = 'ABCDEAB'
+      response.headers['content-Md5'] = 'ABCDEAB'
+      response.headers['ConTent-Type'] = 'application/json'
+
+      expected = {
+        'Last-Modified' => current_time,
+        'ETag' => '12345',
+        'Cache-Control' => 'no-cache',
+        'Content-Disposition' => 'attachment',
+        'Content-Length' => 100,
+        'Content-Encoding' => 'gzip',
+        'Content-MD5' => 'ABCDEAB',
+        'Content-Type' => 'application/json'
+      }
+
+      tests('header keys are normalized').returns(expected) do
+        files.normalize_headers(response)
+        response.headers
+      end
+    end
   end
 
   @directory.versions.each(&:destroy)
