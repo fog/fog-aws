@@ -1,7 +1,16 @@
 # Change Log
 
-## [v3.8.0](https://github.com/fog/fog-aws/tree/v3.8.0)
+## [v3.9.0](https://github.com/fog/fog-aws/tree/v3.9.0) (2021-03-02)
 
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.8.0...v3.9.0)
+
+**Merged pull requests:**
+
+- Fix handling of lowercased HTTP headers [\#597](https://github.com/fog/fog-aws/pull/597) ([stanhu](https://github.com/stanhu))
+- Generate a default session name if one is not provided [\#595](https://github.com/fog/fog-aws/pull/595) ([stanhu](https://github.com/stanhu))
+- Enable test on Ruby 3.0 [\#591](https://github.com/fog/fog-aws/pull/591) ([voxik](https://github.com/voxik))
+
+## [v3.8.0](https://github.com/fog/fog-aws/tree/v3.8.0) (2021-01-13)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.7.0...v3.8.0)
 
 **Closed issues:**
@@ -10,7 +19,7 @@
 
 **Merged pull requests:**
 
-- Filter unknown UploadPartCopy paramaters [\#589](https://github.com/fog/fog-aws/pull/589) ([stanhu](https://github.com/stanhu))
+- Filter unknown UploadPartCopy parameters [\#589](https://github.com/fog/fog-aws/pull/589) ([stanhu](https://github.com/stanhu))
 - Fix NameError in multipart copy [\#588](https://github.com/fog/fog-aws/pull/588) ([stanhu](https://github.com/stanhu))
 - Rewind pointer if file is eof on put\_object mock [\#587](https://github.com/fog/fog-aws/pull/587) ([ekulz](https://github.com/ekulz))
 - Update .travis.yml [\#584](https://github.com/fog/fog-aws/pull/584) ([nageshlop](https://github.com/nageshlop))
@@ -49,6 +58,7 @@
 **Merged pull requests:**
 
 - added missing region EU South \(Milan\) [\#570](https://github.com/fog/fog-aws/pull/570) ([saldan](https://github.com/saldan))
+- hibernation option to compute [\#569](https://github.com/fog/fog-aws/pull/569) ([taniahagan](https://github.com/taniahagan))
 - Fix VPC model is\_default requires [\#567](https://github.com/fog/fog-aws/pull/567) ([biinari](https://github.com/biinari))
 
 ## [v3.6.5](https://github.com/fog/fog-aws/tree/v3.6.5) (2020-05-22)
@@ -97,7 +107,6 @@
 
 **Merged pull requests:**
 
-- hibernation option to compute [\#569](https://github.com/fog/fog-aws/pull/569) ([taniahagan](https://github.com/taniahagan))
 - Adding two missing regions to Fog::AWS.regions [\#552](https://github.com/fog/fog-aws/pull/552) ([lvangool](https://github.com/lvangool))
 - Adds missing param WebIdentityToken for the request to the AWS api [\#550](https://github.com/fog/fog-aws/pull/550) ([dgoradia](https://github.com/dgoradia))
 - Fixes type in class name for STS assume\_role\_with\_web\_identity parser [\#549](https://github.com/fog/fog-aws/pull/549) ([dgoradia](https://github.com/dgoradia))
@@ -378,7 +387,6 @@
 - Fog mock accuracy, fixes \#341 [\#344](https://github.com/fog/fog-aws/pull/344) ([easkay](https://github.com/easkay))
 - Subnet [\#343](https://github.com/fog/fog-aws/pull/343) ([ehowe](https://github.com/ehowe))
 - Fix multipart upload [\#340](https://github.com/fog/fog-aws/pull/340) ([nobmurakita](https://github.com/nobmurakita))
-- credential\_fetcher: Mark AWS metadata calls as idempotent [\#329](https://github.com/fog/fog-aws/pull/329) ([mtekel](https://github.com/mtekel))
 
 ## [v1.2.0](https://github.com/fog/fog-aws/tree/v1.2.0) (2017-01-20)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v1.1.0...v1.2.0)
@@ -406,13 +414,14 @@
 - Canada and London regions [\#333](https://github.com/fog/fog-aws/pull/333) ([mattheworiordan](https://github.com/mattheworiordan))
 - Updated ELB Dual Stack hosted zone DNS records [\#332](https://github.com/fog/fog-aws/pull/332) ([mattheworiordan](https://github.com/mattheworiordan))
 - Added support for attaching auto scaling groups to target groups [\#330](https://github.com/fog/fog-aws/pull/330) ([maf23](https://github.com/maf23))
-- fix host header with another port on s3 [\#327](https://github.com/fog/fog-aws/pull/327) ([rodrigoapereira](https://github.com/rodrigoapereira))
+- credential\_fetcher: Mark AWS metadata calls as idempotent [\#329](https://github.com/fog/fog-aws/pull/329) ([mtekel](https://github.com/mtekel))
 
 ## [v1.0.0](https://github.com/fog/fog-aws/tree/v1.0.0) (2016-12-12)
 [Full Changelog](https://github.com/fog/fog-aws/compare/v0.13.0...v1.0.0)
 
 **Merged pull requests:**
 
+- fix host header with another port on s3 [\#327](https://github.com/fog/fog-aws/pull/327) ([rodrigoapereira](https://github.com/rodrigoapereira))
 - Add new t2.xlarge, t2.2xlarge and r4 class instances. [\#326](https://github.com/fog/fog-aws/pull/326) ([rogersd](https://github.com/rogersd))
 - Fix the bug that can't create fifo queue in SQS. [\#323](https://github.com/fog/fog-aws/pull/323) ([ebihara99999](https://github.com/ebihara99999))
 - data pipeline mocks [\#318](https://github.com/fog/fog-aws/pull/318) ([ehowe](https://github.com/ehowe))
