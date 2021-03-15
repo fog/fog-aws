@@ -134,6 +134,44 @@ Shindo.tests('Fog::Storage[:aws] | versioning', ["aws"]) do
       end
     end
 
+    tests("deleting_multiple_objects_versions('#{@aws_bucket_name}", 'file') do
+      clear_bucket
+
+      bucket = Fog::Storage[:aws].directories.get(@aws_bucket_name)
+
+      file_count = 5
+      file_names = []
+      files = {}
+      file_count.times do |id|
+        file_names << "file_#{id}"
+        file_version_count = rand(1..5)
+        file_version_count.times do
+          files[file_names.last] = bucket.files.create(:body => 'a',
+                                                      :key => file_names.last)
+        end
+      end
+
+      tests("deleting an object with multiple versions").returns(true) do
+        versions = Fog::Storage[:aws].get_bucket_object_versions(
+                        @aws_bucket_name) 
+        file_versions = {}
+        versions.body['Versions'].each do |version|
+          object = version[version.keys.first]
+          if file_versions[object['Key']]
+            file_versions[object['Key']] = file_versions[object['Key']] << object['VersionId']
+          else
+            file_versions[object['Key']] = [object['VersionId']]
+          end
+        end
+
+        Fog::Storage[:aws].delete_multiple_objects(@aws_bucket_name,
+                                                  file_names, 'versionId' => file_versions)
+        versions = Fog::Storage[:aws].get_bucket_object_versions(
+                      @aws_bucket_name)
+        versions.body['Versions'].empty?
+      end
+    end
+
     tests("deleting_multiple_objects('#{@aws_bucket_name}", 'file') do
       clear_bucket
 
