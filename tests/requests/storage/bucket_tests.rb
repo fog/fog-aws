@@ -158,7 +158,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       Fog::Storage[:aws].put_bucket_website(@aws_bucket_name, :IndexDocument => 'index.html')
     end
 
-    tests("#put_bucket_website('#{@aws_bucket_name}', :RedirectAllRequestsTo => 'redirect.example..com')").succeeds do
+    tests("#put_bucket_website('#{@aws_bucket_name}', :RedirectAllRequestsTo => 'redirect.example.com')").succeeds do
       Fog::Storage[:aws].put_bucket_website(@aws_bucket_name, :RedirectAllRequestsTo => 'redirect.example.com')
     end
 
