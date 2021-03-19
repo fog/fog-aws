@@ -31,6 +31,8 @@ matrix:
     gemfile: gemfiles/Gemfile-edge
   - rvm: jruby-head
     gemfile: Gemfile
+  - rvm: truffleruby-head
+    gemfile: Gemfile
 # ppc64le specific changes
   - rvm: 2.3.0
     gemfile: Gemfile
