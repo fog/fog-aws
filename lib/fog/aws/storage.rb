@@ -284,10 +284,10 @@ module Fog
               path_style = params.fetch(:path_style, @path_style)
               if !path_style
                 if COMPLIANT_BUCKET_NAMES !~ bucket_name
-                  Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) is not a valid dns name, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
+                  Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) is not a valid dns name, which will negatively impact performance.  For details see: https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html")
                   path_style = true
                 elsif scheme == 'https' && !path_style && bucket_name =~ /\./
-                  Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) contains a '.' so is not accessible over https as a virtual hosted bucket, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
+                  Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) contains a '.' so is not accessible over https as a virtual hosted bucket, which will negatively impact performance.  For details see: https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html")
                   path_style = true
                 end
               end
