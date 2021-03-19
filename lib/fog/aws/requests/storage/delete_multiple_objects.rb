@@ -36,13 +36,20 @@ module Fog
           data << "<Quiet>true</Quiet>" if headers.delete(:quiet)
           version_ids = headers.delete('versionId')
           object_names.each do |object_name|
-            data << "<Object>"
-            data << "<Key>#{CGI.escapeHTML(object_name)}</Key>"
             object_version = version_ids.nil? ? nil : version_ids[object_name]
             if object_version
-              data << "<VersionId>#{CGI.escapeHTML(object_version)}</VersionId>"
+              object_version = object_version.is_a?(String) ? [object_version] : object_version
+              object_version.each do |version_id|
+                data << "<Object>"
+                data << "<Key>#{CGI.escapeHTML(object_name)}</Key>"
+                data << "<VersionId>#{CGI.escapeHTML(version_id)}</VersionId>"
+                data << "</Object>"
+              end
+            else
+              data << "<Object>"
+              data << "<Key>#{CGI.escapeHTML(object_name)}</Key>"
+              data << "</Object>"
             end
-            data << "</Object>"
           end
           data << "</Delete>"
 
@@ -72,10 +79,13 @@ module Fog
             response.body = { 'DeleteResult' => [] }
             version_ids = headers.delete('versionId')
             object_names.each do |object_name|
-              object_version = version_ids.nil? ? nil : version_ids[object_name]
-              response.body['DeleteResult'] << delete_object_helper(bucket,
-                                                                object_name,
-                                                                object_version)
+              object_version = version_ids.nil? ? [nil] : version_ids[object_name]
+              object_version = object_version.is_a?(String) ? [object_version] : object_version
+              object_version.each do |version_id|
+                response.body['DeleteResult'] << delete_object_helper(bucket,
+                                                                  object_name,
+                                                                  version_id)
+              end
             end
           else
             response.status = 404
