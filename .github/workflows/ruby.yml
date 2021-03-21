@@ -16,6 +16,8 @@ on:
 jobs:
   test:
 
+    env:
+      BUNDLER_GEMFILE: gemfiles/Gemfile-edge
     runs-on: ubuntu-latest
     strategy:
       matrix:
