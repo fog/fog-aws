@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.0.0'
 
   spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'github_changelog_generator', '~> 1.14'
+  spec.add_development_dependency 'github_changelog_generator', '~> 1.16'
   spec.add_development_dependency 'rake',    '>= 12.3.3'
   spec.add_development_dependency 'rubyzip', '~> 1.3.0'
   spec.add_development_dependency 'shindo',  '~> 0.3'
