@@ -13,8 +13,6 @@ module Fog
 
       CONTAINER_CREDENTIALS_HOST = "http://169.254.170.2"
 
-      STS_GLOBAL_ENDPOINT = "https://sts.amazonaws.com"
-
       module ServiceMethods
         def fetch_credentials(options)
           if options[:use_iam_profile] && Fog.mocking?
@@ -44,7 +42,14 @@ module Fog
                   :WebIdentityToken => File.read(options[:aws_web_identity_token_file] || ENV.fetch("AWS_WEB_IDENTITY_TOKEN_FILE")),
                   :Version => "2011-06-15",
                 }
-                connection = options[:connection] || Excon.new(STS_GLOBAL_ENDPOINT, :query => params)
+
+                if ENV["AWS_STS_REGIONAL_ENDPOINTS"] == "regional" && ENV["AWS_DEFAULT_REGION"]
+                  STS_ENDPOINT = "https://sts.#{ENV['AWS_DEFAULT_REGION']}.amazonaws.com"
+                else
+                  STS_ENDPOINT = "https://sts.amazonaws.com"
+                end
+
+                connection = options[:connection] || Excon.new(STS_ENDPOINT, :query => params)
                 document = Nokogiri::XML(connection.get(:idempotent => true, :expects => 200).body)
 
                 session = {
