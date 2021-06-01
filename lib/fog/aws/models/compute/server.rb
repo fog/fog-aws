@@ -198,48 +198,6 @@ module Fog
           else
             options.delete('SubnetId')
           end
-          if tag_specifications
-            # From https://docs.aws.amazon.com/sdk-for-ruby/v2/api/Aws/EC2/Client.html#run_instances-instance_method
-            # And https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html
-            # Discussed at https://github.com/fog/fog-aws/issues/603
-            #
-            # Example
-            #
-            # tag_specifications: [
-            #     {
-            #       resource_type: "instance",
-            #       tags: [
-            #         {
-            #           key: "Project",
-            #           value: "MyProject",
-            #         },
-            #       ],
-            #     },
-            #     {
-            #       resource_type: "volume",
-            #       tags: [
-            #         {
-            #           key: "Project",
-            #           value: "MyProject",
-            #         },
-            #       ],
-            #     },
-            # ]
-            options.delete('TagSpecifications')
-            tag_specifications.each_with_index do |val, idx|
-              resource_type = val["resource_type"]
-              tags = val["tags"]
-              options["TagSpecification.#{idx}.ResourceType"] = resource_type
-              tags.each_with_index do |tag, tag_idx|
-                aws_tag_key = "TagSpecification.#{idx}.Tag.#{tag_idx}.Key"
-                aws_tag_value = "TagSpecification.#{idx}.Tag.#{tag_idx}.Value"
-                options[aws_tag_key] = tag["key"]
-                options[aws_tag_value] = tag["value"]
-              end
-            end
-          else
-            options.delete('TagSpecifications')
-          end
           options
         end
 
