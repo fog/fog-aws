@@ -50,6 +50,7 @@ module Fog
         attribute :subnet_id,                :aliases => 'subnetId'
         attribute :tenancy
         attribute :tags,                     :aliases => 'tagSet'
+        attribute :tag_specifications,       :aliases => 'tagSpecifications'
         attribute :user_data
         attribute :virtualization_type,      :aliases => 'virtualizationType'
         attribute :vpc_id,                   :aliases => 'vpcId'
@@ -166,6 +167,7 @@ module Fog
             'SecurityGroupId'             => security_group_ids,
             'SubnetId'                    => subnet_id,
             'UserData'                    => user_data,
+            'TagSpecifications'           => tag_specifications,
           }
           options.delete_if {|key, value| value.nil?}
 
