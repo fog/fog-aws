@@ -50,7 +50,7 @@ module Fog
 
           idempotent = true
           if block_given?
-            params[:response_block] = Proc.new
+            params[:response_block] = Proc.new(&block)
             idempotent = false
           end
 
