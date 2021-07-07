@@ -145,9 +145,9 @@ module Fog
           requires :directory, :key
 
           # With a single PUT operation you can upload objects up to 5 GB in size. Automatically set MP for larger objects.
-          self.multipart_chunk_size = MIN_MULTIPART_CHUNK_SIZE * 2 if !multipart_chunk_size && self.content_length.to_i > MAX_SINGLE_PUT_SIZE
+          if content_length.to_i > MAX_SINGLE_PUT_SIZE
+            self.multipart_chunk_size = MIN_MULTIPART_CHUNK_SIZE * 2 unless multipart_chunk_size
 
-          if multipart_chunk_size && self.content_length.to_i >= multipart_chunk_size
             upload_part_options = options.select { |key, _| ALLOWED_UPLOAD_PART_OPTIONS.include?(key.to_sym) }
             upload_part_options = upload_part_options.merge({ 'x-amz-copy-source' => "#{directory.key}/#{key}" })
             multipart_copy(options, upload_part_options, target_directory_key, target_file_key)
