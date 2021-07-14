@@ -268,7 +268,7 @@ module Fog
           options.merge!(metadata)
           options['x-amz-storage-class'] = storage_class if storage_class
           options['x-amz-tagging'] = tags if tags
-          options['x-amz-website-redirect-location' = website_redirect_location if website_redirect_location
+          options['x-amz-website-redirect-location'] = website_redirect_location if website_redirect_location
           options.merge!(encryption_headers)
 
           # With a single PUT operation you can upload objects up to 5 GB in size. Automatically set MP for larger objects.
