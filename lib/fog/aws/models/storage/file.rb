@@ -30,6 +30,7 @@ module Fog
         attribute :version,             :aliases => 'x-amz-version-id'
         attribute :kms_key_id,          :aliases => 'x-amz-server-side-encryption-aws-kms-key-id'
         attribute :tags,                :aliases => 'x-amz-tagging'
+        attribute :website_redirect_location, :aliases => 'x-amz-website-redirect-location'
 
         UploadPartData = Struct.new(:part_number, :upload_options, :etag)
 
@@ -249,6 +250,7 @@ module Fog
         # @option options [String] storage_class sets x-amz-storage-class HTTP header. Defaults to 'STANDARD'. Or, 'REDUCED_REDUNDANCY'
         # @option options [String] encryption sets HTTP encryption header. Set to 'AES256' to encrypt files at rest on S3
         # @option options [String] tags sets x-amz-tagging HTTP header. For example, 'Org-Id=1' or 'Org-Id=1&Service=MyService'
+        # @option options [String] website_redirect_location sets x-amz-website-redirect-location HTTP header. For example, 'website_redirect_location=http://www.rubydoc.info/github/fog/fog-aws'
         # @return [Boolean] true if no errors
         #
         def save(options = {})
@@ -266,6 +268,7 @@ module Fog
           options.merge!(metadata)
           options['x-amz-storage-class'] = storage_class if storage_class
           options['x-amz-tagging'] = tags if tags
+          options['x-amz-website-redirect-location'] = website_redirect_location if website_redirect_location
           options.merge!(encryption_headers)
 
           # With a single PUT operation you can upload objects up to 5 GB in size. Automatically set MP for larger objects.
