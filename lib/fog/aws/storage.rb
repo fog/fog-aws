@@ -14,6 +14,9 @@ module Fog
         'https' => 443
       }
 
+      MIN_MULTIPART_CHUNK_SIZE = 5242880
+      MAX_SINGLE_PUT_SIZE = 5368709120
+
       VALID_QUERY_KEYS = %w[
         acl
         cors
@@ -43,7 +46,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :enable_signature_v4_streaming, :virtual_host, :cname
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :enable_signature_v4_streaming, :virtual_host, :cname, :max_put_chunk_size, :max_copy_chunk_size
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -117,6 +120,17 @@ module Fog
       module Utils
         attr_accessor :region
 
+        # Amazon S3 limits max chunk size that can be uploaded/copied in a single request to 5GB.
+        # Other S3-compatible storages (like, Ceph) do not have such limit.
+        # Ceph shows much better performance when file is copied as a whole, in a single request.
+        # fog-aws user can use these settings to configure chunk sizes.
+        # A non-positive value will tell fog-aws to use a single put/copy request regardless of file size.
+        #
+        # @return [Integer]
+        # @see https://docs.aws.amazon.com/AmazonS3/latest/userguide/copy-object.html
+        attr_reader :max_put_chunk_size
+        attr_reader :max_copy_chunk_size
+
         def cdn
           @cdn ||= Fog::AWS::CDN.new(
             :aws_access_key_id => @aws_access_key_id,
@@ -171,12 +185,28 @@ module Fog
           params_to_url(params)
         end
 
+        # @param value [int]
+        # @param description [str]
+        def validate_chunk_size(value, description)
+          raise "#{description} (#{value}) is less than minimum #{MIN_MULTIPART_CHUNK_SIZE}" unless value <= 0 || value >= MIN_MULTIPART_CHUNK_SIZE
+        end
+
         private
 
         def validate_signature_version!
           unless @signature_version == 2 || @signature_version == 4
             raise "Unknown signature version #{@signature_version}; valid versions are 2 or 4"
           end
+        end
+
+        def init_max_put_chunk_size!(options = {})
+          @max_put_chunk_size = options.fetch(:max_put_chunk_size, MAX_SINGLE_PUT_SIZE)
+          validate_chunk_size(@max_put_chunk_size, 'max_put_chunk_size')
+        end
+
+        def init_max_copy_chunk_size!(options = {})
+          @max_copy_chunk_size = options.fetch(:max_copy_chunk_size, MAX_SINGLE_PUT_SIZE)
+          validate_chunk_size(@max_copy_chunk_size, 'max_copy_chunk_size')
         end
 
         def v4_signed_params_for_url(params, expires)
@@ -452,6 +482,10 @@ module Fog
 
 
           @path_style = options[:path_style] || false
+
+          init_max_put_chunk_size!(options)
+          init_max_copy_chunk_size!(options)
+
           @signature_version = options.fetch(:aws_signature_version, 4)
           validate_signature_version!
           setup_credentials(options)
@@ -514,6 +548,9 @@ module Fog
           @enable_signature_v4_streaming = options.fetch(:enable_signature_v4_streaming, true)
           validate_signature_version!
           @path_style = options[:path_style]  || false
+
+          init_max_put_chunk_size!(options)
+          init_max_copy_chunk_size!(options)
 
           @region = options[:region] || DEFAULT_REGION
 
