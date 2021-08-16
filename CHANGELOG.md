@@ -2,7 +2,11 @@
 
 ## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
 
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.10.0...HEAD)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.11.0...HEAD)
+
+## [v3.11.0](https://github.com/fog/fog-aws/tree/v3.11.0) (2021-08-05)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.10.0...v3.11.0)
 
 **Closed issues:**
 
