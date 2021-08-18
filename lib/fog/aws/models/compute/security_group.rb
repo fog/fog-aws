@@ -62,7 +62,8 @@ module Fog
         # options::
         #   A hash that can contain any of the following keys:
         #    :cidr_ip (defaults to "0.0.0.0/0")
-        #    :group - ("account:group_name" or "account:group_id"), cannot be used with :cidr_ip
+        #    :cidr_ipv6 cannot be used with :cidr_ip
+        #    :group - ("account:group_name" or "account:group_id"), cannot be used with :cidr_ip or :cidr_ipv6
         #    :ip_protocol (defaults to "tcp")
         #
         # == Returns:
@@ -178,7 +179,8 @@ module Fog
         # options::
         #   A hash that can contain any of the following keys:
         #    :cidr_ip (defaults to "0.0.0.0/0")
-        #    :group - ("account:group_name" or "account:group_id"), cannot be used with :cidr_ip
+        #    :cidr_ipv6 cannot be used with :cidr_ip
+        #    :group - ("account:group_name" or "account:group_id"), cannot be used with :cidr_ip or :cidr_ipv6
         #    :ip_protocol (defaults to "tcp")
         #
         # == Returns:
@@ -327,9 +329,15 @@ module Fog
           }
 
           if options[:group].nil?
-            ip_permission['IpRanges'] = [
-              { 'CidrIp' => options[:cidr_ip] || '0.0.0.0/0' }
-            ]
+            if options[:cidr_ipv6].nil?
+              ip_permission['IpRanges'] = [
+                { 'CidrIp' => options[:cidr_ip] || '0.0.0.0/0' }
+              ]
+            else
+              ip_permission['Ipv6Ranges'] = [
+                { 'CidrIpv6' => options[:cidr_ipv6] }
+              ]
+            end
           else
             ip_permission['Groups'] = [
               group_info(options[:group])

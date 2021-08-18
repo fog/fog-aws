@@ -233,21 +233,24 @@ module Fog
                         'fromPort'    => -1,
                         'toPort'      => -1,
                         'ipProtocol'  => 'icmp',
-                        'ipRanges'    => []
+                        'ipRanges'    => [],
+                        'ipv6Ranges'  => []
                       },
                       {
                         'groups'      => [{'groupName' => 'default', 'userId' => owner_id, 'groupId' => security_group_id}],
                         'fromPort'    => 0,
                         'toPort'      => 65535,
                         'ipProtocol'  => 'tcp',
-                        'ipRanges'    => []
+                        'ipRanges'    => [],
+                        'ipv6Ranges'  => []
                       },
                       {
                         'groups'      => [{'groupName' => 'default', 'userId' => owner_id, 'groupId' => security_group_id}],
                         'fromPort'    => 0,
                         'toPort'      => 65535,
                         'ipProtocol'  => 'udp',
-                        'ipRanges'    => []
+                        'ipRanges'    => [],
+                        'ipv6Ranges'  => []
                       }
                     ],
                     'ownerId'             => owner_id

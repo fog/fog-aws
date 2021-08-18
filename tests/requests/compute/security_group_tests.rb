@@ -19,6 +19,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
         'groups'      => [{ 'groupName' => Fog::Nullable::String, 'userId' => String, 'groupId' => String }],
         'ipProtocol'  => String,
         'ipRanges'    => [Fog::Nullable::Hash],
+        'ipv6Ranges'  => [Fog::Nullable::Hash],
         'toPort'      => Fog::Nullable::Integer,
       }],
       'ipPermissionsEgress' => [],
@@ -54,16 +55,19 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       {"groups"=>[{"groupName"=>"default", "userId"=>@owner_id, "groupId"=>@group_id_default}],
         "fromPort"=>1,
         "ipRanges"=>[],
+        "ipv6Ranges"=>[],
         "ipProtocol"=>"tcp",
         "toPort"=>65535},
       {"groups"=>[{"groupName"=>"default", "userId"=>@owner_id, "groupId"=>@group_id_default}],
         "fromPort"=>1,
         "ipRanges"=>[],
+        "ipv6Ranges"=>[],
         "ipProtocol"=>"udp",
         "toPort"=>65535},
       {"groups"=>[{"groupName"=>"default", "userId"=>@owner_id, "groupId"=>@group_id_default}],
         "fromPort"=>-1,
         "ipRanges"=>[],
+        "ipv6Ranges"=>[],
         "ipProtocol"=>"icmp",
         "toPort"=>-1}
     ]
@@ -88,6 +92,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
         [{"userId"=>@owner_id, "groupName"=>"default", "groupId"=>@group_id_default},
           {"userId"=>@owner_id, "groupName"=>"fog_security_group_two", "groupId"=>@group_id_two}],
         "ipRanges"=>[],
+        "ipv6Ranges"=>[],
         "ipProtocol"=>"tcp",
         "fromPort"=>1,
         "toPort"=>65535},
@@ -95,6 +100,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
         [{"userId"=>@owner_id, "groupName"=>"default", "groupId"=>@group_id_default},
           {"userId"=>@owner_id, "groupName"=>"fog_security_group_two", "groupId"=>@group_id_two}],
         "ipRanges"=>[],
+        "ipv6Ranges"=>[],
         "ipProtocol"=>"udp",
         "fromPort"=>1,
         "toPort"=>65535},
@@ -102,6 +108,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
         [{"userId"=>@owner_id, "groupName"=>"default", "groupId"=>@group_id_default},
           {"userId"=>@owner_id, "groupName"=>"fog_security_group_two", "groupId"=>@group_id_two}],
         "ipRanges"=>[],
+        "ipv6Ranges"=>[],
         "ipProtocol"=>"icmp",
         "fromPort"=>-1,
         "toPort"=>-1}
@@ -133,6 +140,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     expected_permissions += [
       {"groups"=>[],
         "ipRanges"=>[{"cidrIp"=>"10.0.0.0/8"}],
+        "ipv6Ranges"=>[],
         "ipProtocol"=>"tcp",
         "fromPort"=>22,
         "toPort"=>22}
@@ -164,7 +172,8 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       'IpPermissions' => [
         {
           'IpProtocol' => 'tcp', 'FromPort' => '80', 'ToPort' => '80',
-          'IpRanges' => [{ 'CidrIp' => '192.168.0.0/24' }]
+          'IpRanges' => [{ 'CidrIp' => '192.168.0.0/24' }],
+          'Ipv6Ranges' => []
         }
       ]
     }
@@ -177,6 +186,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     expected_permissions += [
       {"groups"=>[],
         "ipRanges"=>[{"cidrIp"=>"192.168.0.0/24"}],
+        "ipv6Ranges"=>[],
         "ipProtocol"=>"tcp",
         "fromPort"=>80,
         "toPort"=>80}
@@ -204,6 +214,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     expected_permissions += [
       {"groups"=>[{"userId"=>@owner_id, "groupName"=>"fog_security_group_two", "groupId"=>@group_id_two}],
         "ipRanges"=>[],
+        "ipv6Ranges"=>[],
         "ipProtocol"=>"tcp",
         "fromPort"=>8000,
         "toPort"=>8000}
