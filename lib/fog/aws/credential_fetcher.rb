@@ -44,7 +44,7 @@ module Fog
                 }
 
                 sts_endpoint =
-                  if ENV["AWS_STS_REGIONAL_ENDPOINTS"] == "regional"
+                  if ENV["AWS_STS_REGIONAL_ENDPOINTS"] == "regional" && region
                     "https://sts.#{region}.amazonaws.com"
                   else
                     "https://sts.amazonaws.com"

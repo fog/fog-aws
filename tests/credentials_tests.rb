@@ -103,6 +103,17 @@ Shindo.tests('AWS | credentials', ['aws']) do
 
     ENV["AWS_STS_REGIONAL_ENDPOINTS"] = "regional"
 
+    tests('#fetch_credentials with no region specified') do
+      returns(
+        aws_access_key_id: 'dummykey',
+        aws_secret_access_key: 'dummysecret',
+        aws_session_token: 'dummytoken',
+        region: 'us-west-1',
+        sts_endpoint: "https://sts.amazonaws.com",
+        aws_credentials_expire_at: expires_at
+      ) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
+    end
+
     tests('#fetch_credentials with regional STS endpoint') do
       returns(
         aws_access_key_id: 'dummykey',
