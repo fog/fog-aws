@@ -13,8 +13,6 @@ module Fog
 
       CONTAINER_CREDENTIALS_HOST = "http://169.254.170.2"
 
-      STS_GLOBAL_ENDPOINT = "https://sts.amazonaws.com"
-
       module ServiceMethods
         def fetch_credentials(options)
           if options[:use_iam_profile] && Fog.mocking?
@@ -23,7 +21,7 @@ module Fog
           if options[:use_iam_profile]
             begin
               role_data = nil
-              region = options[:region]
+              region = options[:region] || ENV["AWS_DEFAULT_REGION"]
 
               if ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
                 connection = options[:connection] || Excon.new(CONTAINER_CREDENTIALS_HOST)
@@ -44,7 +42,15 @@ module Fog
                   :WebIdentityToken => File.read(options[:aws_web_identity_token_file] || ENV.fetch("AWS_WEB_IDENTITY_TOKEN_FILE")),
                   :Version => "2011-06-15",
                 }
-                connection = options[:connection] || Excon.new(STS_GLOBAL_ENDPOINT, :query => params)
+
+                sts_endpoint =
+                  if ENV["AWS_STS_REGIONAL_ENDPOINTS"] == "regional" && region
+                    "https://sts.#{region}.amazonaws.com"
+                  else
+                    "https://sts.amazonaws.com"
+                  end
+
+                connection = options[:connection] || Excon.new(sts_endpoint, :query => params)
                 document = Nokogiri::XML(connection.get(:idempotent => true, :expects => 200).body)
 
                 session = {
@@ -65,18 +71,19 @@ module Fog
                 role_name = connection.get(:path => INSTANCE_METADATA_PATH, :idempotent => true, :expects => 200, :headers => token_header).body
                 role_data = connection.get(:path => INSTANCE_METADATA_PATH+role_name, :idempotent => true, :expects => 200, :headers => token_header).body
                 session = Fog::JSON.decode(role_data)
-                
+
                 region ||= connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200, :headers => token_header).body[0..-2]
               end
-              
+
               credentials = {}
               credentials[:aws_access_key_id] = session['AccessKeyId']
               credentials[:aws_secret_access_key] = session['SecretAccessKey']
               credentials[:aws_session_token] = session['Token']
               credentials[:aws_credentials_expire_at] = Time.xmlschema session['Expiration']
-              
+
               # set region by default to the one the instance is in.
               credentials[:region] = region
+              credentials[:sts_endpoint] = sts_endpoint if sts_endpoint
               #these indicate the metadata service is unavailable or has no profile setup
               credentials
             rescue Excon::Error => e
