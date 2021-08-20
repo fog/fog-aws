@@ -30,6 +30,9 @@ module Fog
         #       * 'IpRanges'<~Array>:
         #         * ip_range<~Hash>:
         #           * 'CidrIp'<~String> - CIDR range
+        #       * 'Ipv6Ranges'<~Array>:
+        #         * ip_range<~Hash>:
+        #           * 'CidrIpv6'<~String> - CIDR range
         #       * 'ToPort'<~Integer> - End of port range (or -1 for ICMP wildcard)
         #
         # === Returns
@@ -71,6 +74,10 @@ module Fog
             (permission['IpRanges'] || []).each_with_index do |ip_range, range_index|
               range_index += 1
               params[format('IpPermissions.%d.IpRanges.%d.CidrIp', key_index, range_index)] = ip_range['CidrIp']
+            end
+            (permission['Ipv6Ranges'] || []).each_with_index do |ip_range, range_index|
+              range_index += 1
+              params[format('IpPermissions.%d.Ipv6Ranges.%d.CidrIpv6', key_index, range_index)] = ip_range['CidrIpv6']
             end
           end
           params.reject {|k, v| v.nil? }
@@ -185,6 +192,14 @@ module Fog
               'toPort'     => Integer(options['ToPort']),
               'groups'     => [],
               'ipRanges'   => [{'cidrIp' => options['CidrIp']}]
+            }
+          elsif options['CidrIpv6']
+            normalized_permissions << {
+              'ipProtocol' => options['IpProtocol'],
+              'fromPort'   => Integer(options['FromPort']),
+              'toPort'     => Integer(options['ToPort']),
+              'groups'     => [],
+              'ipv6Ranges' => [{'cidrIpv6' => options['CidrIpv6']}]
             }
           elsif options['IpPermissions']
             options['IpPermissions'].each do |permission|
