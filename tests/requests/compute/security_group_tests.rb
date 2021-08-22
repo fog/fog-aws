@@ -1,6 +1,4 @@
 Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
-  # See https://github.com/fog/fog/issues/2932hj0
-  pending
 
   @create_security_group_format = {
     'requestId' => String,
@@ -300,6 +298,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     expected_permissions = [
       {"groups"=>[],
         "ipRanges"=>[{"cidrIp"=>"10.0.0.0/8"}],
+        "ipv6Ranges"=>[],
         "ipProtocol"=>"42"}
     ]
 
