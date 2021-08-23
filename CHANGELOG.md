@@ -1,8 +1,14 @@
 # Changelog
 
-## [Unreleased](https://github.com/fog/fog-aws/tree/HEAD)
+## [v3.12.0](https://github.com/fog/fog-aws/tree/v3.12.0) (2021-08-23)
 
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.11.0...HEAD)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.11.0...v3.12.0)
+
+**Merged pull requests:**
+
+-  Add support for regional STS endpoints [\#620](https://github.com/fog/fog-aws/pull/620) ([stanhu](https://github.com/stanhu))
+- Add IPv6 support for Ingress Security Groups [\#619](https://github.com/fog/fog-aws/pull/619) ([p8](https://github.com/p8))
+- Separate CHANGELOG entry for 3.11.0 [\#618](https://github.com/fog/fog-aws/pull/618) ([sunny](https://github.com/sunny))
 
 ## [v3.11.0](https://github.com/fog/fog-aws/tree/v3.11.0) (2021-08-05)
 
