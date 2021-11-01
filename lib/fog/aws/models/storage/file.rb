@@ -108,15 +108,16 @@ module Fog
         # @return [File]
         #
         def body
-          return attributes[:body] if attributes[:body]
-          return '' unless last_modified
+          return attributes[:body] if attributes.key?(:body)
 
           file = collection.get(identity)
-          if file
-            attributes[:body] = file.body
-          else
-            attributes[:body] = ''
-          end
+
+          attributes[:body] =
+            if file
+              file.body
+            else
+              ''
+            end
         end
 
         # Set body attribute.
