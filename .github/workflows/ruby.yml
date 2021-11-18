@@ -16,12 +16,13 @@ on:
 jobs:
   test:
 
+    continue-on-error: ${{ matrix.ruby-version == 'truffleruby-head' }}
     env:
       BUNDLER_GEMFILE: gemfiles/Gemfile-edge
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['2.5', '2.6', '2.7', '3.0', 'head', truffleruby-head]
+        ruby-version: ['2.5', '2.6', '2.7', '3.0', 'head', 'truffleruby-head']
 
     steps:
     - uses: actions/checkout@v2.4.0
