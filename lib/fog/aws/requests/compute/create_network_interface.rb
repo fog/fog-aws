@@ -2,6 +2,7 @@ module Fog
   module AWS
     class Compute
       class Real
+        require 'ipaddr'
         require 'fog/aws/parsers/compute/create_network_interface'
 
         # Creates a network interface
@@ -68,7 +69,7 @@ module Fog
               raise Fog::AWS::Compute::Error.new("Unknown subnet '#{subnetId}' specified")
             else
               id = Fog::AWS::Mock.network_interface_id
-              cidr_block = IPAddress.parse(subnet['cidrBlock'])
+              cidr_block = IPAddr.new(subnet['cidrBlock'])
 
               groups = {}
               if options['GroupSet']
@@ -82,12 +83,14 @@ module Fog
               end
 
               if options['PrivateIpAddress'].nil?
+                range = cidr_block.to_range
                 # Here we try to act like a DHCP server and pick the first
                 # available IP (not including the first in the cidr block,
                 # which is typically reserved for the gateway).
-                cidr_block.each_host do |p_ip|
-                  unless self.data[:network_interfaces].map{ |ni, ni_conf| ni_conf['privateIpAddress'] }.include?p_ip.to_s ||
-                    cidr_block.first == p_ip
+                range = range.drop(2)[0..-2] if cidr_block.ipv4?
+
+                range.each do |p_ip|
+                  unless self.data[:network_interfaces].map{ |ni, ni_conf| ni_conf['privateIpAddress'] }.include?p_ip.to_s
                     options['PrivateIpAddress'] = p_ip.to_s
                     break
                   end

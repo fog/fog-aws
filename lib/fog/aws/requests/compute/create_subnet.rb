@@ -2,7 +2,7 @@ module Fog
   module AWS
     class Compute
       class Real
-        require 'ipaddress'
+        require 'ipaddr'
         require 'fog/aws/parsers/compute/create_subnet'
 
         # Creates a Subnet with the CIDR block you specify.
@@ -50,11 +50,11 @@ module Fog
               if vpc.nil?
                 raise Fog::AWS::Compute::NotFound.new("The vpc ID '#{vpcId}' does not exist")
               end
-              if ! ::IPAddress.parse(vpc['cidrBlock']).include?(::IPAddress.parse(cidrBlock))
+              if ! ::IPAddr.new(vpc['cidrBlock']).include?(::IPAddr.new(cidrBlock))
                 raise Fog::AWS::Compute::Error.new("Range => The CIDR '#{cidrBlock}' is invalid.")
               end
               self.data[:subnets].select{ |s| s['vpcId'] == vpcId }.each do |subnet|
-                if ::IPAddress.parse(subnet['cidrBlock']).include?(::IPAddress.parse(cidrBlock))
+                if ::IPAddr.new(subnet['cidrBlock']).include?(::IPAddr.new(cidrBlock))
                   raise Fog::AWS::Compute::Error.new("Conflict => The CIDR '#{cidrBlock}' conflicts with another subnet")
                 end
               end
