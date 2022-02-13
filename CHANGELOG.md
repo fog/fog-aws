@@ -1,5 +1,25 @@
 # Changelog
 
+## [v3.13.0](https://github.com/fog/fog-aws/tree/v3.12.0) (2022-02-12)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.12.0...v3.13.0)
+
+**Closed issues:**
+
+- Please include all files required for running tests in the gem [\#625](https://github.com/fog/fog-aws/issues/625)
+- Using Hitachi compatible S3 and still see the AWS S3 host  [\#624](https://github.com/fog/fog-aws/issues/624)
+- Spawn compute node with Elastic Inference [\#617](https://github.com/fog/fog-aws/issues/617)
+
+**Merged pull requests:**
+
+- Drop ipaddress dependency in favor of built in ipaddr [\#630](https://github.com/fog/fog-aws/pull/630) ([ekohl](https://github.com/ekohl))
+- Exclude test files from gem [\#629](https://github.com/fog/fog-aws/pull/629) ([ursm](https://github.com/ursm))
+- Add Truffleruby head to CI [\#628](https://github.com/fog/fog-aws/pull/628) ([gogainda](https://github.com/gogainda))
+- Bump actions/checkout from 2.3.5 to 2.4.0 [\#627](https://github.com/fog/fog-aws/pull/627) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Update Fog::AWS::Storage::File\#body [\#626](https://github.com/fog/fog-aws/pull/626) ([10io](https://github.com/10io))
+- Bump actions/checkout from 2.3.4 to 2.3.5 [\#623](https://github.com/fog/fog-aws/pull/623) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Add json files to the gem file [\#622](https://github.com/fog/fog-aws/pull/622) ([acant](https://github.com/acant))
+
 ## [v3.12.0](https://github.com/fog/fog-aws/tree/v3.12.0) (2021-08-23)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.11.0...v3.12.0)
@@ -146,7 +166,7 @@
 
 **Merged pull requests:**
 
-- Handle multiple versions of objects in multiple delete request [\#600](https://github.com/fog/fog-aws/pull/600) ([shanu-idrive](https://github.com/shanu-idrive))
+- Handle multiple versions of objects in multiple delete request [\#600](https://github.com/fog/fog-aws/pull/600) ([shanu-kr](https://github.com/shanu-kr))
 - Add Truffleruby head to CI [\#596](https://github.com/fog/fog-aws/pull/596) ([gogainda](https://github.com/gogainda))
 - Fixes domain name duplication in url [\#593](https://github.com/fog/fog-aws/pull/593) ([midhunkrishna](https://github.com/midhunkrishna))
 
