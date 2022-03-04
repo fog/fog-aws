@@ -32,6 +32,7 @@ module Fog
         rescue Excon::Errors::NotFound
           nil
         end
+        # **Warning!** `s3.directories.get` retrieves and caches meta data for the first 10,000 objects in the bucket, which can be very expensive. When possible use `s3.directories.new`.
       end
     end
   end
