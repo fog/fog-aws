@@ -98,6 +98,7 @@ file = directory.files.create(key: 'user/1/Gemfile', body: File.open('Gemfile'),
 directory = s3.directories.get('gaudi-portal-dev', prefix: 'user/1/')
 directory.files
 ```
+**Warning!** `s3.directories.get` retrieves and caches meta data for the first 10,000 objects in the bucket, which can be very expensive. When possible use `s3.directories.new`.
 
 #### Generating a URL for a file:
 
