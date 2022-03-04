@@ -11,7 +11,7 @@ module Fog
           load(data)
         end
 
-        # **Warning!** `s3.directories.get` retrieves and caches meta data for the first 10,000 objects in the bucket, which can be very expensive. When possible use `s3.directories.new`.
+        # Warning! This retrieves and caches meta data for the first 10,000 objects in the bucket, which can be very expensive. When possible use directories.new
         def get(key, options = {})
           remap_attributes(options, {
             :delimiter  => 'delimiter',
