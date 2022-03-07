@@ -101,24 +101,60 @@ Shindo.tests('AWS | credentials', ['aws']) do
 
     ENV['AWS_WEB_IDENTITY_TOKEN_FILE'] = nil
 
-    compute = Fog::AWS::Compute.new(use_iam_profile: true)
+    storage = Fog::Storage.new(
+      :provider => 'AWS',
+      :region => 'us-east-1',
+      :use_iam_profile => true,
+      :aws_credentials_refresh_threshold_seconds => 30)
 
-    tests('#refresh_credentials_if_expired') do
-      returns(nil) { compute.refresh_credentials_if_expired }
+    tests('#credentials_refresh_threshold') do
+      returns(30) { storage.send(:credentials_refresh_threshold) }
     end
 
-    credentials['AccessKeyId'] = 'newkey'
-    credentials['SecretAccessKey'] = 'newsecret'
+    Fog::Time.now = storage.instance_variable_get(:@aws_credentials_expire_at) - 31
+    tests('#refresh_credentials_if_expired before credentials have expired and before refresh threshold') do
+      returns(nil) { storage.refresh_credentials_if_expired }
+      returns('dummykey') { storage.instance_variable_get(:@aws_access_key_id) }
+      returns('dummysecret') { storage.instance_variable_get(:@aws_secret_access_key) }
+      returns(expires_at) { storage.instance_variable_get(:@aws_credentials_expire_at) }
+    end
+    Fog::Time.now = Time.now
+
+    credentials['AccessKeyId'] = 'newkey-1'
+    credentials['SecretAccessKey'] = 'newsecret-1'
     credentials['Expiration'] = (expires_at + 10).xmlschema
 
     Excon.stub({ method: :get, path: '/latest/meta-data/iam/security-credentials/arole' }, { status: 200, body: Fog::JSON.encode(credentials) })
 
-    Fog::Time.now = expires_at + 1
-    tests('#refresh_credentials_if_expired') do
-      returns(true) { compute.refresh_credentials_if_expired }
-      returns('newkey') { compute.instance_variable_get(:@aws_access_key_id) }
+    Fog::Time.now = storage.instance_variable_get(:@aws_credentials_expire_at) - 29
+    tests('#refresh_credentials_if_expired after refresh threshold is crossed but before expiration') do
+      returns(true) { storage.refresh_credentials_if_expired }
+      returns('newkey-1') { storage.instance_variable_get(:@aws_access_key_id) }
+      returns('newsecret-1') { storage.instance_variable_get(:@aws_secret_access_key) }
+      returns(expires_at + 10) { storage.instance_variable_get(:@aws_credentials_expire_at) }
     end
     Fog::Time.now = Time.now
+
+    credentials['AccessKeyId'] = 'newkey-2'
+    credentials['SecretAccessKey'] = 'newsecret-2'
+    credentials['Expiration'] = (expires_at + 20).xmlschema
+
+    Excon.stub({ method: :get, path: '/latest/meta-data/iam/security-credentials/arole' }, { status: 200, body: Fog::JSON.encode(credentials) })
+
+    Fog::Time.now = storage.instance_variable_get(:@aws_credentials_expire_at) + 1
+    tests('#refresh_credentials_if_expired after credentials have expired') do
+      returns(true) { storage.refresh_credentials_if_expired }
+      returns('newkey-2') { storage.instance_variable_get(:@aws_access_key_id) }
+      returns('newsecret-2') { storage.instance_variable_get(:@aws_secret_access_key) }
+      returns(expires_at + 20) { storage.instance_variable_get(:@aws_credentials_expire_at) }
+    end
+    Fog::Time.now = Time.now
+
+    compute = Fog::AWS::Compute.new(use_iam_profile: true)
+
+    tests('#credentials_refresh_threshold when "aws_credentials_refresh_threshold_seconds" is unspecified') do
+      returns(15) { compute.send(:credentials_refresh_threshold) }
+    end
 
     default_credentials = Fog::AWS::Compute.fetch_credentials({})
     tests('#fetch_credentials when the url 404s') do

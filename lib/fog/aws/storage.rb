@@ -43,7 +43,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :enable_signature_v4_streaming, :virtual_host, :cname
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :enable_signature_v4_streaming, :virtual_host, :cname, :aws_credentials_refresh_threshold_seconds
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -466,6 +466,8 @@ module Fog
         end
 
         def setup_credentials(options)
+          @aws_credentials_refresh_threshold_seconds = options[:aws_credentials_refresh_threshold_seconds]
+
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
           @aws_session_token     = options[:aws_session_token]
@@ -540,6 +542,8 @@ module Fog
 
 
         def setup_credentials(options)
+          @aws_credentials_refresh_threshold_seconds = options[:aws_credentials_refresh_threshold_seconds]
+
           @aws_access_key_id     = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
           @aws_session_token     = options[:aws_session_token]
