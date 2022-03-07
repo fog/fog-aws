@@ -4,8 +4,11 @@ module Fog
   module AWS
     class Storage
       class File < Fog::Model
-        MIN_MULTIPART_CHUNK_SIZE = 5242880
-        MAX_SINGLE_PUT_SIZE = 5368709120
+        # @deprecated use {Fog::AWS::Storage::MIN_MULTIPART_CHUNK_SIZE} instead
+        MIN_MULTIPART_CHUNK_SIZE = Fog::AWS::Storage::MIN_MULTIPART_CHUNK_SIZE
+        # @deprecated use {Fog::AWS::Storage::MAX_SINGLE_PUT_SIZE} instead
+        MAX_SINGLE_PUT_SIZE = Fog::AWS::Storage::MAX_SINGLE_PUT_SIZE
+        # @deprecated not used for anything
         MULTIPART_COPY_THRESHOLD = 15728640
 
         # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html
@@ -30,6 +33,7 @@ module Fog
         attribute :version,             :aliases => 'x-amz-version-id'
         attribute :kms_key_id,          :aliases => 'x-amz-server-side-encryption-aws-kms-key-id'
         attribute :tags,                :aliases => 'x-amz-tagging'
+        attribute :website_redirect_location, :aliases => 'x-amz-website-redirect-location'
 
         UploadPartData = Struct.new(:part_number, :upload_options, :etag)
 
@@ -64,7 +68,7 @@ module Fog
         #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
         attr_reader :multipart_chunk_size
         def multipart_chunk_size=(mp_chunk_size)
-          raise ArgumentError.new("minimum multipart_chunk_size is #{MIN_MULTIPART_CHUNK_SIZE}") if mp_chunk_size < MIN_MULTIPART_CHUNK_SIZE
+          service.validate_chunk_size(mp_chunk_size, 'multipart_chunk_size')
           @multipart_chunk_size = mp_chunk_size
         end
 
@@ -104,15 +108,16 @@ module Fog
         # @return [File]
         #
         def body
-          return attributes[:body] if attributes[:body]
-          return '' unless last_modified
+          return attributes[:body] if attributes.key?(:body)
 
           file = collection.get(identity)
-          if file
-            attributes[:body] = file.body
-          else
-            attributes[:body] = ''
-          end
+
+          attributes[:body] =
+            if file
+              file.body
+            else
+              ''
+            end
         end
 
         # Set body attribute.
@@ -144,10 +149,9 @@ module Fog
         def copy(target_directory_key, target_file_key, options = {})
           requires :directory, :key
 
-          # With a single PUT operation you can upload objects up to 5 GB in size. Automatically set MP for larger objects.
-          self.multipart_chunk_size = MIN_MULTIPART_CHUNK_SIZE * 2 if !multipart_chunk_size && self.content_length.to_i > MAX_SINGLE_PUT_SIZE
+          self.multipart_chunk_size = service.max_copy_chunk_size if multipart_chunk_size.nil?
 
-          if multipart_chunk_size && self.content_length.to_i >= multipart_chunk_size
+          if multipart_chunk_size > 0 && self.content_length.to_i >= multipart_chunk_size
             upload_part_options = options.select { |key, _| ALLOWED_UPLOAD_PART_OPTIONS.include?(key.to_sym) }
             upload_part_options = upload_part_options.merge({ 'x-amz-copy-source' => "#{directory.key}/#{key}" })
             multipart_copy(options, upload_part_options, target_directory_key, target_file_key)
@@ -249,6 +253,7 @@ module Fog
         # @option options [String] storage_class sets x-amz-storage-class HTTP header. Defaults to 'STANDARD'. Or, 'REDUCED_REDUNDANCY'
         # @option options [String] encryption sets HTTP encryption header. Set to 'AES256' to encrypt files at rest on S3
         # @option options [String] tags sets x-amz-tagging HTTP header. For example, 'Org-Id=1' or 'Org-Id=1&Service=MyService'
+        # @option options [String] website_redirect_location sets x-amz-website-redirect-location HTTP header. For example, 'website_redirect_location=http://www.rubydoc.info/github/fog/fog-aws'
         # @return [Boolean] true if no errors
         #
         def save(options = {})
@@ -266,12 +271,11 @@ module Fog
           options.merge!(metadata)
           options['x-amz-storage-class'] = storage_class if storage_class
           options['x-amz-tagging'] = tags if tags
+          options['x-amz-website-redirect-location'] = website_redirect_location if website_redirect_location
           options.merge!(encryption_headers)
 
-          # With a single PUT operation you can upload objects up to 5 GB in size. Automatically set MP for larger objects.
-          self.multipart_chunk_size = MIN_MULTIPART_CHUNK_SIZE if !multipart_chunk_size && Fog::Storage.get_body_size(body) > MAX_SINGLE_PUT_SIZE
-
-          if multipart_chunk_size && Fog::Storage.get_body_size(body) >= multipart_chunk_size && body.respond_to?(:read)
+          self.multipart_chunk_size = service.max_put_chunk_size if multipart_chunk_size.nil?
+          if multipart_chunk_size > 0 && Fog::Storage.get_body_size(body) >= multipart_chunk_size && body.respond_to?(:read)
             data = multipart_save(options)
             merge_attributes(data.body)
           else

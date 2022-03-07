@@ -14,10 +14,10 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/fog/fog-aws"
   spec.license       = "MIT"
 
-  spec.files         = Dir['lib/**/*.rb', 'tests/**/*', 'CHANGELOG.md', 'CONTRIBUTING.md',
-                           'CONTRIBUTORS.md', 'LICENSE.md', 'README.md', 'fog-aws.gemspec',]
+  spec.files         = Dir['lib/**/*.{rb,json}',
+                           'CHANGELOG.md', 'CONTRIBUTING.md', 'CONTRIBUTORS.md',
+                           'LICENSE.md', 'README.md', 'fog-aws.gemspec',]
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
   spec.required_ruby_version = '>= 2.0.0'
@@ -31,5 +31,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'fog-core',  '~> 2.1'
   spec.add_dependency 'fog-json',  '~> 1.1'
   spec.add_dependency 'fog-xml',   '~> 0.1'
-  spec.add_dependency 'ipaddress', '~> 0.8'
 end

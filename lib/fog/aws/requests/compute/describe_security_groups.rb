@@ -27,6 +27,8 @@ module Fog
         #         * 'ipProtocol'<~String> - Ip protocol, must be in ['tcp', 'udp', 'icmp']
         #         * 'ipRanges'<~Array>:
         #           * 'cidrIp'<~String> - CIDR range
+        #         * 'ipv6Ranges'<~Array>:
+        #           * 'cidrIpv6'<~String> - CIDR ipv6 range
         #         * 'toPort'<~Integer> - End of port range (or -1 for ICMP wildcard)
         #       * 'ownerId'<~String> - AWS Access Key Id of the owner of the security group
         #     * 'NextToken'<~String> - The token to retrieve the next page of results

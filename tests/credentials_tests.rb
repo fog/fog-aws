@@ -83,6 +83,7 @@ Shindo.tests('AWS | credentials', ['aws']) do
         aws_secret_access_key: 'dummysecret',
         aws_session_token: 'dummytoken',
         region: 'us-west-1',
+        sts_endpoint: "https://sts.amazonaws.com",
         aws_credentials_expire_at: expires_at
       ) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
     end
@@ -95,10 +96,50 @@ Shindo.tests('AWS | credentials', ['aws']) do
         aws_secret_access_key: 'dummysecret',
         aws_session_token: 'dummytoken',
         region: 'us-west-1',
+        sts_endpoint: "https://sts.amazonaws.com",
+        aws_credentials_expire_at: expires_at
+      ) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true, region: 'us-west-1') }
+    end
+
+    ENV["AWS_STS_REGIONAL_ENDPOINTS"] = "regional"
+
+    tests('#fetch_credentials with no region specified') do
+      returns(
+        aws_access_key_id: 'dummykey',
+        aws_secret_access_key: 'dummysecret',
+        aws_session_token: 'dummytoken',
+        region: 'us-west-1',
+        sts_endpoint: "https://sts.amazonaws.com",
         aws_credentials_expire_at: expires_at
       ) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
     end
 
+    tests('#fetch_credentials with regional STS endpoint') do
+      returns(
+        aws_access_key_id: 'dummykey',
+        aws_secret_access_key: 'dummysecret',
+        aws_session_token: 'dummytoken',
+        region: 'us-west-1',
+        sts_endpoint: "https://sts.us-west-1.amazonaws.com",
+        aws_credentials_expire_at: expires_at
+      ) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true, region: 'us-west-1') }
+    end
+
+    ENV["AWS_DEFAULT_REGION"] = "us-west-1"
+
+    tests('#fetch_credentials with regional STS endpoint with region in env') do
+      returns(
+        aws_access_key_id: 'dummykey',
+        aws_secret_access_key: 'dummysecret',
+        aws_session_token: 'dummytoken',
+        region: 'us-west-1',
+        sts_endpoint: "https://sts.us-west-1.amazonaws.com",
+        aws_credentials_expire_at: expires_at
+      ) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
+    end
+
+    ENV["AWS_STS_REGIONAL_ENDPOINTS"] = nil
+    ENV["AWS_DEFAULT_REGION"] = nil
     ENV['AWS_WEB_IDENTITY_TOKEN_FILE'] = nil
 
     storage = Fog::Storage.new(
