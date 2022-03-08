@@ -123,10 +123,17 @@ module Fog
 
         private
 
+        # When defined, 'aws_credentials_refresh_threshold_seconds' controls
+        # when the credential needs to be refreshed, expressed in seconds before
+        # the current credential's expiration time
+        def credentials_refresh_threshold
+          @aws_credentials_refresh_threshold_seconds || 15
+        end
+
         def credentials_expired?
           @use_iam_profile &&
             (!@aws_credentials_expire_at ||
-             (@aws_credentials_expire_at && Fog::Time.now > @aws_credentials_expire_at - 15)) #new credentials become available from around 5 minutes before expiration time
+             (@aws_credentials_expire_at && Fog::Time.now > @aws_credentials_expire_at - credentials_refresh_threshold)) #new credentials become available from around 5 minutes before expiration time
         end
 
         def refresh_credentials

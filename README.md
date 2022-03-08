@@ -106,6 +106,48 @@ directory.files
 directory.files.new(key: 'user/1/Gemfile').url(Time.now + 60)
 ```
 
+##### Controlling credential refresh time with IAM authentication
+
+When using IAM authentication with
+[temporary security credentials](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithWebIdentity.html),
+generated S3 pre-signed URLs
+[only last as long as the temporary credential](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html).
+
+Generating the URLs in the following manner will return a URL
+that will not last as long as its requested expiration time if
+the remainder of the authentication token lifetime was shorter.
+
+```ruby
+s3 = Fog::Storage.new(provider: 'AWS', use_iam_auth: true)
+directory = s3.directories.get('gaudi-portal-dev', prefix: 'user/1/')
+
+directory.files.new(key: 'user/1/Gemfile').url(Time.now + 60)
+```
+
+By default the temporary credentials in use are refreshed only within the last
+15 seconds of its expiration time. The URL requested with 60 seconds lifetime
+using the above example will only remain valid for 15 seconds in the worst case.
+
+The problem can be avoided by refreshing the token early and often,
+by setting configuration `aws_credentials_refresh_threshold_seconds` (default: 15)
+which controls the time when the refresh must occur. It is expressed in seconds
+before the temporary credential's expiration time.
+
+The following example can ensure pre-signed URLs last as long as 60 seconds
+by automatically refreshing the credentials when its remainder lifetime
+is lower than 60 seconds:
+
+```ruby
+s3 = Fog::Storage.new(
+  provider: 'AWS',
+  use_iam_auth: true,
+  aws_credentials_refresh_threshold_seconds: 60
+)
+directory = s3.directories.get('gaudi-portal-dev', prefix: 'user/1/')
+
+directory.files.new(key: 'user/1/Gemfile').url(Time.now + 60)
+```
+
 #### Copying a file
 
 ```ruby
