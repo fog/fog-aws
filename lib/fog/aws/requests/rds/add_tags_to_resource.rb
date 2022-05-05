@@ -22,19 +22,6 @@ module Fog
           }.merge(Fog::AWS.indexed_param('Tags.member.%d.Key', keys))
               .merge(Fog::AWS.indexed_param('Tags.member.%d.Value', values)))
         end
-
-        def add_tags_to_dbsnapshot(snapshot_name, tags)
-          keys    = tags.keys.sort
-          values  = keys.map { |key| tags[key] }
-          resource_name = "arn:aws:rds:#{@region}:#{owner_id}:snapshot:#{snapshot_name}"
-          %w[us-gov-west-1 us-gov-east-1].include?(@region) ? resource_name.insert(7, '-us-gov') : resource_name
-          request({
-            'Action' => 'AddTagsToResource',
-            'ResourceName' => resource_name,
-            :parser => Fog::Parsers::AWS::RDS::Base.new
-          }.merge(Fog::AWS.indexed_param('Tags.member.%d.Key', keys))
-              .merge(Fog::AWS.indexed_param('Tags.member.%d.Value', values)))
-        end
       end
 
       class Mock

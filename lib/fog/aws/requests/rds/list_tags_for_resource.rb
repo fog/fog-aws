@@ -21,16 +21,6 @@ module Fog
             :parser => Fog::Parsers::AWS::RDS::TagListParser.new
           )
         end
-
-        def list_tags_for_snapshot(snapshot_name)
-          resource_name = "arn:aws:rds:#{@region}:#{owner_id}:snapshot:#{snapshot_name}"
-          %w[us-gov-west-1 us-gov-east-1].include?(@region) ? resource_name.insert(7, '-us-gov') : resource_name
-          request({
-                    'Action' => 'ListTagsForResource',
-                    'ResourceName' => resource_name,
-                    :parser => Fog::Parsers::AWS::RDS::TagListParser.new
-                  })
-        end
       end
 
       class Mock
