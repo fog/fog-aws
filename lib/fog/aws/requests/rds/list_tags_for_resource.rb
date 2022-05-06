@@ -11,11 +11,14 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
+
         def list_tags_for_resource(rds_id)
+          resource_name = "arn:aws:rds:#{@region}:#{owner_id}:db:#{rds_id}"
+          %w[us-gov-west-1 us-gov-east-1].include?(@region) ? resource_name.insert(7, '-us-gov') : resource_name
           request(
-            'Action'        => 'ListTagsForResource',
-            'ResourceName'  => "arn:aws:rds:#{@region}:#{owner_id}:db:#{rds_id}",
-            :parser         => Fog::Parsers::AWS::RDS::TagListParser.new
+            'Action' => 'ListTagsForResource',
+            'ResourceName' => resource_name,
+            :parser => Fog::Parsers::AWS::RDS::TagListParser.new
           )
         end
       end
@@ -23,15 +26,15 @@ module Fog
       class Mock
         def list_tags_for_resource(rds_id)
           response = Excon::Response.new
-          if server = self.data[:servers][rds_id]
+          if server = data[:servers][rds_id]
             response.status = 200
             response.body = {
-              "ListTagsForResourceResult" =>
-                {"TagList" =>  self.data[:tags][rds_id]}
+              'ListTagsForResourceResult' =>
+                { 'TagList' => data[:tags][rds_id] }
             }
             response
           else
-            raise Fog::AWS::RDS::NotFound.new("DBInstance #{rds_id} not found")
+            raise Fog::AWS::RDS::NotFound, "DBInstance #{rds_id} not found"
           end
         end
       end
