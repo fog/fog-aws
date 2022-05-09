@@ -1,6 +1,26 @@
 # Changelog
 
-## [v3.13.0](https://github.com/fog/fog-aws/tree/v3.12.0) (2022-02-12)
+## [v3.14.0](https://github.com/fog/fog-aws/tree/v3.14.0) (2022-05-09)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.13.0...HEAD)
+
+**Closed issues:**
+
+- Add a special note to the documentation around the danger of using directory.get [\#633](https://github.com/fog/fog-aws/issues/633)
+
+**Merged pull requests:**
+
+- RDD tags issue in AWS GovCloud Account regions. [\#643](https://github.com/fog/fog-aws/pull/643) ([svavhal](https://github.com/svavhal))
+- Create codeql.yml [\#641](https://github.com/fog/fog-aws/pull/641) ([naveensrinivasan](https://github.com/naveensrinivasan))
+- chore\(deps\): Included dependency review [\#640](https://github.com/fog/fog-aws/pull/640) ([naveensrinivasan](https://github.com/naveensrinivasan))
+- Bump actions/stale from 4 to 5 [\#639](https://github.com/fog/fog-aws/pull/639) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Set permissions for GitHub actions [\#638](https://github.com/fog/fog-aws/pull/638) ([naveensrinivasan](https://github.com/naveensrinivasan))
+- Add option to control IAM credential refresh [\#637](https://github.com/fog/fog-aws/pull/637) ([gl-gh-hchouraria](https://github.com/gl-gh-hchouraria))
+- Add warning messages around directories.get [\#636](https://github.com/fog/fog-aws/pull/636) ([orrin-naylor-instacart](https://github.com/orrin-naylor-instacart))
+- Bump actions/checkout from 2.4.0 to 3 [\#632](https://github.com/fog/fog-aws/pull/632) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Add Ruby 3.1 to the CI matrix [\#631](https://github.com/fog/fog-aws/pull/631) ([petergoldstein](https://github.com/petergoldstein))
+
+## [v3.13.0](https://github.com/fog/fog-aws/tree/v3.13.0) (2022-02-13)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.12.0...v3.13.0)
 
