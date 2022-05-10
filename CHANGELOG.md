@@ -10,7 +10,7 @@
 
 **Merged pull requests:**
 
-- RDD tags issue in AWS GovCloud Account regions. [\#643](https://github.com/fog/fog-aws/pull/643) ([svavhal](https://github.com/svavhal))
+- RDS tags issue in AWS GovCloud Account regions. [\#643](https://github.com/fog/fog-aws/pull/643) ([svavhal](https://github.com/svavhal))
 - Create codeql.yml [\#641](https://github.com/fog/fog-aws/pull/641) ([naveensrinivasan](https://github.com/naveensrinivasan))
 - chore\(deps\): Included dependency review [\#640](https://github.com/fog/fog-aws/pull/640) ([naveensrinivasan](https://github.com/naveensrinivasan))
 - Bump actions/stale from 4 to 5 [\#639](https://github.com/fog/fog-aws/pull/639) ([dependabot[bot]](https://github.com/apps/dependabot))
