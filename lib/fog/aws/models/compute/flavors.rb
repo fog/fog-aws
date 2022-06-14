@@ -287,6 +287,76 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
+          :id                      => 't4g.nano',
+          :name                    => 'T4G Nano Instace',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 537,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't4g.micro',
+          :name                    => 'T4G Micro Instance',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 1073,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't4g.small',
+          :name                    => 'T4G Small Instance',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 2147,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't4g.medium',
+          :name                    => 'T4G Medium Instace',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 4295,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't4g.large',
+          :name                    => 'T4G Large Instance',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 8590,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't4g.xlarge',
+          :name                    => 'T4G Extra Large Instance',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 0,
+          :ram                     => 17180,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 't4g.2xlarge',
+          :name                    => 'T4G Double Extra Large Instance',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 0,
+          :ram                     => 34360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
           :id                      => 'm6g.medium',
           :name                    => 'M6G Medium',
           :bits                    => 64,
@@ -2235,6 +2305,96 @@ module Fog
           :disk                    => 3840,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'x2gd.medium',
+          :name                    => 'X2gd Medium Instance',
+          :bits                    => 64,
+          :cores                   => 1,
+          :disk                    => 59,
+          :ram                     => 17180,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'x2gd.large',
+          :name                    => 'X2gd Large Instance',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 118,
+          :ram                     => 34360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'x2gd.xlarge',
+          :name                    => 'X2gd Extra Large Instance',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 237,
+          :ram                     => 68719,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'x2gd.2xlarge',
+          :name                    => 'X2gd Double Extra Large Instance',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 475,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'x2gd.4xlarge',
+          :name                    => 'X2gd Quadruple Extra Large Instance',
+          :bits                    => 64,
+          :cores                   => 16,
+          :disk                    => 950,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'x2gd.8xlarge',
+          :name                    => 'X2gd Octuple Extra Large Instance',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 1900,
+          :ram                     => 549756,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'x2gd.12xlarge',
+          :name                    => 'X2gd Twelve Extra Large Instance',
+          :bits                    => 64,
+          :cores                   => 48,
+          :disk                    => 2850,
+          :ram                     => 824634,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'x2gd.16xlarge',
+          :name                    => 'X2gd Sixteen Extra Large Instance',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 3800,
+          :ram                     => 1099512,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'x2gd.metal',
+          :name                    => 'X2gd Metal',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 3800,
+          :ram                     => 1099512,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
         },
         {
           :id                      => "u-6tb1.metal",
