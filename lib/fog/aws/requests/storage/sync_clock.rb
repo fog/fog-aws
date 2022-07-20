@@ -6,7 +6,7 @@ module Fog
         #
         def sync_clock
           response = begin
-            get_service
+            Excon.get("#{@scheme}://#{@host}")
           rescue Excon::Errors::HTTPStatusError => error
             error.response
           end
