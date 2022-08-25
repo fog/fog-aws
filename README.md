@@ -106,6 +106,20 @@ directory.files
 directory.files.new(key: 'user/1/Gemfile').url(Time.now + 60)
 ```
 
+##### Generate download URL
+You should pass an option arguyment that contains the `query` key with `response-content-disposition` inside indicating that is an attachment and the filename to be used when downloaded.
+
+```ruby
+options = {
+  query: {
+    'response-content-disposition' => "attachment; filename=#{key}"
+  }
+}
+
+directory.files.new(key: 'user/1/Gemfile').url(Time.now + 60, options)
+```
+
+
 ##### Controlling credential refresh time with IAM authentication
 
 When using IAM authentication with
