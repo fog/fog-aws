@@ -107,7 +107,7 @@ directory.files.new(key: 'user/1/Gemfile').url(Time.now + 60)
 ```
 
 ##### Generate download URL
-You should pass an option arguyment that contains the `query` key with `response-content-disposition` inside indicating that is an attachment and the filename to be used when downloaded.
+You should pass an option argument that contains the `query` key with `response-content-disposition` inside indicating that is an attachment and the filename to be used when downloaded.
 
 ```ruby
 options = {
