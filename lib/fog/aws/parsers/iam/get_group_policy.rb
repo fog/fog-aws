@@ -14,7 +14,7 @@ module Fog
             when 'GroupName', 'PolicyName'
               @response[name] = value
             when 'PolicyDocument'
-              @response['Policy'][name] = if decoded_string = URI.decode(value)
+              @response['Policy'][name] = if decoded_string = URI.decode_www_form_component(value)
                                   Fog::JSON.decode(decoded_string) rescue value
                                 else
                                   value

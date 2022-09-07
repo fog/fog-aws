@@ -18,7 +18,7 @@ module Fog
             when 'IsDefaultVersion'
               @version[name] = (value == 'true')
             when 'Document'
-              @version[name] = if decoded_string = URI.decode(value)
+              @version[name] = if decoded_string = URI.decode_www_form_component(value)
                                  Fog::JSON.decode(decoded_string) rescue value
                                else
                                  value
