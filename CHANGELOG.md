@@ -1,8 +1,29 @@
 # Changelog
 
+## [v3.15.0](https://github.com/fog/fog-aws/tree/v3.15.0) (2022-09-12)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.14.0...v3.15.0)
+
+**Closed issues:**
+
+- URI.decode is obsolete \(and not available in Ruby 3.0\) [\#653](https://github.com/fog/fog-aws/issues/653)
+- S3: File copy not working outside us-east-1 region [\#645](https://github.com/fog/fog-aws/issues/645)
+- Unable to list, update and remove RDS tags in AWS GovCloud Account regions. [\#644](https://github.com/fog/fog-aws/issues/644)
+- Documentation links broken / 404 [\#642](https://github.com/fog/fog-aws/issues/642)
+
+**Merged pull requests:**
+
+- Replace URI.decode as obsolete, and removed in Ruby 3.0 [\#654](https://github.com/fog/fog-aws/pull/654) ([kuahyeow](https://github.com/kuahyeow))
+- Fix typo in readme [\#652](https://github.com/fog/fog-aws/pull/652) ([geemus](https://github.com/geemus))
+- change sync\_clock to plain GET [\#651](https://github.com/fog/fog-aws/pull/651) ([duckworth](https://github.com/duckworth))
+- Update README file with download url example [\#649](https://github.com/fog/fog-aws/pull/649) ([lucasocon](https://github.com/lucasocon))
+- Bump actions/dependency-review-action from 1 to 2 [\#648](https://github.com/fog/fog-aws/pull/648) ([dependabot[bot]](https://github.com/apps/dependabot))
+- add x2gd and t4g instance flavours [\#647](https://github.com/fog/fog-aws/pull/647) ([mushyy](https://github.com/mushyy))
+- Fix a typo in CHANGELOG [\#646](https://github.com/fog/fog-aws/pull/646) ([y-yagi](https://github.com/y-yagi))
+
 ## [v3.14.0](https://github.com/fog/fog-aws/tree/v3.14.0) (2022-05-09)
 
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.13.0...HEAD)
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.13.0...v3.14.0)
 
 **Closed issues:**
 
@@ -712,7 +733,6 @@
 
 - How to setup private files with CloudFront? [\#275](https://github.com/fog/fog-aws/issues/275)
 - Feature: Custom Managed Policies [\#272](https://github.com/fog/fog-aws/issues/272)
-- Question: which aws-sdk version is used [\#270](https://github.com/fog/fog-aws/issues/270)
 - Support an IAM list\_attached\_role\_policies method [\#191](https://github.com/fog/fog-aws/issues/191)
 
 **Merged pull requests:**
