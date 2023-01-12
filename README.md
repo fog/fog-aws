@@ -132,7 +132,7 @@ that will not last as long as its requested expiration time if
 the remainder of the authentication token lifetime was shorter.
 
 ```ruby
-s3 = Fog::Storage.new(provider: 'AWS', use_iam_auth: true)
+s3 = Fog::Storage.new(provider: 'AWS', use_iam_profile: true)
 directory = s3.directories.get('gaudi-portal-dev', prefix: 'user/1/')
 
 directory.files.new(key: 'user/1/Gemfile').url(Time.now + 60)
@@ -154,7 +154,7 @@ is lower than 60 seconds:
 ```ruby
 s3 = Fog::Storage.new(
   provider: 'AWS',
-  use_iam_auth: true,
+  use_iam_profile: true,
   aws_credentials_refresh_threshold_seconds: 60
 )
 directory = s3.directories.get('gaudi-portal-dev', prefix: 'user/1/')
