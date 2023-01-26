@@ -224,7 +224,7 @@ module Fog
         'ap-east-1',
         'ap-northeast-1', 'ap-northeast-2', 'ap-northeast-3',
         'ap-south-1',
-        'ap-southeast-1', 'ap-southeast-2', 'ap-southeast-3',
+        'ap-southeast-1', 'ap-southeast-2', 'ap-southeast-3', 'ap-southeast-4',
         'ca-central-1',
         'cn-north-1',
         'cn-northwest-1',
