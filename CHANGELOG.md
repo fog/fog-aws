@@ -1,5 +1,26 @@
 # Changelog
 
+## [v3.16.0](https://github.com/fog/fog-aws/tree/v3.16.0) (2023-01-26)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.15.0...v3.16.0)
+
+**Closed issues:**
+
+- README lists incorrect usage of IAM auth [\#663](https://github.com/fog/fog-aws/issues/663)
+- How can i config to use s3 in localstack [\#657](https://github.com/fog/fog-aws/issues/657)
+- Fog::Storage::AWS::Files#each always iterates over entire collection [\#232](https://github.com/fog/fog-aws/issues/232)
+- superclass mismatch for class AWS [\#655](https://github.com/fog/fog-aws/issues/655)
+- Lambda IAM Role Not Working [\#650](https://github.com/fog/fog-aws/issues/650)
+
+**Merged pull requests:**
+
+- adding missing region ap-southeast-4 [\#665](https://github.com/fog/fog-aws/pull/665) ([emptyhammond](https://github.com/emptyhammond))
+o
+- adding missing region eu-south-2 [\#662](https://github.com/fog/fog-aws/pull/662) ([ivangool](https://github.com/ivangool))
+- Bump actions/dependency-review-action from 2 to 3 [\#659](https://github.com/fog/fog-aws/pull/659) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Update aws.rb [\#658](https://github.com/fog/fog-aws/pull/658) ([ivangool](https://github.com/ivangool))
+- Bump actions/stale from 5 to 6 [\#656](https://github.com/fog/fog-aws/pull/656) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v3.15.0](https://github.com/fog/fog-aws/tree/v3.15.0) (2022-09-12)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.14.0...v3.15.0)
