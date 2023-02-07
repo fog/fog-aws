@@ -388,10 +388,10 @@ module Fog
         end
 
         def part_headers(chunk, options)
-          md5 = Base64.encode64(OpenSSL::Digest::MD5.digest(chunk)).strip
+          base_headers = part_checksum_headers(chunk)
           encryption_keys = encryption_customer_key_headers.keys
           encryption_headers = options.select { |key| encryption_keys.include?(key) }
-          { 'Content-MD5' => md5 }.merge(encryption_headers)
+          base_headers.merge(encryption_headers)
         end
 
         def encryption_customer_key_headers
@@ -400,6 +400,14 @@ module Fog
             'x-amz-server-side-encryption-customer-key' => Base64.encode64(encryption_key.to_s).chomp!,
             'x-amz-server-side-encryption-customer-key-md5' => Base64.encode64(OpenSSL::Digest::MD5.digest(encryption_key.to_s)).chomp!
           }
+        end
+
+        def part_checksum_headers(chunk)
+          if service.disable_content_md5_validation
+            {}
+          else
+            { 'Content-MD5' => Base64.encode64(OpenSSL::Digest::MD5.digest(chunk)).strip }
+          end
         end
 
         def create_part_list(upload_part_options)

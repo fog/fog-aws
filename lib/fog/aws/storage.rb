@@ -46,7 +46,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :enable_signature_v4_streaming, :virtual_host, :cname, :max_put_chunk_size, :max_copy_chunk_size, :aws_credentials_refresh_threshold_seconds
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :enable_signature_v4_streaming, :virtual_host, :cname, :max_put_chunk_size, :max_copy_chunk_size, :aws_credentials_refresh_threshold_seconds, :disable_content_md5_validation
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -119,6 +119,7 @@ module Fog
 
       module Utils
         attr_accessor :region
+        attr_accessor :disable_content_md5_validation
 
         # Amazon S3 limits max chunk size that can be uploaded/copied in a single request to 5GB.
         # Other S3-compatible storages (like, Ceph) do not have such limit.
@@ -486,6 +487,8 @@ module Fog
           init_max_put_chunk_size!(options)
           init_max_copy_chunk_size!(options)
 
+          @disable_content_md5_validation = options[:disable_content_md5_validation] || false
+
           @signature_version = options.fetch(:aws_signature_version, 4)
           validate_signature_version!
           setup_credentials(options)
@@ -553,6 +556,8 @@ module Fog
 
           init_max_put_chunk_size!(options)
           init_max_copy_chunk_size!(options)
+
+          @disable_content_md5_validation = options[:disable_content_md5_validation] || false
 
           @region = options[:region] || DEFAULT_REGION
 
