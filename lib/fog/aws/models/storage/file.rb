@@ -389,9 +389,16 @@ module Fog
 
         def part_headers(chunk, options)
           base_headers = part_checksum_headers(chunk)
-          encryption_keys = encryption_customer_key_headers.keys
-          encryption_headers = options.select { |key| encryption_keys.include?(key) }
-          base_headers.merge(encryption_headers)
+
+          # Only SSE-C headers needed in the UploadPart request. [1]
+          # x-amz-server-side-encryption and
+          # x-amz-server-side-encryption-aws-kms-key-id are only needed
+          # in the CreateMultipartUpload request. [2]
+          # [1] https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html
+          # [2] https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html
+          base_headers.merge!(encryption_customer_key_headers) if encryption && encryption_key
+
+          base_headers
         end
 
         def encryption_customer_key_headers
