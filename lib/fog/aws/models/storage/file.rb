@@ -335,12 +335,12 @@ module Fog
             body.rewind  rescue nil
           end
           while (chunk = body.read(multipart_chunk_size)) do
-            part_upload = service.upload_part(directory.key, key, upload_id, part_tags.size + 1, chunk, part_headers(chunk, options))
+            part_upload = service.upload_part(directory.key, key, upload_id, part_tags.size + 1, chunk, part_headers(chunk))
             part_tags << part_upload.headers["ETag"]
           end
 
           if part_tags.empty? #it is an error to have a multipart upload with no parts
-            part_upload = service.upload_part(directory.key, key, upload_id, 1, '', part_headers('', options))
+            part_upload = service.upload_part(directory.key, key, upload_id, 1, '', part_headers(''))
             part_tags << part_upload.headers["ETag"]
           end
 
@@ -387,7 +387,7 @@ module Fog
           end
         end
 
-        def part_headers(chunk, options)
+        def part_headers(chunk)
           base_headers = part_checksum_headers(chunk)
 
           # Only SSE-C headers needed in the UploadPart request. [1]
