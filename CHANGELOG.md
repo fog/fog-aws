@@ -1,5 +1,13 @@
 # Changelog
 
+## [v3.17.0](https://github.com/fog/fog-aws/tree/v3.17.0) (2023-02-09)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.16.0...v3.17.0)
+
+**Merged pull requests:**
+
+- Support disabling of Content-MD5 for FIPS [\#668](https://github.com/fog/fog-aws/pull/668#issuecomment-1424301523) ([stanhu](https://github.com/stanhu))
+
 ## [v3.16.0](https://github.com/fog/fog-aws/tree/v3.16.0) (2023-01-26)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.15.0...v3.16.0)
