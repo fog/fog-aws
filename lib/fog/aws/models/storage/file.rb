@@ -335,12 +335,12 @@ module Fog
             body.rewind  rescue nil
           end
           while (chunk = body.read(multipart_chunk_size)) do
-            part_upload = service.upload_part(directory.key, key, upload_id, part_tags.size + 1, chunk, part_headers(chunk, options))
+            part_upload = service.upload_part(directory.key, key, upload_id, part_tags.size + 1, chunk, part_headers(chunk))
             part_tags << part_upload.headers["ETag"]
           end
 
           if part_tags.empty? #it is an error to have a multipart upload with no parts
-            part_upload = service.upload_part(directory.key, key, upload_id, 1, '', part_headers('', options))
+            part_upload = service.upload_part(directory.key, key, upload_id, 1, '', part_headers(''))
             part_tags << part_upload.headers["ETag"]
           end
 
@@ -387,11 +387,18 @@ module Fog
           end
         end
 
-        def part_headers(chunk, options)
+        def part_headers(chunk)
           base_headers = part_checksum_headers(chunk)
-          encryption_keys = encryption_customer_key_headers.keys
-          encryption_headers = options.select { |key| encryption_keys.include?(key) }
-          base_headers.merge(encryption_headers)
+
+          # Only SSE-C headers needed in the UploadPart request. [1]
+          # x-amz-server-side-encryption and
+          # x-amz-server-side-encryption-aws-kms-key-id are only needed
+          # in the CreateMultipartUpload request. [2]
+          # [1] https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html
+          # [2] https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html
+          base_headers.merge!(encryption_customer_key_headers) if encryption && encryption_key
+
+          base_headers
         end
 
         def encryption_customer_key_headers
