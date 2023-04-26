@@ -21,7 +21,7 @@ module Fog
           request({
             :expects  => 200,
             :headers  => {},
-            :host     => 's3.amazonaws.com',
+            :host     => @host || region_to_host(DEFAULT_REGION),
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::AWS::Storage::GetService.new
