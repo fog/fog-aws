@@ -6,11 +6,19 @@ module Fog
         #
         def sync_clock
           response = begin
-            Excon.get("#{@scheme}://#{@host}")
+            Excon.get(sync_clock_url)
           rescue Excon::Errors::HTTPStatusError => error
             error.response
           end
           Fog::Time.now = Time.parse(response.headers['Date'])
+        end
+
+        private
+
+        def sync_clock_url
+          host = @acceleration ? region_to_host(@region) : @host
+
+          "#{@scheme}://#{host}"
         end
       end # Real
 
