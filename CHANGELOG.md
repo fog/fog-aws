@@ -6,12 +6,11 @@
 
 **Merged pull requests:**
 
-- gopalcoupa:add-me-central-1 [\#679]
-- Fix S3 Transfer Acceleration [\#676]
-- configure connection_options to improve s3 retry see https://github.com/fog/fog-aws/issues/674 [\#675]
-- s3: remove hardcoded host [\#673]
-- Bump actions/stale from 7 to 8 [\#671]
-
+- gopalcoupa:add-me-central-1 [\#679](https://github.com/fog/fog-aws/pull/679)
+- Fix S3 Transfer Acceleration [\#676](https://github.com/fog/fog-aws/pull/676)
+- configure connection_options to improve s3 retry see https://github.com/fog/fog-aws/issues/674 [\#675](https://github.com/fog/fog-aws/pull/675)
+- s3: remove hardcoded host [\#673](https://github.com/fog/fog-aws/pull/673)
+- Bump actions/stale from 7 to 8 [\#671](https://github.com/fog/fog-aws/pull/671)
 
 ## [v3.18.0](https://github.com/fog/fog-aws/tree/v3.18.0) (2023-02-16)
 
