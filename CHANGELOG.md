@@ -1,5 +1,18 @@
 # Changelog
 
+## [v3.19.0](https://github.com/fog/fog-aws/tree/v3.19.0) (2023-05-18)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.18.0...v3.19.0)
+
+**Merged pull requests:**
+
+- gopalcoupa:add-me-central-1 [\#679]
+- Fix S3 Transfer Acceleration [\#676]
+- configure connection_options to improve s3 retry see https://github.com/fog/fog-aws/issues/674 [\#675]
+- s3: remove hardcoded host [\#673]
+- Bump actions/stale from 7 to 8 [\#671]
+
+
 ## [v3.18.0](https://github.com/fog/fog-aws/tree/v3.18.0) (2023-02-16)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.17.0...v3.18.0)
