@@ -546,7 +546,7 @@ module Fog
           @use_iam_profile = options[:use_iam_profile]
           @instrumentor       = options[:instrumentor]
           @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.storage'
-          @connection_options     = options[:connection_options] || {}
+          @connection_options     = options[:connection_options] || { retry_limit: 5, retry_interval: 1 }
           @persistent = options.fetch(:persistent, false)
           @acceleration = options.fetch(:acceleration, false)
           @signature_version = options.fetch(:aws_signature_version, 4)
