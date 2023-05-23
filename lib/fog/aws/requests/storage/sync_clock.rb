@@ -18,7 +18,7 @@ module Fog
         def sync_clock_url
           host = @acceleration ? region_to_host(@region) : @host
 
-          "#{@scheme}://#{host}"
+          "#{@scheme}://#{host}:#{@port}"
         end
       end # Real
 
