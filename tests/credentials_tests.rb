@@ -1,6 +1,31 @@
 # frozen_string_literal: true
 
 Shindo.tests('AWS | credentials', ['aws']) do
+  unchecked_constants = [:CredentialFetcher, :VERSION, :Errors, :Mock, :ServiceMapper, :Federation, :STS, :SignatureV4, :EFS]
+
+  test_services = Fog::AWS.constants.delete_if { |service| unchecked_constants.include?(service) }
+
+  target_services = test_services.each_with_object([]) do |name, services|
+    services << Class.const_get("Fog::AWS::#{name}")
+  end
+  require_credential_parameters = [:aws_access_key_id, :aws_secret_access_key]
+  recognized_credential_parameters = [:aws_session_token, :aws_credentials_expire_at, :region, :sts_endpoint]
+
+  # ex: target_services = [Fog::AWS::Compute, Fog:AWS::DNS...]
+  target_services.each do |service|
+    require_credential_parameters.each do |parameter|
+      tests("required credentials parameter #{parameter} is included @requirements of #{service}") do
+        returns(true) { service.instance_variable_get("@requirements").include?(parameter) }
+      end
+    end
+
+    recognized_credential_parameters.each do |parameter|
+      tests("recognized credentials parameter #{parameter} is included @recognized of #{service}") do
+        returns(true) { service.instance_variable_get("@recognized").include?(parameter) }
+      end
+    end
+  end
+
   old_mock_value = Excon.defaults[:mock]
   fog_was_mocked = Fog.mocking?
   Excon.stubs.clear
