@@ -4,7 +4,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :aws_session_token, :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
+      recognizes :aws_session_token, :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name, :sts_endpoint
 
       request_path 'fog/aws/requests/dynamodb'
       request :batch_get_item

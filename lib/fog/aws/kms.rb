@@ -14,7 +14,7 @@ module Fog
       NotFoundException                = Class.new(Fog::Errors::Error)
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :instrumentor, :instrumentor_name
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :instrumentor, :instrumentor_name, :aws_credentials_expire_at, :sts_endpoint
 
       request_path 'fog/aws/requests/kms'
       request :list_keys
