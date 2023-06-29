@@ -6,7 +6,7 @@ Shindo.tests('AWS | credentials', ['aws']) do
   test_services = Fog::AWS.constants.delete_if { |service| unchecked_constants.include?(service) }
 
   target_services = test_services.each_with_object([]) do |name, services|
-    services << Class.const_get("Fog::AWS::#{name}")
+    services << Object.const_get("Fog::AWS::#{name}")
   end
   require_credential_parameters = [:aws_access_key_id, :aws_secret_access_key]
   recognized_credential_parameters = [:aws_session_token, :aws_credentials_expire_at, :region, :sts_endpoint]
