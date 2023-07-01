@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Shindo.tests('AWS | credentials', ['aws']) do
-  unchecked_constants = [:CredentialFetcher, :VERSION, :Errors, :Mock, :ServiceMapper, :Federation, :STS, :SignatureV4, :EFS]
+  unchecked_constants = [:CredentialFetcher, :VERSION, :Errors, :Mock, :ServiceMapper, :Federation, :STS, :SignatureV4, :EFS, :Parsers]
 
   test_services = Fog::AWS.constants.delete_if { |service| unchecked_constants.include?(service) }
 
