@@ -10,7 +10,7 @@ module Fog
       class ValidationError < Fog::AWS::IAM::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent, :instrumentor, :instrumentor_name, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :region
+      recognizes :host, :path, :port, :scheme, :persistent, :instrumentor, :instrumentor_name, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :region, :sts_endpoint
 
       request_path 'fog/aws/requests/iam'
       request :add_user_to_group

@@ -6,7 +6,7 @@ module Fog
       class RequestLimitExceeded < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name, :version, :retry_request_limit_exceeded, :retry_jitter_magnitude
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name, :version, :retry_request_limit_exceeded, :retry_jitter_magnitude, :sts_endpoint
 
       secrets    :aws_secret_access_key, :hmac, :aws_session_token
 

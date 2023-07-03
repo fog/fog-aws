@@ -2,7 +2,7 @@ module Fog
   module AWS
     class ELBV2 < ELB
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :version, :instrumentor, :instrumentor_name
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :version, :instrumentor, :instrumentor_name,:sts_endpoint
 
       request_path 'fog/aws/requests/elbv2'
       request :add_tags
