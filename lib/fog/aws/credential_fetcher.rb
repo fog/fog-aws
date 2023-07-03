@@ -40,6 +40,7 @@ module Fog
                   :RoleArn => options[:role_arn] || ENV.fetch("AWS_ROLE_ARN"),
                   :RoleSessionName => options[:role_session_name] || ENV["AWS_ROLE_SESSION_NAME"] || "fog-aws-#{SecureRandom.hex}",
                   :WebIdentityToken => File.read(options[:aws_web_identity_token_file] || ENV.fetch("AWS_WEB_IDENTITY_TOKEN_FILE")),
+                  :DurationSeconds => options[:duration] || 3600,
                   :Version => "2011-06-15",
                 }
 
