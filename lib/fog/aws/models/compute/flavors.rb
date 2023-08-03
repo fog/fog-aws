@@ -1127,6 +1127,116 @@ module Fog
           :instance_store_volumes  => 2
         },
         {
+          :id                      => 'c6a.large',
+          :name                    => 'c6a Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 4295,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.xlarge',
+          :name                    => 'c6a xLarge',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 0,
+          :ram                     => 8590,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.2xlarge',
+          :name                    => 'c6a 2xLarge',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 0,
+          :ram                     => 17180,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.4xlarge',
+          :name                    => 'c6a 4xLarge',
+          :bits                    => 64,
+          :cores                   => 16,
+          :disk                    => 0,
+          :ram                     => 34360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.8xlarge',
+          :name                    => 'c6a 8xLarge',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 0,
+          :ram                     => 68719,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.12xlarge',
+          :name                    => 'C6a Twelve Extra Large',
+          :bits                    => 64,
+          :cores                   => 48,
+          :disk                    => 0,
+          :ram                     => 103079,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.16xlarge',
+          :name                    => 'c6a 16xLarge',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 0,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.24xlarge',
+          :name                    => 'c6a 24xLarge',
+          :bits                    => 64,
+          :cores                   => 96,
+          :disk                    => 0,
+          :ram                     => 206158,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.32xlarge',
+          :name                    => 'c6a 32xLarge',
+          :bits                    => 64,
+          :cores                   => 128,
+          :disk                    => 0,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.48xlarge',
+          :name                    => 'c6a 48xLarge',
+          :bits                    => 64,
+          :cores                   => 192,
+          :disk                    => 0,
+          :ram                     => 412317,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.metal',
+          :name                    => 'c6a metal',
+          :bits                    => 64,
+          :cores                   => 192,
+          :disk                    => 0,
+          :ram                     => 412317,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
           :id                      => 'g2.2xlarge',
           :name                    => 'GPU Double Extra Large',
           :bits                    => 64,
