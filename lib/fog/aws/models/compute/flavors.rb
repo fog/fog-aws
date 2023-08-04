@@ -3677,6 +3677,206 @@ module Fog
           :instance_store_volumes  => 4
         },
         {
+          :id                      => "m6in.large",
+          :name                    => "m6in Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 8589,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.xlarge",
+          :name                    => "m6in Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 17179,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.2xlarge",
+          :name                    => "m6in Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 34359,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.4xlarge",
+          :name                    => "m6in Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 68719,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.8xlarge",
+          :name                    => "m6in Octuple Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 137439,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.12xlarge",
+          :name                    => "m6in Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 206158,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.16xlarge",
+          :name                    => "m6in Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 274878,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.24xlarge",
+          :name                    => "m6in Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 412316,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.32xlarge",
+          :name                    => "m6in Thirty Two Extra Large",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 549756,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.metal",
+          :name                    => "m6in metal",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 549756,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6idn.large",
+          :name                    => "m6idn Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 8589,
+          :disk                    => 118,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6idn.xlarge",
+          :name                    => "m6idn Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 17179,
+          :disk                    => 237,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6idn.2xlarge",
+          :name                    => "m6idn Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 34359,
+          :disk                    => 474,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6idn.4xlarge",
+          :name                    => "m6idn Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 68719,
+          :disk                    => 950,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6idn.8xlarge",
+          :name                    => "m6idn Octuple Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 137439,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6idn.12xlarge",
+          :name                    => "m6idn Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 206158,
+          :disk                    => 1425,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "m6idn.16xlarge",
+          :name                    => "m6idn Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 274878,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "m6idn.24xlarge",
+          :name                    => "m6idn Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 412316,
+          :disk                    => 1425,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => "m6idn.32xlarge",
+          :name                    => "m6idn Thirty Two Extra Large",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 549756,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => "m6idn.metal",
+          :name                    => "m6idn metal",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 549756,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
           :id                      => "m5d.large",
           :name                    => "M5d Large",
           :bits                    => 64,
