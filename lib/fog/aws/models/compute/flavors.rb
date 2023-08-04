@@ -2627,7 +2627,7 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
-          :id                      => "r6a.28xlarge",
+          :id                      => "r6a.48xlarge",
           :name                    => "r6a Forty Eight Extra Large",
           :bits                    => 64,
           :cores                   => 192,
@@ -2642,6 +2642,106 @@ module Fog
           :bits                    => 64,
           :cores                   => 192,
           :ram                     => 1649268,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.large",
+          :name                    => "r6i Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 17179,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.xlarge",
+          :name                    => "r6i Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 34359,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.2xlarge",
+          :name                    => "r6i Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 68719,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.4xlarge",
+          :name                    => "r6i Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 137438,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.8xlarge",
+          :name                    => "r6i Octuple Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 274878,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.12xlarge",
+          :name                    => "r6i Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 412316,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.16xlarge",
+          :name                    => "r6i Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 549756,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.24xlarge",
+          :name                    => "r6i Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 824633,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.32xlarge",
+          :name                    => "r6i Thirty Two Extra Large",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 1099512,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.metal",
+          :name                    => "r6i metal",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 1099512,
           :disk                    => 0,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
