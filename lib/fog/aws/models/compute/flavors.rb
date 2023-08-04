@@ -2747,6 +2747,106 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
+          :id                      => "r6id.large",
+          :name                    => "r6id Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 17179,
+          :disk                    => 118,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r6id.xlarge",
+          :name                    => "r6id Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 34359,
+          :disk                    => 237,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r6id.2xlarge",
+          :name                    => "r6id Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 68719,
+          :disk                    => 474,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r6id.4xlarge",
+          :name                    => "r6id Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 137438,
+          :disk                    => 950,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r6id.8xlarge",
+          :name                    => "r6id Octuple Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 274878,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r6id.12xlarge",
+          :name                    => "r6id Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 412316,
+          :disk                    => 1425,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "r6id.16xlarge",
+          :name                    => "r6id Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 549756,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "r6id.24xlarge",
+          :name                    => "r6id Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 824633,
+          :disk                    => 1425,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => "r6id.32xlarge",
+          :name                    => "r6id Thirty Two Extra Large",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 1099512,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => "r6id.metal",
+          :name                    => "r6id metal",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 1099512,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
           :id                      => "x1.16xlarge",
           :name                    => "X1 Sixteen Extra Large",
           :bits                    => 64,
