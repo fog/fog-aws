@@ -1337,6 +1337,106 @@ module Fog
           :instance_store_volumes  => 0
         },
         {
+          :id                      => 'c6id.large',
+          :name                    => 'c6id Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 118,
+          :ram                     => 4295,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6id.xlarge',
+          :name                    => 'c6id xLarge',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 237,
+          :ram                     => 8590,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6id.2xlarge',
+          :name                    => 'c6id 2xLarge',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 474,
+          :ram                     => 17180,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6id.4xlarge',
+          :name                    => 'c6id 4xLarge',
+          :bits                    => 64,
+          :cores                   => 16,
+          :disk                    => 950,
+          :ram                     => 34360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6id.8xlarge',
+          :name                    => 'c6id 8xLarge',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 1900,
+          :ram                     => 68719,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6id.12xlarge',
+          :name                    => 'c6id Twelve Extra Large',
+          :bits                    => 64,
+          :cores                   => 48,
+          :disk                    => 1425,
+          :ram                     => 103079,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'c6id.16xlarge',
+          :name                    => 'c6id 16xLarge',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 1900,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'c6id.24xlarge',
+          :name                    => 'c6id 24xLarge',
+          :bits                    => 64,
+          :cores                   => 96,
+          :disk                    => 1425,
+          :ram                     => 206158,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => 'c6id.32xlarge',
+          :name                    => 'c6id 32xLarge',
+          :bits                    => 64,
+          :cores                   => 128,
+          :disk                    => 1900,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => 'c6id.metal',
+          :name                    => 'c6id metal',
+          :bits                    => 64,
+          :cores                   => 128,
+          :disk                    => 1900,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
           :id                      => 'g2.2xlarge',
           :name                    => 'GPU Double Extra Large',
           :bits                    => 64,
