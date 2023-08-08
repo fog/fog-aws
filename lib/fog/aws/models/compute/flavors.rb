@@ -1127,6 +1127,416 @@ module Fog
           :instance_store_volumes  => 2
         },
         {
+          :id                      => 'c6a.large',
+          :name                    => 'c6a Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 4295,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.xlarge',
+          :name                    => 'c6a xLarge',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 0,
+          :ram                     => 8590,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.2xlarge',
+          :name                    => 'c6a 2xLarge',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 0,
+          :ram                     => 17180,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.4xlarge',
+          :name                    => 'c6a 4xLarge',
+          :bits                    => 64,
+          :cores                   => 16,
+          :disk                    => 0,
+          :ram                     => 34360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.8xlarge',
+          :name                    => 'c6a 8xLarge',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 0,
+          :ram                     => 68719,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.12xlarge',
+          :name                    => 'C6a Twelve Extra Large',
+          :bits                    => 64,
+          :cores                   => 48,
+          :disk                    => 0,
+          :ram                     => 103079,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.16xlarge',
+          :name                    => 'c6a 16xLarge',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 0,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.24xlarge',
+          :name                    => 'c6a 24xLarge',
+          :bits                    => 64,
+          :cores                   => 96,
+          :disk                    => 0,
+          :ram                     => 206158,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.32xlarge',
+          :name                    => 'c6a 32xLarge',
+          :bits                    => 64,
+          :cores                   => 128,
+          :disk                    => 0,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.48xlarge',
+          :name                    => 'c6a 48xLarge',
+          :bits                    => 64,
+          :cores                   => 192,
+          :disk                    => 0,
+          :ram                     => 412317,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6a.metal',
+          :name                    => 'c6a metal',
+          :bits                    => 64,
+          :cores                   => 192,
+          :disk                    => 0,
+          :ram                     => 412317,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6i.large',
+          :name                    => 'c6i Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 4295,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6i.xlarge',
+          :name                    => 'c6i xLarge',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 0,
+          :ram                     => 8590,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6i.2xlarge',
+          :name                    => 'c6i 2xLarge',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 0,
+          :ram                     => 17180,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6i.4xlarge',
+          :name                    => 'c6i 4xLarge',
+          :bits                    => 64,
+          :cores                   => 16,
+          :disk                    => 0,
+          :ram                     => 34360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6i.8xlarge',
+          :name                    => 'c6i 8xLarge',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 0,
+          :ram                     => 68719,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6i.12xlarge',
+          :name                    => 'c6i Twelve Extra Large',
+          :bits                    => 64,
+          :cores                   => 48,
+          :disk                    => 0,
+          :ram                     => 103079,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6i.16xlarge',
+          :name                    => 'c6i 16xLarge',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 0,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6i.24xlarge',
+          :name                    => 'c6i 24xLarge',
+          :bits                    => 64,
+          :cores                   => 96,
+          :disk                    => 0,
+          :ram                     => 206158,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6i.32xlarge',
+          :name                    => 'c6i 32xLarge',
+          :bits                    => 64,
+          :cores                   => 128,
+          :disk                    => 0,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6i.metal',
+          :name                    => 'c6i metal',
+          :bits                    => 64,
+          :cores                   => 128,
+          :disk                    => 0,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6in.large',
+          :name                    => 'c6in Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 0,
+          :ram                     => 4295,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6in.xlarge',
+          :name                    => 'c6in xLarge',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 0,
+          :ram                     => 8590,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6in.2xlarge',
+          :name                    => 'c6in 2xLarge',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 0,
+          :ram                     => 17180,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6in.4xlarge',
+          :name                    => 'c6in 4xLarge',
+          :bits                    => 64,
+          :cores                   => 16,
+          :disk                    => 0,
+          :ram                     => 34360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6in.8xlarge',
+          :name                    => 'c6in 8xLarge',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 0,
+          :ram                     => 68719,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6in.12xlarge',
+          :name                    => 'c6in Twelve Extra Large',
+          :bits                    => 64,
+          :cores                   => 48,
+          :disk                    => 0,
+          :ram                     => 103079,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6in.16xlarge',
+          :name                    => 'c6in 16xLarge',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 0,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6in.24xlarge',
+          :name                    => 'c6in 24xLarge',
+          :bits                    => 64,
+          :cores                   => 96,
+          :disk                    => 0,
+          :ram                     => 206158,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6in.32xlarge',
+          :name                    => 'c6in 32xLarge',
+          :bits                    => 64,
+          :cores                   => 128,
+          :disk                    => 0,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6in.metal',
+          :name                    => 'c6in metal',
+          :bits                    => 64,
+          :cores                   => 128,
+          :disk                    => 0,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => 'c6id.large',
+          :name                    => 'c6id Large',
+          :bits                    => 64,
+          :cores                   => 2,
+          :disk                    => 118,
+          :ram                     => 4295,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6id.xlarge',
+          :name                    => 'c6id xLarge',
+          :bits                    => 64,
+          :cores                   => 4,
+          :disk                    => 237,
+          :ram                     => 8590,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6id.2xlarge',
+          :name                    => 'c6id 2xLarge',
+          :bits                    => 64,
+          :cores                   => 8,
+          :disk                    => 474,
+          :ram                     => 17180,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6id.4xlarge',
+          :name                    => 'c6id 4xLarge',
+          :bits                    => 64,
+          :cores                   => 16,
+          :disk                    => 950,
+          :ram                     => 34360,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6id.8xlarge',
+          :name                    => 'c6id 8xLarge',
+          :bits                    => 64,
+          :cores                   => 32,
+          :disk                    => 1900,
+          :ram                     => 68719,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => 'c6id.12xlarge',
+          :name                    => 'c6id Twelve Extra Large',
+          :bits                    => 64,
+          :cores                   => 48,
+          :disk                    => 1425,
+          :ram                     => 103079,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'c6id.16xlarge',
+          :name                    => 'c6id 16xLarge',
+          :bits                    => 64,
+          :cores                   => 64,
+          :disk                    => 1900,
+          :ram                     => 137439,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => 'c6id.24xlarge',
+          :name                    => 'c6id 24xLarge',
+          :bits                    => 64,
+          :cores                   => 96,
+          :disk                    => 1425,
+          :ram                     => 206158,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => 'c6id.32xlarge',
+          :name                    => 'c6id 32xLarge',
+          :bits                    => 64,
+          :cores                   => 128,
+          :disk                    => 1900,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => 'c6id.metal',
+          :name                    => 'c6id metal',
+          :bits                    => 64,
+          :cores                   => 128,
+          :disk                    => 1900,
+          :ram                     => 274878,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
           :id                      => 'g2.2xlarge',
           :name                    => 'GPU Double Extra Large',
           :bits                    => 64,
@@ -2227,6 +2637,316 @@ module Fog
           :instance_store_volumes  => 2
         },
         {
+          :id                      => "r6a.large",
+          :name                    => "r6a Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 17179,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6a.xlarge",
+          :name                    => "r6a Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 34359,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6a.2xlarge",
+          :name                    => "r6a Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 68719,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6a.4xlarge",
+          :name                    => "r6a Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 137438,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6a.8xlarge",
+          :name                    => "r6a Octuple Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 274878,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6a.12xlarge",
+          :name                    => "r6a Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 412316,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6a.16xlarge",
+          :name                    => "r6a Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 549756,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6a.24xlarge",
+          :name                    => "r6a Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 824633,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6a.32xlarge",
+          :name                    => "r6a Thirty Two Extra Large",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 1099512,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6a.48xlarge",
+          :name                    => "r6a Forty Eight Extra Large",
+          :bits                    => 64,
+          :cores                   => 192,
+          :ram                     => 1649268,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6a.metal",
+          :name                    => "r6a metal",
+          :bits                    => 64,
+          :cores                   => 192,
+          :ram                     => 1649268,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.large",
+          :name                    => "r6i Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 17179,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.xlarge",
+          :name                    => "r6i Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 34359,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.2xlarge",
+          :name                    => "r6i Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 68719,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.4xlarge",
+          :name                    => "r6i Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 137438,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.8xlarge",
+          :name                    => "r6i Octuple Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 274878,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.12xlarge",
+          :name                    => "r6i Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 412316,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.16xlarge",
+          :name                    => "r6i Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 549756,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.24xlarge",
+          :name                    => "r6i Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 824633,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.32xlarge",
+          :name                    => "r6i Thirty Two Extra Large",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 1099512,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6i.metal",
+          :name                    => "r6i metal",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 1099512,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "r6id.large",
+          :name                    => "r6id Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 17179,
+          :disk                    => 118,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r6id.xlarge",
+          :name                    => "r6id Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 34359,
+          :disk                    => 237,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r6id.2xlarge",
+          :name                    => "r6id Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 68719,
+          :disk                    => 474,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r6id.4xlarge",
+          :name                    => "r6id Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 137438,
+          :disk                    => 950,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r6id.8xlarge",
+          :name                    => "r6id Octuple Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 274878,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "r6id.12xlarge",
+          :name                    => "r6id Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 412316,
+          :disk                    => 1425,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "r6id.16xlarge",
+          :name                    => "r6id Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 549756,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "r6id.24xlarge",
+          :name                    => "r6id Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 824633,
+          :disk                    => 1425,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => "r6id.32xlarge",
+          :name                    => "r6id Thirty Two Extra Large",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 1099512,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => "r6id.metal",
+          :name                    => "r6id metal",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 1099512,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
           :id                      => "x1.16xlarge",
           :name                    => "X1 Sixteen Extra Large",
           :bits                    => 64,
@@ -2745,6 +3465,516 @@ module Fog
           :disk                    => 0,
           :ebs_optimized_available => true,
           :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6a.large",
+          :name                    => "m6a Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 8589,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6a.xlarge",
+          :name                    => "m6a Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 17179,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6a.2xlarge",
+          :name                    => "m6a Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 34359,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6a.4xlarge",
+          :name                    => "m6a Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 68719,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6a.8xlarge",
+          :name                    => "m6a Octuple Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 137439,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6a.12xlarge",
+          :name                    => "m6a Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 206158,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6a.16xlarge",
+          :name                    => "m6a Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 274878,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6a.24xlarge",
+          :name                    => "m6a Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 412316,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6a.32xlarge",
+          :name                    => "m6a Thirty Two Extra Large",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 549756,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6a.48xlarge",
+          :name                    => "m6a Fourty Eight Extra Large",
+          :bits                    => 64,
+          :cores                   => 192,
+          :ram                     => 824634,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6a.metal",
+          :name                    => "m6a Metal",
+          :bits                    => 64,
+          :cores                   => 192,
+          :ram                     => 824634,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6i.large",
+          :name                    => "m6i Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 8589,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6i.xlarge",
+          :name                    => "m6i Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 17179,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6i.2xlarge",
+          :name                    => "m6i Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 34359,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6i.4xlarge",
+          :name                    => "m6i Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 68719,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6i.8xlarge",
+          :name                    => "m6i Octuple Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 137439,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6i.12xlarge",
+          :name                    => "m6i Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 206158,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6i.16xlarge",
+          :name                    => "m6i Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 274878,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6i.24xlarge",
+          :name                    => "m6i Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 412316,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6i.32xlarge",
+          :name                    => "m6i Thirty Two Extra Large",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 549756,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6i.metal",
+          :name                    => "m6i metal",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 549756,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6id.large",
+          :name                    => "m6id Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 8589,
+          :disk                    => 118,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6id.xlarge",
+          :name                    => "m6id Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 17179,
+          :disk                    => 237,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6id.2xlarge",
+          :name                    => "m6id Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 34359,
+          :disk                    => 474,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6id.4xlarge",
+          :name                    => "m6id Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 68719,
+          :disk                    => 950,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6id.8xlarge",
+          :name                    => "m6id Octuple Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 137439,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6id.12xlarge",
+          :name                    => "m6id Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 206158,
+          :disk                    => 1425,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "m6id.16xlarge",
+          :name                    => "m6id Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 274878,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "m6id.24xlarge",
+          :name                    => "m6id Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 412316,
+          :disk                    => 1425,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => "m6id.32xlarge",
+          :name                    => "m6id Thirty Two Extra Large",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 549756,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => "m6id.metal",
+          :name                    => "m6id metal",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 549756,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => "m6in.large",
+          :name                    => "m6in Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 8589,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.xlarge",
+          :name                    => "m6in Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 17179,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.2xlarge",
+          :name                    => "m6in Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 34359,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.4xlarge",
+          :name                    => "m6in Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 68719,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.8xlarge",
+          :name                    => "m6in Octuple Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 137439,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.12xlarge",
+          :name                    => "m6in Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 206158,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.16xlarge",
+          :name                    => "m6in Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 274878,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.24xlarge",
+          :name                    => "m6in Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 412316,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.32xlarge",
+          :name                    => "m6in Thirty Two Extra Large",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 549756,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6in.metal",
+          :name                    => "m6in metal",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 549756,
+          :disk                    => 0,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 0
+        },
+        {
+          :id                      => "m6idn.large",
+          :name                    => "m6idn Large",
+          :bits                    => 64,
+          :cores                   => 2,
+          :ram                     => 8589,
+          :disk                    => 118,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6idn.xlarge",
+          :name                    => "m6idn Extra Large",
+          :bits                    => 64,
+          :cores                   => 4,
+          :ram                     => 17179,
+          :disk                    => 237,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6idn.2xlarge",
+          :name                    => "m6idn Double Extra Large",
+          :bits                    => 64,
+          :cores                   => 8,
+          :ram                     => 34359,
+          :disk                    => 474,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6idn.4xlarge",
+          :name                    => "m6idn Quadruple Extra Large",
+          :bits                    => 64,
+          :cores                   => 16,
+          :ram                     => 68719,
+          :disk                    => 950,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6idn.8xlarge",
+          :name                    => "m6idn Octuple Extra Large",
+          :bits                    => 64,
+          :cores                   => 32,
+          :ram                     => 137439,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 1
+        },
+        {
+          :id                      => "m6idn.12xlarge",
+          :name                    => "m6idn Twelve Extra Large",
+          :bits                    => 64,
+          :cores                   => 48,
+          :ram                     => 206158,
+          :disk                    => 1425,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "m6idn.16xlarge",
+          :name                    => "m6idn Sixteen Extra Large",
+          :bits                    => 64,
+          :cores                   => 64,
+          :ram                     => 274878,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 2
+        },
+        {
+          :id                      => "m6idn.24xlarge",
+          :name                    => "m6idn Twenty Four Extra Large",
+          :bits                    => 64,
+          :cores                   => 96,
+          :ram                     => 412316,
+          :disk                    => 1425,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => "m6idn.32xlarge",
+          :name                    => "m6idn Thirty Two Extra Large",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 549756,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
+        },
+        {
+          :id                      => "m6idn.metal",
+          :name                    => "m6idn metal",
+          :bits                    => 64,
+          :cores                   => 128,
+          :ram                     => 549756,
+          :disk                    => 1900,
+          :ebs_optimized_available => true,
+          :instance_store_volumes  => 4
         },
         {
           :id                      => "m5d.large",
