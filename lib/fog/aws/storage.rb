@@ -14,6 +14,14 @@ module Fog
         'https' => 443
       }
 
+      DEFAULT_CONNECTION_OPTIONS = {
+        retry_limit: 5,
+        retry_interval: 1,
+        retry_errors: [
+          Excon::Error::Timeout, Excon::Error::Socket, Excon::Error::Server
+        ]
+      }
+
       MIN_MULTIPART_CHUNK_SIZE = 5242880
       MAX_SINGLE_PUT_SIZE = 5368709120
 
@@ -546,7 +554,7 @@ module Fog
           @use_iam_profile = options[:use_iam_profile]
           @instrumentor       = options[:instrumentor]
           @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.storage'
-          @connection_options     = options[:connection_options] || { retry_limit: 5, retry_interval: 1 }
+          @connection_options = options[:connection_options] || DEFAULT_CONNECTION_OPTIONS
           @persistent = options.fetch(:persistent, false)
           @acceleration = options.fetch(:acceleration, false)
           @signature_version = options.fetch(:aws_signature_version, 4)
