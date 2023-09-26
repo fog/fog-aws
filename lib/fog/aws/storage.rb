@@ -554,7 +554,8 @@ module Fog
           @use_iam_profile = options[:use_iam_profile]
           @instrumentor       = options[:instrumentor]
           @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.storage'
-          @connection_options = options[:connection_options] || DEFAULT_CONNECTION_OPTIONS
+          @connection_options =
+            DEFAULT_CONNECTION_OPTIONS.merge(options[:connection_options] || {})
           @persistent = options.fetch(:persistent, false)
           @acceleration = options.fetch(:acceleration, false)
           @signature_version = options.fetch(:aws_signature_version, 4)
