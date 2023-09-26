@@ -24,6 +24,23 @@ Shindo.tests("Storage[:aws] | file", ["aws"]) do
 
   end
 
+  model_tests(@directory.files, file_attributes, Fog.mocking?) do
+    @instance.attributes.merge!(
+      'x-amz-id-2' => 'eTTGXYpQIoD8+5fB8vdYO8s056GyoCsb92KD7rkRXzUoDb8Sb/BU0yhc2vbwP3raHEHWoY53LX8=',
+      'x-amz-request-id' => '7DC5XMTZZ1W1HVVB'
+    )
+
+    tests("#metadata") do
+      tests("#metadata excludes x-amz-id-2").returns(nil) do
+        @instance.metadata['x-amz-id-2']
+      end
+
+      tests("#metadata excludes x-amz-request-id").returns(nil) do
+        @instance.metadata['x-amz-request-id']
+      end
+    end
+  end
+
   @directory.versioning = true
 
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
@@ -74,7 +91,7 @@ Shindo.tests("Storage[:aws] | file", ["aws"]) do
       pending if Fog.mocking?
 
       @empty_file = Tempfile.new("fog-test-aws-s3-multipart-empty")
-     
+
       tests("#save(:multipart_chunk_size => 5242880)").succeeds do
         @directory.files.create(:key => 'empty-multipart-upload', :body => @empty_file, :multipart_chunk_size => 5242880)
       end
