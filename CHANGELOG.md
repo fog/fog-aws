@@ -1,5 +1,25 @@
 # Changelog
 
+## [v3.20.0](https://github.com/fog/fog-aws/tree/v3.20.0) (2023-09-27)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.19.0...v3.20.0)
+
+**Closed issues:**
+
+- Fog::AWS::Storage::File x-amz-request-id and x-amz-id-2 header reflection [\#688](https://github.com/fog/fog-aws/issues/688)
+- When using IRSA on `Fog::Storage`, output `Unrecognized arguments: sts_endpoint` warning  [\#683](https://github.com/fog/fog-aws/issues/683)
+- Is it possible to add `DurationSeconds` in CredentialFetcher ? [\#682](https://github.com/fog/fog-aws/issues/682)
+
+**Merged pull requests:**
+
+- Fog::AWS::Storage::File - fix request id header reflection [\#689](https://github.com/fog/fog-aws/pull/689) ([rahim](https://github.com/rahim))
+- Bump actions/checkout from 3 to 4 [\#687](https://github.com/fog/fog-aws/pull/687) ([dependabot[bot]](https://github.com/apps/dependabot))
+- add c6a, c6i, c6id, m6a,m6i, m6id, and r6a, r6i, r6id support [\#686](https://github.com/fog/fog-aws/pull/686) ([ashivadi](https://github.com/ashivadi))
+- Align the parameters for `AssumeRoleWithWebIdentity` action [\#685](https://github.com/fog/fog-aws/pull/685) ([marshluca](https://github.com/marshluca))
+- Prevent `Unrecognized arguments: sts_endpoint` warning [\#684](https://github.com/fog/fog-aws/pull/684) ([nekomaho](https://github.com/nekomaho))
+- CI against Ruby 3.2 [\#681](https://github.com/fog/fog-aws/pull/681) ([y-yagi](https://github.com/y-yagi))
+- Change method sync\_clock\_url to use localstack set a different port [\#680](https://github.com/fog/fog-aws/pull/680) ([fabiodallazen](https://github.com/fabiodallazen))
+
 ## [v3.19.0](https://github.com/fog/fog-aws/tree/v3.19.0) (2023-05-18)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.18.0...v3.19.0)
