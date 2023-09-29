@@ -11,5 +11,5 @@ end
 GitHubChangelogGenerator::RakeTask.new :changelog do |config|
   config.user = 'fog'
   config.project = 'fog-aws'
-  config.since_tag = 'v3.19.0'
+  config.since_tag = 'v3.20.0'
 end

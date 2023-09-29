@@ -1,5 +1,17 @@
 # Changelog
 
+## [v3.21.0](https://github.com/fog/fog-aws/tree/v3.21.0) (2023-09-29)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.20.0...v3.21.0)
+
+**Closed issues:**
+
+- Fog::AWS::Storage default retry behaviour guarantees 6s delay for 4xx class responses [\#690](https://github.com/fog/fog-aws/issues/690)
+
+**Merged pull requests:**
+
+- Fog::AWS::Storage don't retry client errors [\#691]((https://github.com/fog/fog-aws/pull/691) ([rahim](https://github.com/rahim))
+
 ## [v3.20.0](https://github.com/fog/fog-aws/tree/v3.20.0) (2023-09-27)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.19.0...v3.20.0)
