@@ -10,7 +10,7 @@
 
 **Merged pull requests:**
 
-- Fog::AWS::Storage don't retry client errors [\#691]((https://github.com/fog/fog-aws/pull/691) ([rahim](https://github.com/rahim))
+- Fog::AWS::Storage don't retry client errors [\#691](https://github.com/fog/fog-aws/pull/691) ([rahim](https://github.com/rahim))
 
 ## [v3.20.0](https://github.com/fog/fog-aws/tree/v3.20.0) (2023-09-27)
 
