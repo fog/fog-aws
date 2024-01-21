@@ -20,8 +20,6 @@ jobs:
   test:
 
     continue-on-error: ${{ matrix.ruby-version == 'truffleruby-head' }}
-    env:
-      BUNDLER_GEMFILE: gemfiles/Gemfile-edge
     runs-on: ubuntu-latest
     strategy:
       matrix:
