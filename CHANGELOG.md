@@ -1,5 +1,22 @@
 # Changelog
 
+## [v3.21.1](https://github.com/fog/fog-aws/tree/v3.21.1) (2024-03-12)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.21.0...HEAD)
+
+**Closed issues:**
+
+- Missing AWS Region - ca-west-1 \(Calgary\) [\#701](https://github.com/fog/fog-aws/issues/701)
+
+**Merged pull requests:**
+
+- Add ca-west-1 region [\#703](https://github.com/fog/fog-aws/pull/703) ([jgrammen-agilitypr](https://github.com/jgrammen-agilitypr))
+- Bump actions/dependency-review-action from 3 to 4 [\#699](https://github.com/fog/fog-aws/pull/699) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Add Ruby 3.3 to CI matrix [\#698](https://github.com/fog/fog-aws/pull/698) ([m-nakamura145](https://github.com/m-nakamura145))
+- Bump github/codeql-action from 2 to 3 [\#697](https://github.com/fog/fog-aws/pull/697) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/stale from 8 to 9 [\#696](https://github.com/fog/fog-aws/pull/696) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Fix broken format in CHANGELOG [\#692](https://github.com/fog/fog-aws/pull/692) ([y-yagi](https://github.com/y-yagi))
+
 ## [v3.21.0](https://github.com/fog/fog-aws/tree/v3.21.0) (2023-09-29)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.20.0...v3.21.0)
