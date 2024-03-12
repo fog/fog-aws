@@ -1,7 +1,7 @@
 # Fog::Aws
 
 ![Gem Version](https://badge.fury.io/rb/fog-aws.svg)
-[![Build Status](https://github.com/fog/fog-aws/actions/workflows/ruby.yml/badge.svg)](https://github.com/fog/fog-aws/actions/workflows/ruby.yml)
+[![Build Status](https://github.com/fog/fog-aws/actions/workflows/ci.yml/badge.svg)](https://github.com/fog/fog-aws/actions/workflows/ci.yml)
 [![Test Coverage](https://codeclimate.com/github/fog/fog-aws/badges/coverage.svg)](https://codeclimate.com/github/fog/fog-aws)
 [![Code Climate](https://codeclimate.com/github/fog/fog-aws.svg)](https://codeclimate.com/github/fog/fog-aws)
 
