@@ -34,6 +34,7 @@ module Fog
             :headers  => headers,
             :bucket_name => target_bucket_name,
             :object_name => target_object_name,
+            :idempotent => true,
             :method   => 'PUT',
             :parser   => Fog::Parsers::AWS::Storage::CopyObject.new,
           })
