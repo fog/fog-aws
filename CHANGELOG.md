@@ -1,5 +1,17 @@
 # Changelog
 
+## [v3.22.0](https://github.com/fog/fog-aws/tree/v3.22.0) (2024-03-18)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.21.1...HEAD)
+
+**Closed issues:**
+
+- S3 copy\_object won't be retried. [\#704](https://github.com/fog/fog-aws/issues/704)
+
+**Merged pull requests:**
+
+- mark copy\_object as idempotent [\#706](https://github.com/fog/fog-aws/pull/706) ([geemus](https://github.com/geemus))
+
 ## [v3.21.1](https://github.com/fog/fog-aws/tree/v3.21.1) (2024-03-12)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.21.0...HEAD)
