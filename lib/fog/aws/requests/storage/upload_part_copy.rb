@@ -35,7 +35,7 @@ module Fog
         # @option options [Time] x-amz-copy_source-if-modified_since Copies object it it has been modified since this time
         # @option options [String] x-amz-copy_source-if-none-match Copies object if its etag does not match this value
         # @option options [Time] x-amz-copy_source-if-unmodified-since Copies object it it has not been modified since this time
-        # @option options [Time] x-amz-copy-source-range Specifes the range of bytes to copy from the source object
+        # @option options [Time] x-amz-copy-source-range Specifies the range of bytes to copy from the source object
         #
         # @return [Excon::Response]
         #   * body [Hash]:

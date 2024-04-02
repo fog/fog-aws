@@ -4,7 +4,7 @@ module Fog
       module RDS
         class ModifyDBSubnetGroup < Fog::Parsers::Base
           def reset
-            @response = { 'ModifyDBSubnetGrouptAttributeResult' => {}, 'ResponseMetadata' => {} }
+            @response = { 'ModifyDBSubnetGroupAttributeResult' => {}, 'ResponseMetadata' => {} }
           end
 
           def start_element(name, attrs = [])

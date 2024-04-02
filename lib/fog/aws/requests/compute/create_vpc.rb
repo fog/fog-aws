@@ -67,7 +67,7 @@ module Fog
               route_table = self.data[:route_tables].find { |routetable| routetable["routeTableId"].eql? default_route.id }
 
               # This pushes a main route to the associationSet
-              # add_route_association(routeTableId, subnetId, main=false) is declared in assocate_route_table.rb
+              # add_route_association(routeTableId, subnetId, main=false) is declared in associate_route_table.rb
               assoc = add_route_association(default_route.id, nil, true)
               route_table["associationSet"].push(assoc)
 

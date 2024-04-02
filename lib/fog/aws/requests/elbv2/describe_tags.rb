@@ -25,7 +25,7 @@ module Fog
           response = Excon::Response.new
           resource_arns = [*resource_arns]
 
-          tag_describtions = resource_arns.map do |resource_arn|
+          tag_descriptions = resource_arns.map do |resource_arn|
             if self.data[:load_balancers_v2][resource_arn]
               {
                 "Tags"=>self.data[:tags][resource_arn],
@@ -39,7 +39,7 @@ module Fog
           response.status = 200
           response.body = {
             "ResponseMetadata"=>{"RequestId"=> Fog::AWS::Mock.request_id },
-            "DescribeTagsResult"=>{"TagDescriptions"=> tag_describtions}
+            "DescribeTagsResult"=>{"TagDescriptions"=> tag_descriptions}
           }
 
           response

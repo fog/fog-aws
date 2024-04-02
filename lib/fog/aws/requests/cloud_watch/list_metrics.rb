@@ -4,7 +4,7 @@ module Fog
       class Real
         require 'fog/aws/parsers/cloud_watch/list_metrics'
 
-        # List availabe metrics
+        # List available metrics
         #
         # ==== Options
         # * Dimensions<~Array>: a list of dimensions to filter against,

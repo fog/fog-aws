@@ -1,7 +1,7 @@
 Shindo.tests('AWS::Elasticache | subnet group requests', ['aws', 'elasticache']) do
   # random_differentiator
   # Useful when rapidly re-running tests, so we don't have to wait
-  # serveral minutes for deleted VPCs/subnets to disappear
+  # several minutes for deleted VPCs/subnets to disappear
   suffix = rand(65536).to_s(16)
   @subnet_group_name = "fog-test-#{suffix}"
 

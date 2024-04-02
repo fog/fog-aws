@@ -11,7 +11,7 @@ module Fog
         # * auto_scaling_group_name<~String> - The name of the Auto Scaling
         # group.
         # * options<~Hash>:
-        # 'TagetGroupARNs'<~Array> - A list of target group arns to use.
+        # 'TargetGroupARNs'<~Array> - A list of target group arns to use.
         #
         # ==== See Also
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_AttachLoadBalancerTargetGroups.html

@@ -15,7 +15,7 @@ module Fog
 
           response = request({
             :body => Fog::JSON.encode(params),
-            :headers => { 'X-Amz-Target' => 'DataPipeline.DectivatePipeline' }
+            :headers => { 'X-Amz-Target' => 'DataPipeline.DeactivatePipeline' }
           })
         end
       end

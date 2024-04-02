@@ -2,7 +2,7 @@ module Fog
   module AWS
     class Kinesis
       class Real
-        # List availabe streams
+        # List available streams
         #
         # ==== Options
         # * ExclusiveStartStreamName<~String>: The name of the stream to start the list with.

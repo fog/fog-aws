@@ -2,7 +2,7 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
 
   # random_differentiator
   # Useful when rapidly re-running tests, so we don't have to wait
-  # serveral minutes for deleted servers to disappear
+  # several minutes for deleted servers to disappear
   suffix = rand(65536).to_s(16)
 
   @db_instance_id         = "fog-test-#{suffix}"

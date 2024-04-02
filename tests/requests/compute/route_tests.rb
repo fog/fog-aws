@@ -195,11 +195,11 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
 
     # Tests create_route
     #    - no parameters
-    #    - passing a nonexisiting route table and an exisiting internet gateway
+    #    - passing a nonexisiting route table and an existing internet gateway
     #    - passing a nonexisiting internet gateway
-    #    - passing a nonexisting route table and an exisiting instance
+    #    - passing a nonexisting route table and an existing instance
     #    - passing a nonexisiting instance
-    #    - passing a nonexsiting route table and an exisiting network interface
+    #    - passing a nonexsiting route table and an existing network interface
     #    - passing a nonexisiting network interface
     #    - attempting to add a route at the same destination cidr block as another
     #    - attempting to add a route at a less specific destination cidr block
@@ -238,11 +238,11 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
 
     # Tests replace_route
     #   - no parameters
-    #   - passing a nonexisiting route table and an exisiting internet gateway
+    #   - passing a nonexisiting route table and an existing internet gateway
     #   - passing a nonexisiting route table
-    #   - passing a nonexisting route table and an exisiting instance
+    #   - passing a nonexisting route table and an existing instance
     #   - passing a nonexisiting instance
-    #   - passing a nonexsiting route table and an exisiting network interface
+    #   - passing a nonexsiting route table and an existing network interface
     #   - passing a nonexisiting network interface
     #   - attempting to add a route at a less specific destination cidr block
     #

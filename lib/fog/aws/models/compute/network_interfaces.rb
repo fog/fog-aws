@@ -54,7 +54,7 @@ module Fog
         #
         # Returns an array of all network interfaces
         #
-        #>> AWS.network_interfaves.all
+        #>> AWS.network_interfaces.all
         #  <Fog::AWS::Compute::NetworkInterfaces
         #    filters={}
         #    [

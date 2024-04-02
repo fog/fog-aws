@@ -8,7 +8,7 @@ module Fog
         #
         # ==== Parameters
         # * queue_url<~String> - Url of queue to delete message from
-        # * receipt_handle<~String> - Token from previous recieve message
+        # * receipt_handle<~String> - Token from previous receive message
         #
         # ==== See Also
         # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QueryDeleteMessage.html

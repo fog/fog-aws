@@ -9,7 +9,7 @@ module Fog
         # ==== Parameters
         # * network_interface_id<~String> - The ID of the network interface you want to describe an attribute of
         # * attribute<~String>            - The attribute to modify, must be one of 'description', 'groupSet', 'sourceDestCheck' or 'attachment'
-        # * value<~Object>                - New value of attribute, the actual tyep depends on teh attribute:
+        # * value<~Object>                - New value of attribute, the actual type depends on the attribute:
         #                                   description     - a string
         #                                   groupSet        - a list of group id's
         #                                   sourceDestCheck - a boolean value

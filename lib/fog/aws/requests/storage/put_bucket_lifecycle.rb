@@ -47,7 +47,7 @@ module Fog
                       if rule['NoncurrentVersionExpiration']['NoncurrentDays']
                         NoncurrentVersionExpiration { NoncurrentDays rule['NoncurrentVersionExpiration']['NoncurrentDays'] }
                       elsif rule['NoncurrentVersionExpiration']['Date']
-                        NoncurrentVersoinExpiration {
+                        NoncurrentVersionExpiration {
                           if Date rule['NoncurrentVersionExpiration']['Date'].is_a?(Time)
                             rule['NoncurrentVersionExpiration']['Date'].utc.iso8601
                           else

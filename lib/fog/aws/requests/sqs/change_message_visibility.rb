@@ -8,7 +8,7 @@ module Fog
         #
         # ==== Parameters
         # * queue_url<~String> - Url of queue for message to update
-        # * receipt_handle<~String> - Token from previous recieve message
+        # * receipt_handle<~String> - Token from previous receive message
         # * visibility_timeout<~Integer> - New visibility timeout in 0..43200
         #
         # ==== See Also

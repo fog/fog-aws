@@ -9,7 +9,7 @@ module Fog
         # @param bucket_name [String] name of bucket to list object keys from
         # @param options [Hash] config arguments for list.  Defaults to {}.
         # @option options delimiter [String] causes keys with the same string between the prefix
-        #     value and the first occurence of delimiter to be rolled up
+        #     value and the first occurrence of delimiter to be rolled up
         # @option options marker [String] limits object keys to only those that appear
         #     lexicographically after its value.
         # @option options max-keys [Integer] limits number of object keys returned
@@ -17,7 +17,7 @@ module Fog
         #
         # @return [Excon::Response] response:
         #   * body [Hash]:
-        #     * Delimeter [String] - Delimiter specified for query
+        #     * Delimiter [String] - Delimiter specified for query
         #     * IsTruncated [Boolean] - Whether or not the listing is truncated
         #     * Marker [String]- Marker specified for query
         #     * MaxKeys [Integer] - Maximum number of keys specified for query

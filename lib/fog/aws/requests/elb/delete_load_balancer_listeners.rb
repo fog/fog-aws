@@ -4,7 +4,7 @@ module Fog
       class Real
         require 'fog/aws/parsers/elb/empty'
 
-        # Delet Elastic Load Balancer Listeners
+        # Delete Elastic Load Balancer Listeners
         #
         # ==== Parameters
         # * lb_name<~String> - Name for the new ELB -- must be unique

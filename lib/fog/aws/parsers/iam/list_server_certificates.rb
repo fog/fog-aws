@@ -21,7 +21,7 @@ module Fog
             when 'member'
               @response['Certificates'] << @certificate
               reset_certificate
-            when 'IsTrunctated'
+            when 'IsTruncated'
               @response[name] = !!value
             when 'Marker'
               @response[name] = value

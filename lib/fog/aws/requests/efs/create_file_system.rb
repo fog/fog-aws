@@ -23,7 +23,7 @@ module Fog
             :method           => 'POST',
             :expects          => 201,
             'CreationToken'   => creation_token,
-            'PerformanceMode' => options[:peformance_mode] || 'generalPurpose',
+            'PerformanceMode' => options[:performance_mode] || 'generalPurpose',
             'Encrypted'       => options[:encrypted] || false
           }
           params[:kms_key_id] = options[:kms_key_id] if options.key?(:kms_key_id)

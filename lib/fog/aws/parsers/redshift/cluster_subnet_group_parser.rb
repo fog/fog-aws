@@ -32,7 +32,7 @@ module Fog
           def end_element(name)
             super
             case name
-            when 'ClusterSubnetGroupName', 'Desciption', 'VpcId', 'SubnetGroupStatus'
+            when 'ClusterSubnetGroupName', 'Description', 'VpcId', 'SubnetGroupStatus'
               @response[name] = value
             when 'SubnetIdentifier', 'SubnetStatus'
               @subnet[name] = value

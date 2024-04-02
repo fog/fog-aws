@@ -12,7 +12,7 @@ module Fog
         # * AvailabilityZones<~Array> - A list of EC2 Availability Zones that instances in the DB cluster can be created in
         # * BackupRetentionPeriod<~String> - The number of days for which automated backups are retained
         # * CharacterSetName<~String> - A value that indicates that the DB cluster should be associated with the specified CharacterSet
-        # * DatabaseName<~String> - The name for your database of up to 8 alpha-numeric characters. If you do not provide a name, Amazon RDS will not create a database in the DB cluster you are creating
+        # * DatabaseName<~String> - The name for your database of up to 8 alphanumeric characters. If you do not provide a name, Amazon RDS will not create a database in the DB cluster you are creating
         # * DBClusterIdentifier<~String> - The DB cluster identifier. This parameter is stored as a lowercase string
         # * DBClusterParameterGroupName<~String> - The name of the DB cluster parameter group to associate with this DB cluster
         # * DBSubnetGroupName<~String> - A DB subnet group to associate with this DB cluster

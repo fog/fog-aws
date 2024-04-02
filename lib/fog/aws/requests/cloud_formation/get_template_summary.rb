@@ -15,7 +15,7 @@ module Fog
         #
         # @return [Excon::Response]:
         #   * body [Hash:
-        #     * Capabilities [Array] List of capabilties in the template.
+        #     * Capabilities [Array] List of capabilities in the template.
         #     * CapabilitiesReason [String] The list of resources that generated the values in the Capabilities response element.
         #     * Description [String] Template Description.
         #     * Metadata [String] Template Metadata.

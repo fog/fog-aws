@@ -16,7 +16,7 @@ module Fog
         # @option options Content-Type [String] Standard MIME type describing contents (defaults to MIME::Types.of.first)
         # @option options Expires [String] Cache expiry
         # @option options x-amz-acl [String] Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
-        # @option options x-amz-storage-class [String] Default is 'STANDARD', set to 'REDUCED_REDUNDANCY' for non-critical, reproducable data
+        # @option options x-amz-storage-class [String] Default is 'STANDARD', set to 'REDUCED_REDUNDANCY' for non-critical, reproducible data
         # @option options x-amz-meta-#{name} Headers to be returned with object, note total size of request without body must be less than 8 KB. Each name, value pair must conform to US-ASCII.
         # @option options x-amz-server-side-encryption [String] Sets HTTP header for server-side encryption. Set to 'AES256' for SSE-S3 and SSE-C. Set to 'aws:kms' for SSE-KMS
         # @option options x-amz-server-side​-encryption​-customer-algorithm [String] Algorithm to use to when encrypting the object for SSE-C.

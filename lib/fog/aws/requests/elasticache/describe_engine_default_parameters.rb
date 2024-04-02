@@ -24,7 +24,7 @@ module Fog
       end
 
       class Mock
-        def describe_engine_defalut_parameters(options = {})
+        def describe_engine_default_parameters(options = {})
           Fog::Mock.not_implemented
         end
       end

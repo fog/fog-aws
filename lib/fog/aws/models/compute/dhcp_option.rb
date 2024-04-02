@@ -10,7 +10,7 @@ module Fog
           super
         end
 
-        # Associates an existing dhcp configration set with a VPC
+        # Associates an existing dhcp configuration set with a VPC
         #
         # dhcp_option.attach(dopt-id, vpc-id)
         #

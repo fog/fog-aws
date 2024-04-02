@@ -12,7 +12,7 @@ module Fog
         #   or (one of the two Template parameters is required)
         #   * TemplateURL [String] URL of file containing the template body.
         #   * Parameters [Hash] Hash of providers to supply to template.
-        #   * Capabilities [Array] List of capabilties the stack is granted. Currently CAPABILITY_IAM for allowing the creation of IAM resources.
+        #   * Capabilities [Array] List of capabilities the stack is granted. Currently CAPABILITY_IAM for allowing the creation of IAM resources.
         #   * NotificationARNs [Array] List of SNS topics to publish events to.
         #   * ResourceTypes [Array] The template resource types that you have permissions to work.
         #   * StackPolicyBody [String] Structure containing the stack policy body.

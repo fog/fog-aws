@@ -31,7 +31,7 @@ module Fog
         #     * 'Ebs.VolumeType'<~String> - Type of EBS volue. Valid options in ['standard', 'io1'] default is 'standard'.
         #     * 'Ebs.Iops'<~String> - The number of I/O operations per second (IOPS) that the volume supports. Required when VolumeType is 'io1'
         #   * 'HibernationOptions'<~Array>: array of hashes
-        #     * 'Configured'<~Boolean> - specifies whether or not the instance is configued for hibernation.  This parameter is valid only if the instance meets the hibernation prerequisites.  
+        #     * 'Configured'<~Boolean> - specifies whether or not the instance is configured for hibernation.  This parameter is valid only if the instance meets the hibernation prerequisites.  
         #   * 'NetworkInterfaces'<~Array>: array of hashes
         #     * 'NetworkInterfaceId'<~String> - An existing interface to attach to a single instance
         #     * 'DeviceIndex'<~String> - The device index. Applies both to attaching an existing network interface and creating a network interface
@@ -46,7 +46,7 @@ module Fog
         #     * 'AssociatePublicIpAddress'<~String> - Indicates whether to assign a public IP address to an instance in a VPC. The public IP address is assigned to a specific network interface
         #   * 'TagSpecifications'<~Array>: array of hashes
         #     * 'ResourceType'<~String> - Type of resource to apply tags on, e.g: instance or volume
-        #     * 'Tags'<~Array> - List of hashs reprensenting tag to be set
+        #     * 'Tags'<~Array> - List of hashes reprensenting tag to be set
         #       * 'Key'<~String> - Tag name
         #       * 'Value'<~String> - Tag value
         #   * 'ClientToken'<~String> - unique case-sensitive token for ensuring idempotency

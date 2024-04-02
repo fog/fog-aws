@@ -43,7 +43,7 @@ Shindo.tests('AWS::IAM | versioned managed policy requests', ['aws']) do
       'PolicyVersion' => [versioned_policy_format]
     }
 
-    policy_verions_format = {
+    policy_versions_format = {
         'CreateDate' => Time,
         'IsDefaultVersion' => Fog::Boolean,
         'VersionId' => String
@@ -51,7 +51,7 @@ Shindo.tests('AWS::IAM | versioned managed policy requests', ['aws']) do
 
     list_policy_versions_format = {
       'RequestId' => String,
-      'Versions' => [policy_verions_format],
+      'Versions' => [policy_versions_format],
       'Marker' => String,
       'IsTruncated' => Fog::Boolean      
     }

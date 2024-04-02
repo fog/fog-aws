@@ -2,7 +2,7 @@ module Fog
   module AWS
     class Glacier
       class Real
-        # This operation initates a multipart upload of an archive to a vault
+        # This operation initiates a multipart upload of an archive to a vault
         #
         # ==== Parameters
         # * name<~String> The vault name
