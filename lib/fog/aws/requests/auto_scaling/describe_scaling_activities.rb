@@ -40,7 +40,7 @@ module Fog
         #         * 'ActivityId'<~String> - Specifies the ID of the activity.
         #         * 'AutoScalingGroupName'<~String> - The name of the Auto
         #           Scaling group.
-        #         * 'Cause'<~String> - Contins the reason the activity was
+        #         * 'Cause'<~String> - Contains the reason the activity was
         #           begun.
         #         * 'Description'<~String> - Contains a friendly, more verbose
         #           description of the scaling activity.

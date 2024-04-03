@@ -7,7 +7,7 @@ module Fog
         # Remove permissions from a security group
         #
         # ==== Parameters
-        # * group_name<~String> - Name of group, optional (can also be specifed as GroupName in options)
+        # * group_name<~String> - Name of group, optional (can also be specified as GroupName in options)
         # * options<~Hash>:
         #   * 'GroupName'<~String> - Name of security group to modify
         #   * 'GroupId'<~String> - Id of security group to modify

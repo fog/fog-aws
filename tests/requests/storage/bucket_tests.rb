@@ -225,7 +225,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       pending if Fog.mocking?
 
       lifecycle = {'Rules' => [{'ID' => 'test rule', 'Prefix' => '/prefix', 'Enabled' => true, 'Days' => 42}]}
-      tests('non-existant bucket') do
+      tests('non-existent bucket') do
         tests('#put_bucket_lifecycle').returns([404, 'NoSuchBucket']) do
           begin
             Fog::Storage[:aws].put_bucket_lifecycle('fognonbucket', lifecycle)

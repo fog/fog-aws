@@ -5,7 +5,7 @@ module Fog
         # Change notification configuration for an S3 bucket
         #
         # @param bucket_name [String] name of bucket to set notification configuration for
-        # * notications [Hash]:
+        # * notifications [Hash]:
         #   * Topics [Array] SNS topic configurations for the notification
         #     * ID [String] Unique identifier for the configuration
         #     * Topic [String] Amazon SNS topic ARN to which Amazon S3 will publish a message when it detects events of specified type

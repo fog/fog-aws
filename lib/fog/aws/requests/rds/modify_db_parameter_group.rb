@@ -10,7 +10,7 @@ module Fog
         # * DBParameterGroupName <~String> - name of the parameter group
         # * Parameters<~Array> - Array of up to 20 Hashes describing parameters to set
         #   * 'ParameterName'<~String> - parameter name.
-        #   * 'ParameterValue'<~String> - new paremeter value
+        #   * 'ParameterValue'<~String> - new parameter value
         #   * 'ApplyMethod'<~String> - immediate | pending-reboot whether to set the parameter immediately or not (may require an instance restart)
         #
         # ==== Returns

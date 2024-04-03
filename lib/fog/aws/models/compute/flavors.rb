@@ -288,7 +288,7 @@ module Fog
         },
         {
           :id                      => 't4g.nano',
-          :name                    => 'T4G Nano Instace',
+          :name                    => 'T4G Nano Instance',
           :bits                    => 64,
           :cores                   => 2,
           :disk                    => 0,
@@ -318,7 +318,7 @@ module Fog
         },
         {
           :id                      => 't4g.medium',
-          :name                    => 'T4G Medium Instace',
+          :name                    => 'T4G Medium Instance',
           :bits                    => 64,
           :cores                   => 2,
           :disk                    => 0,
@@ -3558,7 +3558,7 @@ module Fog
         },
         {
           :id                      => "m6a.48xlarge",
-          :name                    => "m6a Fourty Eight Extra Large",
+          :name                    => "m6a Forty Eight Extra Large",
           :bits                    => 64,
           :cores                   => 192,
           :ram                     => 824634,

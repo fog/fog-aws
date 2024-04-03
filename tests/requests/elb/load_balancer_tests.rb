@@ -76,8 +76,8 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       Fog::AWS[:elb].delete_load_balancer(@load_balancer_id).body
     end
 
-    tests("#delete_load_balancer when non existant").formats(AWS::ELB::Formats::DELETE_LOAD_BALANCER) do
-      Fog::AWS[:elb].delete_load_balancer('non-existant').body
+    tests("#delete_load_balancer when non existent").formats(AWS::ELB::Formats::DELETE_LOAD_BALANCER) do
+      Fog::AWS[:elb].delete_load_balancer('non-existent').body
     end
 
     tests("#delete_load_balancer when already deleted").formats(AWS::ELB::Formats::DELETE_LOAD_BALANCER) do

@@ -56,7 +56,7 @@ module Fog
               self.data[:modify_time] = Time.now
               # TODO verify the params options
               # if apply_immediately is false, all the options go to pending_modified_values and then apply and clear after either
-              # a reboot or the maintainance window
+              # a reboot or the maintenance window
               #if apply_immediately
               #  modified_server = server.merge(options)
               #else

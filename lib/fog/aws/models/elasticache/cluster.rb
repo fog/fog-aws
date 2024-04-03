@@ -54,7 +54,7 @@ module Fog
               :engine_version               => engine_version,
               :notification_topic_arn       => notification_config['TopicArn'],
               :port                         => port,
-              :preferred_availablility_zone => zone,
+              :preferred_availability_zone  => zone,
               :preferred_maintenance_window => maintenance_window,
               :s3_snapshot_location         => s3_snapshot_location,
               :parameter_group_name         => parameter_group_name || parameter_group['CacheParameterGroupName'],

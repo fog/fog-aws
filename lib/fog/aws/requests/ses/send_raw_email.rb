@@ -9,7 +9,7 @@ module Fog
         # ==== Parameters
         # * RawMessage <~String> - The message to be sent.
         # * Options <~Hash>
-        #   * Source <~String> - The sender's email address. Takes precenence over Return-Path if specified in RawMessage
+        #   * Source <~String> - The sender's email address. Takes precedence over Return-Path if specified in RawMessage
         #   * Destinations <~Array> - All destinations for this email.
         #
         # ==== Returns

@@ -19,7 +19,7 @@ module Fog
         #   * :engine_version <~String> - The Cluster's caching software version
         #   * :notification_topic_arn <~String> - Amazon SNS Resource Name
         #   * :port <~Integer> - The memcached port number
-        #   * :preferred_availablility_zone <~String>
+        #   * :preferred_availability_zone <~String>
         #   * :preferred_maintenance_window <~String>
         #   * :cache_subnet_group_name <~String>
         #   * :s3_snapshot_location <~String> - Amazon resource location for snapshot
@@ -39,7 +39,7 @@ module Fog
             'EngineVersion'               => options[:engine_version],
             'NotificationTopicArn'        => options[:notification_topic_arn],
             'Port'                        => options[:port],
-            'PreferredAvailabilityZone'   => options[:preferred_availablility_zone],
+            'PreferredAvailabilityZone'   => options[:preferred_availability_zone],
             'PreferredMaintenanceWindow'  => options[:preferred_maintenance_window],
             :parser => Fog::Parsers::AWS::Elasticache::SingleCacheCluster.new
           }

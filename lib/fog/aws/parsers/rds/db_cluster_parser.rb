@@ -42,7 +42,7 @@ module Fog
             when 'VpcSecurityGroupId'
               @vpc_security_group[name] = value
             when 'Status'
-              # Unfortunately, status is used in VpcSecurityGroupMemebership and
+              # Unfortunately, status is used in VpcSecurityGroupMembership and
               # DBSecurityGroups
               if @in_db_security_groups
                 @db_security_group[name]=value

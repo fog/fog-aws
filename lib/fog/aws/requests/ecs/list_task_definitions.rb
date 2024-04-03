@@ -13,7 +13,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'TaskDefinitionArns' <~Array> - list of task definition Amazon Resource Name (ARN) entries for the ListTaskDefintions request.
+        #     * 'TaskDefinitionArns' <~Array> - list of task definition Amazon Resource Name (ARN) entries for the ListTaskDefinitions request.
         #     * 'NextToken' <~String> - nextToken value to include in a future ListTaskDefinitions request
         def list_task_definitions(params={})
           request({

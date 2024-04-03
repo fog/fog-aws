@@ -9,7 +9,7 @@ module Fog
         # ==== Parameters
         # * DBInstanceIdentifier <~String> - ID of instance to retrieve information for. if absent information for all instances is returned
         # * DBSnapshotIdentifier <~String> - ID of snapshot to retrieve information for. if absent information for all snapshots is returned
-        # * SnapshotType       <~String> - type of snapshot to retrive (automated|manual)
+        # * SnapshotType       <~String> - type of snapshot to retrieve (automated|manual)
         # * Marker               <~String> - An optional marker provided in the previous DescribeDBInstances request
         # * MaxRecords           <~Integer> - Max number of records to return (between 20 and 100)
         # Only one of DBInstanceIdentifier or DBSnapshotIdentifier can be specified

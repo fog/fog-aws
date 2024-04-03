@@ -4,7 +4,7 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
 
   tests('distributions success') do
 
-    test('get current ditribution list count') do
+    test('get current distribution list count') do
 
       @count= 0
       response = @cf_connection.get_distribution_list
@@ -148,7 +148,7 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
 
   tests('streaming distributions success') do
 
-    test('get current streaming ditribution list count') do
+    test('get current streaming distribution list count') do
 
       @count= 0
       response = @cf_connection.get_streaming_distribution_list

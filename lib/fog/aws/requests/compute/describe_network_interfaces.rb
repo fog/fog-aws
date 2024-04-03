@@ -20,7 +20,7 @@ module Fog
         # *   'availabilityZone'<~String>   - The availability zone
         # *   'description'<~String>        - The description
         # *   'ownerId'<~String>            - The ID of the person who created the interface
-        # *   'requesterId'<~String>        - The ID ot teh entity requesting this interface
+        # *   'requesterId'<~String>        - The ID of the entity requesting this interface
         # *   'requesterManaged'<~String>   -
         # *   'status'<~String>             - "available" or "in-use"
         # *   'macAddress'<~String>         -
@@ -49,7 +49,7 @@ module Fog
         # *   'privateIpAddresses' <~Array>:
         # *     'privateIpAddress'<~String> - One of the additional private ip address
         # *     'privateDnsName'<~String>   - The private DNS associate to the ip address
-        # *     'primay'<~String>           - Whether main ip associate with NIC true of false
+        # *     'primary'<~String>          - Whether main ip associate with NIC true of false
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2012-03-01/APIReference/index.html?ApiReference-query-DescribeNetworkInterfaces.html]
         def describe_network_interfaces(filters = {})

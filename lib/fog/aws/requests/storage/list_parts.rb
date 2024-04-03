@@ -21,7 +21,7 @@ module Fog
         #       * ID [String] Id of upload initiator
         #     * IsTruncated [Boolean] Whether or not the listing is truncated
         #     * Key [String] Key where multipart upload was initiated
-        #     * MaxParts [String] maximum number of replies alllowed in response
+        #     * MaxParts [String] maximum number of replies allowed in response
         #     * NextPartNumberMarker [String] last item in list, for further pagination
         #     * Part [Array]:
         #       * ETag [String] ETag of part

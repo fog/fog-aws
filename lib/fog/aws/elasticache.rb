@@ -195,7 +195,7 @@ module Fog
           @aws_access_key_id = options[:aws_access_key_id]
         end
 
-        # returns an Array of (Mock) elasticache nodes, representated as Hashes
+        # returns an Array of (Mock) elasticache nodes, represented as Hashes
         def create_cache_nodes(cluster_id, num_nodes = 1, port = '11211')
           (1..num_nodes).map do |node_number|
             node_id = "%04d" % node_number

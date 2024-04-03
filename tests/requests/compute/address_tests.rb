@@ -59,7 +59,7 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
       compute.associate_address({:instance_id=>@server.identity,:public_ip=> @public_ip}).body
     end
 
-    tests("#dissassociate_address('#{@public_ip}')").formats(AWS::Compute::Formats::BASIC) do
+    tests("#disassociate_address('#{@public_ip}')").formats(AWS::Compute::Formats::BASIC) do
       compute.disassociate_address(@public_ip).body
     end
 

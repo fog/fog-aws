@@ -25,7 +25,7 @@ module Fog
         # *   'availabilityZone'<~String>   - The availability zone
         # *   'description'<~String>        - The description
         # *   'ownerId'<~String>            - The ID of the person who created the interface
-        # *   'requesterId'<~String>        - The ID ot teh entity requesting this interface
+        # *   'requesterId'<~String>        - The ID or the entity requesting this interface
         # *   'requesterManaged'<~String>   -
         # *   'status'<~String>             - "available" or "in-use"
         # *   'macAddress'<~String>         -

@@ -20,9 +20,9 @@ Shindo.tests('AWS::ELB | listener_tests', ['aws', 'elb']) do
       Fog::AWS[:elb].delete_load_balancer_listeners(@load_balancer_id, ports).body
     end
 
-    tests("#create_load_balancer_listeners with non-existant SSL certificate") do
+    tests("#create_load_balancer_listeners with non-existent SSL certificate") do
       listeners = [
-        {'Protocol' => 'HTTPS', 'InstanceProtocol' => 'HTTPS', 'LoadBalancerPort' => 443, 'InstancePort' => 443, 'SSLCertificateId' => 'non-existant'},
+        {'Protocol' => 'HTTPS', 'InstanceProtocol' => 'HTTPS', 'LoadBalancerPort' => 443, 'InstancePort' => 443, 'SSLCertificateId' => 'non-existent'},
       ]
       raises(Fog::AWS::IAM::NotFound) { Fog::AWS[:elb].create_load_balancer_listeners(@load_balancer_id, listeners) }
     end

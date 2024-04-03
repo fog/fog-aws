@@ -34,7 +34,7 @@ module Fog
           if sec_group = self.data[:security_groups][name]
 
             if sec_group['EC2SecurityGroups'].find{|h| h['EC2SecurityGroupName'] == opts['EC2SecurityGroupName']}
-              raise Fog::AWS::Elasticache::AuthorizationAlreadyExists.new("AuthorizationAlreadyExists => #{opts['EC2SecurityGroupName']} is alreay defined")
+              raise Fog::AWS::Elasticache::AuthorizationAlreadyExists.new("AuthorizationAlreadyExists => #{opts['EC2SecurityGroupName']} is already defined")
             end
             sec_group['EC2SecurityGroups'] << opts.merge({'Status' => 'authorizing'})
 

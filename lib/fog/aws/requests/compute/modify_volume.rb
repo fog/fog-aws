@@ -10,7 +10,7 @@ module Fog
         # * volume_id<~String> - The ID of the volume
         # * options<~Hash>:
         #   * 'VolumeType'<~String> - Type of volume
-        #   * 'Size'<~Integer> - Size in GiBs fo the volume
+        #   * 'Size'<~Integer> - Size in GiBs of the volume
         #   * 'Iops'<~Integer> - Number of IOPS the volume supports
         #
         # ==== Response

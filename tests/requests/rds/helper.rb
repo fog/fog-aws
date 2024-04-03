@@ -165,7 +165,7 @@ class AWS
         'BackupRetentionPeriod'   => Integer,
         'CACertificateIdentifier' => String,
         'CharacterSetName'        => Fog::Nullable::String,
-        'DBClusterIndentifier'    => Fog::Nullable::String,
+        'DBClusterIdentifier'     => Fog::Nullable::String,
         'DbiResourceId'           => Fog::Nullable::String,
         'DBInstanceClass'         => String,
         'DBInstanceIdentifier'    => String,
