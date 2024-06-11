@@ -106,7 +106,7 @@ DATA
       end
 
       def canonical_headers(headers)
-        canonical_headers = ''
+        canonical_headers = +''
 
         for key in headers.keys.sort_by {|k| k.to_s.downcase}
           canonical_headers << "#{key.to_s.downcase}:#{headers[key].to_s.strip}\n"
