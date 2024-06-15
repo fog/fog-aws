@@ -33,7 +33,7 @@ module Fog
           mapping_id = params.delete('UUID')
 
           unless mapping = self.data[:event_source_mappings][mapping_id]
-            message  = 'ResourceNotFoundException => '
+            message  = +'ResourceNotFoundException => '
             message << 'The resource you requested does not exist.'
             raise Fog::AWS::Lambda::Error, message
           end
