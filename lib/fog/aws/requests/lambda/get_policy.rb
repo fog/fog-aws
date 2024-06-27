@@ -31,7 +31,7 @@ module Fog
           statements   = self.data[:permissions][function_arn] || []
 
           if statements.empty?
-            message = "ResourceNotFoundException => "
+            message = +"ResourceNotFoundException => "
             message << "The resource you requested does not exist."
             raise Fog::AWS::Lambda::Error, message
           end

@@ -56,7 +56,7 @@ module Fog
           function = self.get_function_configuration('FunctionName' => function_name).body
 
           unless event_source_arn
-            message  = "ValidationException => "
+            message  = +"ValidationException => "
             message << "'eventSourceArn' cannot be blank"
             raise Fog::AWS::Lambda::Error, message
           end

@@ -109,7 +109,7 @@ module Fog
           end
 
           if !function.empty?
-            message  = "ResourceConflictException => "
+            message  = +"ResourceConflictException => "
             message << "Function already exist: #{function_name}"
             raise Fog::AWS::Lambda::Error, message
           end
