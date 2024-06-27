@@ -21,7 +21,7 @@ module Fog
           if options[:use_iam_profile]
             begin
               role_data = nil
-              region = options[:region] || ENV["AWS_DEFAULT_REGION"]
+              region = options[:region] || ENV["AWS_REGION"] || ENV["AWS_DEFAULT_REGION"]
 
               if ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
                 connection = options[:connection] || Excon.new(CONTAINER_CREDENTIALS_HOST)

@@ -151,8 +151,23 @@ Shindo.tests('AWS | credentials', ['aws']) do
     end
 
     ENV["AWS_DEFAULT_REGION"] = "us-west-1"
+    ENV["AWS_REGION"] = nil
 
-    tests('#fetch_credentials with regional STS endpoint with region in env') do
+    tests('#fetch_credentials with regional STS endpoint with AWS_DEFAULT_REGION in env') do
+      returns(
+        aws_access_key_id: 'dummykey',
+        aws_secret_access_key: 'dummysecret',
+        aws_session_token: 'dummytoken',
+        region: 'us-west-1',
+        sts_endpoint: "https://sts.us-west-1.amazonaws.com",
+        aws_credentials_expire_at: expires_at
+      ) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
+    end
+
+    ENV["AWS_DEFAULT_REGION"] = "us-west-2"
+    ENV["AWS_REGION"] = "us-west-1"
+
+    tests('#fetch_credentials with regional STS endpoint with AWS_REGION in env') do
       returns(
         aws_access_key_id: 'dummykey',
         aws_secret_access_key: 'dummysecret',
@@ -165,6 +180,7 @@ Shindo.tests('AWS | credentials', ['aws']) do
 
     ENV["AWS_STS_REGIONAL_ENDPOINTS"] = nil
     ENV["AWS_DEFAULT_REGION"] = nil
+    ENV["AWS_REGION"] = nil
     ENV['AWS_WEB_IDENTITY_TOKEN_FILE'] = nil
 
     storage = Fog::Storage.new(
