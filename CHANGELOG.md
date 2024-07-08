@@ -1,6 +1,19 @@
 # Changelog
 
-## [v3.23.0](https://github.com/fog/fog-aws/tree/HEAD) (2024-06-18)
+## [v3.24.0](https://github.com/fog/fog-aws/tree/v3.24.0) (2024-07-08)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.23.0...v3.24.0)
+
+**Closed issues:**
+
+- Fog.mock! not working with Storage provider [\#713](https://github.com/fog/fog-aws/issues/713)
+
+**Merged pull requests:**
+
+- Prefer AWS\_REGION over AWS\_DEFAULT\_REGION in credential fetching [\#715](https://github.com/fog/fog-aws/pull/715) ([stanhu](https://github.com/stanhu))
+- Provide a 'Changelog' link on rubygems.org/gems/fog-aws [\#714](https://github.com/fog/fog-aws/pull/714) ([mark-young-atg](https://github.com/mark-young-atg))
+
+## [v3.23.0](https://github.com/fog/fog-aws/tree/v3.23.0) (2024-06-18)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.22.0...v3.23.0)
 
