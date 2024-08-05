@@ -1,3 +1,4 @@
+require 'base64'
 require 'fog/core'
 require 'fog/xml'
 require 'fog/json'
