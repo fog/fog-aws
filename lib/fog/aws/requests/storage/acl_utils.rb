@@ -5,7 +5,7 @@ module Fog
 
       private
         def self.hash_to_acl(acl)
-          data =  "<AccessControlPolicy>\n"
+          data =  +"<AccessControlPolicy>\n"
 
           if acl['Owner'] && (acl['Owner']['ID'] || acl['Owner']['DisplayName'])
             data << "  <Owner>\n"

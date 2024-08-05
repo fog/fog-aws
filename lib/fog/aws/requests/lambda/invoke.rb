@@ -46,7 +46,7 @@ module Fog
           response.body = ''
 
           unless function_id = params.delete('FunctionName')
-            message = 'AccessDeniedException => '
+            message = +'AccessDeniedException => '
             message << 'Unable to determine service/operation name to be authorized'
             raise Fog::AWS::Lambda::Error, message
           end
@@ -63,7 +63,7 @@ module Fog
           end
 
           if payload
-            message = "payload parameter is ignored since we are not really "
+            message = +"payload parameter is ignored since we are not really "
             message << "invoking a function [light_black](#{caller.first})[/]"
             Fog::Logger.warning message
           end
