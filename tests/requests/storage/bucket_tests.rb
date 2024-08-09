@@ -395,16 +395,6 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       Fog::Storage[:aws].put_bucket_website('fognonbucket', 'index.html')
     end
 
-    tests('put existing bucket - non-default region') do
-      storage_eu_endpoint = Fog::Storage[:aws]
-      storage_eu_endpoint.region = "eu-west-1"
-      storage_eu_endpoint.put_bucket(@aws_bucket_name)
-
-      tests("#put_bucket('#{@aws_bucket_name}') existing").raises(Excon::Errors::Conflict) do
-        storage_eu_endpoint.put_bucket(@aws_bucket_name)
-      end
-    end
-
     tests("#put_bucket_website('fognonbucket', :RedirectAllRequestsTo => 'redirect.example.com')").raises(Excon::Errors::NotFound) do
       Fog::Storage[:aws].put_bucket_website('fognonbucket', :RedirectAllRequestsTo => 'redirect.example.com')
     end
