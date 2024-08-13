@@ -559,7 +559,7 @@ module Fog
           @persistent = options.fetch(:persistent, false)
           @acceleration = options.fetch(:acceleration, false)
           @signature_version = options.fetch(:aws_signature_version, 4)
-          @enable_signature_v4_streaming = options.fetch(:enable_signature_v4_streaming, true)
+          @enable_signature_v4_streaming = options.fetch(:enable_signature_v4_streaming, false)
           validate_signature_version!
           @path_style = options[:path_style]  || false
 
