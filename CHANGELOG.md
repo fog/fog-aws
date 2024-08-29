@@ -1,5 +1,22 @@
 # Changelog
 
+## [v3.25.0](https://github.com/fog/fog-aws/tree/v3.25.0) (2024-08-29)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.24.0...v3.25.0)
+
+**Closed issues:**
+
+- gsub exception from normalize\_headers with carrierwave [\#720](https://github.com/fog/fog-aws/issues/720)
+- Add AWS EKS Pod Identity support [\#718](https://github.com/fog/fog-aws/issues/718)
+
+**Merged pull requests:**
+
+- only try to gsub etag on files if there is one closes \#720 [\#722](https://github.com/fog/fog-aws/pull/722) ([geemus](https://github.com/geemus))
+- Added support for EKS Pod Identity. [\#721](https://github.com/fog/fog-aws/pull/721) ([y-sugawara-acs](https://github.com/y-sugawara-acs))
+- Disable S3 Signature v4 Streaming by default [\#719](https://github.com/fog/fog-aws/pull/719) ([stanhu](https://github.com/stanhu))
+- Drop warning if region is not us-east-1 in mock [\#717](https://github.com/fog/fog-aws/pull/717) ([stanhu](https://github.com/stanhu))
+- add base64 require and dependency [\#716](https://github.com/fog/fog-aws/pull/716) ([geemus](https://github.com/geemus))
+
 ## [v3.24.0](https://github.com/fog/fog-aws/tree/v3.24.0) (2024-07-08)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.23.0...v3.24.0)
@@ -26,47 +43,6 @@
 - add il-central-1 region [\#712](https://github.com/fog/fog-aws/pull/712) ([geemus](https://github.com/geemus))
 - Fix frozen string literal issue for ruby 3.4.0 [\#709](https://github.com/fog/fog-aws/pull/709) ([chaadow](https://github.com/chaadow))
 - Fix typos [\#707](https://github.com/fog/fog-aws/pull/707) ([kianmeng](https://github.com/kianmeng))
-
-## [v3.22.0](https://github.com/fog/fog-aws/tree/v3.22.0) (2024-03-18)
-
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.21.1...v3.22.0)
-
-**Closed issues:**
-
-- S3 copy\_object won't be retried. [\#704](https://github.com/fog/fog-aws/issues/704)
-
-**Merged pull requests:**
-
-- mark copy\_object as idempotent [\#706](https://github.com/fog/fog-aws/pull/706) ([geemus](https://github.com/geemus))
-
-## [v3.21.1](https://github.com/fog/fog-aws/tree/v3.21.1) (2024-03-12)
-
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.21.0...v3.21.1)
-
-**Closed issues:**
-
-- Missing AWS Region - ca-west-1 \(Calgary\) [\#701](https://github.com/fog/fog-aws/issues/701)
-
-**Merged pull requests:**
-
-- Add ca-west-1 region [\#703](https://github.com/fog/fog-aws/pull/703) ([jgrammen-agilitypr](https://github.com/jgrammen-agilitypr))
-- Bump actions/dependency-review-action from 3 to 4 [\#699](https://github.com/fog/fog-aws/pull/699) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Add Ruby 3.3 to CI matrix [\#698](https://github.com/fog/fog-aws/pull/698) ([m-nakamura145](https://github.com/m-nakamura145))
-- Bump github/codeql-action from 2 to 3 [\#697](https://github.com/fog/fog-aws/pull/697) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump actions/stale from 8 to 9 [\#696](https://github.com/fog/fog-aws/pull/696) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Fix broken format in CHANGELOG [\#692](https://github.com/fog/fog-aws/pull/692) ([y-yagi](https://github.com/y-yagi))
-
-## [v3.21.0](https://github.com/fog/fog-aws/tree/v3.21.0) (2023-09-29)
-
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.20.0...v3.21.0)
-
-**Closed issues:**
-
-- Fog::AWS::Storage default retry behaviour guarantees 6s delay for 4xx class responses [\#690](https://github.com/fog/fog-aws/issues/690)
-
-**Merged pull requests:**
-
-- Fog::AWS::Storage don't retry client errors [\#691](https://github.com/fog/fog-aws/pull/691) ([rahim](https://github.com/rahim))
 
 
 
