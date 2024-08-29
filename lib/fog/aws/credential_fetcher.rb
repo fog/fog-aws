@@ -34,6 +34,17 @@ module Fog
                   token_header = fetch_credentials_token_header(connection, options[:disable_imds_v2])
                   region = connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200, :headers => token_header).body[0..-2]
                 end
+              elsif ENV["AWS_CONTAINER_CREDENTIALS_FULL_URI"]
+                connection = options[:connection] || Excon.new(ENV['AWS_CONTAINER_CREDENTIALS_FULL_URI'])
+                container_authorization_token = File.read(options[:aws_container_authorization_token_file] || ENV['AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE'])
+                role_data = connection.get(:idempotent => true, :expects => 200, :headers => {'Authorization' => container_authorization_token}).body
+                session = Fog::JSON.decode(role_data)
+
+                if region.nil?
+                  connection = options[:metadata_connection] || Excon.new(INSTANCE_METADATA_HOST)
+                  token_header = fetch_credentials_token_header(connection, options[:disable_imds_v2])
+                  region = connection.get(:path => INSTANCE_METADATA_AZ, :idempotent => true, :expects => 200, :headers => token_header).body[0..-2]
+                end
               elsif ENV["AWS_WEB_IDENTITY_TOKEN_FILE"]
                 params = {
                   :Action => "AssumeRoleWithWebIdentity",

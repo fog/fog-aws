@@ -85,6 +85,30 @@ Shindo.tests('AWS | credentials', ['aws']) do
 
     ENV['AWS_CONTAINER_CREDENTIALS_RELATIVE_URI'] = nil
 
+    # Make sure fetched credentials are different from those of instance metadata endpoint
+    container_credentials = {
+      'AccessKeyId' => 'dummycontainerkey',
+      'SecretAccessKey' => 'dummycontainersecret',
+      'Token' => 'dummycontainertoken',
+      'Expiration' => expires_at.xmlschema
+    }
+
+    ENV['AWS_CONTAINER_CREDENTIALS_FULL_URI'] = 'http://169.254.170.23/v1/credentials'
+    ENV['AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE'] = File.dirname(__FILE__) + '/lorem.txt'
+    Excon.stub({ method: :get, scheme: 'http', host: '169.254.170.23', path: '/v1/credentials' },
+               { status: 200, body: Fog::JSON.encode(container_credentials) })
+
+    tests('#fetch_credentials with EKS Pod Identity') do
+      returns(aws_access_key_id: 'dummycontainerkey',
+              aws_secret_access_key: 'dummycontainersecret',
+              aws_session_token: 'dummycontainertoken',
+              region: 'us-west-1',
+              aws_credentials_expire_at: expires_at) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
+    end
+
+    ENV['AWS_CONTAINER_CREDENTIALS_FULL_URI'] = nil
+    ENV['AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE'] = nil
+
     ENV['AWS_WEB_IDENTITY_TOKEN_FILE'] = File.dirname(__FILE__) + '/lorem.txt'
     ENV['AWS_ROLE_ARN'] = "dummyrole"
     ENV['AWS_ROLE_SESSION_NAME'] = "dummyrolesessionname"
@@ -259,6 +283,8 @@ Shindo.tests('AWS | credentials', ['aws']) do
     end
   ensure
     ENV['AWS_CONTAINER_CREDENTIALS_RELATIVE_URI'] = nil
+    ENV['AWS_CONTAINER_CREDENTIALS_FULL_URI'] = nil
+    ENV['AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE'] = nil
     ENV['AWS_WEB_IDENTITY_TOKEN_FILE'] = nil
     Excon.stubs.clear
     Excon.defaults[:mock] = old_mock_value
