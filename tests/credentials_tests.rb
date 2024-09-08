@@ -202,6 +202,20 @@ Shindo.tests('AWS | credentials', ['aws']) do
       ) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
     end
 
+    ENV["AWS_ENDPOINT_URL_STS"] = "https://my-special-sts.amazonaws.com"
+
+    tests('#fetch_credentials with global STS endpoint set in env') do
+      returns(
+        aws_access_key_id: 'dummykey',
+        aws_secret_access_key: 'dummysecret',
+        aws_session_token: 'dummytoken',
+        region: 'us-west-1',
+        sts_endpoint: "https://my-special-sts.amazonaws.com",
+        aws_credentials_expire_at: expires_at
+      ) { Fog::AWS::Compute.fetch_credentials(use_iam_profile: true) }
+    end
+
+    ENV["AWS_ENDPOINT_URL_STS"] = nil
     ENV["AWS_STS_REGIONAL_ENDPOINTS"] = nil
     ENV["AWS_DEFAULT_REGION"] = nil
     ENV["AWS_REGION"] = nil
