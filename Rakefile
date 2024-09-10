@@ -13,6 +13,6 @@ GitHubChangelogGenerator::RakeTask.new :changelog do |config|
   config.project = 'fog-aws'
   config.max_issues = 100
 
-  config.future_release = 'v3.25.0'
-  config.since_tag = 'v3.22.0'
+  config.future_release = 'v3.26.0'
+  config.since_tag = 'v3.23.0'
 end

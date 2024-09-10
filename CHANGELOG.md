@@ -1,5 +1,13 @@
 # Changelog
 
+## [v3.26.0](https://github.com/fog/fog-aws/tree/v3.26.0) (2024-09-10)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.25.0...v3.26.0)
+
+**Merged pull requests:**
+
+- Support AWS\_ENDPOINT\_URL\_STS environment variable [\#724](https://github.com/fog/fog-aws/pull/724) ([stanhu](https://github.com/stanhu))
+
 ## [v3.25.0](https://github.com/fog/fog-aws/tree/v3.25.0) (2024-08-29)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.24.0...v3.25.0)
@@ -29,20 +37,6 @@
 
 - Prefer AWS\_REGION over AWS\_DEFAULT\_REGION in credential fetching [\#715](https://github.com/fog/fog-aws/pull/715) ([stanhu](https://github.com/stanhu))
 - Provide a 'Changelog' link on rubygems.org/gems/fog-aws [\#714](https://github.com/fog/fog-aws/pull/714) ([mark-young-atg](https://github.com/mark-young-atg))
-
-## [v3.23.0](https://github.com/fog/fog-aws/tree/v3.23.0) (2024-06-18)
-
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.22.0...v3.23.0)
-
-**Closed issues:**
-
-- Read credentials from Rails config file  [\#705](https://github.com/fog/fog-aws/issues/705)
-
-**Merged pull requests:**
-
-- add il-central-1 region [\#712](https://github.com/fog/fog-aws/pull/712) ([geemus](https://github.com/geemus))
-- Fix frozen string literal issue for ruby 3.4.0 [\#709](https://github.com/fog/fog-aws/pull/709) ([chaadow](https://github.com/chaadow))
-- Fix typos [\#707](https://github.com/fog/fog-aws/pull/707) ([kianmeng](https://github.com/kianmeng))
 
 
 
