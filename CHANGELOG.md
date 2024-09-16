@@ -1,5 +1,13 @@
 # Changelog
 
+## [v3.27.0](https://github.com/fog/fog-aws/tree/v3.27.0) (2024-09-16)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.26.0...v3.27.0)
+
+**Merged pull requests:**
+
+- avoid merging connection value from headers when saving files [\#725](https://github.com/fog/fog-aws/pull/725) ([geemus](https://github.com/geemus))
+
 ## [v3.26.0](https://github.com/fog/fog-aws/tree/v3.26.0) (2024-09-10)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.25.0...v3.26.0)
@@ -24,19 +32,6 @@
 - Disable S3 Signature v4 Streaming by default [\#719](https://github.com/fog/fog-aws/pull/719) ([stanhu](https://github.com/stanhu))
 - Drop warning if region is not us-east-1 in mock [\#717](https://github.com/fog/fog-aws/pull/717) ([stanhu](https://github.com/stanhu))
 - add base64 require and dependency [\#716](https://github.com/fog/fog-aws/pull/716) ([geemus](https://github.com/geemus))
-
-## [v3.24.0](https://github.com/fog/fog-aws/tree/v3.24.0) (2024-07-08)
-
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.23.0...v3.24.0)
-
-**Closed issues:**
-
-- Fog.mock! not working with Storage provider [\#713](https://github.com/fog/fog-aws/issues/713)
-
-**Merged pull requests:**
-
-- Prefer AWS\_REGION over AWS\_DEFAULT\_REGION in credential fetching [\#715](https://github.com/fog/fog-aws/pull/715) ([stanhu](https://github.com/stanhu))
-- Provide a 'Changelog' link on rubygems.org/gems/fog-aws [\#714](https://github.com/fog/fog-aws/pull/714) ([mark-young-atg](https://github.com/mark-young-atg))
 
 
 
