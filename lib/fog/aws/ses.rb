@@ -48,18 +48,21 @@ module Fog
         def initialize(options={})
 
           @use_iam_profile = options[:use_iam_profile]
-          setup_credentials(options)
 
           @instrumentor       = options[:instrumentor]
           @instrumentor_name  = options[:instrumentor_name] || 'fog.aws.ses'
           @connection_options     = options[:connection_options] || {}
           options[:region] ||= 'us-east-1'
+          @region = options[:region]
+
           @host = options[:host] || "email.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+
+          setup_credentials(options)
         end
 
         def reload
@@ -74,7 +77,7 @@ module Fog
           @aws_session_token     = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 'ses')
         end
 
         def request(params)
@@ -87,20 +90,20 @@ module Fog
             'Content-Type'  => 'application/x-www-form-urlencoded',
             'Date'          => Fog::Time.now.to_date_header,
           }
-          headers['x-amz-security-token'] = @aws_session_token if @aws_session_token
-          #AWS3-HTTPS AWSAccessKeyId=<Your AWS Access Key ID>, Algorithm=HmacSHA256, Signature=<Signature>
-          headers['X-Amzn-Authorization'] = 'AWS3-HTTPS '
-          headers['X-Amzn-Authorization'] << 'AWSAccessKeyId=' << @aws_access_key_id
-          headers['X-Amzn-Authorization'] << ', Algorithm=HmacSHA256'
-          headers['X-Amzn-Authorization'] << ', Signature=' << Base64.encode64(@hmac.sign(headers['Date'])).chomp!
 
-          body = ''
-          for key in params.keys.sort
-            unless (value = params[key]).nil?
-              body << "#{key}=#{CGI.escape(value.to_s).gsub(/\+/, '%20')}&"
-            end
-          end
-          body.chop! # remove trailing '&'
+          body, headers = AWS.signed_params_v4(
+            params,
+            { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            {
+              :method             => 'POST',
+              :aws_session_token  => @aws_session_token,
+              :signer             => @signer,
+              :host               => @host,
+              :path               => @path,
+              :port               => @port,
+              :version            => '2010-12-01'
+            }
+          )
 
           if @instrumentor
             @instrumentor.instrument("#{@instrumentor_name}.request", params) do
