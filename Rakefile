@@ -1,7 +1,7 @@
-require "bundler/gem_tasks"
-require "github_changelog_generator/task"
+require 'bundler/gem_tasks'
+require 'github_changelog_generator/task'
 
-task :default => :test
+task default: :test
 
 mock = ENV['FOG_MOCK'] || 'true'
 task :test do
@@ -13,6 +13,6 @@ GitHubChangelogGenerator::RakeTask.new :changelog do |config|
   config.project = 'fog-aws'
   config.max_issues = 100
 
-  config.future_release = 'v3.27.0'
-  config.since_tag = 'v3.24.0'
+  config.future_release = 'v3.28.0'
+  config.since_tag = 'v3.25.0'
 end

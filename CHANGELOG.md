@@ -1,5 +1,17 @@
 # Changelog
 
+## [v3.28.0](https://github.com/fog/fog-aws/tree/v3.28.0) (2024-10-14)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.27.0...v3.28.0)
+
+**Closed issues:**
+
+- SES needs to support AWS SigV4 [\#726](https://github.com/fog/fog-aws/issues/726)
+
+**Merged pull requests:**
+
+- Update SES to use AWS SigV4 [\#727](https://github.com/fog/fog-aws/pull/727) ([ohookins](https://github.com/ohookins))
+
 ## [v3.27.0](https://github.com/fog/fog-aws/tree/v3.27.0) (2024-09-16)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.26.0...v3.27.0)
@@ -15,23 +27,6 @@
 **Merged pull requests:**
 
 - Support AWS\_ENDPOINT\_URL\_STS environment variable [\#724](https://github.com/fog/fog-aws/pull/724) ([stanhu](https://github.com/stanhu))
-
-## [v3.25.0](https://github.com/fog/fog-aws/tree/v3.25.0) (2024-08-29)
-
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.24.0...v3.25.0)
-
-**Closed issues:**
-
-- gsub exception from normalize\_headers with carrierwave [\#720](https://github.com/fog/fog-aws/issues/720)
-- Add AWS EKS Pod Identity support [\#718](https://github.com/fog/fog-aws/issues/718)
-
-**Merged pull requests:**
-
-- only try to gsub etag on files if there is one closes \#720 [\#722](https://github.com/fog/fog-aws/pull/722) ([geemus](https://github.com/geemus))
-- Added support for EKS Pod Identity. [\#721](https://github.com/fog/fog-aws/pull/721) ([y-sugawara-acs](https://github.com/y-sugawara-acs))
-- Disable S3 Signature v4 Streaming by default [\#719](https://github.com/fog/fog-aws/pull/719) ([stanhu](https://github.com/stanhu))
-- Drop warning if region is not us-east-1 in mock [\#717](https://github.com/fog/fog-aws/pull/717) ([stanhu](https://github.com/stanhu))
-- add base64 require and dependency [\#716](https://github.com/fog/fog-aws/pull/716) ([geemus](https://github.com/geemus))
 
 
 
