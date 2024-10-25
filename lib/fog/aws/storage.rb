@@ -16,10 +16,7 @@ module Fog
 
       DEFAULT_CONNECTION_OPTIONS = {
         retry_limit: 5,
-        retry_interval: 1,
-        retry_errors: [
-          Excon::Error::Timeout, Excon::Error::Socket, Excon::Error::Server
-        ]
+        retry_interval: 1
       }
 
       MIN_MULTIPART_CHUNK_SIZE = 5242880
