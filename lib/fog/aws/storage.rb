@@ -7,8 +7,8 @@ module Fog
 
       DEFAULT_REGION = 'us-east-1'
       ACCELERATION_HOST = 's3-accelerate.amazonaws.com'
-      AWS_FIPS_REGIONS = ['us-east-1', 'us-east-2', 'us-west-1', 'us-west-2', 'us-gov-east-1', 'us-gov-west-1', 'ca-central-1', 'ca-west-1'].freeze
-      AWS_GOVCLOUD_REGIONS = ['us-gov-east-1', 'us-gov-west-1'].freeze
+      AWS_FIPS_REGIONS = %w(us-east-1 us-east-2 us-west-1 us-west-2 us-gov-east-1 us-gov-west-1 ca-central-1 ca-west-1).freeze
+      AWS_GOVCLOUD_REGIONS = %w(us-gov-east-1 us-gov-west-1).freeze
 
       DEFAULT_SCHEME = 'https'
       DEFAULT_SCHEME_PORT = {
@@ -260,8 +260,8 @@ module Fog
         end
 
         def region_to_host(region=nil)
-          if ENV['AWS_USE_FIPS_ENDPOINT'] == 'true' && region in AWS_FIPS_REGIONS
-            "s3-fips.#{region}.amazonaws.com"  # https://aws.amazon.com/compliance/fips/
+          if ENV['AWS_USE_FIPS_ENDPOINT'] == 'true' && AWS_FIPS_REGIONS.include?(region)
+            "s3-fips.#{region}.amazonaws.com" # https://aws.amazon.com/compliance/fips/
           else
             case region.to_s
             when DEFAULT_REGION, ''
@@ -586,7 +586,7 @@ module Fog
 
           # GovCloud doesn't support S3 Transfer Acceleration https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-s3.html
           # S3 Transfer Acceleration doesn't support FIPS endpoints.  When both fog_aws_accelerate=true and AWS_USE_FIPS_ENDPOINT=true, don't use Accelerate.
-          @host = ACCELERATION_HOST if @acceleration && (not @region in AWS_GOVCLOUD_REGIONS) && ENV['AWS_USE_FIPS_ENDPOINT'] != 'true'
+          @host = ACCELERATION_HOST if @acceleration && !AWS_GOVCLOUD_REGIONS.include?(@region) && ENV['AWS_USE_FIPS_ENDPOINT'] != 'true'
           setup_credentials(options)
         end
 
