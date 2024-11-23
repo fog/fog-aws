@@ -47,7 +47,7 @@ module Fog
           mapping = self.data[:event_source_mappings][mapping_id]
 
           unless mapping
-            message  = 'ResourceNotFoundException => '
+            message  = +'ResourceNotFoundException => '
             message << 'The resource you requested does not exist.'
             raise Fog::AWS::Lambda::Error, message
           end

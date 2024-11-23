@@ -6,7 +6,7 @@ module Fog
       private
 
         def self.hash_to_cors(cors)
-          data =  "<CORSConfiguration>\n"
+          data =  +"<CORSConfiguration>\n"
 
           [cors['CORSConfiguration']].flatten.compact.each do |rule|
             data << "  <CORSRule>\n"
