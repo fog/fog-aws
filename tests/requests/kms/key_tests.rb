@@ -21,6 +21,6 @@ Shindo.tests('AWS::KMS | key requests', %w[aws kms]) do
   end
 
   tests('#schedule_key_deletion').data_matches_schema(AWS::KMS::Formats::SCHEDULE_KEY_DELETION) do
-    Fog::AWS[:kms].schedule_key_deletion(key_id, 7)
+    Fog::AWS[:kms].schedule_key_deletion(key_id, 7).body
   end
 end
