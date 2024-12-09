@@ -43,9 +43,9 @@ module Fog
           key_set = if marker
                       self.data[:markers][marker] || []
                     else
-                      self.data[:keys].inject([]) { |r,(k,v)|
-                        r << { "KeyId" => k, "KeyArn" => v["Arn"] }
-                      }
+                      self.data[:keys].inject([]) do |r, (k, v)|
+                        r << { 'KeyArn' => v['Arn'], 'KeyId' => k }
+                      end
                     end
 
           keys = if limit
