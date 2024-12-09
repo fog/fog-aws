@@ -2,24 +2,6 @@ module Fog
   module AWS
     class KMS
       class Real
-        DEFAULT_KEY_POLICY = <<-JSON
-{
-  "Version": "2012-10-17",
-  "Id": "key-default-1",
-  "Statement": [
-    {
-      "Sid": "Enable IAM User Permissions",
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "arn:aws:iam::915445820265:root"
-      },
-      "Action": "kms:*",
-      "Resource": "*"
-    }
-  ]
-}
-        JSON
-
         require 'fog/aws/parsers/kms/describe_key'
 
         def create_key(policy = nil, description = nil, usage = "ENCRYPT_DECRYPT")
