@@ -39,9 +39,12 @@ module Fog
             'AWSAccountId' => self.account_id,
             'CreationDate' => Time.now.utc,
             'DeletionDate' => nil,
+            'Description' => nil,
             'Enabled' => true,
             'KeyId' => key_id,
             'KeyState' => 'Enabled',
+            'KeyUsage' => 'ENCRYPT_DECRYPT',
+            'Policy' => nil
           }.merge!(options)
 
           # @todo use default policy
