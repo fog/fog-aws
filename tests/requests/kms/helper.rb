@@ -14,6 +14,7 @@ class AWS
           'Description' => Fog::Nullable::String,
           'Enabled' => Fog::Boolean,
           'KeyId' => String,
+          'KeySpec' => String,
           'KeyState' => String,
           'KeyUsage' => String
         }
