@@ -2,7 +2,6 @@ module Fog
   module AWS
     class KMS
       class Real
-
         require 'fog/aws/parsers/kms/list_keys'
 
         def list_keys(options={})
