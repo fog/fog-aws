@@ -22,6 +22,7 @@ module Fog
       request :describe_key
       request :get_public_key
       request :schedule_key_deletion
+      request :sign
 
       model_path 'fog/aws/models/kms'
       model      :key

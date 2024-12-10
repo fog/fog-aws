@@ -52,20 +52,18 @@ module Fog
 
           self.data[:keys][key_id] = key
 
-          size = key['KeySpec'].split('_').last
-          type = key['KeySpec'].split('_').first
-          case type
-          when 'ECC'
-            curve = {
-              'ECC_NIST_P256' => 'secp256k1',
-              'ECC_NIST_P384' => 'secp384r1',
-              'ECC_NIST_P521' => 'secp521r1',
-              'ECC_SECG_P256K1' => 'prime256v1'
-            }[key['KeySpec']]
-            self.data[:pkeys][key_id] = OpenSSL::PKey::EC.generate(curve)
-          when 'RSA'
-            self.data[:pkeys][key_id] = OpenSSL::PKey::RSA.generate(size.to_i)
-          end
+          klass, arg = {
+            'ECC_NIST_P256' => [OpenSSL::PKey::EC, 'secp256k1'],
+            'ECC_NIST_P384' => [OpenSSL::PKey::EC, 'secp384r1'],
+            'ECC_NIST_P521' => [OpenSSL::PKey::EC, 'secp521r1'],
+            'ECC_SECG_P256K1' => [OpenSSL::PKey::EC, 'prime256v1'],
+            'RSA_2048' => [OpenSSL::PKey::RSA, 2048],
+            'RSA_3072' => [OpenSSL::PKey::RSA, 3072],
+            'RSA_4096' => [OpenSSL::PKey::RSA, 4096]
+          }[key['KeySpec']]
+          raise "Unknown or not-yet-implemented #{key['KeySpec']} KeySpec for kms create_key mocks" unless klass
+
+          self.data[:pkeys][key_id] = klass.generate(arg)
 
           response.body = { 'KeyMetadata' => key }
           response

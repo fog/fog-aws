@@ -29,6 +29,10 @@ Shindo.tests('AWS::KMS | key requests', %w[aws kms]) do
     Fog::AWS[:kms].list_keys.body
   end
 
+  tests('#sign').data_matches_schema(AWS::KMS::Formats::SIGN) do
+    Fog::AWS[:kms].sign(key_id, 'sign me', 'RSASSA_PSS_SHA_256').body
+  end
+
   tests('#schedule_key_deletion').data_matches_schema(AWS::KMS::Formats::SCHEDULE_KEY_DELETION) do
     Fog::AWS[:kms].schedule_key_deletion(key_id, 7).body
   end

@@ -42,6 +42,12 @@ class AWS
         'KeyState' => String,
         'PendingWindowInDays' => Integer
       }.freeze
+
+      SIGN = {
+        'KeyId' => String,
+        'Signature' => String,
+        'SigningAlgorithm' => String
+      }.freeze
     end
   end
 end
