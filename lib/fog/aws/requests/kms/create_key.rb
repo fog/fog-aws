@@ -57,7 +57,7 @@ module Fog
           spec = spec.split("_#{size}").first
           case spec
           when 'RSA'
-            self.data[:pkeys][key_id] = OpenSSL::PKey::RSA.generate(size)
+            self.data[:pkeys][key_id] = OpenSSL::PKey::RSA.generate(size.to_i)
           end
 
           response.body = { 'KeyMetadata' => key }
