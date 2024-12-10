@@ -20,6 +20,7 @@ module Fog
       request :list_keys
       request :create_key
       request :describe_key
+      request :get_public_key
       request :schedule_key_deletion
 
       model_path 'fog/aws/models/kms'
@@ -31,7 +32,8 @@ module Fog
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, access_key|
               region_hash[access_key] = {
-                :keys => {},
+                keys: {},
+                pkeys: {}
               }
             end
           end

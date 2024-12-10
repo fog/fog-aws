@@ -19,10 +19,10 @@ module Fog
         # https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html
         def create_key(*args)
           options = Fog::AWS::KMS.parse_create_key_args(args)
-          request(
+          request({
             'Action' => 'CreateKey',
             :parser => Fog::Parsers::AWS::KMS::DescribeKey.new
-          ).merge!(options)
+          }.merge!(options))
         end
       end
 
@@ -51,6 +51,14 @@ module Fog
           # @todo use default policy
 
           self.data[:keys][key_id] = key
+
+          spec = key['KeySpec']
+          size = spec.split('_').last
+          spec = spec.split("_#{size}").first
+          case spec
+          when 'RSA'
+            self.data[:pkeys][key_id] = OpenSSL::PKey::RSA.generate(size)
+          end
 
           response.body = { 'KeyMetadata' => key }
           response

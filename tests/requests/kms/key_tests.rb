@@ -16,6 +16,12 @@ Shindo.tests('AWS::KMS | key requests', %w[aws kms]) do
     result
   end
 
+  tests('#get_public_key').data_matches_schema(AWS::KMS::Formats::GET_PUBLIC_KEY) do
+    result = Fog::AWS[:kms].get_public_key(key_id).body
+    returns(key_id) { result['KeyId'] }
+    result
+  end
+
   tests('#list_keys').data_matches_schema(AWS::KMS::Formats::LIST_KEYS) do
     Fog::AWS[:kms].list_keys.body
   end

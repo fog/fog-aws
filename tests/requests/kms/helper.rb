@@ -20,6 +20,16 @@ class AWS
         }
       }.freeze
 
+      GET_PUBLIC_KEY = {
+        'EncryptionAlgorithms' => Fog::Nullable::Array,
+        'KeyAgreementAlgorithms' => Fog::Nullable::Array,
+        'KeyId' => String,
+        'KeySpec' => String,
+        'KeyUsage' => String,
+        'PublicKey' => String,
+        'SigningAlgorithms' => Fog::Nullable::Array
+      }.freeze
+
       LIST_KEYS = {
         'Keys' => [{ 'KeyArn' => String, 'KeyId' => String }],
         'Marker' => Fog::Nullable::String,
