@@ -52,10 +52,17 @@ module Fog
 
           self.data[:keys][key_id] = key
 
-          spec = key['KeySpec']
-          size = spec.split('_').last
-          spec = spec.split("_#{size}").first
-          case spec
+          size = key['KeySpec'].split('_').last
+          type = key['KeySpec'].split('_').first
+          case type
+          when 'ECC'
+            curve = {
+              'ECC_NIST_P256' => 'secp256k1',
+              'ECC_NIST_P384' => 'secp384r1',
+              'ECC_NIST_P521' => 'secp521r1',
+              'ECC_SECG_P256K1' => 'prime256v1'
+            }[key['KeySpec']]
+            self.data[:pkeys][key_id] = OpenSSL::PKey::EC.generate(curve)
           when 'RSA'
             self.data[:pkeys][key_id] = OpenSSL::PKey::RSA.generate(size.to_i)
           end

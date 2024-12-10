@@ -15,7 +15,7 @@ module Fog
       end
 
       class Mock
-        def get_public_key(identifier, grant_tokens = [])
+        def get_public_key(identifier, _grant_tokens = [])
           response = Excon::Response.new
           key = self.data[:keys][identifier]
           pkey = self.data[:pkeys][identifier]
