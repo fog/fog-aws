@@ -3,7 +3,10 @@ Shindo.tests('AWS::KMS | key requests', %w[aws kms]) do
 
   tests('success') do
     tests('#create_key').data_matches_schema(AWS::KMS::Formats::DESCRIBE_KEY) do
-      result = Fog::AWS[:kms].create_key.body
+      result = Fog::AWS[:kms].create_key(
+        'KeySpec' => 'RSA_2048',
+        'KeyUsage' => 'SIGN_VERIFY'
+      ).body
       key_id = result['KeyMetadata']['KeyId']
 
       result
