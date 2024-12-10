@@ -42,6 +42,7 @@ module Fog
             'Description' => nil,
             'Enabled' => true,
             'KeyId' => key_id,
+            'KeySpec' => 'SYMMETRIC_DEFAULT',
             'KeyState' => 'Enabled',
             'KeyUsage' => 'ENCRYPT_DECRYPT',
             'Policy' => nil
