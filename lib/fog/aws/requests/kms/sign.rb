@@ -34,12 +34,11 @@ module Fog
 
           # FIXME: SM2 support?
           sha = "SHA#{algorithm.split('_SHA_').last}"
-          hash = OpenSSL::Digest.digest(sha, message)
 
           signopts = {}
           signopts[:rsa_padding_mode] = 'pss' if algorithm.start_with?('RSASSA_PSS')
 
-          signature = pkey.sign_raw(sha, hash, signopts)
+          signature = pkey.sign(sha, message, signopts)
 
           response.body = {
             'KeyId' => identifier,
