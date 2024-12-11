@@ -2,7 +2,6 @@ module Fog
   module AWS
     class KMS
       class Real
-
         require 'fog/aws/parsers/kms/list_keys'
 
         def list_keys(options={})
@@ -43,9 +42,9 @@ module Fog
           key_set = if marker
                       self.data[:markers][marker] || []
                     else
-                      self.data[:keys].inject([]) { |r,(k,v)|
-                        r << { "KeyId" => k, "KeyArn" => v["Arn"] }
-                      }
+                      self.data[:keys].inject([]) do |r, (k, v)|
+                        r << { 'KeyArn' => v['Arn'], 'KeyId' => k }
+                      end
                     end
 
           keys = if limit

@@ -17,9 +17,9 @@ module Fog
 
           def end_element(name)
             case name
-            when 'KeyUsage', 'AWSAccountId', 'Description', 'KeyId', 'Arn'
+            when 'Arn', 'AWSAccountId', 'Description', 'KeyId', 'KeyState', 'KeyUsage'
               @key[name] = value
-            when 'CreationDate'
+            when 'CreationDate', 'DeletionDate'
               @key[name] = Time.parse(value)
             when 'Enabled'
               @key[name] = (value == 'true')
