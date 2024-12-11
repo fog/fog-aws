@@ -24,7 +24,7 @@ module Fog
       end
 
       class Mock
-        def sign(identifier, message, algorithm, _options = {})
+        def sign(identifier, message, algorithm, options = {})
           response = Excon::Response.new
           pkey = self.data[:pkeys][identifier]
           unless pkey
@@ -34,11 +34,13 @@ module Fog
 
           # FIXME: SM2 support?
           sha = "SHA#{algorithm.split('_SHA_').last}"
+          signopts = {}
+          signopts[:rsa_padding_mode] = 'pss' if algorithm.start_with?('RSASSA_PSS')
 
-          signature = if algorithm.start_with?('RSASSA_PSS')
-                        pkey.sign_pss(sha, message, salt_length: :max, mgf1_hash: sha)
+          signature = if options['MessageType'] == 'RAW'
+                        pkey.sign_raw(sha, message, signopts)
                       else
-                        pkey.sign(sha, message)
+                        pkey.sign(sha, message, signopts)
                       end
 
           response.body = {
