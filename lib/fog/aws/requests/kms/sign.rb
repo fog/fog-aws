@@ -37,7 +37,7 @@ module Fog
           signopts = {}
           signopts[:rsa_padding_mode] = 'pss' if algorithm.start_with?('RSASSA_PSS')
 
-          signature = if options['MessageType'] == 'RAW'
+          signature = if options['MessageType'] == 'DIGEST'
                         pkey.sign_raw(sha, message, signopts)
                       else
                         pkey.sign(sha, message, signopts)
