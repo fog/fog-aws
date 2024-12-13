@@ -3,6 +3,7 @@ SIGNING_ALGORITHMS = %w[RSASSA_PSS_SHA_256 RSASSA_PSS_SHA_384 RSASSA_PSS_SHA_512
 
 Shindo.tests('AWS::KMS | key requests', %w[aws kms]) do
   key_id = nil
+  key_arn = nil
   pkey = nil
   data = 'sign me'
 
@@ -12,6 +13,7 @@ Shindo.tests('AWS::KMS | key requests', %w[aws kms]) do
       'KeyUsage' => 'SIGN_VERIFY'
     ).body
     key_id = result['KeyMetadata']['KeyId']
+    key_arn = result['KeyMetadata']['Arn']
 
     result
   end
@@ -31,7 +33,7 @@ Shindo.tests('AWS::KMS | key requests', %w[aws kms]) do
 
     tests('format').data_matches_schema(AWS::KMS::Formats::GET_PUBLIC_KEY) { result }
 
-    tests('result contains correct key_id').returns(key_id) { result['KeyId'] }
+    tests('result contains correct key_id (arn)').returns(key_arn) { result['KeyId'] }
   end
 
   tests('#list_keys') do
@@ -95,6 +97,8 @@ Shindo.tests('AWS::KMS | key requests', %w[aws kms]) do
 
           pkey.verify(sha, signature, data, sign_opts)
         end
+
+        Fog::AWS[:kms].schedule_key_deletion(key_id, 7)
       end
     end
   end

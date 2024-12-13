@@ -21,7 +21,7 @@ module Fog
           pkey = self.data[:pkeys][identifier]
 
           response.body = {
-            'KeyId' => key['KeyId'],
+            'KeyId' => key['Arn'],
             'KeyUsage' => key['KeyUsage'],
             'KeySpec' => key['KeySpec'],
             'PublicKey' => Base64.strict_encode64(pkey.public_to_der),
