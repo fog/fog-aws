@@ -45,18 +45,37 @@ Shindo.tests('AWS::KMS | key requests', %w[aws kms]) do
   end
 
   tests('#sign') do
-    sign_response = Fog::AWS[:kms].sign(
-      key_id,
-      Base64.encode64(data),
-      'RSASSA_PKCS1_V1_5_SHA_256',
-      'MessageType' => 'RAW'
-    ).body
+    tests('DIGEST') do
+      hash = OpenSSL::Digest.digest('SHA256', data)
+      sign_response = Fog::AWS[:kms].sign(
+        key_id,
+        Base64.encode64(hash),
+        'RSASSA_PKCS1_V1_5_SHA_256',
+        'MessageType' => 'DIGEST'
+      ).body
 
-    tests('format').data_matches_schema(AWS::KMS::Formats::SIGN) { sign_response }
+      tests('format').data_matches_schema(AWS::KMS::Formats::SIGN) { sign_response }
 
-    tests('#verify').returns(true) do
-      signature = Base64.decode64(sign_response['Signature'])
-      pkey.verify('SHA256', signature, data)
+      tests('#verify').returns(true) do
+        signature = Base64.decode64(sign_response['Signature'])
+        pkey.verify_raw('SHA256', signature, hash)
+      end
+    end
+
+    tests('RAW') do
+      sign_response = Fog::AWS[:kms].sign(
+        key_id,
+        Base64.encode64(data),
+        'RSASSA_PKCS1_V1_5_SHA_256',
+        'MessageType' => 'RAW'
+      ).body
+
+      tests('format').data_matches_schema(AWS::KMS::Formats::SIGN) { sign_response }
+
+      tests('#verify').returns(true) do
+        signature = Base64.decode64(sign_response['Signature'])
+        pkey.verify('SHA256', signature, data)
+      end
     end
   end
 
