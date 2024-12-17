@@ -1,5 +1,19 @@
 # Changelog
 
+## [v3.30.0](https://github.com/fog/fog-aws/tree/v3.30.0) (2024-12-17)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.29.0...v3.30.0)
+
+**Closed issues:**
+
+- Support S3 FIPS endpoints, disable S3 Transfer Acceleration in GovCloud or FIPS mode [\#729](https://github.com/fog/fog-aws/issues/729)
+
+**Merged pull requests:**
+
+- Bump fog/.github from 1.4.0 to 1.5.0 [\#732](https://github.com/fog/fog-aws/pull/732) ([dependabot[bot]](https://github.com/apps/dependabot))
+- kms additions [\#731](https://github.com/fog/fog-aws/pull/731) ([geemus](https://github.com/geemus))
+- Support FIPS endpoints, disable S3 Transfer Acceleration in GovCloud [\#730](https://github.com/fog/fog-aws/pull/730) ([matt-domsch-sp](https://github.com/matt-domsch-sp))
+
 ## [v3.29.0](https://github.com/fog/fog-aws/tree/v3.29.0) (2024-10-25)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.28.0...v3.29.0)
@@ -19,14 +33,6 @@
 **Merged pull requests:**
 
 - Update SES to use AWS SigV4 [\#727](https://github.com/fog/fog-aws/pull/727) ([ohookins](https://github.com/ohookins))
-
-## [v3.27.0](https://github.com/fog/fog-aws/tree/v3.27.0) (2024-09-16)
-
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.26.0...v3.27.0)
-
-**Merged pull requests:**
-
-- avoid merging connection value from headers when saving files [\#725](https://github.com/fog/fog-aws/pull/725) ([geemus](https://github.com/geemus))
 
 
 

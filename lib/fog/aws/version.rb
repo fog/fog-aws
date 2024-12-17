@@ -1,5 +1,5 @@
 module Fog
   module AWS
-    VERSION = '3.29.0'.freeze
+    VERSION = '3.30.0'.freeze
   end
 end
