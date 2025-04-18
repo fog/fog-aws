@@ -4,7 +4,7 @@ module Fog
       module Compute
         class DescribeInstanceStatus < Fog::Parsers::Base
           def new_instance!
-            @instance = { 'instanceState' => {}, 'systemStatus' => { 'details' => [] }, 'instanceStatus' => { 'details' => [] }, 'attachedEbsStatus' => { 'details' => [] },'eventsSet' => [] }
+            @instance = { 'instanceState' => {}, 'systemStatus' => { 'details' => [] }, 'instanceStatus' => { 'details' => [] }, 'attachedEbsStatus' => { 'details' => [] }, 'eventsSet' => [] }
           end
 
           def new_item!
