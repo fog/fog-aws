@@ -96,9 +96,14 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].post_object_restore(@directory.identity, 'fog_object')
     end
 
-    tests("#post_object_restore('#{@directory.identity}', 'fog_object', 5, 'Bulk')").succeeds do
+    tests("#post_object_restore('#{@directory.identity}', 'fog_object', :days => 5, :tier => 'Bulk')").succeeds do
       pending unless Fog.mocking?
-      Fog::Storage[:aws].post_object_restore(@directory.identity, 'fog_object', 5, 'Bulk')
+      Fog::Storage[:aws].post_object_restore(@directory.identity, 'fog_object', :days => 5, :tier => 'Bulk')
+    end
+
+    tests("#post_object_restore('#{@directory.identity}', 'fog_object', 5)").succeeds do
+      pending unless Fog.mocking?
+      Fog::Storage[:aws].post_object_restore(@directory.identity, 'fog_object', 5)
     end
 
     tests("#put_object_acl('#{@directory.identity}', 'fog_object', 'private')").succeeds do
