@@ -6,7 +6,9 @@ module Fog
         #
         # @param bucket_name [String] Name of bucket containing object
         # @param object_name [String] Name of object to restore
-        # @option days [Integer] Number of days to restore object for. Defaults to 100000 (a very long time)
+        # @param options [Hash] Optional parameters
+        # @option options [Integer] :days Number of days to restore object for. Defaults to 100000 (a very long time)
+        # @option options [String] :tier Glacier retrieval tier. Can be 'Standard', 'Bulk', or 'Expedited'
         #
         # @return [Excon::Response] response:
         #   * status [Integer] 200 (OK) Object is previously restored
@@ -15,11 +17,24 @@ module Fog
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html
         #
-        def post_object_restore(bucket_name, object_name, days = 100000)
+        def post_object_restore(bucket_name, object_name, options = {})
           raise ArgumentError.new('bucket_name is required') unless bucket_name
           raise ArgumentError.new('object_name is required') unless object_name
 
-          data = '<RestoreRequest xmlns="http://s3.amazonaws.com/doc/2006-3-01"><Days>' + days.to_s + '</Days></RestoreRequest>'
+          unless options.is_a?(Hash)
+            Fog::Logger.deprecation("post_object_restore with a bare days parameter is deprecated, use post_object_restore(bucket_name, object_name, :days => days) instead [light_black](#{caller.first})[/]")
+            options = { :days => options }
+          end
+
+          days = options[:days] || 100000
+          tier = options[:tier]
+
+          data = '<RestoreRequest xmlns="http://s3.amazonaws.com/doc/2006-03-01/">'
+          data += '<Days>' + days.to_s + '</Days>'
+          if tier
+            data += '<GlacierJobParameters><Tier>' + tier + '</Tier></GlacierJobParameters>'
+          end
+          data += '</RestoreRequest>'
 
           headers = {}
           headers['Content-MD5'] = Base64.encode64(OpenSSL::Digest::MD5.digest(data)).strip
@@ -39,7 +54,12 @@ module Fog
       end
 
       class Mock # :nodoc:all
-        def post_object_restore(bucket_name, object_name, days = 100000)
+        def post_object_restore(bucket_name, object_name, options = {})
+          unless options.is_a?(Hash)
+            Fog::Logger.deprecation("post_object_restore with a bare days parameter is deprecated, use post_object_restore(bucket_name, object_name, :days => days) instead [light_black](#{caller.first})[/]")
+            options = { :days => options }
+          end
+          
           response = get_object(bucket_name, object_name)
           response.body = nil
           response
