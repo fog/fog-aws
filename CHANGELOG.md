@@ -1,5 +1,30 @@
 # Changelog
 
+## [v3.32.0](https://github.com/fog/fog-aws/tree/v3.32.0) (2025-05-27)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.31.0...v3.32.0)
+
+**Closed issues:**
+
+- Add ability to specify s3 restore object tier in post\_object\_restore [\#740](https://github.com/fog/fog-aws/issues/740)
+
+**Merged pull requests:**
+
+- Add ability to specify s3 restore object tier in post\_object\_restore [\#742](https://github.com/fog/fog-aws/pull/742) ([Ankk98](https://github.com/Ankk98))
+
+## [v3.31.0](https://github.com/fog/fog-aws/tree/v3.31.0) (2025-04-21)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.30.0...v3.31.0)
+
+**Closed issues:**
+
+- Compute.describe\_instance\_status\(\) fails [\#734](https://github.com/fog/fog-aws/issues/734)
+
+**Merged pull requests:**
+
+- Fix Compute.describe\_instance\_status parser [\#735](https://github.com/fog/fog-aws/pull/735) ([kitherill](https://github.com/kitherill))
+- Update rubyzip requirement from ~\> 2.3.0 to ~\> 2.4.1 [\#733](https://github.com/fog/fog-aws/pull/733) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v3.30.0](https://github.com/fog/fog-aws/tree/v3.30.0) (2024-12-17)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.29.0...v3.30.0)
@@ -21,18 +46,6 @@
 **Merged pull requests:**
 
 - fallback to excon 1.0+ error retry error settings [\#728](https://github.com/fog/fog-aws/pull/728) ([geemus](https://github.com/geemus))
-
-## [v3.28.0](https://github.com/fog/fog-aws/tree/v3.28.0) (2024-10-14)
-
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.27.0...v3.28.0)
-
-**Closed issues:**
-
-- SES needs to support AWS SigV4 [\#726](https://github.com/fog/fog-aws/issues/726)
-
-**Merged pull requests:**
-
-- Update SES to use AWS SigV4 [\#727](https://github.com/fog/fog-aws/pull/727) ([ohookins](https://github.com/ohookins))
 
 
 
