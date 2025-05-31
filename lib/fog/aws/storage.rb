@@ -26,9 +26,12 @@ module Fog
 
       VALID_QUERY_KEYS = %w[
         acl
+        continuation-token
         cors
         delete
+        fetch-owner
         lifecycle
+        list-type
         location
         logging
         notification
@@ -42,6 +45,7 @@ module Fog
         response-content-type
         response-expires
         restore
+        start-after
         tagging
         torrent
         uploadId
@@ -102,6 +106,7 @@ module Fog
       request :head_object_url
       request :initiate_multipart_upload
       request :list_multipart_uploads
+      request :list_objects_v2
       request :list_parts
       request :post_object_hidden_fields
       request :post_object_restore
