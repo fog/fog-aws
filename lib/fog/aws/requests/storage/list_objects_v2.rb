@@ -99,13 +99,14 @@ module Fog
             next_token = truncated_contents.size != contents.size ? truncated_contents.last['Key'] : nil
 
             response.status = 200
+            common_prefixes_uniq = common_prefixes.uniq
             response.body = {
-              'CommonPrefixes'  => common_prefixes.uniq,
+              'CommonPrefixes'  => common_prefixes_uniq,
               'Contents'        => truncated_contents,
               'IsTruncated'     => truncated_contents.size != contents.size,
               'ContinuationToken' => continuation_token,
               'NextContinuationToken' => next_token,
-              'KeyCount'        => truncated_contents.size,
+              'KeyCount'        => truncated_contents.size + common_prefixes_uniq.size,
               'MaxKeys'         => max_keys,
               'Name'            => bucket['Name'],
               'Prefix'          => prefix,
@@ -114,7 +115,7 @@ module Fog
             if max_keys && max_keys < response.body['Contents'].length
                 response.body['IsTruncated'] = true
                 response.body['Contents'] = response.body['Contents'][0...max_keys]
-                response.body['KeyCount'] = response.body['Contents'].size
+                response.body['KeyCount'] = response.body['Contents'].size + response.body['CommonPrefixes'].size
             end
           else
             response.status = 404
