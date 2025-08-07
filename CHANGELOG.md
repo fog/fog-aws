@@ -1,5 +1,19 @@
 # Changelog
 
+## v3.33.0 (2025-08-27)
+
+Closed issues:
+
+- Add support for ListObjectsV2 [\#741](https://github.com/fog/fog-aws/issues/741)
+
+
+Merged pull requests:
+
+- Update base64 requirement from ~\> 0.2.0 to \>= 0.2, \< 0.4 [\#743](https://github.com/fog/fog-aws/pull/743) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Fix #741 Added list objects v2 api support [\#744](https://github.com/fog/fog-aws/pull/744)
+- Update rubyzip requirement from ~\> 2.4.1 to ~\> 3.0.0 [\#746](https://github.com/fog/fog-aws/pull/746) ([dependabot[bot]](https://github.com/apps/dependabot))
+- storage headers should be rejected in a case-insensitive way [\#747](https://github.com/fog/fog-aws/pull/747)
+
 ## [v3.32.0](https://github.com/fog/fog-aws/tree/v3.32.0) (2025-05-27)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.31.0...v3.32.0)
