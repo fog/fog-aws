@@ -281,7 +281,7 @@ module Fog
             merge_attributes(data.body)
           else
             data = service.put_object(directory.key, key, body, options)
-            merge_attributes(data.headers.reject {|key, value| ['Connection', 'Content-Length', 'Content-Type'].include?(key)})
+            merge_attributes(data.headers.reject {|key, value| ['connection', 'content-length', 'content-type'].include?(key.downcase)})
           end
           self.etag = self.etag.gsub('"','') if self.etag
           self.content_length = Fog::Storage.get_body_size(body)
