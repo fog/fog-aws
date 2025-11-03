@@ -1,18 +1,35 @@
 # Changelog
 
-## v3.33.0 (2025-08-27)
+## [v3.33.1](https://github.com/fog/fog-aws/tree/v3.33.1) (2025-11-03)
 
-Closed issues:
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.33.0...v3.33.1)
+
+**Closed issues:**
+
+- aws\_credentials\_refresh\_threshold\_seconds gets wiped when credentials are refreshed [\#751](https://github.com/fog/fog-aws/issues/751)
+- Frozen string errors in ruby 3.4 [\#745](https://github.com/fog/fog-aws/issues/745)
+
+**Merged pull requests:**
+
+- bug\(aws/storage\): avoid overwriting refresh threshold with nil [\#752](https://github.com/fog/fog-aws/pull/752) ([geemus](https://github.com/geemus))
+- Bump github/codeql-action from 3 to 4 [\#749](https://github.com/fog/fog-aws/pull/749) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/checkout from 4 to 5 [\#748](https://github.com/fog/fog-aws/pull/748) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v3.33.0](https://github.com/fog/fog-aws/tree/v3.33.0) (2025-08-07)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.32.0...v3.33.0)
+
+**Closed issues:**
 
 - Add support for ListObjectsV2 [\#741](https://github.com/fog/fog-aws/issues/741)
+- NoMethodError (undefined method `copy\_object' for "close":String\) [\#702](https://github.com/fog/fog-aws/issues/702)
 
+**Merged pull requests:**
 
-Merged pull requests:
-
-- Update base64 requirement from ~\> 0.2.0 to \>= 0.2, \< 0.4 [\#743](https://github.com/fog/fog-aws/pull/743) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Fix #741 Added list objects v2 api support [\#744](https://github.com/fog/fog-aws/pull/744)
+- storage headers should be rejected in a case-insensitive way [\#747](https://github.com/fog/fog-aws/pull/747) ([geemus](https://github.com/geemus))
 - Update rubyzip requirement from ~\> 2.4.1 to ~\> 3.0.0 [\#746](https://github.com/fog/fog-aws/pull/746) ([dependabot[bot]](https://github.com/apps/dependabot))
-- storage headers should be rejected in a case-insensitive way [\#747](https://github.com/fog/fog-aws/pull/747)
+- Fix \#741 Added list objects v2 api support [\#744](https://github.com/fog/fog-aws/pull/744) ([Ankk98](https://github.com/Ankk98))
+- Update base64 requirement from ~\> 0.2.0 to \>= 0.2, \< 0.4 [\#743](https://github.com/fog/fog-aws/pull/743) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v3.32.0](https://github.com/fog/fog-aws/tree/v3.32.0) (2025-05-27)
 
@@ -38,28 +55,6 @@ Merged pull requests:
 
 - Fix Compute.describe\_instance\_status parser [\#735](https://github.com/fog/fog-aws/pull/735) ([kitherill](https://github.com/kitherill))
 - Update rubyzip requirement from ~\> 2.3.0 to ~\> 2.4.1 [\#733](https://github.com/fog/fog-aws/pull/733) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-## [v3.30.0](https://github.com/fog/fog-aws/tree/v3.30.0) (2024-12-17)
-
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.29.0...v3.30.0)
-
-**Closed issues:**
-
-- Support S3 FIPS endpoints, disable S3 Transfer Acceleration in GovCloud or FIPS mode [\#729](https://github.com/fog/fog-aws/issues/729)
-
-**Merged pull requests:**
-
-- Bump fog/.github from 1.4.0 to 1.5.0 [\#732](https://github.com/fog/fog-aws/pull/732) ([dependabot[bot]](https://github.com/apps/dependabot))
-- kms additions [\#731](https://github.com/fog/fog-aws/pull/731) ([geemus](https://github.com/geemus))
-- Support FIPS endpoints, disable S3 Transfer Acceleration in GovCloud [\#730](https://github.com/fog/fog-aws/pull/730) ([matt-domsch-sp](https://github.com/matt-domsch-sp))
-
-## [v3.29.0](https://github.com/fog/fog-aws/tree/v3.29.0) (2024-10-25)
-
-[Full Changelog](https://github.com/fog/fog-aws/compare/v3.28.0...v3.29.0)
-
-**Merged pull requests:**
-
-- fallback to excon 1.0+ error retry error settings [\#728](https://github.com/fog/fog-aws/pull/728) ([geemus](https://github.com/geemus))
 
 
 
