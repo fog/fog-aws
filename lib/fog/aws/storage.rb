@@ -608,7 +608,9 @@ module Fog
 
 
         def setup_credentials(options)
-          @aws_credentials_refresh_threshold_seconds = options[:aws_credentials_refresh_threshold_seconds]
+          if options[:aws_credentials_refresh_threshold_seconds]
+            @aws_credentials_refresh_threshold_seconds = options[:aws_credentials_refresh_threshold_seconds]
+          end
 
           @aws_access_key_id     = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
@@ -616,7 +618,7 @@ module Fog
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
           if @signature_version == 4
-            @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region, 's3')
+            @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 's3')
           elsif @signature_version == 2
             @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
           end
