@@ -658,8 +658,9 @@ module Fog
           params = request_params(params)
           scheme = params.delete(:scheme)
           host   = params.delete(:host)
-          port   = params.delete(:port) || DEFAULT_SCHEME_PORT[scheme]
-          params[:headers]['Host'] = host
+          port   = params.delete(:port)
+          params[:headers]['Host'] = port ? "#{host}:#{port}" : host
+          port ||= DEFAULT_SCHEME_PORT[scheme]
 
 
           if @signature_version == 4
