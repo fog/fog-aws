@@ -1,5 +1,14 @@
 # Changelog
 
+## [v3.33.2](https://github.com/fog/fog-aws/tree/v3.33.2) (2026-04-20)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.33.0...v3.33.1)
+
+**Merged pull requests:**
+
+- bug(aws/storage): include non-standard port in Host header for signature v4 [\#755](https://github.com/fog/fog-aws/pull/755) ([stanhu](https://github.com/stanhu))
+- Bump actions/checkout from 5 to 6 [\#753](https://github.com/fog/fog-aws/pull/753) ([dependabot](https://github.com/apps/dependabot))
+
 ## [v3.33.1](https://github.com/fog/fog-aws/tree/v3.33.1) (2025-11-03)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.33.0...v3.33.1)
