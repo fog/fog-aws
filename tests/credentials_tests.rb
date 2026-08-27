@@ -234,8 +234,8 @@ Shindo.tests('AWS | credentials', ['aws']) do
     Fog::Time.now = storage.instance_variable_get(:@aws_credentials_expire_at) - 31
     tests('#refresh_credentials_if_expired before credentials have expired and before refresh threshold') do
       returns(nil) { storage.refresh_credentials_if_expired }
-      returns('dummykey') { storage.instance_variable_get(:@aws_access_key_id) }
-      returns('dummysecret') { storage.instance_variable_get(:@aws_secret_access_key) }
+      returns('dummykey') { storage.instance_variable_get(:@credentials).aws_access_key_id }
+      returns('dummysecret') { storage.instance_variable_get(:@credentials).aws_secret_access_key }
       returns(expires_at) { storage.instance_variable_get(:@aws_credentials_expire_at) }
     end
     Fog::Time.now = Time.now
@@ -249,8 +249,8 @@ Shindo.tests('AWS | credentials', ['aws']) do
     Fog::Time.now = storage.instance_variable_get(:@aws_credentials_expire_at) - 29
     tests('#refresh_credentials_if_expired after refresh threshold is crossed but before expiration') do
       returns(true) { storage.refresh_credentials_if_expired }
-      returns('newkey-1') { storage.instance_variable_get(:@aws_access_key_id) }
-      returns('newsecret-1') { storage.instance_variable_get(:@aws_secret_access_key) }
+      returns('newkey-1') { storage.instance_variable_get(:@credentials).aws_access_key_id }
+      returns('newsecret-1') { storage.instance_variable_get(:@credentials).aws_secret_access_key }
       returns(expires_at + 10) { storage.instance_variable_get(:@aws_credentials_expire_at) }
     end
     Fog::Time.now = Time.now
@@ -264,8 +264,8 @@ Shindo.tests('AWS | credentials', ['aws']) do
     Fog::Time.now = storage.instance_variable_get(:@aws_credentials_expire_at) + 1
     tests('#refresh_credentials_if_expired after credentials have expired') do
       returns(true) { storage.refresh_credentials_if_expired }
-      returns('newkey-2') { storage.instance_variable_get(:@aws_access_key_id) }
-      returns('newsecret-2') { storage.instance_variable_get(:@aws_secret_access_key) }
+      returns('newkey-2') { storage.instance_variable_get(:@credentials).aws_access_key_id }
+      returns('newsecret-2') { storage.instance_variable_get(:@credentials).aws_secret_access_key }
       returns(expires_at + 20) { storage.instance_variable_get(:@aws_credentials_expire_at) }
     end
     Fog::Time.now = Time.now
