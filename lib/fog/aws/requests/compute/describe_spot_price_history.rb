@@ -86,7 +86,9 @@ module Fog
           end
           zones = all_zones if zones.nil?
 
-          max_results = params['MaxResults'] || Fog::Mock.random_numbers(3).to_i
+          # Fog::Mock.random_numbers(3) can return "000", which .to_i turns
+          # into 0 and then trips the validation below, so guarantee at least 1.
+          max_results = params['MaxResults'] || [Fog::Mock.random_numbers(3).to_i, 1].max
           if !(max_results.is_a?(Integer) && max_results > 0)
             max_results_error = "InvalidParameterValue => Invalid value '#{max_results}' for maxResults"
             raise Fog::AWS::Compute::Error, max_results_error
