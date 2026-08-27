@@ -129,6 +129,32 @@ module Fog
       request :upload_part
       request :upload_part_copy
 
+      # Immutable snapshot of the credential-derived state needed to sign a
+      # request: the access key id, secret, session token, and the matching
+      # signer (v4) or HMAC (v2). These values are correlated. Under
+      # +use_iam_profile+ they are all replaced together whenever credentials
+      # are refreshed.
+      #
+      # Bundling them into one frozen object stored in a single instance
+      # variable lets a caller read a consistent set with one atomic
+      # reference read (see Real#request). Reading the fields as separate
+      # instance variables lets a refresh land between two reads and pair, for
+      # example, an old session token with a new signer, which S3 rejects with
+      # a 403. Keeping this connection safe to share across threads depends on
+      # never mutating an instance; build a new one and swap the reference.
+      class Credentials
+        attr_reader :aws_access_key_id, :aws_secret_access_key, :aws_session_token, :signer, :hmac
+
+        def initialize(aws_access_key_id: nil, aws_secret_access_key: nil, aws_session_token: nil, signer: nil, hmac: nil)
+          @aws_access_key_id     = aws_access_key_id
+          @aws_secret_access_key = aws_secret_access_key
+          @aws_session_token     = aws_session_token
+          @signer                = signer
+          @hmac                  = hmac
+          freeze
+        end
+      end
+
       module Utils
         attr_accessor :region
         attr_accessor :disable_content_md5_validation
@@ -145,9 +171,10 @@ module Fog
         attr_reader :max_copy_chunk_size
 
         def cdn
+          credentials = @credentials
           @cdn ||= Fog::AWS::CDN.new(
-            :aws_access_key_id => @aws_access_key_id,
-            :aws_secret_access_key => @aws_secret_access_key,
+            :aws_access_key_id => credentials.aws_access_key_id,
+            :aws_secret_access_key => credentials.aws_secret_access_key,
             :use_iam_profile => @use_iam_profile
           )
         end
@@ -223,6 +250,10 @@ module Fog
         end
 
         def v4_signed_params_for_url(params, expires)
+          # Read the correlated credential state once, as a single reference,
+          # so a concurrent refresh cannot pair a stale session token with a
+          # freshly rebuilt signer.
+          credentials = @credentials
           now = Fog::Time.now
 
           expires = expires - now.to_i
@@ -232,35 +263,36 @@ module Fog
           params[:query]['X-Amz-Expires'] = expires
           params[:query]['X-Amz-Date'] = now.to_iso8601_basic
 
-          if @aws_session_token
-            params[:query]['X-Amz-Security-Token'] = @aws_session_token
+          if credentials.aws_session_token
+            params[:query]['X-Amz-Security-Token'] = credentials.aws_session_token
           end
 
           params = request_params(params)
           params[:headers][:host] = params[:host]
           params[:headers][:host] += ":#{params[:port]}" if params.fetch(:port, nil)
 
-          signature_query_params = @signer.signature_parameters(params, now, "UNSIGNED-PAYLOAD")
+          signature_query_params = credentials.signer.signature_parameters(params, now, "UNSIGNED-PAYLOAD")
           params[:query] = (params[:query] || {}).merge(signature_query_params)
           params
         end
 
         def v2_signed_params_for_url(params, expires)
-          if @aws_session_token
+          credentials = @credentials
+          if credentials.aws_session_token
             params[:headers]||= {}
-            params[:headers]['x-amz-security-token'] = @aws_session_token
+            params[:headers]['x-amz-security-token'] = credentials.aws_session_token
           end
-          signature = signature_v2(params, expires)
+          signature = signature_v2(params, expires, credentials.hmac)
 
           params = request_params(params)
 
           signature_query_params = {
-            'AWSAccessKeyId' => @aws_access_key_id,
+            'AWSAccessKeyId' => credentials.aws_access_key_id,
             'Signature' => signature,
             'Expires' => expires,
           }
           params[:query] = (params[:query] || {}).merge(signature_query_params)
-          params[:query]['x-amz-security-token'] = @aws_session_token if @aws_session_token
+          params[:query]['x-amz-security-token'] = credentials.aws_session_token if credentials.aws_session_token
           params
         end
 
@@ -511,25 +543,32 @@ module Fog
         end
 
         def data
-          self.class.data[@region][@aws_access_key_id]
+          self.class.data[@region][@credentials.aws_access_key_id]
         end
 
         def reset_data
-          self.class.data[@region].delete(@aws_access_key_id)
+          self.class.data[@region].delete(@credentials.aws_access_key_id)
         end
 
         def setup_credentials(options)
           @aws_credentials_refresh_threshold_seconds = options[:aws_credentials_refresh_threshold_seconds]
-
-          @aws_access_key_id = options[:aws_access_key_id]
-          @aws_secret_access_key = options[:aws_secret_access_key]
-          @aws_session_token     = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key, @region, 's3')
+          aws_access_key_id     = options[:aws_access_key_id]
+          aws_secret_access_key = options[:aws_secret_access_key]
+          signer = Fog::AWS::SignatureV4.new(aws_access_key_id, aws_secret_access_key, @region, 's3')
+
+          # Swap the whole credential set as one reference so concurrent
+          # readers always observe a complete, self-consistent snapshot.
+          @credentials = Credentials.new(
+            :aws_access_key_id     => aws_access_key_id,
+            :aws_secret_access_key => aws_secret_access_key,
+            :aws_session_token     => options[:aws_session_token],
+            :signer                => signer
+          )
         end
 
-        def signature_v2(params, expires)
+        def signature_v2(params, expires, hmac = nil)
           'foo'
         end
 
@@ -612,16 +651,30 @@ module Fog
             @aws_credentials_refresh_threshold_seconds = options[:aws_credentials_refresh_threshold_seconds]
           end
 
-          @aws_access_key_id     = options[:aws_access_key_id]
-          @aws_secret_access_key = options[:aws_secret_access_key]
-          @aws_session_token     = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
+          aws_access_key_id     = options[:aws_access_key_id]
+          aws_secret_access_key = options[:aws_secret_access_key]
+
+          signer = hmac = nil
           if @signature_version == 4
-            @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 's3')
+            signer = Fog::AWS::SignatureV4.new(aws_access_key_id, aws_secret_access_key, @region, 's3')
           elsif @signature_version == 2
-            @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
+            hmac = Fog::HMAC.new('sha1', aws_secret_access_key)
           end
+
+          # Publish the new credentials as a single frozen reference. This is
+          # the only write to the correlated credential state, so a reader
+          # that grabs @credentials once (see #request) can never observe a
+          # torn mix of old and new values, even while a refresh is running
+          # on another thread.
+          @credentials = Credentials.new(
+            :aws_access_key_id     => aws_access_key_id,
+            :aws_secret_access_key => aws_secret_access_key,
+            :aws_session_token     => options[:aws_session_token],
+            :signer                => signer,
+            :hmac                  => hmac
+          )
         end
 
         def connection(scheme, host, port)
@@ -641,18 +694,33 @@ module Fog
         def request(params, &block)
           refresh_credentials_if_expired
 
+          # Read the correlated credential state exactly once, into a local, so
+          # a concurrent refresh cannot swap the signer out from under the
+          # session token partway through this request. See the Credentials
+          # class for the full rationale.
+          perform_request(params, @credentials, &block)
+        end
+
+        # Signs and dispatches a single request using the given credential
+        # snapshot. Splitting this out of #request lets the redirect retry in
+        # #_request reuse one consistent snapshot (with a signer rebuilt for
+        # the new region) instead of re-reading, and keeps #request's public
+        # signature unchanged.
+        def perform_request(params, credentials, &block)
+          signer = credentials.signer
+
           date = Fog::Time.now
 
           params = params.dup
           stringify_query_keys(params)
           params[:headers] = (params[:headers] || {}).dup
 
-          params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
+          params[:headers]['x-amz-security-token'] = credentials.aws_session_token if credentials.aws_session_token
 
           if @signature_version == 2
             expires = date.to_date_header
             params[:headers]['Date'] = expires
-            params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature_v2(params, expires)}"
+            params[:headers]['Authorization'] = "AWS #{credentials.aws_access_key_id}:#{signature_v2(params, expires, credentials.hmac)}"
           end
 
           params = request_params(params)
@@ -680,12 +748,12 @@ module Fog
             else
               params[:headers]['x-amz-content-sha256'] ||= OpenSSL::Digest::SHA256.hexdigest(params[:body] || '')
             end
-            signature_components = @signer.signature_components(params, date, params[:headers]['x-amz-content-sha256'])
-            params[:headers]['Authorization'] = @signer.components_to_header(signature_components)
+            signature_components = signer.signature_components(params, date, params[:headers]['x-amz-content-sha256'])
+            params[:headers]['Authorization'] = signer.components_to_header(signature_components)
 
             if params[:body].respond_to?(:read) && @enable_signature_v4_streaming
               body = params.delete :body
-              params[:request_block] = S3Streamer.new(body, signature_components['X-Amz-Signature'], @signer, date)
+              params[:request_block] = S3Streamer.new(body, signature_components['X-Amz-Signature'], signer, date)
             end
           end
           # FIXME: ToHashParser should make this not needed
@@ -713,23 +781,32 @@ module Fog
             new_params[:bucket_name] =  %r{<Bucket>([^<]*)</Bucket>}.match(body).captures.first
             new_params[:host] = %r{<Endpoint>([^<]*)</Endpoint>}.match(body).captures.first
             # some errors provide it directly
-            @new_region = %r{<Region>([^<]*)</Region>}.match(body) ? Regexp.last_match.captures.first : nil
+            new_region = %r{<Region>([^<]*)</Region>}.match(body) ? Regexp.last_match.captures.first : nil
           end
           Fog::Logger.warning("fog: followed redirect to #{host}, connecting to the matching region will be more performant")
-          original_region, original_signer = @region, @signer
-          @region = @new_region || case new_params[:host]
+          new_region ||= case new_params[:host]
           when /s3.amazonaws.com/, /s3-external-1.amazonaws.com/
             DEFAULT_REGION
           else
             %r{s3[\.\-]([^\.]*).amazonaws.com}.match(new_params[:host]).captures.first
           end
+          # Take a fresh, self-consistent snapshot and build a signer for the
+          # redirect region locally, then re-dispatch with it. We deliberately
+          # do not mutate @region/@signer: doing so would corrupt any
+          # concurrent request sharing this connection.
+          credentials = @credentials
           if @signature_version == 4
-            @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 's3')
+            redirect_signer = Fog::AWS::SignatureV4.new(credentials.aws_access_key_id, credentials.aws_secret_access_key, new_region, 's3')
+            credentials = Credentials.new(
+              :aws_access_key_id     => credentials.aws_access_key_id,
+              :aws_secret_access_key => credentials.aws_secret_access_key,
+              :aws_session_token     => credentials.aws_session_token,
+              :signer                => redirect_signer,
+              :hmac                  => credentials.hmac
+            )
             original_params[:headers].delete('Authorization')
           end
-          response = request(original_params.merge(new_params), &block)
-          @region, @signer = original_region, original_signer
-          response
+          perform_request(original_params.merge(new_params), credentials, &block)
         end
 
         # See http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-streaming.html
@@ -793,7 +870,7 @@ DATA
           end
         end
 
-        def signature_v2(params, expires)
+        def signature_v2(params, expires, hmac = @credentials.hmac)
           headers = params[:headers] || {}
 
           string_to_sign =
@@ -844,7 +921,7 @@ DATA
           end
           canonical_resource << query_string
           string_to_sign << canonical_resource
-          signed_string = @hmac.sign(string_to_sign)
+          signed_string = hmac.sign(string_to_sign)
           Base64.encode64(signed_string).chomp!
         end
 
