@@ -1,5 +1,21 @@
 # Changelog
 
+## [v3.33.3](https://github.com/fog/fog-aws/tree/v3.33.3) (2026-08-28)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.33.0...v3.33.1)
+
+**Merged pull requests:**
+
+- fix thread safety of shared Fog::Storage connections [\#759](https://github.com/fog/fog-aws/pull/759) ([stanhu](https://github.com/stanhu))
+
+- fix flaky describe_spot_price_history [\#760](https://github.com/fog/fog-aws/pull/760) ([stanhu](https://github.com/stanhu))
+
+- Bump actions/checkout from 6 to 7 [\#758](https://github.com/fog/fog-aws/pull/758) ([dependabot](https://github.com/apps/dependabot))
+
+- Bump actions/dependency-review-action from 4 to 5 [\#757](https://github.com/fog/fog-aws/pull/757) ([dependabot](https://github.com/apps/dependabot))
+
+- Bump fog/.github/.github/workflows/ci.yml from 1.5.0 to 1.6.0 [\#756](https://github.com/fog/fog-aws/pull/756) ([dependabot](https://github.com/apps/dependabot))
+
 ## [v3.33.2](https://github.com/fog/fog-aws/tree/v3.33.2) (2026-04-20)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.33.0...v3.33.1)
