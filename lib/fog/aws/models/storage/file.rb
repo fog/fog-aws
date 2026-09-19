@@ -80,7 +80,7 @@ module Fog
         end
 
         def concurrency
-          @concurrency || 1
+          @concurrency || service.copy_concurrency
         end
 
         def acl
