@@ -57,7 +57,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :enable_signature_v4_streaming, :virtual_host, :cname, :max_put_chunk_size, :max_copy_chunk_size, :aws_credentials_refresh_threshold_seconds, :disable_content_md5_validation, :sts_endpoint
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :enable_signature_v4_streaming, :virtual_host, :cname, :max_put_chunk_size, :max_copy_chunk_size, :copy_concurrency, :aws_credentials_refresh_threshold_seconds, :disable_content_md5_validation, :sts_endpoint
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -170,6 +170,11 @@ module Fog
         attr_reader :max_put_chunk_size
         attr_reader :max_copy_chunk_size
 
+        # Number of threads a multipart copy uses, unless the file sets its own.
+        #
+        # @return [Integer]
+        attr_reader :copy_concurrency
+
         def cdn
           credentials = @credentials
           @cdn ||= Fog::AWS::CDN.new(
@@ -247,6 +252,11 @@ module Fog
         def init_max_copy_chunk_size!(options = {})
           @max_copy_chunk_size = options.fetch(:max_copy_chunk_size, MAX_SINGLE_PUT_SIZE)
           validate_chunk_size(@max_copy_chunk_size, 'max_copy_chunk_size')
+        end
+
+        def init_copy_concurrency!(options = {})
+          @copy_concurrency = options.fetch(:copy_concurrency, 1).to_i
+          raise ArgumentError.new('minimum copy_concurrency is 1') if @copy_concurrency < 1
         end
 
         def v4_signed_params_for_url(params, expires)
@@ -534,6 +544,7 @@ module Fog
 
           init_max_put_chunk_size!(options)
           init_max_copy_chunk_size!(options)
+          init_copy_concurrency!(options)
 
           @disable_content_md5_validation = options[:disable_content_md5_validation] || false
 
@@ -612,6 +623,7 @@ module Fog
 
           init_max_put_chunk_size!(options)
           init_max_copy_chunk_size!(options)
+          init_copy_concurrency!(options)
 
           @disable_content_md5_validation = options[:disable_content_md5_validation] || false
 

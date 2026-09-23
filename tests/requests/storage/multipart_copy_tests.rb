@@ -78,6 +78,35 @@ Shindo.tests('Fog::Storage[:aws] | copy requests', ["aws"]) do
     test("copied is the same") { copied.body == file.body }
   end
 
+  tests('takes the concurrency from the connection') do
+    def storage_with(options)
+      Fog::Storage.new({
+        :provider => 'AWS',
+        :aws_access_key_id => '123',
+        :aws_secret_access_key => 'abc',
+        :region => 'us-east-1'
+      }.merge(options))
+    end
+
+    def file_of(storage)
+      storage.directories.new(:key => 'fogmultipartcopyconcurrency').files.new(:key => 'an_object')
+    end
+
+    test("defaults to 1") { file_of(storage_with({})).concurrency == 1 }
+
+    test("is the connection's copy_concurrency") { file_of(storage_with(:copy_concurrency => 10)).concurrency == 10 }
+
+    test("is what the file was given, if any") do
+      file = file_of(storage_with(:copy_concurrency => 10))
+      file.concurrency = 3
+      file.concurrency == 3
+    end
+
+    raises(ArgumentError, 'when the connection is given a copy_concurrency below 1') do
+      storage_with(:copy_concurrency => 0)
+    end
+  end
+
   tests('copies an object with unknown headers') do
     file = Fog::Storage[:aws].directories.new(key: @directory.identity).files.get('large_object')
     file.multipart_chunk_size = Fog::AWS::Storage::File::MIN_MULTIPART_CHUNK_SIZE
