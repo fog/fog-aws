@@ -1,5 +1,18 @@
 # Changelog
 
+## [v3.33.4](https://github.com/fog/fog-aws/tree/v3.33.4) (2026-09-28)
+
+[Full Changelog](https://github.com/fog/fog-aws/compare/v3.33.0...v3.33.1)
+
+- drop codeclimate test reporter, which forced ancient simplecov and broke ci (geemus)
+
+**Merged pull requests:**
+
+- let connection set concurrency for multipart copy \#761 (mshibuya)
+
+- bump rubyzip \#762 (dependabot)
+
+
 ## [v3.33.3](https://github.com/fog/fog-aws/tree/v3.33.3) (2026-08-28)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.33.0...v3.33.1)
