@@ -24,6 +24,10 @@ Shindo.tests('AWS | credentials', ['aws']) do
         returns(true) { service.instance_variable_get("@recognized").include?(parameter) }
       end
     end
+
+    tests("#{service} fetches credentials for use_iam_profile") do
+      returns(true) { service.singleton_class.include?(Fog::AWS::CredentialFetcher::ServiceMethods) }
+    end
   end
 
   old_mock_value = Excon.defaults[:mock]
