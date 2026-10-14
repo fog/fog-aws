@@ -1,6 +1,7 @@
 module Fog
   module AWS
     class ECS < Fog::Service
+      extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :version, :instrumentor, :instrumentor_name,:sts_endpoint
