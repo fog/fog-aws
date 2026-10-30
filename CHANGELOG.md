@@ -1,5 +1,9 @@
 # Changelog
 
+## [v3.33.5](https://github.com/fog/fog-aws/tree/v3.33.5) (2026-10-30)
+
+- Fetch IAM profile credentials in ECS \#764 (plribeiro3000)
+
 ## [v3.33.4](https://github.com/fog/fog-aws/tree/v3.33.4) (2026-09-28)
 
 [Full Changelog](https://github.com/fog/fog-aws/compare/v3.33.0...v3.33.1)
