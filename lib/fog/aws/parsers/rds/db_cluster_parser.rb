@@ -31,7 +31,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'Port', 'Engine', 'Status', 'BackupRetentionPeriod', 'DBSubnetGroup', 'EngineVersion', 'Endpoint', 'DBClusterParameterGroup', 'DBClusterIdentifier', 'PreferredBackupWindow', 'PreferredMaintenanceWindow', 'AllocatedStorage', 'MasterUsername'
+            when 'Port', 'Engine', 'BackupRetentionPeriod', 'DBSubnetGroup', 'EngineVersion', 'Endpoint', 'DBClusterParameterGroup', 'DBClusterIdentifier', 'PreferredBackupWindow', 'PreferredMaintenanceWindow', 'AllocatedStorage', 'MasterUsername'
               @db_cluster[name] = value
             when 'VpcSecurityGroups'
               @in_vpc_security_groups = false
@@ -50,6 +50,7 @@ module Fog
               if @in_vpc_security_groups
                 @vpc_security_group[name] = value
               end
+              @db_cluster[name] = value unless @in_db_security_groups || @in_vpc_security_groups
             when 'DBClusterMembers'
               @in_db_cluster_members = false
               @db_cluster['DBClusterMembers'] = @db_cluster_members
