@@ -35,7 +35,7 @@ module Fog
           unless enabled?
             self.enabled = true
             response = put_distribution_config(identity, etag, attributes_to_options)
-            etag = response.headers['ETag']
+            self.etag = response.headers['ETag']
             merge_attributes(response.body)
           end
           true
@@ -47,7 +47,7 @@ module Fog
           if enabled?
             self.enabled = false
             response = put_distribution_config(identity, etag, attributes_to_options)
-            etag = response.headers['ETag']
+            self.etag = response.headers['ETag']
             merge_attributes(response.body)
           end
           true
