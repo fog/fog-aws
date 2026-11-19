@@ -44,7 +44,7 @@ module Fog
           requires_one :s3_origin, :custom_origin
           options = attributes_to_options
           response = identity ? put_distribution_config(identity, etag, options) : post_distribution(options)
-          etag = response.headers['ETag']
+          self.etag = response.headers['ETag']
           merge_attributes(response.body)
           true
         end

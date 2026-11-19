@@ -103,7 +103,8 @@ module Fog
 
             response = Excon::Response.new
             response.status = 200
-            response.headers['ETag'] = Fog::AWS::CDN::Mock.generic_id
+            distribution['ETag'] = Fog::AWS::CDN::Mock.generic_id
+            response.headers['ETag'] = distribution['ETag']
             response.body = distribution.merge({ 'LastModifiedTime' => Time.now.utc.iso8601 }).reject{ |k,v| k == 'ETag' }
             response
           else

@@ -6,6 +6,14 @@ Shindo.tests("Fog::CDN[:aws] | distribution", ['aws', 'cdn']) do
       @instance.wait_for { ready? }
     end
 
+    # each update returns a new ETag that the next update must send
+    tests("#disable, #save and #enable without #reload").succeeds do
+      @instance.disable
+      @instance.save
+      @instance.enable
+      @instance.wait_for { ready? }
+    end
+
     # and disabled before being distroyed
     tests("#disable - may take 15 minutes to complete...").succeeds do
       @instance.disable
