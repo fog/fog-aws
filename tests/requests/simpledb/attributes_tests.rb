@@ -81,6 +81,16 @@ Shindo.tests('AWS::SimpleDB | attributes requests', ['aws']) do
 
   end
 
+  tests('Real#get_attributes request params') do
+
+    tests("AttributeName params for ['b', 'd']").returns({ 'AttributeName.1' => 'b', 'AttributeName.2' => 'd' }) do
+      sdb = Fog::AWS::SimpleDB::Real.allocate
+      def sdb.request(params); params; end
+      sdb.get_attributes('domain', 'a', 'AttributeName' => ['b', 'd']).select { |key, _| key.start_with?('AttributeName') }
+    end
+
+  end
+
   Fog::AWS[:simpledb].delete_domain(@domain_name)
 
 end

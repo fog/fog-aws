@@ -127,7 +127,7 @@ module Fog
         end
 
         def encode_attribute_names(attributes)
-          Fog::AWS.indexed_param('AttributeName', attributes.map {|attribute| attributes.to_s})
+          Fog::AWS.indexed_param('AttributeName', attributes.map {|attribute| attribute.to_s})
         end
 
         def encode_batch_attributes(items, replace_attributes = Hash.new([]))
