@@ -7,9 +7,21 @@ module Fog
             @hosted_zones = []
             @zone = {}
             @response = {}
+            @path = []
+          end
+
+          def start_element(name, attrs = [])
+            super
+            @path << name
           end
 
           def end_element(name)
+            @path.pop
+            # Route 53 nests other structures inside <HostedZone> (e.g.
+            # <Features><ChangeGuardrails><ChangeGuardrail><Name>), so ignore anything
+            # that is not a direct child of <HostedZone> or <Config>.
+            return if @path.include?('HostedZone') && !%w[HostedZone Config].include?(@path.last)
+
             case name
             when 'Id'
               @zone[name] = value.sub('/hostedzone/', '')
