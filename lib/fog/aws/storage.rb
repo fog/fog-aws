@@ -57,7 +57,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :enable_signature_v4_streaming, :virtual_host, :cname, :max_put_chunk_size, :max_copy_chunk_size, :copy_concurrency, :aws_credentials_refresh_threshold_seconds, :disable_content_md5_validation, :sts_endpoint
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style, :acceleration, :instrumentor, :instrumentor_name, :aws_signature_version, :enable_signature_v4_streaming, :virtual_host, :cname, :max_put_chunk_size, :max_copy_chunk_size, :copy_concurrency, :aws_credentials_refresh_threshold_seconds, :disable_content_md5_validation, :enable_put_object_content_md5, :sts_endpoint
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -158,6 +158,7 @@ module Fog
       module Utils
         attr_accessor :region
         attr_accessor :disable_content_md5_validation
+        attr_accessor :enable_put_object_content_md5
 
         # Amazon S3 limits max chunk size that can be uploaded/copied in a single request to 5GB.
         # Other S3-compatible storages (like, Ceph) do not have such limit.
@@ -430,6 +431,40 @@ module Fog
             :query  => query,
           }).to_s
         end
+
+        def content_md5_header?(headers)
+          headers.keys.any? { |k| k.to_s.casecmp('content-md5') == 0 }
+        end
+
+        def compute_content_md5(body)
+          digest = OpenSSL::Digest::MD5.new
+          if body.respond_to?(:read)
+            if body.respond_to?(:pos) && body.respond_to?(:pos=)
+              original_pos = body.pos
+              begin
+                while (chunk = body.read(16384))
+                  digest.update(chunk)
+                end
+              ensure
+                body.pos = original_pos
+              end
+            elsif body.respond_to?(:rewind)
+              begin
+                while (chunk = body.read(16384))
+                  digest.update(chunk)
+                end
+              ensure
+                body.rewind
+              end
+            else
+              return nil
+            end
+          else
+            digest.update(body || '')
+          end
+
+          Base64.strict_encode64(digest.digest)
+        end
       end
 
       class Mock
@@ -547,6 +582,7 @@ module Fog
           init_copy_concurrency!(options)
 
           @disable_content_md5_validation = options[:disable_content_md5_validation] || false
+          @enable_put_object_content_md5 = options[:enable_put_object_content_md5] || false
 
           @signature_version = options.fetch(:aws_signature_version, 4)
           validate_signature_version!
@@ -626,6 +662,7 @@ module Fog
           init_copy_concurrency!(options)
 
           @disable_content_md5_validation = options[:disable_content_md5_validation] || false
+          @enable_put_object_content_md5 = options[:enable_put_object_content_md5] || false
 
           @region = options[:region] || DEFAULT_REGION
 

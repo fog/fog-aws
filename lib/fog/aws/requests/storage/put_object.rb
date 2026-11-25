@@ -45,6 +45,11 @@ module Fog
           headers = data[:headers].merge!(options)
           self.class.conforming_to_us_ascii! headers.keys.grep(/^x-amz-meta-/), headers
 
+          if @enable_put_object_content_md5 && !@disable_content_md5_validation && !content_md5_header?(headers)
+            content_md5 = compute_content_md5(data[:body])
+            headers['Content-MD5'] = content_md5 if content_md5
+          end
+
           request({
             :body       => data[:body],
             :expects    => 200,
@@ -69,8 +74,13 @@ module Fog
           Fog::AWS::Storage::Real.conforming_to_us_ascii! headers.keys.grep(/^x-amz-meta-/), headers
           bucket = verify_mock_bucket_exists(bucket_name)
 
+          options = options.dup
           options['Content-Type'] ||= data[:headers]['Content-Type']
           options['Content-Length'] ||= data[:headers]['Content-Length']
+          if @enable_put_object_content_md5 && !@disable_content_md5_validation && !content_md5_header?(options)
+            content_md5 = compute_content_md5(data[:body])
+            options['Content-MD5'] = content_md5 if content_md5
+          end
           object = store_mock_object(bucket, object_name, data[:body], options)
 
           response = Excon::Response.new
